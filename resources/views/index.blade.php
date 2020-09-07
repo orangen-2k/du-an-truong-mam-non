@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title', "Hệ thống PolyKids")
-@section('content')
+{{--  @section('content')
 <!-- BEGIN: Subheader -->
 <div class="m-subheader ">
     <div class="d-flex align-items-center">
@@ -2710,4 +2710,4 @@
 
     <!--End::Section-->
 </div>
-@endsection
+@endsection  --}}
