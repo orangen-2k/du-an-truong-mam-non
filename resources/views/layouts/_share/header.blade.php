@@ -468,8 +468,9 @@
             -->
                                                 </div>
                                                 <div class="m-card-user__details">
-                                                    <span class="m-card-user__name m--font-weight-500">Mark Andre</span>
-                                                    <a href="" class="m-card-user__email m--font-weight-300 m-link">mark.andre@gmail.com</a>
+                                                    <span class="m-card-user__name m--font-weight-500">{{ Auth::user()->name }}</span>
+                                                    <a href="" class="m-card-user__email m--font-weight-300 m-link">
+                                                        {{ Auth::user()->email }}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -519,7 +520,17 @@
                                                     <li class="m-nav__separator m-nav__separator--fit">
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="snippets/pages/user/login-1.html" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">Logout</a>
+                                               
+
+                                                         <a class="btn m-btn--pill  btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                                     </li>
                                                 </ul>
                                             </div>
