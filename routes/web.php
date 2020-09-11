@@ -21,6 +21,8 @@ Route::get('dang-ky','Auth\AuthController@viewFormRegister')->name('auth.view-fo
 Route::post('dang-ky','Auth\AuthController@register')->name('auth.register');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::prefix('quang-ly-hoc-sinh')->group(function () {
-    Route::get('/','QuanlyHocSinhController@index');
+Route::prefix('quan-ly-hoc-sinh')->group(function () {
+    Route::get('/','QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
+    Route::get('/create','QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
+    Route::get('/edit/{id}','QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
 });

@@ -14,9 +14,8 @@ const mix = require("laravel-mix");
 mix.styles(
     [
         "public/assets/vendors/base/vendors.bundle.css",
-        "public/assets/demo/default/base/style.bundle.css",
+        "public/assets/demo/base/style.bundle.css",
         "public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css",
-
         "public/vendors/tether/dist/css/tether.css",
         "public/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css",
         "public/vendors/bootstrap-datetime-picker/css/bootstrap-datetimepicker.min.css",
@@ -51,10 +50,9 @@ mix.styles(
     .scripts(
         [
             "public/assets/vendors/base/vendors.bundle.js",
-            "public/assets/demo/default/base/scripts.bundle.js",
+            "public/assets/demo/base/scripts.bundle.js",
             "public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js",
             "public/assets/app/js/dashboard.js",
-
             "public/vendors/jquery.repeater/src/lib.js",
             "public/vendors/jquery.repeater/src/jquery.input.js",
             "public/vendors/jquery.repeater/src/repeater.js",
@@ -110,6 +108,8 @@ mix.styles(
             "public/vendors/sweetalert2/dist/sweetalert2.min.js",
             "public/vendors/js/framework/components/plugins/base/sweetalert2.init.js",
             "public/vendors/wizard/wizard.js",
+            "public/assets/demo/custom/crud/wizard/wizard.js",
+            "public/assets/snippets/custom/pages/user/login.js"
         ],
         "public/js/all.js"
     )
