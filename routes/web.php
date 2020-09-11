@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('index');
-})->middleware('auth', 'web');
+})->middleware('auth', 'web')->name('app');
 Auth::routes();
+Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('auth.profile');;
+
+
+
 Route::get('dang-ky','Auth\AuthController@viewFormRegister')->name('auth.view-form-register');
 Route::post('dang-ky','Auth\AuthController@register')->name('auth.register');
 Route::get('/home', 'HomeController@index')->name('home');

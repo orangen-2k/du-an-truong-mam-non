@@ -44,4 +44,10 @@ class AuthController extends Controller
     
 
     }
+
+    public function profile()
+    {
+        $auth = Auth::user();
+        return view('auth.profile',compact('auth'));
+    }
 }
