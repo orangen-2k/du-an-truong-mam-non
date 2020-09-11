@@ -26,3 +26,7 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::get('/create','QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
     Route::get('/edit/{id}','QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
 });
+
+Route::prefix('quan-ly-khoi')->group(function () {
+    Route::get('/','KhoiController@index')->name('quan-ly-khoi-index');
+});
