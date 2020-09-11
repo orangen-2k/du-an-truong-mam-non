@@ -87,7 +87,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $token = Hash::make($data['email']);
+        $token = bcrypt($data['email']);   
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],

@@ -17,10 +17,11 @@ Route::get('/', function () {
     return view('index');
 })->middleware('auth', 'web');
 Auth::routes();
-Route::get('dang-ky','Auth\AuthController@viewFormRegister')->name('auth.view-form-register');
-Route::post('dang-ky','Auth\AuthController@register')->name('auth.register');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'web');
 
 Route::prefix('quang-ly-hoc-sinh')->group(function () {
     Route::get('/','QuanlyHocSinhController@index');
 });
+
+Route::resource('quan-ly-tai-khoan', 'AccountController');
+Route::resource('quan-ly-giao-vien', 'GiaovienController');
