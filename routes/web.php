@@ -23,4 +23,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('quang-ly-hoc-sinh')->group(function () {
     Route::get('/','QuanlyHocSinhController@index');
+    Route::post('export-bieu-mau','QuanlyHocSinhController@exportBieuMau')->name('export-bieu-mau-nhap-hoc-sinh');
 });

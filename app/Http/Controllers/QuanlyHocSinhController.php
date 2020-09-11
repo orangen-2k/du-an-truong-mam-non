@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Protection;
+use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 
 class QuanlyHocSinhController extends Controller
 {
@@ -80,5 +87,15 @@ class QuanlyHocSinhController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function exportBieuMau()
+    {
+        $spreadsheet = IOFactory::load('excel/hoc-sinh.xlsx');
+        $worksheet = $spreadsheet->getActiveSheet();
+        $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="File-nhap-hoc-sinh.xlsx"');
+        $writer->save("php://output");
     }
 }

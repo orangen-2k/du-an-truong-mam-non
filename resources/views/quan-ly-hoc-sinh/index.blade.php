@@ -69,10 +69,19 @@
     <section class="action-nav d-flex align-items-center justify-content-between mt-4 mb-4">
 
         <div class="col-lg-2">
-            <a href="javascript:" data-toggle="modal" data-target="#exportBieuMauModal">
+        <form action="{{route('export-bieu-mau-nhap-hoc-sinh')}}" method="post">
+            @csrf
+            <!-- <button type="submit"  onclick="closeModal()" class="btn btn-primary">Tải</a> -->
+                <button  type="submit"  onclick="exportBieuMau()" >
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                    Tải xuống biểu mẫu
+                </button>
+            </form>
+
+            <!-- <a href="javascript:" onclick="exportBieuMau()" data-toggle="modal" data-target="#exportBieuMauModal">
                 <i class="fa fa-download" aria-hidden="true"></i>
                 Tải xuống biểu mẫu
-            </a>
+            </a> -->
         </div>
         <div class="col-lg-2">
             <a href="javascript:" data-toggle="modal" id="upImport-file" data-target="#moDalImport"><i class="fa fa-upload" aria-hidden="true"></i>
@@ -125,4 +134,7 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 @endsection
