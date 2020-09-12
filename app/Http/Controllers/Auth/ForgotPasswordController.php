@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Mail;
+use Illuminate\Support\Str;
 class ForgotPasswordController extends Controller
 {
     /*
@@ -32,7 +33,7 @@ class ForgotPasswordController extends Controller
         if(!$checkUser){
             return response()->json(['thongbaoloi'=>"Địa chỉ email không tồn tại"],200);
         }
-        $token = Hash::make($email);
+        $token = Str::random(60).md5(time());
         $checkUser->token = $token;
         $checkUser->time_code= Carbon::now();
         $checkUser->save();
@@ -50,6 +51,8 @@ class ForgotPasswordController extends Controller
             $message->to($toemail,'Reset password')->subject('Lấy lại mật khẩu');
         });
 
-        return response()->json(['thongbaothanhcong'=>"Thành công ! Vui lòng kiểm tra email để thay đổi mật khẩu"],200);
+        return response()->json([
+            'code' => 200,
+            'thongbaothanhcong'=>"Thành công ! Vui lòng kiểm tra email để thay đổi mật khẩu"],200);
     }
 }

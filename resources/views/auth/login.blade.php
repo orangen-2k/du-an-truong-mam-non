@@ -68,12 +68,12 @@ License: You must have a valid license purchased only from themeforest(the above
 							</div>
                             <form class="m-login__form m-form" action="{{ route('login') }}" method="POST">
                                 @if (session('message'))
-                            <div class="m-alert m-alert--outline alert alert-danger alert-dismissible animated fadeIn" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
-                            <span>{{session('message')}}</span>		
-                            </div>
-                            
-						@endif
+									<div class="m-alert m-alert--outline alert alert-danger alert-dismissible animated fadeIn" role="alert">
+										<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+									<span>{{session('message')}}</span>		
+									</div>
+									
+								@endif
                                 @csrf
 								<div class="form-group m-form__group">
 									<input class="form-control m-input" type="text" placeholder="Tài khoản" name="username" autocomplete="off">
