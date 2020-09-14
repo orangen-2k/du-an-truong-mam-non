@@ -23,5 +23,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('quang-ly-hoc-sinh')->group(function () {
     Route::get('/','QuanlyHocSinhController@index');
+    Route::get('/hi','QuanlyHocSinhController@show');
     Route::post('export-bieu-mau','QuanlyHocSinhController@exportBieuMau')->name('export-bieu-mau-nhap-hoc-sinh');
+    Route::post('/get_lop_theo_khoi','QuanlyHocSinhController@getLopOfKhoi')->name('get-lop-theo-khoi');
+
+    Route::post('import-bieu-mau-hoc-sinh','QuanlyHocSinhController@importFile')->name('import-bieu-mau-nhap-hoc-sinh');
+    Route::post('error-import-bieu-mau-hoc-sinh','QuanlyHocSinhController@errorFileImport')->name('error-import-bieu-mau-nhap-hoc-sinh');
+
 });
