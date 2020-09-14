@@ -24,3 +24,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('quang-ly-hoc-sinh')->group(function () {
     Route::get('/','QuanlyHocSinhController@index');
 });
+
+Route::prefix('quan-ly-giao-vien')->group(function () {
+    Route::get('/','QuanlyGiaoVienController@index');
+});
