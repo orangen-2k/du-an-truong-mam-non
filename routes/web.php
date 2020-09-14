@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,19 +13,23 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('index');
-})->middleware('auth', 'web');
+})->middleware('auth', 'web')->name('app');
 Auth::routes();
-Route::get('dang-ky','Auth\AuthController@viewFormRegister')->name('auth.view-form-register');
-Route::post('dang-ky','Auth\AuthController@register')->name('auth.register');
+Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('auth.profile');;
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::prefix('quang-ly-hoc-sinh')->group(function () {
-    Route::get('/','QuanlyHocSinhController@index');
-});
 
 Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::get('/','QuanlyGiaoVienController@index');
+    Route::get('/add', 'QuanlyGiaoVienController@add');
+});
+Route::prefix('quan-ly-hoc-sinh')->group(function () {
+    Route::get('/','QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
+    Route::get('/create','QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
+    Route::get('/edit/{id}','QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
+});
+
+Route::prefix('quan-ly-khoi')->group(function () {
+    Route::get('/','KhoiController@index')->name('quan-ly-khoi-index');
 });
