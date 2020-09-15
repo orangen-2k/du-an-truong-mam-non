@@ -69,6 +69,12 @@
                                     </div>
                                     <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                                 </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">Độ tuổi</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -87,6 +93,7 @@
                     <tr>
                         <th>Stt</th>
                         <th>Tên khối</th>
+                        <th>Độ tuổi</th>
                         <th>Số lớp</th>
                         <th>Số học sinh</th>
                         <th>Chức năng</th>
@@ -95,29 +102,33 @@
                 <tbody>
                     <tr>
                         <th scope="row">1</th>
-                        <td>3</td>
+                        <td>Hoa lý</td>
+                        <th>3</th>
                         <td>4</td>
                         <td>100</td>
                         <td> <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#exampleModalUpdate">Cập nhật</button></td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
-                        <td>3</td>
+                        <td>Hướng Dương</td>
                         <td>4</td>
+                        <th>3</th>
                         <td>100</td>
                         <td> <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#exampleModalUpdate">Cập nhật</button></td>
                     </tr>
                     <tr>
                         <th scope="row">3</th>
-                        <td>3</td>
+                        <td>Dâm bụt</td>
                         <td>4</td>
+                        <th>3</th>
                         <td>100</td>
                         <td> <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#exampleModalUpdate">Cập nhật</button></td>
                     </tr>
                     <tr>
                         <th scope="row">4</th>
-                        <td>3</td>
+                        <td>Hoa Hồng</td>
                         <td>4</td>
+                        <th>3</th>
                         <td>100</td>
                         <td> <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#exampleModalUpdate">Cập nhật</button></td>
                     </tr>
@@ -138,6 +149,12 @@
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">Tên khối</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">Độ tuổi</span>
                                     </div>
                                     <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                                 </div>

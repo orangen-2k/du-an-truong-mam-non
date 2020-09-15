@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Repositories\HocSinhRepository;
 class QuanlyHocSinhController extends Controller
 {
+    protected $LopHoc;
+    protected $Khoi;
+    public function __construct(
+        HocSinhRepository $HocSinh
+        
+    ){
+        $this->HocSinh = $HocSinh;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,7 +42,7 @@ class QuanlyHocSinhController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

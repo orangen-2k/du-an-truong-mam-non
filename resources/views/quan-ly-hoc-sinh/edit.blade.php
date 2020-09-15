@@ -13,7 +13,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                Thêm mới học sinh
+                                Cập nhật học sinh
                             </h3>
                         </div>
                     </div>

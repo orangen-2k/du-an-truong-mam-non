@@ -25,8 +25,16 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::get('/','QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
     Route::get('/create','QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
     Route::get('/edit/{id}','QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
+    Route::post('/store','QuanlyHocSinhController@store')->name('quan-ly-hoc-sinh-store');
 });
 
 Route::prefix('quan-ly-khoi')->group(function () {
     Route::get('/','KhoiController@index')->name('quan-ly-khoi-index');
+});
+
+Route::prefix('quan-ly-lop')->group(function () {
+    Route::get('/','LopController@index')->name('quan-ly-lop-index');
+    Route::get('/show/{id}','LopController@show')->name('quan-ly-lop-show');
+
+
 });
