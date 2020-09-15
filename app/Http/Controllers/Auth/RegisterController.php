@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Mail;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -87,7 +88,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $token = Hash::make($data['email']);
+        $token = Str::random(60).md5(time());
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],

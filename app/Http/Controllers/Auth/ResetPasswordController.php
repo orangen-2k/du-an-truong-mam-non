@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Auth\ResetForm;
 class ResetPasswordController extends Controller
 {
     /*
@@ -48,7 +49,7 @@ class ResetPasswordController extends Controller
         }
     }
 
-    public function reset(Request $request)
+    public function reset(ResetForm $request)
     {
         $token = $request->token;
         $email= $request->email;
@@ -57,7 +58,6 @@ class ResetPasswordController extends Controller
             "email" => $email
         ])->first();
         $hethan = Carbon::parse($checkUser ? $checkUser->time_code : Carbon::now());
-   
         $hientai = Carbon::now();
         if(!$checkUser || $hientai->diffInMinutes($hethan) >= 1440){
          return redirect()->back()->with('thongbao','Lỗi xác thực không thành công');
@@ -68,7 +68,7 @@ class ResetPasswordController extends Controller
         $checkUser->email_verified_at = Carbon::now();
         $checkUser->save();
         Auth::logout();
-        return redirect()->route('login')->with('success','Mật khẩu đã được thay đổi thành công, Mời bạn đăng nhập');
+        return redirect()->route('login')->with('message','Mật khẩu đã được thay đổi thành công, Mời bạn đăng nhập');
     }
 
 
