@@ -11,8 +11,8 @@ class QuanlyGiaoVienController extends Controller
         return view('quan-ly-giao-vien.index');
     }
     
-    public function add()
+    public function create()
     {
-        return view('quan-ly-giao-vien.add');
+        return view('quan-ly-giao-vien.create');
     }
 }
