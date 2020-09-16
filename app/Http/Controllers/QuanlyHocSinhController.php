@@ -61,7 +61,7 @@ class QuanlyHocSinhController extends Controller
      */
     public function store(Request $request)
     {
-        //
+     
     }
 
     /**
@@ -174,9 +174,9 @@ class QuanlyHocSinhController extends Controller
         }
  
 
-        $writer = IOFactory::createWriter($spreadsheet, "Xls");
+        $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="File-nhap-hoc-sinh.xls"');
+        header('Content-Disposition: attachment; filename="File-nhap-hoc-sinh.xlsx"');
         $writer->save("php://output");
     }
 
@@ -186,27 +186,69 @@ class QuanlyHocSinhController extends Controller
       return $this->LopHoc->getLopHocOfKhoi($id);
     }
 
+    public function changedate_excel($date_seria){
+        $excel_date = $date_seria; //here is that value 41621 or 41631
+        $unix_date = ($excel_date - 25569) * 86400;
+        $excel_date = 25569 + ($unix_date / 86400);
+        $unix_date = ($excel_date - 25569) * 86400;
+        return gmdate("Y-m-d", $unix_date);
+    }
+
+    public function checkError($data){
+        $arrayKey =  ['B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC'];
+        $vitri=[];
+        for($i = 5 ; $i < count($data); $i++){ 
+            $key_aphabel=-1;
+            $rowNumber = $i+1; 
+               if($data[$i][11] != " -  - "){
+                for($j = 0 ; $j < count($arrayKey); $j++){ 
+                    $key_aphabel++;
+                     if($data[$i][$j] == null || $data[$i][$j]== "" ){
+                            array_push($vitri,$arrayKey[$j].$i);
+                      }
+                    }
+                }
+          }
+
+        // $vitri=[];
+        // for($i = 6 ; $i < count($data); $i++){ 
+        //     if($data[$i][11] != " -  - "){
+        //             $key_aphabel=-1;
+        //             $rowNumber = $i+1; 
+        //             for($j =  $cotstart ; $j <= $cotend ; $j++){  
+        //                     $key_aphabel++;
+        //                     if( (is_string($data[$i][$j])) || ($data[$i][$j] < 0) ){
+        //                     array_push($vitri,$arrayApha[$key_aphabel].$rowNumber);
+        //                     }
+        //             }
+        //         }
+        //   }
+
+        return $vitri;
+    }
+
     public function importFile(Request $request){
         $ngay_vao_truong = $request->ngay_vao_truong;
-
+        $arrayKey =  ['B','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC'];
         $nameFile=$request->file->getClientOriginalName();
         $nameFileArr=explode('.',$nameFile);
         $duoiFile=end($nameFileArr);
         $fileRead = $_FILES['file']['tmp_name'];
         $spreadsheet = $this->createSpreadSheet($fileRead,$duoiFile);
         $data =$spreadsheet->getActiveSheet()->toArray();
+
         $lop = explode(' - ', $data[0][0]);
         $lop_id = trim(array_pop($lop));
-
+        // dd($data);
         $lopCheck = DB::table('lop_hoc')->find($lop_id);
 
         if($lopCheck == null){
             return response()->json(['messageError' => 'Lớp không tồn tại' ],200);   
         }
 
-        dd($data);
-
-        $vitri=null;
+        $vitri = $this->checkError($data);
+        dd($vitri);
+        // $vitri=null;
         // $vitri=$this->checkError($data, $arrayApha, 8 , 7, 36);
 
         // if(count($vitri) > 0 ){
@@ -218,6 +260,9 @@ class QuanlyHocSinhController extends Controller
             if($vitri == null || $vitri == ''){
                 for($i = 6; $i < count($data); $i++){ 
                     if($data[$i][11] != " -  - " || $data[$i][16] != " -  - "){
+                            $ngay_sinh = $this->changedate_excel($data[$i][5]);
+                            $ngay_sinh_cha = $this->changedate_excel($data[$i][21]);
+                            $ngay_sinh_me = $this->changedate_excel($data[$i][25]);
 
                             $noi_o_string =$data[$i][11];
                             $ho_khau_string =$data[$i][16];
@@ -228,7 +273,7 @@ class QuanlyHocSinhController extends Controller
                                 'ten_thuong_goi'=>$data[$i][2],
                                 'dan_toc'=>$data[$i][3],
                                 'gioi_tinh'=>$data[$i][4],
-                                'ngay_sinh'=>$data[$i][5],
+                                'ngay_sinh'=>$ngay_sinh,
                                 'noi_sinh'=>$data[$i][6],
                                 
                                 'noi_o_hien_tai_matp'=>$noi_o[0],
@@ -241,17 +286,17 @@ class QuanlyHocSinhController extends Controller
                                 'ho_khau_thuong_tru_xaid'=>$ho_khau[2],
                                 'ho_khau_thuong_tru_so_nha'=>$data[$i][15],
 
-                                'doi_tuong_chinh_sach'=>$data[$i][17],
+                                'doi_tuong_chinh_sach_id'=>$data[$i][17],
                                 'hoc_sinh_khuyet_tat'=>$data[$i][18],
                                 'dien_thoai_dang_ki'=>$data[$i][19],
 
                                 'ten_cha'=>$data[$i][20],
-                                'ngay_sinh_cha'=>$data[$i][21],
+                                'ngay_sinh_cha'=>$ngay_sinh_cha,
                                 'cmtnd_cha'=>$data[$i][22],
                                 'dien_thoai_cha'=>$data[$i][23],
 
                                 'ten_me'=>$data[$i][24],
-                                'ngay_sinh_me'=>$data[$i][25],
+                                'ngay_sinh_me'=>$ngay_sinh_me,
                                 'cmtnd_me'=>$data[$i][26],
                                 'dien_thoai_me'=>$data[$i][27],
                                 'ngay_vao_truong'=>$ngay_vao_truong,
@@ -260,7 +305,7 @@ class QuanlyHocSinhController extends Controller
                            array_push($insertData,$arrayData);
                         }
                     }
-                    dd($insertData);
+                    // dd($insertData);
                     $this->HocSinh->createHocSinh($insertData);
                     return response()->json('ok',200); 
                 }else{

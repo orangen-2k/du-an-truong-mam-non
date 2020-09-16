@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HocSinh extends Model
+class HocSinhDangKyNhapHoc extends Model
 {
-    protected $table = 'hoc_sinh';
+    protected $table = 'hoc_sinh_dang_ki_nhap_hoc';
     protected $fillable = [
         'lop_id',
         'ten',
@@ -33,5 +33,6 @@ class HocSinh extends Model
         'noi_o_hien_tai_maqh',
         'noi_o_hien_tai_xaid',
         'noi_o_hien_tai_so_nha',
+        'ma_xac_nhan'
     ];
 }
