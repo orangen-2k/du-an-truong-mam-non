@@ -33,6 +33,9 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
 
 Route::prefix('quan-ly-khoi')->group(function () {
     Route::get('/','KhoiController@index')->name('quan-ly-khoi-index');
+    Route::post('/post_create', 'KhoiController@post_create')->name('quan-ly-khoi-post_create');
+    Route::post('/destroy', 'KhoiController@destroy')->name('quan-ly-khoi-destroy');
+    Route::post('/store/{id}','KhoiController@store')->name('quan-ly-khoi-store');
 });
 
 Route::prefix('quan-ly-lop')->group(function () {
