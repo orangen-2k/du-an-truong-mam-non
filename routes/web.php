@@ -31,7 +31,6 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
  
 });
 
-
 Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::get('/','QuanlyGiaoVienController@index');
     Route::get('/add', 'QuanlyGiaoVienController@add');

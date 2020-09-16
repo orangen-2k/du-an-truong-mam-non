@@ -39,12 +39,12 @@ License: You must have a valid license purchased only from themeforest(the above
 		<link href="{!! asset('assets/vendors/base/vendors.bundle.css') !!}" rel="stylesheet" type="text/css" />
 
 		<!--RTL version:<link href="../../../assets/vendors/base/vendors.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
-		<link href="{!! asset('assets/demo/default/base/style.bundle.css') !!}" rel="stylesheet" type="text/css" />
+		<link href="{!! asset('assets/demo/base/style.bundle.css') !!}" rel="stylesheet" type="text/css" />
 
 		<!--RTL version:<link href="../../../assets/demo/default/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 
 		<!--end::Global Theme Styles -->
-        <link rel="shortcut icon" href="{!! asset('assets/demo/default/media/img/logo/favicon.ico') !!}" />
+        <link rel="shortcut icon" href="{!! asset('assets/demo/media/img/logo/favicon.ico') !!}" />
 	</head>
 
 	<!-- end::Head -->
@@ -74,7 +74,6 @@ License: You must have a valid license purchased only from themeforest(the above
 									</button>
 
 									<button  id="foo2"  hidden type="button" class="btn btn-warning" data-toggle="modal" data-target="#m_modal_4" data-backdrop='static' data-keyboard='false' >Thank You</button>
-
 
 						
 									<!--begin::Form-->
@@ -703,12 +702,12 @@ License: You must have a valid license purchased only from themeforest(the above
 
 		<!--begin::Global Theme Bundle -->
 		<script src="{!! asset('assets/vendors/base/vendors.bundle.js') !!}" type="text/javascript"></script>
-		<script src="{!! asset('assets/demo/default/base/scripts.bundle.js') !!}" type="text/javascript"></script>
+		<script src="{!! asset('assets/demo/base/scripts.bundle.js') !!}" type="text/javascript"></script>
 
 		<!--end::Global Theme Bundle -->
 
         <!--begin::Page Scripts -->
-		<script src="../../../assets/demo/default/custom/crud/forms/widgets/bootstrap-datepicker.js" type="text/javascript"></script>
+		<script src="../../../assets/demo/custom/crud/forms/widgets/bootstrap-datepicker.js" type="text/javascript"></script>
         
 		<script src="{!! asset('assets/snippets/custom/pages/user/login.js') !!}" type="text/javascript"></script>
 
