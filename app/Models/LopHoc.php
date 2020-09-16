@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-class LopHoc extends Model
+use App\Models\Khoi;
+class LopHoc extends Model 
 {
     protected $table = 'lop_hoc';
-    protected $fillable = [
-        'ten_lop',
-        'id_khoi',
+    protected $fillable = 
+    [
+        "id",
+        "khoi_id",
+        "ten_lop"
     ];
+    
 }

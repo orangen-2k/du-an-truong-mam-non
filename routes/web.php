@@ -28,7 +28,6 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
     Route::get('/', 'DangKiNhapHocController@index')->name('dangki-nhap-hoc');
     Route::post('/submit-dang-ki-nhap-hoc','DangKiNhapHocController@store')->name('submit-dang-ki-nhap-hoc');
     Route::post('/submit-xac-nhan-ma-dang-ky','DangKiNhapHocController@XacNhanDangKy')->name('submit-xac-nhan-ma-dangki');
- 
 });
 
 Route::prefix('quan-ly-giao-vien')->group(function () {
@@ -50,6 +49,9 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
 
 Route::prefix('quan-ly-khoi')->group(function () {
     Route::get('/','KhoiController@index')->name('quan-ly-khoi-index');
+    Route::post('/post_create', 'KhoiController@post_create')->name('quan-ly-khoi-post_create');
+    Route::post('/destroy', 'KhoiController@destroy')->name('quan-ly-khoi-destroy');
+    Route::post('/store/{id}','KhoiController@store')->name('quan-ly-khoi-store');
 });
 
 Route::prefix('quan-ly-lop')->group(function () {
