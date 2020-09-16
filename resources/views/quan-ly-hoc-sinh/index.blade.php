@@ -19,7 +19,6 @@
                     </div>
                 </div>
                 <div class="m-portlet__body">
-
                     <!--begin::Section-->
                     <div class="m-section">
                         <div class="m-section__content">
@@ -83,43 +82,77 @@
                 Xuất dữ liệu ra Excel</a>
         </div>
         <div class="col-lg-6 " style="text-align: right">
-            @can('them_moi_tong_hop_dao_tao_nghe_cho_nguoi_khuyet_tat')
-            <a href="{{route('nhapbc.dao-tao-khuyet-tat.create')}}"><button type="button" class="btn btn-info .bg-info">Thêm
-                    mới</button></a>
-            @endcan
+            <a href="{{route('quan-ly-hoc-sinh-create')}}"><button type="button" class="btn btn-info .bg-info">Thêm mới</button></a>
         </div>
 
     </section>
     <div class="m-portlet">
         <div class="m-portlet__body table-responsive">
             <table class="table m-table m-table--head-bg-success">
+            <div class="col-12 form-group m-form__group d-flex justify-content-end">
+                    <label class="col-lg-2 col-form-label">Kích thước:</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="page-size">          
+                            <option  value="10"> 10</option>
+                            <option  value="20"> 20</option>
+                            <option  value="50"> 50</option>
+                        </select>
+                    </div>
+                </div>
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
+                        <th>Stt</th>
+                        <th>Họ tên</th>
+                        <th>Ảnh</th>
+                        <th>Ngày sinh</th>
+                        <th>Giới tính</th>
+                        <th>Khối</th>
+                        <th>Lớp</th>
+                        <th>Chức năng</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <th scope="row">1</th>
-                        <td>Jhon</td>
-                        <td>Stone</td>
-                        <td>@jhon</td>
+                        <td>Trần Thu Trang</td>
+                        <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
+                        <td>6/6/2007</td>
+                        <td>Nữ</td>
+                        <td>3</td>
+                        <td>3A</td>
+                        <td><a href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}">Cập nhật</a></td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
-                        <td>Lisa</td>
-                        <td>Nilson</td>
-                        <td>@lisa</td>
+                        <td>Trần Thu Trang</td>
+                        <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
+                        <td>6/6/2007</td>
+                        <td>Nữ</td>
+                        <td>3</td>
+                        <td>3A</td>
+                        <td><a href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}">Cập nhật</a></td>
                     </tr>
                     <tr>
                         <th scope="row">3</th>
-                        <td>Larry3</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
+                        <td>Trần Thu Trang</td>
+                        <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
+                        <td>6/6/2007</td>
+                        <td>Nữ</td>
+                        <td>3</td>
+                        <td>3A</td>
+                        <td><a href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}">Cập nhật</a></td>
                     </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Trần Thu Trang</td>
+                        <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
+                        <td>6/6/2007</td>
+                        <td>Nữ</td>
+                        <td>3</td>
+                        <td>3A</td>
+                        <td><a href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}">Cập nhật</a></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>

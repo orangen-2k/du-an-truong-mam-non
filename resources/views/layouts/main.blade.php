@@ -22,10 +22,11 @@
         </script>
 
 		<!--end::Web font -->
-
+		<link rel="shortcut icon" type="image/x-icon" href="https://kidsonline.edu.vn/wp-content/themes/kids-online/assets/images/favicon.png" />
 		{{--  style style  --}}
 		@include('layouts._share.style')
 		{{--  endstyle style  --}}
+		@yield('style')
 	</head>
 
 	<!-- end::Head -->
@@ -85,7 +86,8 @@
 		  {{--  script  --}}
 		  @include('layouts._share.script')
 		  {{--  endscript  --}}
-
+		  
+		  @yield('script')
 		<!--end::Page Scripts -->
 	</body>
 

@@ -50,7 +50,7 @@ class QuanlyHocSinhController extends Controller
      */
     public function create()
     {
-        //
+        return view('quan-ly-hoc-sinh.create');
     }
 
     /**
@@ -83,7 +83,8 @@ class QuanlyHocSinhController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('quan-ly-hoc-sinh.edit');
+
     }
 
     /**
@@ -210,20 +211,6 @@ class QuanlyHocSinhController extends Controller
                 }
           }
 
-        // $vitri=[];
-        // for($i = 6 ; $i < count($data); $i++){ 
-        //     if($data[$i][11] != " -  - "){
-        //             $key_aphabel=-1;
-        //             $rowNumber = $i+1; 
-        //             for($j =  $cotstart ; $j <= $cotend ; $j++){  
-        //                     $key_aphabel++;
-        //                     if( (is_string($data[$i][$j])) || ($data[$i][$j] < 0) ){
-        //                     array_push($vitri,$arrayApha[$key_aphabel].$rowNumber);
-        //                     }
-        //             }
-        //         }
-        //   }
-
         return $vitri;
     }
 
@@ -247,14 +234,6 @@ class QuanlyHocSinhController extends Controller
         }
 
         $vitri = $this->checkError($data);
-        dd($vitri);
-        // $vitri=null;
-        // $vitri=$this->checkError($data, $arrayApha, 8 , 7, 36);
-
-        // if(count($vitri) > 0 ){
-        //     return response()->json('exportError',200);   
-        // }
-
         $arrayData=[];
         $insertData=[];
             if($vitri == null || $vitri == ''){
@@ -312,25 +291,6 @@ class QuanlyHocSinhController extends Controller
                    return response()->json(['messageError' => 'Lỗi rồi'],200);   
                 }
             }
-
-
-      
-    // public function checkError($data, $arrayApha, $dongstart, $cotstart, $cotend){
-    //     $vitri=[];
-    //     for($i = $dongstart ; $i < count($data); $i++){ 
-    //         $key_aphabel=-1;
-    //            $rowNumber = $i+1; 
-    //            for($j=  $cotstart ; $j <= $cotend ; $j++){  
-    //                  $key_aphabel++;
-    //                  if($j != 1 && $j != 4 && $j !=5 && $j !=34 && $j !=35) {
-    //                    if( (is_string($data[$i][$j])) || ($data[$i][$j] < 0) ){
-    //                          array_push($vitri,$arrayApha[$key_aphabel].$rowNumber);
-    //                      }  
-    //                 }
-    //            }
-    //        }
-    //     return $vitri;
-    // }
 
 
     public function errorFileImport(Request $request){

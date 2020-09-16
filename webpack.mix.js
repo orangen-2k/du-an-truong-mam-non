@@ -13,10 +13,9 @@ const mix = require("laravel-mix");
 
 mix.styles(
     [
-        "public/assets/vendors/base/vendors.bundle.css",
-        "public/assets/demo/default/base/style.bundle.css",
+        // "public/assets/vendors/base/vendors.bundle.css",
+        "public/assets/demo/base/style.bundle.css",
         "public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css",
-
         "public/vendors/tether/dist/css/tether.css",
         "public/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css",
         "public/vendors/bootstrap-datetime-picker/css/bootstrap-datetimepicker.min.css",
@@ -25,7 +24,6 @@ mix.styles(
         "public/vendors/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css",
         "public/vendors/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css",
         "public/vendors/bootstrap-select/dist/css/bootstrap-select.css",
-        "public/vendors/select2/dist/css/select2.css",
         "public/vendors/nouislider/distribute/nouislider.css",
         "public/vendors/owl.carousel/dist/assets/owl.carousel.css",
         "public/vendors/owl.carousel/dist/assets/owl.theme.default.css",
@@ -41,20 +39,19 @@ mix.styles(
         "public/vendors/chartist/dist/chartist.min.css",
         "public/vendors/sweetalert2/dist/sweetalert2.min.css",
         "public/vendors/socicon/css/socicon.css",
-        "public/vendors/vendors/line-awesome/css/line-awesome.css",
-        "public/vendors/vendors/flaticon/css/flaticon.css",
+        // "public/vendors/vendors/line-awesome/css/line-awesome.css",
+        // "public/vendors/vendors/flaticon/css/flaticon.css",
         "public/vendors/vendors/metronic/css/styles.css",
-        "public/vendors/vendors/fontawesome5/css/all.min.css",
+        // "public/vendors/vendors/fontawesome5/css/all.min.css",
     ],
     "public/css/all.css"
 )
     .scripts(
         [
             "public/assets/vendors/base/vendors.bundle.js",
-            "public/assets/demo/default/base/scripts.bundle.js",
+            "public/assets/demo/base/scripts.bundle.js",
             "public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js",
             "public/assets/app/js/dashboard.js",
-
             "public/vendors/jquery.repeater/src/lib.js",
             "public/vendors/jquery.repeater/src/jquery.input.js",
             "public/vendors/jquery.repeater/src/repeater.js",
@@ -73,7 +70,6 @@ mix.styles(
             "public/vendors/js/framework/components/plugins/forms/bootstrap-switch.init.js",
             "public/vendors/vendors/bootstrap-multiselectsplitter/bootstrap-multiselectsplitter.min.js",
             "public/vendors/bootstrap-select/dist/js/bootstrap-select.js",
-            "public/vendors/select2/dist/js/select2.full.js",
             "public/vendors/typeahead.js/dist/typeahead.bundle.js",
             "public/vendors/handlebars/dist/handlebars.js",
             "public/vendors/inputmask/dist/jquery.inputmask.bundle.js",
@@ -95,7 +91,7 @@ mix.styles(
             "public/vendors/js/framework/components/plugins/forms/jquery-validation.init.js",
             "public/vendors/bootstrap-notify/bootstrap-notify.min.js",
             "public/vendors/js/framework/components/plugins/base/bootstrap-notify.init.js",
-            "public/vendors/toastr/build/toastr.min.js",
+            // "public/vendors/toastr/build/toastr.min.js",
             "public/vendors/jstree/dist/jstree.js",
             "public/vendors/raphael/raphael.js",
             "public/vendors/morris.js/morris.js",
@@ -109,7 +105,9 @@ mix.styles(
             "public/vendors/es6-promise-polyfill/promise.min.js",
             "public/vendors/sweetalert2/dist/sweetalert2.min.js",
             "public/vendors/js/framework/components/plugins/base/sweetalert2.init.js",
-            "public/vendors/wizard/wizard.js",
+            // "public/vendors/wizard/wizard.js",
+            // "public/assets/demo/custom/crud/wizard/wizard.js",
+            "public/assets/snippets/custom/pages/user/login.js"
         ],
         "public/js/all.js"
     )
