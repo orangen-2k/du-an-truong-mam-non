@@ -29,7 +29,9 @@
                                         <div class="col-lg-8">
                                             <select class="form-control" name="loai_hinh" id="loai_hinh">
                                                 <option value="0" selected>Chọn khối</option>
-
+                                                @foreach ($khoi as $item)
+                                                <option value={{$item->id}}>{{$item->ten_khoi}}</option> 
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -54,6 +56,8 @@
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
+                    <form action="{{route('quan-ly-khoi-post_create')}}" method="post">
+                        @csrf   
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Thêm khối</h5>
@@ -65,23 +69,24 @@
                             <div class="form-group">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon3">Tên khối</span>
+                                        <span class="input-group-text"  id="basic-addon3">Tên khối</span>
                                     </div>
-                                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    <input type="text" class="form-control" name="ten_khoi" id="basic-url" aria-describedby="basic-addon3">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon3">Độ tuổi</span>
+                                        <span class="input-group-text"  id="basic-addon3">Độ tuổi</span>
                                     </div>
-                                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="do_tuoi">
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                            <button type="button" class="btn btn-primary">Thêm</button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
                         </div>
                     </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -100,43 +105,33 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                    $i = 1 
+                    @endphp
+                    @foreach ($khoi as $item)
+                    
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Hoa lý</td>
-                        <th>3</th>
-                        <td>4</td>
-                        <td>100</td>
-                        <td> <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#exampleModalUpdate">Cập nhật</button></td>
+                        <th scope="row">{{$i++}}</th>
+                        <td>{{$item->ten_khoi}}</td>
+                        <th>{{$item->do_tuoi}}</th>
+                        <td>{{$item->tong_lop_hoc}}</td>
+                        <td>{{$item->tong_hoc_sinh}}</td>
+                        <td>
+                            <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#Khoi{{$item->id}}">Cập nhật</button>
+                            <button type="button" onclick="xoa_khoi({{$item->id}})" class="btn btn-danger">Xóa</button>
+                        </td>
+                        
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Hướng Dương</td>
-                        <td>4</td>
-                        <th>3</th>
-                        <td>100</td>
-                        <td> <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#exampleModalUpdate">Cập nhật</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Dâm bụt</td>
-                        <td>4</td>
-                        <th>3</th>
-                        <td>100</td>
-                        <td> <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#exampleModalUpdate">Cập nhật</button></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">4</th>
-                        <td>Hoa Hồng</td>
-                        <td>4</td>
-                        <th>3</th>
-                        <td>100</td>
-                        <td> <button type="button" class="btn btn-info .bg-info" data-toggle="modal" data-target="#exampleModalUpdate">Cập nhật</button></td>
-                    </tr>
+                   
+                    @endforeach
                 </tbody>
             </table>
         </div>
-        <div class="modal fade" id="exampleModalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+    @foreach ($khoi as $value)
+    <div class="modal fade" id="Khoi{{$value->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <form action="{{route('quan-ly-khoi-store', ['id' => $value->id])}}" method="post">
+            @csrf
+            <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Cập nhật khối</h5>
@@ -150,23 +145,67 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">Tên khối</span>
                                     </div>
-                                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                <input type="text" name="ten_khoi" class="form-control" id="basic-url" aria-describedby="basic-addon3" value="{{$value->ten_khoi}}">
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">Độ tuổi</span>
                                     </div>
-                                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                <input type="text" name="do_tuoi" class="form-control" id="basic-url" aria-describedby="basic-addon3" value="{{$value->do_tuoi}}">
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                            <button type="button" class="btn btn-primary">Cập nhật</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
                         </div>
                     </div>
                 </div>
+            </form>
             </div>
+        @endforeach
     </div>
 </div>
 @endsection
+
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+@if(SESSION('thong_bao'))
+<script>
+Swal.fire({
+  title: 'Thực hiện thành công',
+  showClass: {
+    popup: 'animate__animated animate__fadeInDown'
+  },
+  hideClass: {
+    popup: 'animate__animated animate__fadeOutUp'
+  }
+})
+
+</script>
+@endif
+<script>
+    var urLinkDestroy = "{{route('quan-ly-khoi-destroy')}}";
+    function xoa_khoi(id){
+        Swal.fire({
+                title: 'Bạn có chắc chắn xóa ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: "Đóng"
+            }).then((result) => {
+                if (result.value) {
+                    axios.post(urLinkDestroy,{
+                        id: id
+                }).then(function(response){
+                        location.reload()
+                    })
+                }
+            })
+    }
+    </script>
+@endsection
+
+
