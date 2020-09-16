@@ -21,6 +21,10 @@ class KhoiRepository extends BaseRepository
         return 'khoi';
     }
 
+    public function getAllKhoi(){
+		return  $this->model->get();
+    }
+
     public function getAll()
     {   
         $data = $this->table->get();

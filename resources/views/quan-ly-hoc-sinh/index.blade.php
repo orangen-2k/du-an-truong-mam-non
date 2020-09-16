@@ -68,7 +68,7 @@
     <section class="action-nav d-flex align-items-center justify-content-between mt-4 mb-4">
 
         <div class="col-lg-2">
-            <a href="javascript:" data-toggle="modal" data-target="#exportBieuMauModal">
+            <a href="javascript:" onclick="exportBieuMau()" data-toggle="modal" data-target="#exportBieuMauModal">
                 <i class="fa fa-download" aria-hidden="true"></i>
                 Tải xuống biểu mẫu
             </a>
@@ -158,4 +158,56 @@
         </div>
     </div>
 </div>
+
+
+
+{{-- thanhnv form import export --}}
+
+    @include('layouts.formExcel.from')
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{!! asset('excel-js/js-form.js') !!}"></script>
+
+
+<script>
+    var routeImport = "{{route('import-bieu-mau-nhap-hoc-sinh')}}";
+</script>
+
+<script type="text/javascript">
+    var url_get_lop_of_khoi= "{{route('get-lop-theo-khoi')}}"
+    
+    $("#id_khoi").change(function() {
+        axios.post(url_get_lop_of_khoi, {
+            id:  $("#id_khoi").val(),
+        })
+        .then(function (response) {
+            var htmldata = '<option value="">Chọn lớp</option>'
+                response.data.forEach(element => {
+                htmldata+=`<option value="${element.id}">${element.ten_lop}</option>`
+            });
+            $('#id_lop').html(htmldata);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    });
+
+    $("#id_khoi_import").change(function() {
+        axios.post(url_get_lop_of_khoi, {
+            id:  $("#id_khoi_import").val(),
+        })
+        .then(function (response) {
+            var htmldata = '<option value="">Chọn lớp</option>'
+                response.data.forEach(element => {
+                htmldata+=`<option value="${element.id}">${element.ten_lop}</option>`
+            });
+            $('#id_lop_import').html(htmldata);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    });
+
+    </script>
 @endsection
