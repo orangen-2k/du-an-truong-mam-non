@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HocSinh extends Model
+class HocSinhDangKyNhapHoc extends Model
 {
-    protected $table = 'hoc_sinh';
+    protected $table = 'hoc_sinh_dang_ki_nhap_hoc';
     protected $fillable = [
         'lop_id',
         'ten',
@@ -14,11 +14,9 @@ class HocSinh extends Model
         'ten_thuong_goi',
         'avatar',
         'ngay_sinh',
-        'noi_sinh',
         'dan_toc',
         'ngay_vao_truong',
-        'doi_tuong_chinh_sach',
-        'hoc_sinh_khuyet_tat',
+        'doi_tuong_chinh_sach_id',
         'ten_cha',
         'ngay_sinh_cha',
         'cmtnd_cha',
@@ -27,8 +25,6 @@ class HocSinh extends Model
         'ngay_sinh_me',
         'cmtnd_me',
         'dien_thoai_me',
-        'dien_thoai_dang_ky',
-        'email_dang_ky',
         'ho_khau_thuong_tru_matp',
         'ho_khau_thuong_tru_maqh',
         'ho_khau_thuong_tru_xaid',
@@ -37,5 +33,6 @@ class HocSinh extends Model
         'noi_o_hien_tai_maqh',
         'noi_o_hien_tai_xaid',
         'noi_o_hien_tai_so_nha',
+        'ma_xac_nhan'
     ];
 }
