@@ -50,7 +50,7 @@ class QuanlyHocSinhController extends Controller
      */
     public function create()
     {
-        //
+        return view('quan-ly-hoc-sinh.create');
     }
 
     /**
@@ -61,7 +61,7 @@ class QuanlyHocSinhController extends Controller
      */
     public function store(Request $request)
     {
-     
+        dd($request->all());
     }
 
     /**
@@ -83,7 +83,8 @@ class QuanlyHocSinhController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('quan-ly-hoc-sinh.edit');
+
     }
 
     /**

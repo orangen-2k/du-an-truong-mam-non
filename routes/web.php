@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,13 +13,11 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('index');
-})->middleware('auth', 'web');
+})->middleware('auth', 'web')->name('app');
 Auth::routes();
-Route::get('dang-ky','Auth\AuthController@viewFormRegister')->name('auth.view-form-register');
-Route::post('dang-ky','Auth\AuthController@register')->name('auth.register');
+Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('auth.profile');;
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/get_quan_huyen_theo_thanh_pho','QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
@@ -32,13 +31,30 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
  
 });
 
-Route::prefix('quang-ly-hoc-sinh')->group(function () {
-    Route::get('/','QuanlyHocSinhController@index');
-    Route::get('/hi','QuanlyHocSinhController@show');
+Route::prefix('quan-ly-giao-vien')->group(function () {
+    Route::get('/','QuanlyGiaoVienController@index');
+    Route::get('/add', 'QuanlyGiaoVienController@add');
+});
+Route::prefix('quan-ly-hoc-sinh')->group(function () {
+    Route::get('/','QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
+    Route::get('/create','QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
+    Route::get('/edit/{id}','QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
+    Route::post('/store','QuanlyHocSinhController@store')->name('quan-ly-hoc-sinh-store');
+
     Route::post('export-bieu-mau','QuanlyHocSinhController@exportBieuMau')->name('export-bieu-mau-nhap-hoc-sinh');
     Route::post('/get_lop_theo_khoi','QuanlyHocSinhController@getLopOfKhoi')->name('get-lop-theo-khoi');
 
     Route::post('import-bieu-mau-hoc-sinh','QuanlyHocSinhController@importFile')->name('import-bieu-mau-nhap-hoc-sinh');
     Route::post('error-import-bieu-mau-hoc-sinh','QuanlyHocSinhController@errorFileImport')->name('error-import-bieu-mau-nhap-hoc-sinh');
+});
+
+Route::prefix('quan-ly-khoi')->group(function () {
+    Route::get('/','KhoiController@index')->name('quan-ly-khoi-index');
+});
+
+Route::prefix('quan-ly-lop')->group(function () {
+    Route::get('/','LopController@index')->name('quan-ly-lop-index');
+    Route::get('/show/{id}','LopController@show')->name('quan-ly-lop-show');
+
 
 });
