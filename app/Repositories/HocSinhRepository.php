@@ -21,7 +21,7 @@ class HocSinhRepository extends BaseRepository
     }
 
     public function getAllHocSinh(){
-  		return  $this->model->getall();
+  		return  $this->model->all();
     }
 
     public function createHocSinh($arrayData){

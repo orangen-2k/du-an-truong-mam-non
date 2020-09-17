@@ -47,6 +47,15 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::post('error-import-bieu-mau-hoc-sinh','QuanlyHocSinhController@errorFileImport')->name('error-import-bieu-mau-nhap-hoc-sinh');
 });
 
+
+Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
+    Route::get('/','QuanLyDangKyNhapHocController@index')->name('quan-ly-dang-ky-nhap-hoc.index');
+    Route::get('/edit/{id}','QuanLyDangKyNhapHocController@show')->name('edit-hs-dang-ky-nhap-hoc');
+    Route::post('/edit','QuanLyDangKyNhapHocController@edit')->name('submit-edit-hs-dang-ky-nhap-hoc');
+});
+// thanhnv 9/16/2020
+
+
 Route::prefix('quan-ly-khoi')->group(function () {
     Route::get('/','KhoiController@index')->name('quan-ly-khoi-index');
     Route::post('/post_create', 'KhoiController@post_create')->name('quan-ly-khoi-post_create');
