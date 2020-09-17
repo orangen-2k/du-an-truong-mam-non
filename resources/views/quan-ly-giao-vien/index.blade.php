@@ -96,6 +96,7 @@
                 <thead>
                     <tr>
                         <th>STT</th>
+                        <th>Mã giáo viên</th>
                         <th>Họ và tên</th>
                         <th>Ảnh</th>
                         <th>Ngày sinh</th>
@@ -106,78 +107,35 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php
+                        $i = 1    
+                    @endphp
+                    @foreach ($data as $item)
                     <tr>
-                        <th scope="row">1</th>
-                      
-                        <td>Nguyễn Trường Xuân</td>
-                        <td></td>
-                        <td>01/05/2000</td>
+                        <th scope="row">{{$i++}}</th>
+                        <td>{{$item->ma_gv}}</td>
+                        <td>{{$item->ten}}</td>
+                        @if ($item->anh == "")
+                        <td><img src="image/default_people.jpg" height="100px" width="75px" alt=""></td>
+                        @else
+                        <td><img src="{{$item->anh}}" height="100px" width="75px" alt=""></td>
+                        @endif  
+                        <td>{{date("d/m/Y", strtotime($item->ngay_sinh))}}</td>
+                    @if ($item->gioi_tinh == 1)
                         <td>Nam</td>
-                        <td>Khối 2 tuổi</td>
-                        <td>Lớp Mon Hí</td>
+                    @else
+                        <td>Nữ</td>
+                    @endif
+                        <td>{{$item->ten_khoi}}</td>
+                        <td>{{$item->ten_lop}}</td>
                         <td>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-info" data-toggle="modal" data-target="#modal_giaovien1">Chi tiết</button></a>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-danger">Xóa</button></a>
+                            <a href="#"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_giaovien1">Chi tiết</button></a>
+                            <a href="#"><button type="button" class="btn btn-danger">Xóa</button></a>
                         </td>
                        
                     </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                      
-                        <td>Nguyễn Trường Xuân</td>
-                        <td></td>
-                        <td>01/05/2000</td>
-                        <td>Nam</td>
-                        <td>Khối 2 tuổi</td>
-                        <td>Lớp Mon Hí</td>
-                        <td>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-info" data-toggle="modal" data-target="#modal_giaovien1">Chi tiết</button></a>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-danger">Xóa</button></a>
-                        </td>
-                        
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                      
-                        <td>Nguyễn Trường Xuân</td>
-                        <td></td>
-                        <td>01/05/2000</td>
-                        <td>Nam</td>
-                        <td>Khối 2 tuổi</td>
-                        <td>Lớp Mon Hí</td>
-                        <td>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-info" data-toggle="modal" data-target="#modal_giaovien1">Chi tiết</button></a>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-danger">Xóa</button></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                      
-                        <td>Nguyễn Trường Xuân</td>
-                        <td></td>
-                        <td>01/05/2000</td>
-                        <td>Nam</td>
-                        <td>Khối 2 tuổi</td>
-                        <td>Lớp Mon Hí</td>
-                        <td>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-info" data-toggle="modal" data-target="#modal_giaovien1">Chi tiết</button></a>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-danger">Xóa</button></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">1</th>
-                      
-                        <td>Nguyễn Trường Xuân</td>
-                        <td></td>
-                        <td>01/05/2000</td>
-                        <td>Nam</td>
-                        <td>Khối 2 tuổi</td>
-                        <td>Lớp Mon Hí</td>
-                        <td>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-info" data-toggle="modal" data-target="#modal_giaovien1">Chi tiết</button></a>
-                            <a href="#"><button type="button" class="btn m-btn--pill btn-danger">Xóa</button></a>
-                        </td>
-                    </tr>
+                    @endforeach
+                    
                 </tbody>
             </table>
 
@@ -204,8 +162,22 @@
                 <div class="m-portlet">
             
                     <div class="m-portlet__body">
-                        <div class="col-12 form-group m-form__group d-flex justify-content-end">
-                            
+                        
+                        <div class="row">
+                            <div class="col-md-2 ">
+                                <div class="form-group m-form__group row">
+                                    <img src="image/default_people.jpg" height="150px" width="125px" alt="">
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-10 ">
+                                <div class="form-group m-form__group row">
+                                    <label for="" class="col-lg-2 col-form-label">Họ và tên:</label>
+                                    <div class="col-lg-10">
+                                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Điền họ và tên" value="Nguyễn Trường Xuân">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <form>
                             <div class="form-group">

@@ -17,28 +17,31 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="m-portlet__body">
-
-
                     <div class="m-section">
                         <div class="m-section__content">
+                            
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group m-form__group row">
                                         <label class="col-lg-2 col-form-label">Khối</label>
                                         <div class="col-lg-8">
-                                            <select class="form-control" name="loai_hinh" id="loai_hinh">
+                                            <select class="form-control" name="khoi" id="khoi">
                                                 <option value="0" selected>Chọn khối</option>
-
+                                                @foreach ($khoi as $item)
+                                                <option value={{$item->id}}>{{$item->ten_khoi}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-6 ">
                                     <div class="form-group m-form__group row">
                                         <label for="" class="col-lg-2 col-form-label">Lớp</label>
                                         <div class="col-lg-8">
-                                            <select class="form-control" name="co_so_id" id="co_so_id">
+                                            <select class="form-control" name="lop" id="lop">
                                                 <option value="">Chọn lớp</option>
                                             </select>
                                         </div>
@@ -52,65 +55,16 @@
 
                 </div>
             </div>
-
+            <div id="preload" class="preload-container text-center" style="display: none">
+                <img id="gif-load" src="{!! asset('image/icon-loading.gif') !!}" alt="">
+            </div>
 
         </div>
     </div>
     <div class="row">
         <div class="col-xl-12">
             <div class="m-portlet m-portlet--full-height">
-
-
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <h3 class="m-portlet__head-text">
-                                Thông tin giáo viên
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="m-portlet__head-tools">
-                        <ul class="m-portlet__nav">
-                            <li class="m-portlet__nav-item">
-                                <a href="#" data-toggle="m-tooltip" class="m-portlet__nav-link m-portlet__nav-link--icon" data-direction="left" data-width="auto" title="" data-original-title="Get help with filling up this form">
-                                    <i class="flaticon-info m--icon-font-size-lg3"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="m-wizard m-wizard--2 m-wizard--success m-wizard--step-first" id="m_wizard">
-                    <div class="m-portlet__padding-x">
-                    </div>
-                    <div class="m-wizard__head m-portlet__padding-x">
-                        <div class="m-wizard__progress">
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
-                            </div>
-                        </div>
-                        <div class="m-wizard__nav">
-                            <div class="m-wizard__steps">
-                                <div class="m-wizard__step m-wizard__step--current" m-wizard-target="m_wizard_form_step_1">
-                                    <a href="#" class="m-wizard__step-number">
-                                        <span><i class="fa  flaticon-placeholder"></i></span>
-                                    </a>
-                                    <div class="m-wizard__step-info">
-                                        <div class="m-wizard__step-title">
-                                            1. Thông tin giáo viên
-                                        </div>
-
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-
-
-                    </div>
-
-
-
-
                     <div class="m-wizard__form">
 
                         <form class="m-form m-form--label-align-left- m-form--state-" id="m_form" novalidate="novalidate">
@@ -381,4 +335,7 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+
 @endsection

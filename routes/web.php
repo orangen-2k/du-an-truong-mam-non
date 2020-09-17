@@ -21,7 +21,7 @@ Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')-
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('quan-ly-giao-vien')->group(function () {
-    Route::get('/','QuanlyGiaoVienController@index');
+    Route::get('/','QuanlyGiaoVienController@index')->name('quan-ly-giao-vien-index');
     Route::get('/add', 'QuanlyGiaoVienController@add');
 });
 Route::prefix('quan-ly-hoc-sinh')->group(function () {
