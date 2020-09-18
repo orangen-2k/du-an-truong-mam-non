@@ -20,6 +20,11 @@ class Lop extends Model
         return $this->hasMany(GiaoVien::class);
     }
 
+    public function HocSinh()
+    {
+        return $this->hasMany(HocSinh::class);
+    }
+
     public function Khoi()
     {
         return $this->belongsTo(Khoi::class);

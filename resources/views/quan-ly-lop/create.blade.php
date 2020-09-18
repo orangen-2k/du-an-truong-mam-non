@@ -87,7 +87,6 @@
     <script>
         $('#id_giao_vien_cn').select2();
         $('#id_giao_vien_phu').select2();
-
         $('#id_giao_vien_cn').change(() => {
             var id_giao_vien_cn = $('#id_giao_vien_cn').val()
             if (id_giao_vien_cn > 0) {
@@ -102,12 +101,11 @@
                         $("#id_giao_vien_phu").select2().val('').trigger('change');
                     }
                 })
-
             } else {
                 $("#id_giao_vien_phu").select2().val('').trigger('change');
                 $('#id_giao_vien_phu').attr('disabled', true)
             }
-        })
+        });
 
     </script>
 @endsection

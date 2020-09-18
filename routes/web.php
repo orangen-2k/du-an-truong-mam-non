@@ -61,5 +61,7 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::get('/phan-lop','LopController@phanLop')->name('quan-ly-lop-phan-lop');
     Route::get('/edit/{id}','LopController@edit')->name('quan-ly-lop-edit');
     Route::post('/store','LopController@store')->name('quan-ly-lop-phan-store');
+    Route::post('/update/{id}','LopController@update')->name('quan-ly-lop-update');
+    Route::post('/destroy','LopController@destroy')->name('quan-ly-lop-destroy');
 
 });

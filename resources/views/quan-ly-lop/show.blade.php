@@ -1,463 +1,307 @@
 @extends('layouts.main')
 @section('title', 'Chi tiết lớp')
 @section('style')
-    <style>
-        .m-table th,
-        td {
-            text-align: center;
-        }
-
-    </style>
+<style>
+    .m-table th,
+    td {
+        text-align: center;
+    }
+</style>
 @endsection
 @section('content')
-    <div class="m-content">
-        <div class="row">
-            <div class="col-xl-12">
-                <!--begin::Portlet-->
-                <div class="m-portlet m-portlet--tab">
-                    <div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <span class="m-portlet__head-icon m--hide">
-                                    <i class="la la-gear"></i>
-                                </span>
-                                <h3 class="m-portlet__head-text">
-                                    Thông tin lớp Hoa lý 2
-                                </h3>
-                            </div>
+<div class="m-content">
+    <div class="row">
+        <div class="col-xl-12">
+            <!--begin::Portlet-->
+            <div class="m-portlet m-portlet--tab">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                Thông tin lớp {{$lop->ten_lop}}
+                            </h3>
                         </div>
-                    </div>
-                    <div class="m-portlet__body">
-                        <!--begin::Section-->
-                        <div class="m-portlet__body m-portlet__body--no-padding">
-                            <div class="row m-row--no-padding m-row--col-separator-xl">
-                                <div class="col-md-12 col-lg-12 col-xl-4">
-
-                                    <!--begin:: Widgets/Stats2-1 -->
-                                    <div class="m-widget1">
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">Member Profit</h3>
-                                                    <span class="m-widget1__desc">Awerage Weekly Profit</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-brand">+$17,800</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">Orders</h3>
-                                                    <span class="m-widget1__desc">Weekly Customer Orders</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-danger">+1,800</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">Issue Reports</h3>
-                                                    <span class="m-widget1__desc">System bugs and issues</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-success">-27,49%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--end:: Widgets/Stats2-1 -->
-                                </div>
-                                <div class="col-md-12 col-lg-12 col-xl-4">
-
-                                    <!--begin:: Widgets/Stats2-2 -->
-                                    <div class="m-widget1">
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">IPO Margin</h3>
-                                                    <span class="m-widget1__desc">Awerage IPO Margin</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-accent">+24%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">Payments</h3>
-                                                    <span class="m-widget1__desc">Yearly Expenses</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-info">+$560,800</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">Logistics</h3>
-                                                    <span class="m-widget1__desc">Overall Regional Logistics</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-warning">-10%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--begin:: Widgets/Stats2-2 -->
-                                </div>
-                                <div class="col-md-12 col-lg-12 col-xl-4">
-
-                                    <!--begin:: Widgets/Stats2-3 -->
-                                    <div class="m-widget1">
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">Orders</h3>
-                                                    <span class="m-widget1__desc">Awerage Weekly Orders</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-success">+15%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">Transactions</h3>
-                                                    <span class="m-widget1__desc">Daily Transaction Increase</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-danger">+80%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="m-widget1__item">
-                                            <div class="row m-row--no-padding align-items-center">
-                                                <div class="col">
-                                                    <h3 class="m-widget1__title">Revenue</h3>
-                                                    <span class="m-widget1__desc">Overall Revenue Increase</span>
-                                                </div>
-                                                <div class="col m--align-right">
-                                                    <span class="m-widget1__number m--font-primary">+60%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!--begin:: Widgets/Stats2-3 -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--end::Section-->
                     </div>
                 </div>
+                <div class="m-portlet__body">
+                    <!--begin::Section-->
+                    <div class="m-portlet__body m-portlet__body--no-padding">
+                        <div class="row m-row--no-padding m-row--col-separator-xl">
+                            <div class="col-xl-6">
 
-                <!--end::Portlet-->
-            </div>
-        </div>
-        <div class="m-portlet">
-            <div class="m-portlet__body table-responsive">
-                <table class="table m-table m-table--head-bg-success">
-                    <div class="col-12 form-group m-form__group d-flex justify-content-end">
-                        <label class="col-lg-1 col-form-label">Họ tên học sinh:</label>
-                        <div class="col-lg-2">
-                            <input type="text" class="form-control m-input m-input--square" id="exampleInputPassword1"
-                                placeholder="Nhập tên học sinh">
-                        </div>
-                        <label class="col-lg-1 col-form-label">Giới tính:</label>
-                        <div class="col-lg-2">
-                            <select class="form-control" id="page-size">
-                                <option value="10"> Nam</option>
-                                <option value="20"> Nữ</option>
-                            </select>
+                                <!--begin:: Widgets/Download Files-->
+                                <div class="m-portlet m-portlet--full-height ">
+                                    <div class="m-portlet__head">
+                                        <div class="m-portlet__head-caption">
+                                            <div class="m-portlet__head-title">
+                                                <h3 class="m-portlet__head-text">
+                                                    Giáo viên quản lý lớp
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-portlet__body">
+
+                                        <!--begin::m-widget4-->
+                                        @foreach ($giao_vien as $item)
+                                        <div class="m-widget4">
+                                            <div class="m-widget4__item">
+                                                <div class="m-widget4__img m-widget4__img--pic">
+                                                    <img src="../../assets/app/media/img/users/100_4.jpg" alt="">
+                                                </div>
+                                                <div class="m-widget4__info">
+                                                    <span class="m-widget4__title">
+                                                        {{$item->ten}}
+                                                    </span><br>
+                                                    <span class="m-widget4__sub">
+                                                        {{ $item->type ==1 ?'Giáo viên chủ nhiêm':'Giáo viên phụ' }}
+                                                    </span>
+                                                </div>
+                                                <div class="m-widget4__ext">
+                                                    <a href="#"
+                                                        class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">Chi
+                                                        tiết</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                        <!--end::Widget 9-->
+                                    </div>
+                                </div>
+
+                                <!--end:: Widgets/Download Files-->
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="m-portlet m-portlet--full-height ">
+                                    <div class="m-portlet__head">
+                                        <div class="m-portlet__head-caption">
+                                            <div class="m-portlet__head-title">
+                                                <h3 class="m-portlet__head-text">
+                                                    Thống kê học phí
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-portlet__body">
+                                        <div id="thong_ke_hoc_phi"
+                                            style="height: 300px; padding: 0px; position: relative;">
+                                            <canvas class="flot-base" width="662" height="375"
+                                                style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 529.9px; height: 300px;"></canvas>
+                                            <canvas class="flot-overlay" width="662" height="375"
+                                                style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 529.9px; height: 300px;"></canvas>
+                                            <div class="legend">
+                                                <div
+                                                    style="position: absolute; width: 56.8px; height: 140.8px; top: 5px; right: 5px; background-color: rgb(255, 255, 255); opacity: 0.85;">
+                                                </div>
+                                                <table
+                                                    style="position: absolute; top: 5px; right: 5px; font-size: smaller; color: #545454;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="legendColorBox">
+                                                                <div style="border: 1px solid #ccc; padding: 1px;">
+                                                                    <div
+                                                                        style="width: 4px; height: 0; border: 5px solid rgb(237, 194, 64); overflow: hidden;">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="legendLabel">Series1</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="legendColorBox">
+                                                                <div style="border: 1px solid #ccc; padding: 1px;">
+                                                                    <div
+                                                                        style="width: 4px; height: 0; border: 5px solid rgb(175, 216, 248); overflow: hidden;">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="legendLabel">Series2</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="legendColorBox">
+                                                                <div style="border: 1px solid #ccc; padding: 1px;">
+                                                                    <div
+                                                                        style="width: 4px; height: 0; border: 5px solid rgb(203, 75, 75); overflow: hidden;">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="legendLabel">Series3</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="legendColorBox">
+                                                                <div style="border: 1px solid #ccc; padding: 1px;">
+                                                                    <div
+                                                                        style="width: 4px; height: 0; border: 5px solid rgb(77, 167, 77); overflow: hidden;">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="legendLabel">Series4</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="legendColorBox">
+                                                                <div style="border: 1px solid #ccc; padding: 1px;">
+                                                                    <div
+                                                                        style="width: 4px; height: 0; border: 5px solid rgb(148, 64, 237); overflow: hidden;">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="legendLabel">Series5</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="legendColorBox">
+                                                                <div style="border: 1px solid #ccc; padding: 1px;">
+                                                                    <div
+                                                                        style="width: 4px; height: 0; border: 5px solid rgb(189, 155, 51); overflow: hidden;">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="legendLabel">Series6</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="legendColorBox">
+                                                                <div style="border: 1px solid #ccc; padding: 1px;">
+                                                                    <div
+                                                                        style="width: 4px; height: 0; border: 5px solid rgb(140, 172, 198); overflow: hidden;">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="legendLabel">Series7</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="legendColorBox">
+                                                                <div style="border: 1px solid #ccc; padding: 1px;">
+                                                                    <div
+                                                                        style="width: 4px; height: 0; border: 5px solid rgb(162, 60, 60); overflow: hidden;">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="legendLabel">Series8</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <thead>
-                        <tr>
-                            <th>Stt</th>
-                            <th>Mã học sinh</th>
-                            <th>Họ tên</th>
-                            <th>Ảnh học sinh</th>
-                            <th>Ngày sinh</th>
-                            <th>Giới tính</th>
-                            <th colspan="2">Chức năng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
 
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td><img width="100px" src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt=""></td>
-                            <td>6/6/2015</td>
-                            <td>3</td>
-                            <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi tiết</a>
-                            </td>
-
-
-                        </tr>
-
-                    </tbody>
-                </table>
+                    <!--end::Section-->
+                </div>
             </div>
+
+            <!--end::Portlet-->
         </div>
     </div>
+    <div class="m-portlet">
+        <div class="m-portlet__body table-responsive">
+            <table class="table m-table m-table--head-bg-success">
+                <div class="col-12 form-group m-form__group d-flex justify-content-end">
+                    <label class="col-lg-1 col-form-label">Giới tính:</label>
+                    <div class="col-lg-2">
+                        <select class="form-control" id="gioi_tinh">
+                            @foreach (config('common.gioi_tinh') as $key => $item)
+                            <option 
+                            @if(isset($params['gioi_tinh']) && $params['gioi_tinh']==$key) selected @endif
+                            value="{{$key}}"> {{$item}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <thead>
+                    <tr>
+                        <th>Stt</th>
+                        <th>Mã học sinh</th>
+                        <th>Họ tên</th>
+                        <th>Ảnh học sinh</th>
+                        <th>Ngày sinh</th>
+                        <th>Giới tính</th>
+                        <th colspan="2">Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (count($hoc_sinh)>0)
+                    @php
+                    $i = 1
+                    @endphp
+                    @endif
+                    @foreach ($hoc_sinh as $item)
+                    <tr>
+                    <th scope="row">{{$i++}}</th>
+                        <td>{{$item->ma_hoc_sinh}}</td>
+                        <td>{{$item->ten}}</td>
+                        <td><img width="100px"
+                                src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt="">
+                        </td>
+                        <td>{{$item->ngay_sinh}}</td>
+                        <td>{{ config('common.gioi_tinh')[$item->gioi_tinh] }}</td>
+                        <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi
+                                tiết</a>
+                        </td>
+                    </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection
+@section('script')
+<script src="{!! asset('assets/vendors/custom/flot/flot.bundle.js') !!}"></script>
+<script>
+    //== Class definition
+var BieuDoLop = function() {
+
+//== Private functions
+
+
+var demo8 = function() {
+    var data = [];
+        var series = Math.floor(Math.random() * 10) + 1;
+        series = series < 5 ? 5 : series;
+
+        for (var i = 0; i < series; i++) {
+            data[i] = {
+                label: "Series" + (i + 1),
+                data: Math.floor(Math.random() * 100) + 1
+            };
+        }
+
+        $.plot($("#thong_ke_hoc_phi"), data, {
+                series: {
+                    pie: {
+                        show: true
+                    }
+                }
+            });
+}
+
+
+
+return {
+    // public functions
+    init: function() {
+        demo8();
+
+    }
+};
+}();
+
+jQuery(document).ready(function() {
+    BieuDoLop.init();
+});
+$("#gioi_tinh").change(function(){  
+    var url = new URL(window.location.href);
+    var search_params = url.searchParams;
+    search_params.set('gioi_tinh', $('#gioi_tinh').val());
+    url.search = search_params.toString();
+    var new_url = url.toString();
+    window.location.href = new_url
+  });
+</script>
 @endsection
