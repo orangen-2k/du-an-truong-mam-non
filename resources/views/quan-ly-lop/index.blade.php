@@ -21,7 +21,7 @@
 </style>
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
-@section('content')>
+@section('content')
 <div class="m-content">
     <div id="preload" class="preload-container text-center" style="display: none">
         <img id="gif-load" src="{!! asset('images/loading1.gif') !!}" alt="">

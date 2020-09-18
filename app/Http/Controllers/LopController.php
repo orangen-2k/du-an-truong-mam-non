@@ -104,7 +104,8 @@ class LopController extends Controller
             'quan-ly-lop.show',
             [
                 'giao_vien' => $giao_vien,
-                'hoc_sinh' => $hoc_sinh
+                'hoc_sinh' => $hoc_sinh,
+                'lop' => $lop
             ]
         );
     }

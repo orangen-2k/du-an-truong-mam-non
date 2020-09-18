@@ -21,7 +21,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                Thông tin lớp Hoa lý 2
+                                Thông tin lớp {{$lop->ten_lop}}
                             </h3>
                         </div>
                     </div>
