@@ -74,9 +74,9 @@ class DangKiNhapHocController extends Controller
                 $avatar
             );
         $path = str_replace("/","\\",$pathLoad);
+        $path = trim($path, 'public/');
         $data['avatar']=$path;
         unset($data['_token']);
-        
         $data['ma_xac_nhan'] = rand(10000, 90000);
         
         $emailNguoiGui = $data['email_dang_ky'];
@@ -98,6 +98,7 @@ class DangKiNhapHocController extends Controller
             return 'no';
         }
     }
+
 
 
 }

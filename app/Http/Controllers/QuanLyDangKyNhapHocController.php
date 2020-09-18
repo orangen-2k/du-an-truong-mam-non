@@ -38,8 +38,10 @@ class QuanLyDangKyNhapHocController extends Controller
 
     public function index(Request $request){
         $params = request()->all();
+        $params['limit'] = isset($params['limit']) ? $params['limit'] : 1;
+        $limit = $params['limit'];
         $all_hs_dang_ki = $this->DangKiNhapHoc->getAllHocSinhDangKy($params);
-        return view('quan-ly-dang-ki-nhap-hoc.index',compact('all_hs_dang_ki'));
+        return view('quan-ly-dang-ki-nhap-hoc.index',compact('all_hs_dang_ki','limit'));
     }
 
     public function show($id){
@@ -54,31 +56,32 @@ class QuanLyDangKyNhapHocController extends Controller
     }
 
 
-    public function edit(Request $request){
-        $status = $request->status;
-        $id = $request->id_hs_dk;
-        return $this->DangKiNhapHoc->updateHocSinhDangKy($id,['status'=>$status]);
-    }
-
+   
     public function PheDuyet(EditNhapHoc $request){
         $data = $request->all();
         $id =  $data['id_hs_dk'];
-        $avatar =$request->file("avatar");
+        $hs_dk=  $this->DangKiNhapHoc->getOneHocSinhDangKy($id);
         $date_ngay_sinh = $request->ngay_sinh;  
         $data['ngay_sinh'] = date("Y-m-d", strtotime($date_ngay_sinh));  
 
+        $avatar =$request->file("avatar");
         if($avatar != null){
             $pathLoad = Storage::putFile(
                 'public/uploads/avatar',
                 $avatar
             );
             $path = str_replace("/","\\",$pathLoad);
+            $path = trim($path, 'public/');
             $data['avatar']=$path;
+        }else{
+            $data['avatar']=$hs_dk->avatar;
         }
-
         unset($data['_token']);
         unset($data['id_hs_dk']);
-        return $this->DangKiNhapHoc->updateHocSinhDangKy($id,$data);
+        unset($data['status']);
+        // dd($hs_dk->ten);
+         $this->HocSinh->createHocSinh($data);
+        return redirect()->route('quan-ly-dang-ky-nhap-hoc.index')->with('status', 'Đã chuyển bé '.$data['ten'].' danh sách học sinh của trường');
     }
   
 }

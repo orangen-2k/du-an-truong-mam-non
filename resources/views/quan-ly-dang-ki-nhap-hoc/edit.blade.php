@@ -29,7 +29,7 @@
                     <div class="m-wizard m-wizard--2 m-wizard--success m-wizard--step-first" id="m_wizard">
                         <div class="m-wizard__form">
                             <form class="m-form m-form--label-align-left- m-form--state-" id="m_form"
-                                action="{{ route('submit-edit-hs-dang-ky-nhap-hoc') }}" method="POST">
+                                action="{{ route('submit-edit-hs-dang-ky-nhap-hoc') }}" method="POST" enctype="multipart/form-data">
                                 <div class="m-portlet__body">
                                     @csrf
                                     <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
@@ -162,7 +162,7 @@
                                             <div class="col-xl-6 ">
 
                                                <div class="form-group m-form__group row offset-1">
-                                                    <img id="showimg" src="https://www.w3schools.com/w3images/avatar2.png" width="290" />
+                                                    <img id="showimg"  src="{!! asset('storage'.$hs_dk  ->avatar) !!}"  width="290" />
                                                </div>
 
                                                <div class="form-group m-form__group row offset-1">
@@ -383,7 +383,7 @@
 
                                                             @error('noi_o_hien_tai_xaid')
                                                                    {{ $message }}
-                                                          @enderror
+                                                              @enderror
 
 
 													<!-- <p class="text-danger text-small error" id="noi_o_hien_tai_xaid_error"></p> -->
@@ -398,7 +398,12 @@
                                                             value="{{$hs_dk->noi_o_hien_tai_so_nha}}" name="noi_o_hien_tai_so_nha"
                                                                 class="form-control m-input" placeholder="" value="">
 
-                                                                <p class="text-danger text-small error" id="noi_o_hien_tai_so_nha_error"></p>
+
+                                                                @error('noi_o_hien_tai_so_nha')
+                                                                   {{ $message }}
+                                                                @enderror
+
+                                                                <!-- <p class="text-danger text-small error" id="noi_o_hien_tai_so_nha_error"></p> -->
 
                                                         </div>
                                                     </div>
@@ -431,7 +436,11 @@
                                                         class="form-control m-input" placeholder="">
 
 
-													<p class="text-danger text-small error" id="ten_cha_error"></p>
+                                                        @error('ten_cha')
+                                                                   {{ $message }}
+                                                         @enderror
+
+													<!-- <p class="text-danger text-small error" id="ten_cha_error"></p> -->
                                                     
 														   
 													</div>
@@ -445,7 +454,11 @@
                                                     value="{{$hs_dk->dien_thoai_cha}}"
                                                     placeholder="SĐT cha">
 												
-													<p class="text-danger text-small error" id="dien_thoai_cha_error"></p>
+                                                    @error('dien_thoai_cha')
+                                                                   {{ $message }}
+                                                         @enderror
+
+													<!-- <p class="text-danger text-small error" id="dien_thoai_cha_error"></p> -->
 													   
                                                      <div class="m-separator m-separator--dashed m-separator--lg"></div>
 
@@ -456,8 +469,12 @@
 													<input type="number" class="form-control m-input" name="cmtnd_cha"
                                                     value="{{$hs_dk->cmtnd_cha}}"
                                                      placeholder="Số chứng minh cha">
-													<p class="text-danger text-small error" id="cmtnd_cha_error"></p>
 													   
+                                                    @error('cmtnd_cha')
+                                                                   {{ $message }}
+                                                         @enderror
+                                                         <!-- <p class="text-danger text-small error" id="cmtnd_cha_error"></p> -->
+
                                                      <div class="m-separator m-separator--dashed m-separator--lg"></div>
 
 													<!-- <span class="m-form__help">Please enter your username</span> -->
@@ -485,7 +502,11 @@
                                                          value="{{$hs_dk->ten_me}}"
                                                         class="form-control m-input" placeholder="">
 													</div>
-													<p class="text-danger text-small error" id="ten_me_error"></p>
+
+                                                    @error('ten_me')
+                                                                   {{ $message }}
+                                                         @enderror
+													<!-- <p class="text-danger text-small error" id="ten_me_error"></p> -->
 
                                                     <div class="m-separator m-separator--dashed m-separator--lg"></div>
 
@@ -496,7 +517,12 @@
                                                     name="dien_thoai_me" 
                                                     value="{{$hs_dk->dien_thoai_me}}"
                                                     placeholder="SĐT mẹ">
-													<p class="text-danger text-small error" id="dien_thoai_me_error"></p>
+
+
+                                                    @error('dien_thoai_me')
+                                                                   {{ $message }}
+                                                         @enderror
+													<!-- <p class="text-danger text-small error" id="dien_thoai_me_error"></p> -->
 
                                                     <div class="m-separator m-separator--dashed m-separator--lg"></div>
 
@@ -508,7 +534,11 @@
                                                     value="{{$hs_dk->cmtnd_me}}"
                                                     placeholder="Số chứng minh mẹ">
 														   
-													<p class="text-danger text-small error" id="cmtnd_me_error"></p>
+
+                                                    @error('cmtnd_me')
+                                                                   {{ $message }}
+                                                    @enderror
+													<!-- <p class="text-danger text-small error" id="cmtnd_me_error"></p> -->
 
 													<!-- <span class="m-form__help">Please enter your username</span> -->
                                                      <div class="m-separator m-separator--dashed m-separator--lg"></div>
@@ -537,7 +567,11 @@
                                                             class="form-control m-input"
                                                               value="{{$hs_dk->dien_thoai_dang_ki}}"
                                                                placeholder="">
-													<p class="text-danger text-small error" id="dien_thoai_dang_ki_error"></p>
+
+                                                               @error('dien_thoai_dang_ki')
+                                                                   {{ $message }}
+                                                             @enderror
+													<!-- <p class="text-danger text-small error" id="dien_thoai_dang_ki_error"></p> -->
 
                                                         </div>
                                                     </div>
@@ -551,7 +585,12 @@
                                                             <input type="text" name="email_dang_ky" class="form-control m-input"
                                                               value="{{$hs_dk->email_dang_ky}}"
                                                                 placeholder="" >
-													<p class="text-danger text-small error" id="email_dang_ky_error"></p>
+
+
+                                                                @error('email_dang_ky')
+                                                                   {{ $message }}
+                                                                @enderror
+													<!-- <p class="text-danger text-small error" id="email_dang_ky_error"></p> -->
 
                                                         </div>
                                                     </div>
@@ -567,7 +606,7 @@
                                             <div class="col-lg-10"></div>
                                           
                                             <div class="col-lg-2 m--align-right">
-                                                <button type="button" class="btn btn-success">
+                                                <button type="submit" class="btn btn-success">
                                                     <span>
                                                         <i class="la la-check"></i>&nbsp;&nbsp;
                                                         <span>Phê Duyệt</span>

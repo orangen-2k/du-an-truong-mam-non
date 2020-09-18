@@ -60,6 +60,16 @@
     </div>
     <div class="m-portlet">
         <div class="m-portlet__body table-responsive">
+
+             @if (session('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Thành Công!</strong> {{ session('status') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+
             <table class="table m-table m-table--head-bg-success">
             <div class="col-12 form-group m-form__group d-flex justify-content-end">
                     <label class="col-lg-2 col-form-label">Kích thước:</label>
@@ -84,11 +94,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                <!-- @if (count($all_hs_dang_ki)>0)
+                    @php
+                    $i = !isset($_GET['page']) ? 1 : ($limit * ($_GET['page']-1) + 1);
+                    @endphp
+                @endif -->
+
                     @foreach($all_hs_dang_ki as $hs)
                     <tr>
                         <th scope="row">1</th>
                         <td>{{$hs->ten}}</td>
-                        <td><img width="100px"  src="{!! asset('storage/'.$hs->avatar) !!}"  alt=""></td>
+                        <td><img width="100px"  src="{!! asset('storage'.$hs->avatar) !!}"  alt=""></td>
                         <td>{{$hs->ngay_sinh}}</td>
                         <td>{{$hs->dien_thoai_dang_ki}}</td>
                         <td>{{$hs->ten_cha}}</td>
@@ -100,6 +116,10 @@
 
                 </tbody>
             </table>
+
+            <div class="m-portlet__foot d-flex justify-content-end">
+                {{ $all_hs_dang_ki->links() }}
+            </div>
         </div>
     </div>
 </div>
@@ -111,7 +131,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{!! asset('excel-js/js-form.js') !!}"></script>
-
+<script src="{!! asset('page_size/page_size.js') !!}"></script>
 
 <script>
     var routeImport = "{{route('import-bieu-mau-nhap-hoc-sinh')}}";

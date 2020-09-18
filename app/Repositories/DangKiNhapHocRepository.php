@@ -46,7 +46,11 @@ class DangKiNhapHocRepository extends BaseRepository
            $query->where('ten', 'LIKE', '%' . $params['ten_sreach']. '%');
          }
 
-         return $query->get();
+         return $query->paginate($params['limit']);
+    }
+
+    public function delete($id){
+        return $this->model->where('id',$id)->delete();
     }
 
     // public function sreachHocSinhDangKy($params){

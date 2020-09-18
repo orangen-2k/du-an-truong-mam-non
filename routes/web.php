@@ -51,7 +51,7 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
 Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
     Route::get('/','QuanLyDangKyNhapHocController@index')->name('quan-ly-dang-ky-nhap-hoc.index');
     Route::get('/edit/{id}','QuanLyDangKyNhapHocController@show')->name('edit-hs-dang-ky-nhap-hoc');
-    Route::post('/edit','QuanLyDangKyNhapHocController@edit')->name('submit-edit-hs-dang-ky-nhap-hoc');
+    Route::post('/edit','QuanLyDangKyNhapHocController@PheDuyet')->name('submit-edit-hs-dang-ky-nhap-hoc');
 });
 // thanhnv 9/16/2020
 
