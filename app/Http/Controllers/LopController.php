@@ -39,6 +39,7 @@ class LopController extends Controller
         $params =  request()->all();
         $queryData['keyword'] = isset($params['keyword']) ? $params['keyword'] : null;
         $queryData['limit'] = isset($params['page_size']) ? $params['page_size'] : 10;
+        $queryData['khoi'] = isset($params['khoi']) ? $params['khoi'] : null;
         $khoi = $this->KhoiRepository->getAll();
         $lop = $this->LopRepository->getAllPhanTrang($queryData);
         return view('quan-ly-lop.index', [
