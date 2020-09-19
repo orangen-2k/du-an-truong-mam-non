@@ -13,22 +13,30 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                Cập nhật mới lớp
+                                Cập nhật lớp
                             </h3>
                         </div>
                     </div>
                 </div>
-
                 <!--begin::Form-->
                 <form class="m-form m-form--fit m-form--label-align-right row" method="POST"
                     action="{{ route('quan-ly-lop-update',['id'=>$lop->id]) }}">
                     @csrf
+                    <input type="hidden" value="{{$lop->id}}" name="lop_id">
                     <div class="col-md-6">
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group">
                                 <label for="exampleInputEmail1">Tên lớp</label>
                                 <input type="text" name="ten_lop" class="form-control m-input m-input--square"
                                     value="{{$lop->ten_lop}}" id="exampleInputPassword1" placeholder="Nhập tên lớp">
+                                    @error('ten_lop')
+                                    <div class="alert alert-danger mt-2 alert-dismissible fade show" role="alert">
+                                        {{ $message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @enderror
                             </div>
                             <div class="form-group m-form__group">
                                 <label for="exampleInputPassword1">Khối</label>
@@ -51,12 +59,13 @@
                                     <option selected value="{{ 
                                     $lop->giao_vien_chu_nhiem !=null?$lop->giao_vien_chu_nhiem->id:''
                                     }}">
-                                        {{   $lop->giao_vien_chu_nhiem !=null? $lop->giao_vien_chu_nhiem->ten:'' }}</option>
+                                        {{   $lop->giao_vien_chu_nhiem !=null? $lop->giao_vien_chu_nhiem->ma_gv.'-'.$lop->giao_vien_chu_nhiem->ten:'' }}
+                                    </option>
                                     @foreach ($giao_vien as $item)
-                                    <option value={{ $item->id }}>{{ $item->ten }}</option>
+                                    <option value={{ $item->id }}>{{ $item->ma_gv}}-{{ $item->ten }}</option>
                                     @endforeach
                                     @foreach ($lop->giao_vien_phu as $item)
-                                    <option value={{ $item->id }}>{{ $item->ten }}</option>
+                                    <option value={{ $item->id }}>{{ $item->ma_gv}}-{{ $item->ten }}</option>
                                     @endforeach
                                 </select>
 
@@ -68,12 +77,13 @@
                                     <option disabled value="{{ 
                                         $lop->giao_vien_chu_nhiem !=null?$lop->giao_vien_chu_nhiem->id:''
                                         }}">
-                                            {{   $lop->giao_vien_chu_nhiem !=null? $lop->giao_vien_chu_nhiem->ten:'' }}</option>
+                                        {{   $lop->giao_vien_chu_nhiem !=null? $lop->giao_vien_chu_nhiem->ten:'' }}
+                                    </option>
                                     @foreach ($lop->giao_vien_phu as $item)
-                                    <option selected value={{ $item->id }}>{{ $item->ten }}</option>
+                                    <option selected value={{ $item->id }}>{{ $item->ma_gv}}-{{ $item->ten }}</option>
                                     @endforeach
                                     @foreach ($giao_vien as $item)
-                                    <option value={{ $item->id }}>{{ $item->ten }}</option>
+                                    <option value={{ $item->id }}>{{ $item->ma_gv}}-{{ $item->ten }}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -7,6 +7,8 @@ use App\Repositories\KhoiRepository;
 use App\Repositories\GiaoVienRepository;
 use App\Repositories\LopRepository;
 use App\Repositories\HocSinhRepository;
+use App\Http\Requests\Lop\Store;
+use App\Http\Requests\Lop\Update;
 
 class LopController extends Controller
 {
@@ -36,7 +38,7 @@ class LopController extends Controller
     {
         $params =  request()->all();
         $queryData['keyword'] = isset($params['keyword']) ? $params['keyword'] : null;
-        $queryData['limit'] = isset($params['limit']) ? $params['limit'] : 10;
+        $queryData['limit'] = isset($params['page_size']) ? $params['page_size'] : 10;
         $khoi = $this->KhoiRepository->getAll();
         $lop = $this->LopRepository->getAllPhanTrang($queryData);
         return view('quan-ly-lop.index', [
@@ -68,7 +70,7 @@ class LopController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Store $request)
     {
         $data = [
             "khoi_id" => $request->khoi,
@@ -86,7 +88,6 @@ class LopController extends Controller
         }
         return redirect()->route('quan-ly-lop-index')->with('status', 'Thêm mới dữ liệu thành công');
     }
-
     /**
      * Display the specified resource.
      *
@@ -136,7 +137,7 @@ class LopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Update $request, $id)
     {
         $lop = $this->LopRepository->find($id);
         $this->LopRepository->update($id, $request->all());
@@ -172,6 +173,10 @@ class LopController extends Controller
 
     public function phanLop()
     {
-        return view('quan-ly-lop.phan-lop');
+        $hoc_sinh = $this->HocSinhRepository->getHocSinh();
+        // dd($hoc_sinh);
+        return view('quan-ly-lop.phan-lop',
+        ['hoc_sinh' => $hoc_sinh]
+    );
     }
 }
