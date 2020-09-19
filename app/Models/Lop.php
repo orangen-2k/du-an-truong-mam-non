@@ -32,12 +32,12 @@ class Lop extends Model
 
     public function getGiaoVienPhuAttribute()
     {
-        return $this->hasMany(GiaoVien::class)->select('id','ten')->where('type',2)->get();    
+        return $this->hasMany(GiaoVien::class)->select('id','ten','ma_gv')->where('type',2)->get();    
     }
 
     public function getGiaoVienChuNhiemAttribute()
     {
-        return $this->hasMany(GiaoVien::class)->select('id','ten')->where('type',1)->first();    
+        return $this->hasMany(GiaoVien::class)->select('id','ten','ma_gv')->where('type',1)->first();    
     }
 
     public function getTongSoHocSinhAttribute()
