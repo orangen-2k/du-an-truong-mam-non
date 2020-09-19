@@ -16,7 +16,7 @@ abstract class BaseModelRepository
 
     //lấy model tương ứng
     abstract public function getModel();
-
+    
     /**
      * Set model
      */

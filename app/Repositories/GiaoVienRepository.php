@@ -26,6 +26,12 @@ class GiaoVienRepository extends BaseRepository
         ->get();
         return $data;
     }
+    public function getAllGV_limit($params, $limit)
+    {
+        $data = $this->table;
+    
+        return $data->paginate($limit);;
+    }
     public function getLopHoc($lop_id)
     {
         $data = DB::table('lop_hoc')
@@ -35,4 +41,32 @@ class GiaoVienRepository extends BaseRepository
         return $data;
     }
     
+    public function getModel()
+    {
+        return GiaoVien::class;
+    }
+
+
+    public function getGIaoVienChuaCoLop(){
+		return  $this->model->where('lop_id',0)->get();
+    }
+
+    public function phanLopGiaoVienCn($id_gv,$id_lop)
+    {
+       return $this->model
+       ->where('id', $id_gv)
+       ->update(['lop_id' => $id_lop,'type'=>1]);
+    }
+
+    public function phanLopGiaoVienPhu($id_gv,$id_lop)
+    {
+       return $this->model
+       ->where('id', $id_gv)
+       ->update(['lop_id' => $id_lop,'type'=>2]);
+    }
+
+    public function store_gv($dataRequest)
+    {
+        return $this->model::insert($dataRequest);
+    }
 }
