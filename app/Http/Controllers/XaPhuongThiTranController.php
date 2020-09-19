@@ -20,4 +20,6 @@ class XaPhuongThiTranController extends Controller
         $quan_huyen = $this->XaPhuongThiTran->getXaPhuongThiTranByMaPh($maqh);  
         return $quan_huyen;
     }
+
+    
 }

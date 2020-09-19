@@ -178,7 +178,12 @@ License: You must have a valid license purchased only from themeforest(the above
 												<label class="col-lg-3 col-form-label">Đối tượng chính sách:</label>
 												<div class="col-lg-3">
 													<div class="m-input-icon m-input-icon--right">
-														<input type="number" class="form-control m-input"  name="doi_tuong_chinh_sach_id"  placeholder="">
+														<select class="form-control" name="doi_tuong_chinh_sach_id" id="doi_tuong_chinh_sach_id">
+															<option value="" selected>Chọn</option>
+															@foreach ($doi_tuong_chinh_sach as $item)
+                                                            <option value="{{ $item->id }}">{{ $item->ten_chinh_sach }}</option>
+															@endforeach
+														</select>
 													</div>
 													<!-- <span class="m-form__help">Please enter your postcode</span> -->
                                                 </div>
@@ -232,8 +237,6 @@ License: You must have a valid license purchased only from themeforest(the above
 															@foreach ($thanh_pho as $item)
 																<option value="{{$item->matp}}" >{{$item->name}}</option>
 															@endforeach
-
-
 														</select>
 														<p class="text-danger text-small error" id="ho_khau_thuong_tru_matp_error"></p>
 

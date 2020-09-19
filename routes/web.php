@@ -22,7 +22,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/get_quan_huyen_theo_thanh_pho','QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
 Route::post('/get_xa_phuong_theo_thanh_pho','XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
-Route::get('/quang_sac_sua','DangKiNhapHocController@basic_email');
 
 Route::prefix('/dang-ki-nhap-hoc')->group(function () {
     Route::get('/', 'DangKiNhapHocController@index')->name('dangki-nhap-hoc');
@@ -33,6 +32,8 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
 Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::get('/','QuanlyGiaoVienController@index')->name('quan-ly-giao-vien-index');
     Route::get('/create', 'QuanlyGiaoVienController@create')->name('quan-ly-giao-vien-create');
+    Route::post('/store', 'QuanlyGiaoVienController@store')->name('quan-ly-giao-vien-store');
+    Route::post('/lop-theo-khoi', 'QuanlyGiaoVienController@getLopTheoKhoi')->name('quan-ly-giao-vien-get-lop-theo-khoi');
 });
 Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::get('/','QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
@@ -46,6 +47,15 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::post('import-bieu-mau-hoc-sinh','QuanlyHocSinhController@importFile')->name('import-bieu-mau-nhap-hoc-sinh');
     Route::post('error-import-bieu-mau-hoc-sinh','QuanlyHocSinhController@errorFileImport')->name('error-import-bieu-mau-nhap-hoc-sinh');
 });
+
+
+Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
+    Route::get('/','QuanLyDangKyNhapHocController@index')->name('quan-ly-dang-ky-nhap-hoc.index');
+    Route::get('/edit/{id}','QuanLyDangKyNhapHocController@show')->name('edit-hs-dang-ky-nhap-hoc');
+    Route::post('/edit','QuanLyDangKyNhapHocController@PheDuyet')->name('submit-edit-hs-dang-ky-nhap-hoc');
+});
+// thanhnv 9/16/2020
+
 
 Route::prefix('quan-ly-khoi')->group(function () {
     Route::get('/','KhoiController@index')->name('quan-ly-khoi-index');
@@ -65,3 +75,5 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::post('/destroy','LopController@destroy')->name('quan-ly-lop-destroy');
 
 });
+
+

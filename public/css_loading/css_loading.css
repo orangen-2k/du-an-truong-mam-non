@@ -16,6 +16,9 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+#preload{
+  background-color: rgba(0, 0, 0, 0.1);
+}
 .preload-icon {
     font-size: 66px;
     color: #fff;
@@ -25,8 +28,9 @@
 }
 #gif-load{
     position: absolute;
-    top: 42%;
-    width: 100px;
+    top: 33%;
+    width: 210px;
+    left:42%;
 }
 /* @-webkit-keyframes {
   from {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Repositories\TinhThanhPhoRepository;
+use \App\Repositories\DoiTuongChinhSachRepository;
 use \App\Repositories\QuanHuyenRepository;
 use \App\Repositories\XaPhuongThiTranRepository;
 use \App\Repositories\DangKiNhapHocRepository;
@@ -20,24 +21,31 @@ class DangKiNhapHocController extends Controller
     protected $XaPhuongThiTran;
     protected $DangKiNhapHoc;
     protected $HocSinh;
+    protected $DoiTuongChinhSach;
+
     public function __construct(
         TinhThanhPhoRepository $TinhThanhPho,
         DangKiNhapHocRepository $DangKiNhapHoc,
         QuanHuyenRepository $QuanHuyen,
         XaPhuongThiTranRepository $XaPhuongThiTran,
-        HocSinhRepository $HocSinh
+        HocSinhRepository $HocSinh,
+        DoiTuongChinhSachRepository $DoiTuongChinhSach
+
     ){
         $this->TinhThanhPho = $TinhThanhPho;
         $this->QuanHuyen = $QuanHuyen;
         $this->XaPhuongThiTran = $XaPhuongThiTran;
         $this->DangKiNhapHoc = $DangKiNhapHoc;
         $this->HocSinh = $HocSinh;
+        $this->DoiTuongChinhSach = $DoiTuongChinhSach;
+
     }
 
 
     public function index(){
+        $doi_tuong_chinh_sach = $this->DoiTuongChinhSach->getAllDoiTuongChinhSach();  
         $thanh_pho = $this->TinhThanhPho->getAllThanhPho();  
-        return view('dangki_nhaphoc.index',compact('thanh_pho'));
+        return view('dangki_nhaphoc.index',compact('thanh_pho','doi_tuong_chinh_sach'));
     }
 
     public function getQuanHuyenByMaTp(Request $request)
@@ -62,13 +70,13 @@ class DangKiNhapHocController extends Controller
 
         if($avatar){
             $pathLoad = Storage::putFile(
-                'uploads/avatar',
+                'public/uploads/avatar',
                 $avatar
             );
         $path = str_replace("/","\\",$pathLoad);
+        $path = trim($path, 'public/');
         $data['avatar']=$path;
         unset($data['_token']);
-        
         $data['ma_xac_nhan'] = rand(10000, 90000);
         
         $emailNguoiGui = $data['email_dang_ky'];
@@ -90,6 +98,7 @@ class DangKiNhapHocController extends Controller
             return 'no';
         }
     }
+
 
 
 }

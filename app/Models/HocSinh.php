@@ -16,6 +16,7 @@ class HocSinh extends Model
         'ngay_sinh',
         'noi_sinh',
         'dan_toc',
+        'tuoi',
         'ngay_vao_truong',
         'doi_tuong_chinh_sach',
         'hoc_sinh_khuyet_tat',

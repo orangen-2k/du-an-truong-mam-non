@@ -86,7 +86,7 @@
 		  {{--  script  --}}
 		  @include('layouts._share.script')
 		  {{--  endscript  --}}
-		  
+		  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		  @yield('script')
 		<!--end::Page Scripts -->
 	</body>
