@@ -35,4 +35,5 @@ class HocSinhDangKyNhapHoc extends Model
         'noi_o_hien_tai_so_nha',
         'ma_xac_nhan'
     ];
+
 }

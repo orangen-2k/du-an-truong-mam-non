@@ -21,9 +21,8 @@ class HocSinhRepository extends BaseRepository
         return 'hoc_sinh';
     }
 
-    public function getAllHocSinh()
-    {
-        return  $this->model->getall();
+    public function getAllHocSinh(){
+  		return  $this->model->all();
     }
 
     public function createHocSinh($arrayData)
@@ -54,5 +53,10 @@ class HocSinhRepository extends BaseRepository
             $queryBulder->where('gioi_tinh', '=', $params['gioi_tinh']);
         }
         return $queryBulder->OrderBy('created_at','desc')->get();
+    }
+
+    public function getHocSinh()
+    {
+        return  $this->model->select('ten','ma_hoc_sinh','gioi_tinh','avatar','tuoi','lop_id')->paginate(10);
     }
 }

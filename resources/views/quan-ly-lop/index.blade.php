@@ -24,7 +24,7 @@
 @section('content')
 <div class="m-content">
     <div id="preload" class="preload-container text-center" style="display: none">
-        <img id="gif-load" src="{!! asset('images/loading1.gif') !!}" alt="">
+        <img id="gif-load" src="https://cdn.bihama.vn/static/core/images/test.gif" alt="">
     </div>
     <div class="row">
         <div class="col-xl-12">
@@ -101,7 +101,6 @@
     </section>
     <div class="m-portlet">
         <div class="m-portlet__body table-responsive">
-
             @if (session('status'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Thành Công!</strong> {{ session('status') }}
@@ -129,7 +128,6 @@
                         <th> Tên lớp</th>
                         <th> Sĩ số</th>
                         <th> Giáo viên chủ nhiệm</th>
-                        <th> Giáo viên phụ</th>
                         <th> Khối</th>
                         <th>Thông tin</th>
                         <th colspan="2">Chức năng</th>
@@ -154,11 +152,7 @@
                             @endif
 
                         </td>
-                        <td>
-                            @foreach ($item->giao_vien_phu as $giao_vien_phu)
-                            <p>{{ $giao_vien_phu->ten }}</p>
-                            @endforeach
-                        </td>
+                        
                         <td>
                             @if ($item->Khoi != null)
                             {{ $item->Khoi['ten_khoi'] }}

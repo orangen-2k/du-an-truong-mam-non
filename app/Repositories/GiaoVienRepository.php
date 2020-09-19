@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Repositories\BaseModelRepository;
+use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 use App\Models\GiaoVien;
-class GiaoVienRepository extends BaseModelRepository
+
+class GiaoVienRepository extends BaseRepository
 {
     protected $model;
     public function __construct(
@@ -14,14 +16,36 @@ class GiaoVienRepository extends BaseModelRepository
         $this->model = $model;
     }
 
+    public function getTable()
+    {
+        return 'giao_vien';
+    }
+    public function getAll()
+    {
+        $data = $this->table
+        ->get();
+        return $data;
+    }
+    public function getAllGV_limit($params, $limit)
+    {
+        $data = $this->table;
+    
+        return $data->paginate($limit);;
+    }
+    public function getLopHoc($lop_id)
+    {
+        $data = DB::table('lop_hoc')
+        ->join('khoi', 'khoi.id', '=', 'lop_hoc.khoi_id')
+        ->select('lop_hoc.ten_lop','khoi.ten_khoi')
+        ->where('lop_hoc.id', $lop_id)->first();
+        return $data;
+    }
+    
     public function getModel()
     {
         return GiaoVien::class;
     }
 
-    public function getAll(){
-		return  $this->model->get();
-    }
 
     public function getGIaoVienChuaCoLop(){
 		return  $this->model->where('lop_id',0)->get();
@@ -41,6 +65,10 @@ class GiaoVienRepository extends BaseModelRepository
        ->update(['lop_id' => $id_lop,'type'=>2]);
     }
 
+    public function store_gv($dataRequest)
+    {
+        return $this->model::insert($dataRequest);
+    }
     public function removeLopGiaoVien($id_gv)
     {
        return $this->model
