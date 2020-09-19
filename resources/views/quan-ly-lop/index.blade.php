@@ -128,7 +128,6 @@
                         <th> Tên lớp</th>
                         <th> Sĩ số</th>
                         <th> Giáo viên chủ nhiệm</th>
-                        <th> Giáo viên phụ</th>
                         <th> Khối</th>
                         <th>Thông tin</th>
                         <th colspan="2">Chức năng</th>
@@ -153,11 +152,7 @@
                             @endif
 
                         </td>
-                        <td>
-                            @foreach ($item->giao_vien_phu as $giao_vien_phu)
-                            <p>{{ $giao_vien_phu->ten }}</p>
-                            @endforeach
-                        </td>
+                        
                         <td>
                             @if ($item->Khoi != null)
                             {{ $item->Khoi['ten_khoi'] }}
