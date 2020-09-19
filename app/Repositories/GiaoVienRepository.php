@@ -69,4 +69,24 @@ class GiaoVienRepository extends BaseRepository
     {
         return $this->model::insert($dataRequest);
     }
+    public function removeLopGiaoVien($id_gv)
+    {
+       return $this->model
+       ->where('id', $id_gv)
+       ->update(['lop_id' => 0,'type'=>0]);
+    }
+
+    public function xoaLopGiaoVien($id_lop)
+    {
+       return $this->model
+       ->where('lop_id', $id_lop)
+       ->update(['lop_id' => 0,'type'=>0]);
+    }
+
+    public function getGiaoVienCuaLop($id_lop)
+    {
+       return $this->model
+       ->where('lop_id', $id_lop)->OrderBy('type','asc')
+       ->get();
+    }
 }
