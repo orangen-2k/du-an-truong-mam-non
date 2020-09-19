@@ -69,8 +69,17 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger">*</span>Ngày sinh:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" value="{{$hs_dk->ngay_sinh}}" name="ngay_sinh" class="form-control m-input"
-                                                                placeholder="" value="">
+                                                            <div class="input-group date">
+                                                                <input type="text" value="{{$hs_dk->ngay_sinh}}" readonly name="ngay_sinh"   id="m_datepicker_2" class="form-control m-input"
+                                                                placeholder="" >
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">
+                                                                        <i class="la la-calendar-check-o"></i>
+                                                                    </span>
+                                                                </div>
+															</div>
+                                               
+                                                          
                                                         </div>
                                                         @error('ngay_sinh')
                                                                   {{ $message }}
@@ -626,11 +635,13 @@
             </div>
         </div>
     </div>
+  
+
 @endsection
 @section('script')
-    <script src="{!!  asset('assets/demo/custom/crud/forms/widgets/bootstrap-datepicker.js') !!}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    <script src="{!!  asset('assets/demo/custom/crud/forms/widgets/bootstrap-datepicker.js') !!}"></script>
     <script>
      var url_quan_huyen_theo_thanh_pho= "{{route('get_quan_huyen_theo_thanh_pho')}}";
 	 var url_phuong_xa_theo_quan_huyen= "{{route('get_xa_phuong_theo_thi_tran')}}";

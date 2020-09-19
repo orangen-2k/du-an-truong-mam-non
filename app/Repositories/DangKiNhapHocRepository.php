@@ -46,6 +46,10 @@ class DangKiNhapHocRepository extends BaseRepository
            $query->where('ten', 'LIKE', '%' . $params['ten_sreach']. '%');
          }
 
+         if (isset($params['status_view']) && !empty($params['status_view'])) {
+            $query->where('status', '=',$params['status_view']);
+          }
+
          return $query->paginate($params['limit']);
     }
 

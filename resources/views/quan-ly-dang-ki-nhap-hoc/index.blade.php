@@ -71,16 +71,31 @@
             @endif
 
             <table class="table m-table m-table--head-bg-success">
-            <div class="col-12 form-group m-form__group d-flex justify-content-end">
-                    <label class="col-lg-2 col-form-label">Kích thước:</label>
-                    <div class="col-lg-2">
-                        <select class="form-control" id="page-size">          
-                            <option  value="10"> 10</option>
-                            <option  value="20"> 20</option>
-                            <option  value="50"> 50</option>
-                        </select>
+            <div class="row mb-1">
+                   <div class="col-md-5 d-flex ">
+                    </div>
+                  <div class="col-md-6 d-flex  ">
+                        <label class="col-lg-3 col-form-label">Trạng thái:</label>
+                        <div class="col-lg-4">
+                            <select class="form-control" id="status-view">
+                                <option value="2"  @if(isset($params['status_view']) && $params['status_view']==2) selected @endif >Chưa xem</option>
+                                <option value="3" @if(isset($params['status_view']) && $params['status_view']==3) selected @endif>Đang xem</option>
+                            </select>
+                        </div>
+
+                        <label class="col-lg-3 col-form-label">Kích thước:</label>
+                        <div class="col-lg-3">
+                            <select class="form-control" id="page-size">
+                                @foreach(config('common.paginate_size.list') as $size)
+                                <option @if(isset($params['page_size']) && $params['page_size']==$size) selected @endif
+                                    value="{{$size}}">
+                                    {{$size}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
+
                 <thead>
                     <tr>
                         <th>Stt</th>
@@ -135,6 +150,18 @@
 
 <script>
     var routeImport = "{{route('import-bieu-mau-nhap-hoc-sinh')}}";
+
+
+    $("#status-view").change(function(){  
+    var url = new URL(window.location.href);
+    var search_params = url.searchParams;
+    search_params.set('status_view', $('#status-view').val());
+    url.search = search_params.toString();
+    var new_url = url.toString();
+    window.location.href = new_url
+  });
+
+
 </script>
 
 @endsection
