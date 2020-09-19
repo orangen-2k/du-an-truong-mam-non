@@ -65,7 +65,7 @@
         <div class="m-portlet__body">
             <ul class="nav nav-pills" role="tablist">
                 <li class="nav-item ">
-                    <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-gear"></i>Quản
+                    <a class="nav-link"  href="{{ route('account.index') }}"><i class="la la-gear"></i>Quản
                         trị</a>
                 </li>
                 <li class="nav-item">
@@ -73,7 +73,7 @@
                         viên</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"  href="{{ route('account.ds-hs') }}"><i class="la la-question-circle"></i>Học
+                    <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-question-circle"></i>Học
                         sinh</a>
                 </li>
             </ul>

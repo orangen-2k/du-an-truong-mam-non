@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\AccountRepository;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Route;
 
 class AccountController extends Controller
 {
@@ -11,10 +15,44 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('quan-ly-tai-khoan/index');
+    protected $AccountRepository;
+    public function __construct(
+        AccountRepository $AccountRepository
+    ) {
+        $this->AccountRepository = $AccountRepository;
+    }
 
+    public function index(Request $request)
+    {
+        $params = $request->all();
+        $params['keyword'] = trim($request->has('keyword') ? $request->keyword : null);
+        $params['active'] = $request->has('active') ? $request->active : null;
+        if (!isset($params['page_size'])) {
+            $params['page_size'] = config('common.paginate_size.default');
+        }
+        $route_name = Route::current()->action['as'];
+        if ($route_name == "account.ds-hs") {
+            $params['role'] = 3;
+            $rederView = 'quan-ly-tai-khoan.ds-hoc-sinh';
+        } elseif ($route_name == "account.ds-gv") {
+            $params['role'] = 2;
+            $rederView = 'quan-ly-tai-khoan.ds-giao-vien';
+        } else {
+            $params['role'] = 1;
+            $rederView = 'quan-ly-tai-khoan.index';
+        }
+
+        $data = $this->AccountRepository->getAllSchool($params);
+        $data->appends($request->all())->links();
+        return view($rederView, compact('data', 'params', 'route_name'));
+    }
+
+    public function editStatus(Request $request)
+    {
+        $user = User::find($request->id);
+        $user->active = $user->active == 1 ? 2 : 1;
+        $user->save();
+        return response()->json($user, Response::HTTP_OK);
     }
 
     /**
