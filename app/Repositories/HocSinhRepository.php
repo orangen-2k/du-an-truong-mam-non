@@ -54,4 +54,9 @@ class HocSinhRepository extends BaseRepository
         }
         return $queryBulder->OrderBy('created_at','desc')->get();
     }
+
+    public function getHocSinh()
+    {
+        return  $this->model->select('ten','ma_hoc_sinh','gioi_tinh','avatar','tuoi','lop_id')->paginate(10);
+    }
 }
