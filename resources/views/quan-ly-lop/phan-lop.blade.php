@@ -265,63 +265,24 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($hoc_sinh as $item)
                         <tr>
                             <td><input type="checkbox" id=""></td>
                             <th scope="row">1</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
+                        <td>{{$item->ma_hoc_sinh}}</td>
+                            <td>{{$item->ten}}</td>
                             <td>Trần Thu Trang</td>
                             <td>
-                                2
+                                {{$item->tuoi}}
                             </td>
-                            <td>3</td>
+                            <td>{{ config('common.gioi_tinh')[$item->gioi_tinh] }}</td>
                              <td>Đã có lớp</td>
                             <td><button data-toggle="modal" data-target="#phan-lop-tung-hs" class="btn btn-primary mr-3">Phân lớp</button><a class="btn btn-success"
                                     href="{{ route('quan-ly-lop-show', ['id' => 1]) }}">Chi tiết</a></td>
                         </tr>
-                        <tr>
-                            <td><input type="checkbox" id=""></td>
-                            <th scope="row">2</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td>Trần Thu Trang</td>
-                            <td>
-                                3
-                            </td>
-                            <td>3</td>
-                             <td>Đã có lớp</td>
-                            <td><a href="" class="btn btn-primary mr-3">Phân lớp</a><a class="btn btn-success"
-                                    href="{{ route('quan-ly-lop-show', ['id' => 1]) }}">Chi tiết</a></td>
-
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" id=""></td>
-                            <th scope="row">3</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td>Trần Thu Trang</td>
-                            <td>
-                                4
-                            </td>
-                            <td>3</td>
-                             <td>Đã có lớp</td>
-                            <td><a href="" class="btn btn-primary mr-3">Phân lớp</a><a class="btn btn-success"
-                                    href="{{ route('quan-ly-lop-show', ['id' => 1]) }}">Chi tiết</a></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" id=""></td>
-                            <th scope="row">4</th>
-                            <td>Hoa Hướng Dương</td>
-                            <td>40</td>
-                            <td>Trần Thu Trang</td>
-                            <td>
-                                5
-                            </td>
-                            <td>3</td>
-                             <td>Đã có lớp</td>
-                            <td><a href="" class="btn btn-primary mr-3">Phân lớp</a><a class="btn btn-success"
-                                    href="{{ route('quan-ly-lop-show', ['id' => 1]) }}">Chi tiết</a></td>
-                        </tr>
+                        @endforeach
+                       
+                   
 
                     </tbody>
                 </table>
