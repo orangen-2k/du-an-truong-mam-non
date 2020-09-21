@@ -90,6 +90,7 @@
 									<ul class="m-menu__subnav">
 									<li class="m-menu__item " aria-haspopup="true"><a href="{{route('quan-ly-lop-index')}}" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Danh sách lớp</span></a></li>						
 									<li class="m-menu__item " aria-haspopup="true"><a href="{{route('quan-ly-lop-phan-lop')}}" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Phân lớp cho học sinh</span></a></li>
+									<li class="m-menu__item " aria-haspopup="true"><a href="{{route('quan-ly-lop-xep-lop')}}" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Xếp lớp cho học sinh</span></a></li>
 								</ul>
 								</div>
 							</li>
