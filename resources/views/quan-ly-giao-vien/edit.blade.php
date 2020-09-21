@@ -1,11 +1,11 @@
 @extends('layouts.main')
-@section('title', "Thêm mới giáo viên")
+@section('title', "Chi tiết giáo viên")
 @section('style')
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="m-content">
-    <form method="post" action="{{route('quan-ly-giao-vien-store')}}" enctype="multipart/form-data">
+    <form method="post" action="{{route('quan-ly-giao-vien-update', ['id' => $data->id])}}" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-xl-12">
@@ -17,7 +17,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                Thêm mới giáo viên
+                                Chi tiết giáo viên: {{$data->ten}}
                             </h3>
                         </div>
                     </div>
@@ -38,7 +38,10 @@
                                             <select class="form-control select2" name="khoi" id="khoi">
                                                 <option value="" selected>Chọn</option>
                                                 @foreach ($khoi as $item)
-                                                <option value={{$item->id}}>{{$item->ten_khoi}}</option>
+                                                <option @if (isset($data->khoi_id))
+                                                    {{($item->id == $data->khoi_id  ) ? 'selected' : ''}}
+                                                @endif 
+                                                 value={{$item->id}}>{{$item->ten_khoi}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -52,7 +55,9 @@
                                             <select class="form-control select2" name="lop_id" id="lop">
                                                 <option value="" selected>Chọn</option>
                                                 @foreach ($lop as $item)
-                                                <option value="{{$item->id}}">{{$item->ten_lop}}</option>
+                                               
+                                                <option {{($item->id == $data->lop_id  ) ? 'selected' : ''}}
+                                                value="{{$item->id}}">{{$item->ten_lop}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -101,7 +106,7 @@
                                                             class="text-danger">*</span> Họ và tên: </label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="ten" class="form-control m-input"
-                                                            placeholder="Điền họ và tên">
+                                                        placeholder="Điền họ và tên" value="{{$data->ten}}">
 
                                                     </div>
                                                 </div>
@@ -110,7 +115,7 @@
                                                             class="text-danger">*</span>Ngày sinh:</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="date" name="ngay_sinh" class="form-control m-input"
-                                                            placeholder="Điền ngày sinh">
+                                                        placeholder="Điền ngày sinh" value="{{$data->ngay_sinh}}">
 
                                                     </div>
                                                 </div>
@@ -120,11 +125,11 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <div class="m-radio-inline">
                                                             <label class="m-radio">
-                                                                <input type="radio" name="gioi_tinh" value="1"> Nam
+                                                                <input type="radio" {{($data->gioi_tinh == 1  ) ? 'checked' : ''}} name="gioi_tinh" value="1"> Nam
                                                                 <span></span>
                                                             </label>
                                                             <label class="m-radio">
-                                                                <input type="radio" name="gioi_tinh" value="2"> Nữ
+                                                                <input type="radio" {{($data->gioi_tinh == 2  ) ? 'checked' : ''}} name="gioi_tinh" value="2"> Nữ
                                                                 <span></span>
                                                             </label>
                                                         </div>
@@ -136,7 +141,7 @@
                                                             class="text-danger">*</span>Dân tộc</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="dan_toc" class="form-control m-input"
-                                                            placeholder="Điền dân tộc">
+                                                        placeholder="Điền dân tộc" value="{{$data->dan_toc}}">
 
                                                     </div>
                                                 </div>
@@ -150,7 +155,7 @@
                                                                         class="la la-phone"></i></span></div>
                                                             <input type="text" name="dien_thoai"
                                                                 class="form-control m-input"
-                                                                placeholder="Điền số điện thoại">
+                                                                placeholder="Điền số điện thoại" value="{{$data->dien_thoai}}">
                                                         </div>
 
                                                     </div>
@@ -165,7 +170,7 @@
 
                                                 <div class="form-group m-form__group row">
                                                     <img onClick="showModal()"
-                                                        src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                                                        src= {{($data->anh == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' : $data->anh }}
                                                         class="rounded mx-auto d-block mb-2" width="250px"
                                                         height="255px" id="show_img">
                                                     <div class="col-xl-9 col-lg-9 mt-4">
@@ -173,7 +178,7 @@
 
                                                             <div class="custom-file ml-5 col-12">
                                                                 <input type="file" accept="images/*" name="anh"
-                                                                    id="anh_gv" onClick="showModal()" onchange="showimages(this)"
+                                                                id="anh_gv" onClick="showModal()"onchange="showimages(this)"
                                                                     style="display:none" />
                                                                 {{-- <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"> --}}
 
@@ -208,9 +213,10 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_matp" id="ho_khau_thuong_tru_matp">
-                                                            <option value="" selected>Chọn</option>
+                                                            <option value="">Chọn</option>
                                                             @foreach ($thanhpho as $item)
-                                                            <option value="{{$item->matp}}">{{$item->name}}</option>
+                                                            <option {{($data->ho_khau_thuong_tru_matp == $item->matp) ? "selected" : ""}}
+                                                             value="{{$item->matp}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
 
@@ -222,7 +228,11 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_maqh" id="ho_khau_thuong_tru_maqh">
-                                                            <option value="" selected>Chọn</option>
+                                                            <option value="">Chọn</option>
+                                                            @foreach ($maqh_gv_hktt as $item)
+                                                            <option {{($data->ho_khau_thuong_tru_maqh == $item->maqh) ? "selected" : ""}}
+                                                            value="{{$item->maqh}}">{{$item->name}}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
@@ -238,6 +248,10 @@
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_xaid" id="ho_khau_thuong_tru_xaid">
                                                             <option value="" selected>Chọn</option>
+                                                            @foreach ($xaid_gv_hktt as $item)
+                                                            <option {{($data->ho_khau_thuong_tru_xaid == $item->xaid) ? "selected" : ""}}
+                                                            value="{{$item->xaid}}">{{$item->name}}</option>
+                                                            @endforeach
                                                         </select>
 
                                                     </div>
@@ -247,7 +261,7 @@
                                                             class="text-danger">*</span>Số nhà, đường </label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="ho_khau_thuong_tru_so_nha" class="form-control m-input"
-                                                            placeholder="Điền số nhà, đường">
+                                                        placeholder="Điền số nhà, đường" value="{{$data->ho_khau_thuong_tru_so_nha}}">
 
                                                     </div>
                                                 </div>
@@ -278,7 +292,8 @@
                                                             id="noi_o_hien_tai_matp">
                                                             <option value="" selected>Chọn</option>
                                                             @foreach ($thanhpho as $item)
-                                                            <option value="{{$item->matp}}">{{$item->name}}</option>
+                                                            <option {{($data->noi_o_hien_tai_matp == $item->matp) ? "selected" : ""}}
+                                                                value="{{$item->matp}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
 
@@ -291,6 +306,10 @@
                                                         <select class="form-control select2"
                                                             name="noi_o_hien_tai_maqh" id="noi_o_hien_tai_maqh">
                                                             <option value="" selected>Chọn</option>
+                                                            @foreach ($maqh_gv_noht as $item)
+                                                            <option {{($data->noi_o_hien_tai_maqh == $item->maqh) ? "selected" : ""}}
+                                                            value="{{$item->maqh}}">{{$item->name}}</option>
+                                                            @endforeach
                                                         </select>
 
                                                     </div>
@@ -307,6 +326,10 @@
                                                         <select class="form-control select2"
                                                             name="noi_o_hien_tai_xaid" id="noi_o_hien_tai_xaid">
                                                             <option value="" selected>Chọn</option>
+                                                            @foreach ($xaid_gv_noht as $item)
+                                                            <option {{($data->noi_o_hien_tai_xaid == $item->xaid) ? "selected" : ""}}
+                                                            value="{{$item->xaid}}">{{$item->name}}</option>
+                                                            @endforeach
                                                         </select>
 
                                                     </div>
@@ -316,7 +339,7 @@
                                                             class="text-danger">*</span>Số nhà, đường </label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="noi_o_hien_tai_so_nha" class="form-control m-input"
-                                                            placeholder="Điền số nhà, đường">
+                                                            placeholder="Điền số nhà, đường" value="{{$data->noi_o_hien_tai_so_nha}}">
 
                                                     </div>
                                                 </div>
@@ -344,7 +367,7 @@
                                                             class="text-danger">*</span>Trình độ</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="trinh_do" class="form-control m-input"
-                                                            placeholder="Điền trình độ">
+                                                        placeholder="Điền trình độ" value="{{$data->trinh_do}}">
 
                                                     </div>
                                                 </div>
@@ -353,7 +376,7 @@
                                                             class="text-danger">*</span>Chuyên môn</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="chuyen_mon" class="form-control m-input"
-                                                            placeholder="Điền chuyên môn">
+                                                        placeholder="Điền chuyên môn" value="{{$data->chuyen_mon}}">
 
                                                     </div>
                                                 </div>
@@ -366,7 +389,7 @@
                                                             class="text-danger">*</span>Nơi đào tạo</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="noi_dao_tao" class="form-control m-input"
-                                                            placeholder="Điền nơi đào tạo">
+                                                        placeholder="Điền nơi đào tạo" value="{{$data->noi_dao_tao}}">
 
                                                     </div>
                                                 </div>
@@ -375,7 +398,7 @@
                                                             class="text-danger">*</span>Năm tốt nghiệp </label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="number" name="nam_tot_nghiep" class="form-control m-input"
-                                                            placeholder="Điền năm tốt nghiệp">
+                                                        placeholder="Điền năm tốt nghiệp" value="{{$data->nam_tot_nghiep}}">
 
                                                     </div>
                                                 </div>
@@ -389,8 +412,8 @@
 
                                 <div class="col-md-12 d-flex justify-content-end">
                                     <div class="m-form__actions">
-                                        <a href="{{route('quan-ly-giao-vien-index')}}"><button type="button" class="btn btn-info">Hủy</button></a>
-                                        <button type="submit" class="btn btn-success">Thêm mới</button>
+                                    <a href="{{route('quan-ly-giao-vien-index')}}"><button type="button" class="btn btn-info">Hủy</button></a>
+                                        <button type="submit" class="btn btn-success">Cập nhật</button>
                                     </div>
                                 </div>
 

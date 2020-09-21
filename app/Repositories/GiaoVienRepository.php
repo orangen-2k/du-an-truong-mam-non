@@ -89,4 +89,26 @@ class GiaoVienRepository extends BaseRepository
        ->where('lop_id', $id_lop)->OrderBy('type','asc')
        ->get();
     }
+
+    public function getGV($id, $lop_id)
+    {
+        $data =  $this->table;
+        if($lop_id > 0){
+           $data = $data 
+           ->join('lop_hoc', 'lop_hoc.id', '=', 'giao_vien.lop_id')
+           ->select('lop_hoc.khoi_id', 'giao_vien.*');
+        }
+         $data = $data->where('giao_vien.id', $id)->first();
+        return $data;
+    }
+
+    public function update_gv($id, $data)
+    {
+        return $this->table->where('id', $id)->update($data);
+    }
+
+    public function destroy_gv($id)
+    {
+        return $this->table->where('id', $id)->delete();
+    }
 }
