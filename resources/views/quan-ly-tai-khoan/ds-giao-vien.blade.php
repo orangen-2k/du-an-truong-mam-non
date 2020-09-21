@@ -65,11 +65,11 @@
         <div class="m-portlet__body">
             <ul class="nav nav-pills" role="tablist">
                 <li class="nav-item ">
-                    <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-gear"></i>Quản
+                    <a class="nav-link"  href="{{ route('account.index') }}"><i class="la la-gear"></i>Quản
                         trị</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"  href="{{ route('account.ds-gv') }}"><i class="la la-map-marker"></i>Giáo
+                    <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-map-marker"></i>Giáo
                         viên</a>
                 </li>
                 <li class="nav-item">

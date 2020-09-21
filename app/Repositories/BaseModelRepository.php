@@ -2,13 +2,12 @@
 
 namespace App\Repositories;
 
-
-abstract class BaseModelRepository 
+abstract class BaseModelRepository
 {
     //model muốn tương tác
     protected $model;
 
-   //khởi tạo
+    //khởi tạo
     public function __construct()
     {
         $this->setModel();
@@ -16,7 +15,7 @@ abstract class BaseModelRepository
 
     //lấy model tương ứng
     abstract public function getModel();
-    
+
     /**
      * Set model
      */
@@ -26,24 +25,24 @@ abstract class BaseModelRepository
             $this->getModel()
         );
     }
-    
+
     public function getAll()
     {
         return $this->model->all();
     }
-    
+
     public function find($id)
     {
         $result = $this->model->findOrFail($id);
 
         return $result;
     }
-    
+
     public function create($attributes = [])
     {
         return $this->model->create($attributes);
     }
-    
+
     public function update($id, $attributes = [])
     {
         $result = $this->find($id);
@@ -54,7 +53,7 @@ abstract class BaseModelRepository
 
         return false;
     }
-    
+
     public function delete($id)
     {
         $result = $this->find($id);
@@ -67,8 +66,8 @@ abstract class BaseModelRepository
         return false;
     }
 
-    public function  deleteTemporary($id)
+    public function deleteTemporary($id)
     {
-        
+
     }
 }

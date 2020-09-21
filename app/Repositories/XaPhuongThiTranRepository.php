@@ -24,6 +24,10 @@ class XaPhuongThiTranRepository extends BaseRepository
         return  $this->model->where('maqh','=',$maqh)->get();
     }
 
+    public function getOneXaPhuong($xaid){
+        return  $this->model->where('xaid','=',$xaid)->first();
+    }
+
 
 
 }
