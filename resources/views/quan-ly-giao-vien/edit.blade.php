@@ -107,7 +107,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="ten" class="form-control m-input"
                                                         placeholder="Điền họ và tên" value="{{$data->ten}}">
-
+                                                        @error('ten')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -116,7 +118,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="date" name="ngay_sinh" class="form-control m-input"
                                                         placeholder="Điền ngày sinh" value="{{$data->ngay_sinh}}">
-
+                                                        @error('ngay_sinh')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -142,7 +146,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="dan_toc" class="form-control m-input"
                                                         placeholder="Điền dân tộc" value="{{$data->dan_toc}}">
-
+                                                        @error('dan_toc')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -157,7 +163,9 @@
                                                                 class="form-control m-input"
                                                                 placeholder="Điền số điện thoại" value="{{$data->dien_thoai}}">
                                                         </div>
-
+                                                        @error('dien_thoai')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class=""></div>
@@ -170,7 +178,7 @@
 
                                                 <div class="form-group m-form__group row">
                                                     <img onClick="showModal()"
-                                                        src= {{($data->anh == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' : $data->anh }}
+                                                        src= {{($data->anh == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' :  Storage::url($data->anh) }}
                                                         class="rounded mx-auto d-block mb-2" width="250px"
                                                         height="255px" id="show_img">
                                                     <div class="col-xl-9 col-lg-9 mt-4">
@@ -219,7 +227,9 @@
                                                              value="{{$item->matp}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
-
+                                                        @error('ho_khau_thuong_tru_matp')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -234,6 +244,9 @@
                                                             value="{{$item->maqh}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
+                                                        @error('ho_khau_thuong_tru_maqh')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -253,7 +266,9 @@
                                                             value="{{$item->xaid}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
-
+                                                        @error('ho_khau_thuong_tru_xaid')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -262,7 +277,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="ho_khau_thuong_tru_so_nha" class="form-control m-input"
                                                         placeholder="Điền số nhà, đường" value="{{$data->ho_khau_thuong_tru_so_nha}}">
-
+                                                        @error('ho_khau_thuong_tru_so_nha')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
 
@@ -296,7 +313,9 @@
                                                                 value="{{$item->matp}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
-
+                                                        @error('noi_o_hien_tai_matp')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -311,7 +330,9 @@
                                                             value="{{$item->maqh}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
-
+                                                        @error('noi_o_hien_tai_maqh')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -331,7 +352,9 @@
                                                             value="{{$item->xaid}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
-
+                                                        @error('noi_o_hien_tai_xaid')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -340,7 +363,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="noi_o_hien_tai_so_nha" class="form-control m-input"
                                                             placeholder="Điền số nhà, đường" value="{{$data->noi_o_hien_tai_so_nha}}">
-
+                                                        @error('noi_o_hien_tai_so_nha')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
 
@@ -368,7 +393,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="trinh_do" class="form-control m-input"
                                                         placeholder="Điền trình độ" value="{{$data->trinh_do}}">
-
+                                                        @error('trinh_do')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -377,7 +404,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="chuyen_mon" class="form-control m-input"
                                                         placeholder="Điền chuyên môn" value="{{$data->chuyen_mon}}">
-
+                                                        @error('chuyen_mon')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -390,7 +419,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="noi_dao_tao" class="form-control m-input"
                                                         placeholder="Điền nơi đào tạo" value="{{$data->noi_dao_tao}}">
-
+                                                        @error('noi_dao_tao')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -399,7 +430,9 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="number" name="nam_tot_nghiep" class="form-control m-input"
                                                         placeholder="Điền năm tốt nghiệp" value="{{$data->nam_tot_nghiep}}">
-
+                                                        @error('nam_tot_nghiep')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
 

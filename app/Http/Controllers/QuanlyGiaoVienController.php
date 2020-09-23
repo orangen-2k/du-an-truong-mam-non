@@ -10,6 +10,7 @@ use App\Repositories\LopHocRepository;
 use App\Repositories\QuanHuyenRepository;
 use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\XaPhuongThiTranRepository;
+use App\Http\Requests\ValidateCreateQuanLiGV;
 use Storage;
 
 class QuanlyGiaoVienController extends Controller
@@ -37,6 +38,7 @@ class QuanlyGiaoVienController extends Controller
     }
     public function index()
     {
+       
         $params = request()->all();
         if (isset(request()->page_size)) {
             $limit = request()->page_size;
@@ -67,7 +69,7 @@ class QuanlyGiaoVienController extends Controller
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         return view('quan-ly-giao-vien.create', compact('khoi', 'lop', 'thanhpho'));
     }
-    public function store(Request $request)
+    public function store(ValidateCreateQuanLiGV $request)
     {   
         $anh = $request->file("anh");
         $dataRequest = $request->all();
@@ -121,19 +123,23 @@ class QuanlyGiaoVienController extends Controller
             'xaid_gv_noht'  
         ));
     }
-    public function update(Request $request, $id)
+    public function update(ValidateCreateQuanLiGV $request, $id)
     {
         $dataRequest = $request->all();
         if(isset($dataRequest['anh'])){
             $anh = $request->file("anh");
+            // dd($a)
             if ($anh) {
-                $pathLoad = Storage::putFile(
-                    'public/uploads/anh_gv',
-                    $anh
-                );
-                $path = str_replace("/", "\\", $pathLoad);
-                $path = trim($path, 'public/');
+                // $pathLoad = Storage::putFile(
+                //     'public/uploads/anh_gv',
+                //     $anh
+                // );
+                $pathLoad = $anh->store('public/uploads/anh_gv');
+                $path =  $pathLoad;
+                // dd($path);
+                // $path = trim($path, 'public/');
                 $dataRequest['anh'] = $path;
+                // dd($dataRequest['anh']);
             }
         }
         unset($dataRequest['_token']);

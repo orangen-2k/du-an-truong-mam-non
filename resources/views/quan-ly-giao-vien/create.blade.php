@@ -2,10 +2,15 @@
 @section('title', "Thêm mới giáo viên")
 @section('style')
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
+<style>
+    .error {
+        color: red;
+    }
+</style>
 @endsection
 @section('content')
 <div class="m-content">
-    <form method="post" action="{{route('quan-ly-giao-vien-store')}}" enctype="multipart/form-data">
+    <form method="post" id="validate-form-add" action="{{route('quan-ly-giao-vien-store')}}" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-xl-12">
@@ -100,18 +105,22 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span> Họ và tên: </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="ten" class="form-control m-input"
+                                                        <input type="text" name="ten" class="form-control m-input name-field"
                                                             placeholder="Điền họ và tên">
-
+                                                            @error('ten')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Ngày sinh:</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="date" name="ngay_sinh" class="form-control m-input"
+                                                        <input type="date" name="ngay_sinh" class="form-control m-input name-field"
                                                             placeholder="Điền ngày sinh">
-
+                                                            @error('ngay_sinh')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -124,7 +133,7 @@
                                                                 <span></span>
                                                             </label>
                                                             <label class="m-radio">
-                                                                <input type="radio" name="gioi_tinh" value="2"> Nữ
+                                                                <input type="radio" name="gioi_tinh" value="2" checked> Nữ
                                                                 <span></span>
                                                             </label>
                                                         </div>
@@ -135,9 +144,11 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Dân tộc</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="dan_toc" class="form-control m-input"
+                                                        <input type="text" name="dan_toc" class="form-control m-input name-field"
                                                             placeholder="Điền dân tộc">
-
+                                                            @error('dan_toc')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -149,10 +160,13 @@
                                                                     class="input-group-text"><i
                                                                         class="la la-phone"></i></span></div>
                                                             <input type="text" name="dien_thoai"
-                                                                class="form-control m-input"
+                                                                class="form-control m-input name-field"
                                                                 placeholder="Điền số điện thoại">
+                                                            
                                                         </div>
-
+                                                        @error('dien_thoai')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class=""></div>
@@ -213,7 +227,9 @@
                                                             <option value="{{$item->matp}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
-
+                                                        @error('ho_khau_thuong_tru_matp')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -224,6 +240,9 @@
                                                             name="ho_khau_thuong_tru_maqh" id="ho_khau_thuong_tru_maqh">
                                                             <option value="" selected>Chọn</option>
                                                         </select>
+                                                        @error('ho_khau_thuong_tru_maqh')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -239,16 +258,20 @@
                                                             name="ho_khau_thuong_tru_xaid" id="ho_khau_thuong_tru_xaid">
                                                             <option value="" selected>Chọn</option>
                                                         </select>
-
+                                                        @error('ho_khau_thuong_tru_xaid')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Số nhà, đường </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="ho_khau_thuong_tru_so_nha" class="form-control m-input"
+                                                        <input type="text" name="ho_khau_thuong_tru_so_nha" class="form-control m-input name-field"
                                                             placeholder="Điền số nhà, đường">
-
+                                                        @error('ho_khau_thuong_tru_so_nha')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
 
@@ -281,7 +304,9 @@
                                                             <option value="{{$item->matp}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
-
+                                                        @error('noi_o_hien_tai_matp')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -292,7 +317,9 @@
                                                             name="noi_o_hien_tai_maqh" id="noi_o_hien_tai_maqh">
                                                             <option value="" selected>Chọn</option>
                                                         </select>
-
+                                                        @error('noi_o_hien_tai_maqh')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -308,17 +335,21 @@
                                                             name="noi_o_hien_tai_xaid" id="noi_o_hien_tai_xaid">
                                                             <option value="" selected>Chọn</option>
                                                         </select>
-
+                                                        @error('noi_o_hien_tai_xaid')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Số nhà, đường </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="noi_o_hien_tai_so_nha" class="form-control m-input"
+                                                        <input type="text" name="noi_o_hien_tai_so_nha" class="form-control m-input name-field"
                                                             placeholder="Điền số nhà, đường">
-
-                                                    </div>
+                                                            @error('noi_o_hien_tai_so_nha')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
+                                                    </div>  
                                                 </div>
 
                                             </div>
@@ -343,18 +374,22 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Trình độ</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="trinh_do" class="form-control m-input"
+                                                        <input type="text" name="trinh_do" class="form-control m-input name-field"
                                                             placeholder="Điền trình độ">
-
+                                                            @error('trinh_do')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Chuyên môn</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="chuyen_mon" class="form-control m-input"
+                                                        <input type="text" name="chuyen_mon" class="form-control m-input name-field"
                                                             placeholder="Điền chuyên môn">
-
+                                                            @error('chuyen_mon')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -365,18 +400,22 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Nơi đào tạo</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="noi_dao_tao" class="form-control m-input"
+                                                        <input type="text" name="noi_dao_tao" class="form-control m-input name-field"
                                                             placeholder="Điền nơi đào tạo">
-
+                                                        @error('noi_dao_tao')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Năm tốt nghiệp </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="number" name="nam_tot_nghiep" class="form-control m-input"
+                                                        <input type="number" name="nam_tot_nghiep" class="form-control m-input name-field"
                                                             placeholder="Điền năm tốt nghiệp">
-
+                                                        @error('nam_tot_nghiep')
+                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
 
@@ -430,6 +469,7 @@ $(document).ready(function() {
 var url_get_lop_theo_khoi = "{{route('quan-ly-giao-vien-get-lop-theo-khoi')}}";
 var url_get_maqh_by_matp = "{{route('get_quan_huyen_theo_thanh_pho')}}";
 var url_get_xaid_by_maqh = "{{route('get_xa_phuong_theo_thi_tran')}}";
+
 </script>
 <script src="{!! asset('js/get_quan_huyen_xa.js') !!}"></script>
 @endsection
