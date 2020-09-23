@@ -73,6 +73,7 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::get('/create', 'LopController@create')->name('quan-ly-lop-create');
     Route::get('/show/{id}', 'LopController@show')->name('quan-ly-lop-show');
     Route::get('/phan-lop', 'LopController@phanLop')->name('quan-ly-lop-phan-lop');
+    Route::get('/xep-lop', 'LopController@xepLop')->name('quan-ly-lop-xep-lop');
     Route::get('/edit/{id}', 'LopController@edit')->name('quan-ly-lop-edit');
     Route::post('/store', 'LopController@store')->name('quan-ly-lop-phan-store');
     Route::post('/update/{id}', 'LopController@update')->name('quan-ly-lop-update');

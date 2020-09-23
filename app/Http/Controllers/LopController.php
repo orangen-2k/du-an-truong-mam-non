@@ -180,4 +180,12 @@ class LopController extends Controller
         ['hoc_sinh' => $hoc_sinh]
     );
     }
+    public function xepLop()
+    {
+        $hoc_sinh = $this->HocSinhRepository->getHocSinh();
+        // dd($hoc_sinh);
+        return view('quan-ly-lop.xep-lop',
+        ['hoc_sinh' => $hoc_sinh]
+    );
+    }
 }
