@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\GiaoVienRepository;
 use App\Repositories\KhoiRepository;
 use App\Repositories\LopHocRepository;
+use App\Repositories\QuanHuyenRepository;
 use App\Repositories\TinhThanhPhoRepository;
+use App\Repositories\XaPhuongThiTranRepository;
+use App\Http\Requests\ValidateCreateQuanLiGV;
 use Storage;
 
 class QuanlyGiaoVienController extends Controller
@@ -16,19 +19,26 @@ class QuanlyGiaoVienController extends Controller
     protected $GiaoVienRepository;
     protected $LopHocRepository;
     protected $TinhThanhPhoRepository;
+    protected $QuanHuyenRepository;
+    protected $XaPhuongThiTranRepository;
     public function __construct(
         GiaoVienRepository $GiaoVienRepository,
         KhoiRepository $KhoiRepository,
         LopHocRepository $LopHocRepository,
-        TinhThanhPhoRepository $TinhThanhPhoRepository
+        TinhThanhPhoRepository $TinhThanhPhoRepository,
+        QuanHuyenRepository $QuanHuyenRepository,
+        XaPhuongThiTranRepository $XaPhuongThiTranRepository
     ) {
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->KhoiRepository = $KhoiRepository;
         $this->LopHocRepository = $LopHocRepository;
         $this->TinhThanhPhoRepository = $TinhThanhPhoRepository;
+        $this->QuanHuyenRepository = $QuanHuyenRepository;
+        $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
     }
     public function index()
     {
+       
         $params = request()->all();
         if (isset(request()->page_size)) {
             $limit = request()->page_size;
@@ -59,7 +69,7 @@ class QuanlyGiaoVienController extends Controller
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         return view('quan-ly-giao-vien.create', compact('khoi', 'lop', 'thanhpho'));
     }
-    public function store(Request $request)
+    public function store(ValidateCreateQuanLiGV $request)
     {   
         $anh = $request->file("anh");
         $dataRequest = $request->all();
@@ -90,5 +100,58 @@ class QuanlyGiaoVienController extends Controller
         }
 
         return $data;
+    }
+    public function edit($lop_id, $id)
+    {   
+        $data = $this->GiaoVienRepository->getGV($id, $lop_id);
+        $khoi = $this->KhoiRepository->getAll();
+        $lop = $this->LopHocRepository->getAll();
+        $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
+        $maqh_gv_hktt = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->ho_khau_thuong_tru_matp);
+        $xaid_gv_hktt = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->ho_khau_thuong_tru_maqh);
+        $maqh_gv_noht = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->noi_o_hien_tai_matp);
+        $xaid_gv_noht = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->noi_o_hien_tai_maqh);
+        //dd($xaid_gv_hktt);
+        return view('quan-ly-giao-vien.edit', compact(
+            'data',
+            'khoi',
+            'lop',
+            'thanhpho',
+            'maqh_gv_hktt', 
+            'xaid_gv_hktt',
+            'maqh_gv_noht', 
+            'xaid_gv_noht'  
+        ));
+    }
+    public function update(ValidateCreateQuanLiGV $request, $id)
+    {
+        $dataRequest = $request->all();
+        if(isset($dataRequest['anh'])){
+            $anh = $request->file("anh");
+            // dd($a)
+            if ($anh) {
+                // $pathLoad = Storage::putFile(
+                //     'public/uploads/anh_gv',
+                //     $anh
+                // );
+                $pathLoad = $anh->store('public/uploads/anh_gv');
+                $path =  $pathLoad;
+                // dd($path);
+                // $path = trim($path, 'public/');
+                $dataRequest['anh'] = $path;
+                // dd($dataRequest['anh']);
+            }
+        }
+        unset($dataRequest['_token']);
+        unset($dataRequest['khoi']);
+        $this->GiaoVienRepository->update_gv($id, $dataRequest);
+        return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
+    }
+
+    public function destroy(Request $request)
+    {   
+        $data = $request->all();
+        $this->GiaoVienRepository->destroy_gv($data['id']);
+        return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
     }
 }
