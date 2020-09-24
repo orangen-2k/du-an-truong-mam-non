@@ -36,7 +36,10 @@ Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::get('/', 'QuanlyGiaoVienController@index')->name('quan-ly-giao-vien-index');
     Route::get('/create', 'QuanlyGiaoVienController@create')->name('quan-ly-giao-vien-create');
     Route::post('/store', 'QuanlyGiaoVienController@store')->name('quan-ly-giao-vien-store');
+    Route::get('/edit/{lop_id}/{id}', 'QuanlyGiaoVienController@edit')->name('quan-ly-giao-vien-edit');
+    Route::post('/update/{id}', 'QuanlyGiaoVienController@update')->name('quan-ly-giao-vien-update');
     Route::post('/lop-theo-khoi', 'QuanlyGiaoVienController@getLopTheoKhoi')->name('quan-ly-giao-vien-get-lop-theo-khoi');
+    Route::post('/destroy', 'QuanlyGiaoVienController@destroy')->name('quan-ly-giao-vien-destroy');
 });
 Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::get('/', 'QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
