@@ -41,7 +41,7 @@ mix.styles(
         "public/vendors/socicon/css/socicon.css",
         // "public/vendors/vendors/line-awesome/css/line-awesome.css",
         // "public/vendors/vendors/flaticon/css/flaticon.css",
-        "public/vendors/vendors/metronic/css/styles.css",
+        "public/vendors/vendors/metronic/css/styles.css"
         // "public/vendors/vendors/fontawesome5/css/all.min.css",
     ],
     "public/css/all.css"
@@ -107,7 +107,8 @@ mix.styles(
             "public/vendors/js/framework/components/plugins/base/sweetalert2.init.js",
             // "public/vendors/wizard/wizard.js",
             // "public/assets/demo/custom/crud/wizard/wizard.js",
-            "public/assets/snippets/custom/pages/user/login.js"
+            "public/assets/snippets/custom/pages/user/login.js",
+            "public/vendors/jquery-validation/dist/jquery.validate.min.js"
         ],
         "public/js/all.js"
     )
