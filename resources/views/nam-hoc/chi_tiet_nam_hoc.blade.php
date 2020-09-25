@@ -1,5 +1,12 @@
 @extends('layouts.main')
 @section('title', "Thiết lập năm học")
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
 @section('style')
 <style>
     .error{
@@ -8,79 +15,92 @@
     #name-error, #StartDate-error, #EndDate-error{
         color: red;
     }
+    .treeview-colorful {
+        background: #28df99;
+        color: #fff;
+    }
+    .treeview-colorful .treeview-colorful-items-header:hover{
+        background: #99f3bd;
+        color: #fff;
+    }
+    .treeview-colorful .treeview-colorful-items-header.open:hover{
+      background: #99f3bd;
+      color: #fff;
+    }
+
+    .treeview-colorful .treeview-colorful-items-header.open{
+      border-bottom: 2px solid #99f3bd;
+      background: #99f3bd;
+      color: #fff;
+    }
+    
+    .treeview-colorful .treeview-colorful-element:hover {
+      background:  #99f3bd;
+      width: 100%;
+    }
+    .treeview-colorful .treeview-colorful-items-header.open span{
+      color: #fff;
+    }
+    .treeview-colorful .treeview-colorful-element.opened{
+      color: #fff;
+    background-color: #99f3bd;
+    border: 2px solid #28df99;
+    border-right: 0 solid transparent;
+    }
+    .treeview-colorful .treeview-colorful-element.opened:hover{
+      color: #fff;
+    background-color: #99f3bd;
+    border: 2px solid #28df99;
+    border-right: 0 solid transparent;
+    }
+    .treeview-colorful hr{
+      border-color:  #fff;
+;
+    }
 </style>
 @endsection
 @section('content')
 <div class="m-content">
     <!--Begin::Section-->
     <div class="row">
-        <div class="col-xl-3">
+        <div class="col-xl-3 " >
             <!--begin:: Widgets/Announcements 1-->
-            <div class="m-portlet m--bg-accent m-portlet--bordered-semi m-portlet--skin-dark m-portlet--full-height ">
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <h3 class="m-portlet__head-text">
-                                Danh sách năm học
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="m-portlet__head-tools">
-                        <button class="btn btn-outline-secondary m-btn" data-toggle="modal" data-target="#m_modal_1">
-                            <i class="flaticon-add"></i>
-                        </button>
-                    </div>
+            
+            <div class="treeview-colorful border border-secondary m-portlet--skin-dark">
+                <div class="row">
+                  <div class="col-10">
+                    <p class="ml-2 mt-4">Xếp lớp năm 2020-2021</p>
+                  </div>
+                  <div class="col-2 mt-4 ">
+                    <i class="fa fa-plus" type="button" data-toggle="modal" data-target="#exampleModal"></i>
+                  </div>
                 </div>
-                <div class="m-portlet__body">
-                    <!--begin::Widget 7-->
-                    <div class="m-widget6">
-                        <div class="m-widget6__body">
-                            <div id="m_calendar_external_events" class="fc-unthemed">
-                                <div class="fc-event fc-event-external fc-start m-fc-event--primary m--margin-bottom-15 ui-draggable ui-draggable-handle"
-                                    data-color="m-fc-event--primary">
-                                    <div class="fc-title">
-                                        <div class="fc-content">
-                                            2018 - 2019
-                                            <span class="pull-right">
-                                                <i class="fa fa-lock-open"></i>
-                                            </span>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="fc-event fc-event-external fc-start m-fc-event--primary m--margin-bottom-15 ui-draggable ui-draggable-handle"
-                                    data-color="m-fc-event--primary">
-                                    <div class="fc-title">
-                                        <div class="fc-content">
-                                            2019 - 2020
-                                            <span class="pull-right">
-                                                <i class="fa fa-lock-open"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="fc-event fc-event-external fc-start m-fc-event--primary m--margin-bottom-15 ui-draggable ui-draggable-handle"
-                                    data-color="m-fc-event--primary">
-                                    <div class="fc-title">
-                                        <div class="fc-content">
-                                            2020 - 2021
-                                            <span class="pull-right">
-                                                <i class="fa fa-lock-open"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!--end::Widget 7-->
-                </div>
-            </div>
+                <hr>
+                <ul class="treeview-colorful-list mb-3">
+                  <li class="treeview-colorful-items">
+                    <a class="treeview-colorful-items-header">
+                      <i class="fas fa-plus-circle"></i>
+                      <span><i class="far fa-envelope-open ic-w mx-1"></i>Khối 3</span>
+                        <i class="fa fa-plus " style="float: right" type="button" data-toggle="modal" data-target="#exampleModal2"></i>
+                      
+                    </a>
+                    <ul class="nested">
+                      <li>
+                        <div class="treeview-colorful-element"><i class="far fa-student ic-w mr-1"></i>Lớp 1A1
+                      </li>
+                      <li>
+                        <div class="treeview-colorful-element"><i class="far fa-student ic-w mr-1"></i>Lớp 1A2
+                      </li>
+                      
+                    </ul>
+                  </li>
+                  
+                  
 
             <!--end:: Widgets/Announcements 1-->
         </div>
+    
+    </div>
         <div class="col-xl-9">
             <!--begin:: Widgets/Blog-->
 
@@ -90,7 +110,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                <a type="button" href="{{route('nam-hoc-chi-tiet')}}" class="btn m-btn--pill m-btn--air btn-outline-info">Xếp lớp</a>
+
                             </h3>
                         </div>
                     </div>
@@ -115,7 +135,7 @@
             </div>
             <!--end:: Widgets/Blog-->
         </div>
-    </div>
+    
     <div class="modal fade" id="m_modal_1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -164,7 +184,78 @@
     </div>
     <!--End::Section-->
 </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tạo khối </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group m-form__group">
+          <label for="exampleInputPassword1">Tên khối:</label>
+          <input type="password" class="form-control m-input m-input--square" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group m-form__group">
+          <label for="exampleSelect1">Độ tuổi:</label>
+          <select class="form-control m-input" id="exampleSelect1">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-success">Tạo khối</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tạo lớp </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group m-form__group row">
+          <label for="example-text-input" class="col-4 col-form-label">Tên lớp:</label>
+          <div class="col-8">
+            <input class="form-control m-input" type="text" value="Artisanal kale" id="example-text-input">
+          </div>
+        </div>
+        <div class="form-group m-form__group row">
+          <label for="example-text-input" class="col-4 col-form-label">Giáo viên chủ nghiệm:</label>
+          <div class="col-8">
+            <input class="form-control m-input" type="text" value="Artisanal kale" id="example-text-input">
+          </div>
+        </div>
+        <div class="form-group m-form__group row">
+          <label for="example-text-input" class="col-4 col-form-label">Giáo viên phụ:</label>
+          <div class="col-8">
+            <input class="form-control m-input" type="text" value="Artisanal kale" id="example-text-input">
+          </div>
+        </div>
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-success">Tạo lớp</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection 
 @section('script')
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
@@ -231,5 +322,20 @@
             
     //     });
     // });
+</script>
+
+    <!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+<script>
+    // Treeview Initialization
+$(document).ready(function() {
+  $('.treeview-colorful').mdbTreeview();
+});
 </script>
 @endsection

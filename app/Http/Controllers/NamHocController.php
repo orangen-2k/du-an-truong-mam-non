@@ -24,4 +24,11 @@ class NamHocController extends Controller
             'end_date.after' => 'nhap lon hon',
         ]);
     }
+    public function chiTietNamHoc()
+    {
+        
+        return view('nam-hoc.chi_tiet_nam_hoc');
+        
+    
+    }
 }
