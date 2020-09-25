@@ -80,8 +80,13 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::post('/destroy', 'LopController@destroy')->name('quan-ly-lop-destroy');
 });
 
-Route::prefix('nam-hoc')->group(function () {
-    Route::get('/', 'NamHocController@index')->name('nam-hoc.index');
-    Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
-    Route::get('/chi-tiet-nam-hoc', 'NamHocController@chiTietNamHoc')->name('nam-hoc-chi-tiet');
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::prefix('nam-hoc')->group(function () {
+        Route::get('/', 'NamHocController@index')->name('nam-hoc.index');
+        Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
+        Route::get('/chi-tiet-nam-hoc', 'NamHocController@chiTietNamHoc')->name('nam-hoc-chi-tiet');
+    });
+    Route::prefix('thong-bao')->group(function () {
+        Route::view('/', 'thong-bao/index');
+    });
 });
