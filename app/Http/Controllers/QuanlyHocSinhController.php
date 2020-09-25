@@ -37,10 +37,18 @@ class QuanlyHocSinhController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index()
+    // {
+    //     $khoi = $this->Khoi->getAllKhoi();  
+    //     return view('quan-ly-hoc-sinh.index',compact('khoi'));
+    // }
     public function index()
     {
-        $khoi = $this->Khoi->getAllKhoi();  
-        return view('quan-ly-hoc-sinh.index',compact('khoi'));
+        $hocsinh = $this->HocSinh->getAll();
+        // dd($hocsinh);
+        return view('quan-ly-hoc-sinh.quan-ly-hoc-sinh',[
+            'hocsinh' => $hocsinh,
+        ]);
     }
 
     /**
@@ -324,5 +332,7 @@ class QuanlyHocSinhController extends Controller
         header('Content-Disposition: attachment; filename="Error-file-nhap-so-lieu-tuyen-sinh.xlsx"');
         $writer->save("php://output");
     }
+
+   
 
 }
