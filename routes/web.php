@@ -45,6 +45,7 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::get('/', 'QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
     Route::get('/create', 'QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
     Route::get('/edit/{id}', 'QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
+    Route::post('/update/{id}', 'QuanlyHocSinhController@update')->name('quan-ly-hoc-sinh-update');
     Route::post('/store', 'QuanlyHocSinhController@store')->name('quan-ly-hoc-sinh-store');
 
     Route::post('export-bieu-mau', 'QuanlyHocSinhController@exportBieuMau')->name('export-bieu-mau-nhap-hoc-sinh');
