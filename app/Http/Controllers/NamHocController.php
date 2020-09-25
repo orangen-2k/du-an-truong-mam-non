@@ -39,4 +39,11 @@ class NamHocController extends Controller
         return redirect()->route('nam-hoc.index')->withInput()->with(['success' => 'thêm thành công']);
 
     }
+    public function chiTietNamHoc()
+    {
+        
+        return view('nam-hoc.chi_tiet_nam_hoc');
+        
+    
+    }
 }
