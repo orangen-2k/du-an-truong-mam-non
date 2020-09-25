@@ -59,4 +59,10 @@ class HocSinhRepository extends BaseRepository
     {
         return  $this->model->select('ten','ma_hoc_sinh','gioi_tinh','avatar','tuoi','lop_id')->paginate(10);
     }
+    public function getAllHocSinh_table($params, $limit)
+    {
+        $data = $this->table;
+        return $data->paginate($limit);
+    }
+    
 }

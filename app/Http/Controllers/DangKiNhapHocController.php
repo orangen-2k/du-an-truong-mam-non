@@ -64,18 +64,26 @@ class DangKiNhapHocController extends Controller
 
     public function store(CreateNhapHoc $request){
         $data = $request->all();
-        $avatar =$request->file("avatar");
         $date_ngay_sinh = $request->ngay_sinh;  
         $data['ngay_sinh'] = date("Y-m-d", strtotime($date_ngay_sinh));  
 
-        if($avatar){
-            $pathLoad = Storage::putFile(
-                'public/uploads/avatar',
-                $avatar
-            );
-        $path = str_replace("/","\\",$pathLoad);
-        $path = trim($path, 'public/');
-        $data['avatar']=$path;
+        if(isset($data['avatar'])){
+            $avatar = $request->file("avatar");
+            
+            if ($avatar) {
+                // $pathLoad = Storage::putFile(
+                //     'public/uploads/avatar_hs',
+                //     $avatar
+                // );
+                $pathLoad = $avatar->store('public/uploads/avatar');
+                $path =  $pathLoad;
+                // dd($path);
+                // $path = trim($path, 'public/');
+                $data['avatar'] = $path;
+                // dd($dataRequest['avatar']);
+            }
+
+
         unset($data['_token']);
         $data['ma_xac_nhan'] = rand(10000, 90000);
         

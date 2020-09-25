@@ -133,7 +133,7 @@
                         <td>{{$item->ten}}</td>
                         @if ($item->anh == "")
                         <td><img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
-                                height="100px" width="75px" alt=""></td>
+                                height="100px" width="85px" alt=""></td>
                         @else
                         <td><img src="{{ Storage::url($item->anh)}}" height="100px" width="75px" alt=""></td>
                         @endif

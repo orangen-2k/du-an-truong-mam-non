@@ -62,4 +62,5 @@ class KhoiRepository extends BaseRepository
         return $this->model::where('id', $id)->update($arr);
     }
 
+    
 }
