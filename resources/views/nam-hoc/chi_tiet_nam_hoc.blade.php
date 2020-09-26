@@ -82,7 +82,6 @@
                       <i class="fas fa-plus-circle"></i>
                       <span><i class="far fa-envelope-open ic-w mx-1"></i>Khối 3</span>
                         <i class="fa fa-plus " style="float: right" type="button" data-toggle="modal" data-target="#exampleModal2"></i>
-                      
                     </a>
                     <ul class="nested">
                       <li>
@@ -260,68 +259,6 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script language="javascript">
-    // $(document).ready(function() {
-    //     jQuery.validator.addMethod("greaterThan", 
-    //     function(value, element, params) {
-
-    //         if (!/Invalid|NaN/.test(new Date(value))) {
-    //             return new Date(value) > new Date($(params).val());
-    //         }
-
-    //         return isNaN(value) && isNaN($(params).val()) 
-    //             || (Number(value) > Number($(params).val())); 
-    //     });
-        
-    //     $("#form-ceate").validate({
-    //         rules: {
-    //             name:{
-    //             	required: true
-    //             },
-    //             start_date:{
-    //             	required: true
-    //             },
-    //             end_date: { 
-    //                 required: true,
-    //                 greaterThan: "#StartDate" 
-    //             }
-
-    //         },
-    //         messages: {
-    //             name: {
-    //             	required: "Vui lòng nhập năm học"
-    //             },
-    //             start_date:{
-    //                 required: "Vui lòng nhập thời gian bắt đầu năm học"
-    //             },
-    //             end_date:{
-    //                 required: "Vui lòng nhập thời gian kết thúc năm học",
-    //                 greaterThan: "Vui lòng nhập thời gian kết thúc lớn hơn thời gian bắt đầu"
-    //             }
-                
-    //         }
-    //     });
-    // });
-    // $(document).ready(function() {
-    //     $('#form-ceate').submit(function(e) {
-    //         var data = {
-    //             _token: '{{csrf_token()}}',
-    //             name: $('[name="name"]').val(),
-    //             start: $('[name="start"]').val(),
-    //             end: $('[name="end"]').val()
-    //         };
-    //         console.log(data);
-    //         e.preventDefault();
-    //         // $.post("{{ route('nam-hoc.store')}}", {
-    //         //     _token: '{{csrf_token()}}',
-    //         //     name: $('[name="name"]').val(),
-    //         //     start: $('[name="start"]').val(),
-    //         //     end: $('[name="end"]').val()
-    //         // },function(result) {
-    //         //     console.log(result);
-    //         // });
-            
-    //     });
-    // });
 </script>
 
     <!-- JQuery -->

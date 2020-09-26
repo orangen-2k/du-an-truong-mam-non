@@ -60,30 +60,18 @@ class QuanlyHocSinhController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index()
+    // {
+    //     $khoi = $this->Khoi->getAllKhoi();  
+    //     return view('quan-ly-hoc-sinh.index',compact('khoi'));
+    // }
     public function index()
-    {   
-        $params = request()->all();
-        if (isset(request()->page_size)) {
-            $limit = request()->page_size;
-        } else {
-            $limit = 20;
-        }
-        $khoi = $this->Khoi->getAllKhoi();  
-        $lop = $this->LopHoc->getAll();
-        $hoc_sinh = $this->HocSinh->getAllHocSinh_table($params, $limit);
-        
-        foreach($hoc_sinh as $key => $item){
-            $lophoc = $this->GiaoVien->getLopHoc($item->lop_id);
-            if (isset($lophoc)) {
-                $hoc_sinh[$key]->ten_lop = $lophoc->ten_lop;
-                $hoc_sinh[$key]->ten_khoi = $lophoc->ten_khoi;
-            } else {
-                $hoc_sinh[$key]->ten_lop = "";
-                $hoc_sinh[$key]->ten_khoi = "";
-            }
-        }
-        
-        return view('quan-ly-hoc-sinh.index',compact('khoi', 'hoc_sinh','limit', 'lop'));
+    {
+        $hocsinh = $this->HocSinh->getAll();
+        // dd($hocsinh);
+        return view('quan-ly-hoc-sinh.quan-ly-hoc-sinh',[
+            'hocsinh' => $hocsinh,
+        ]);
     }
 
     /**
@@ -402,5 +390,7 @@ class QuanlyHocSinhController extends Controller
         header('Content-Disposition: attachment; filename="Error-file-nhap-so-lieu-tuyen-sinh.xlsx"');
         $writer->save("php://output");
     }
+
+   
 
 }
