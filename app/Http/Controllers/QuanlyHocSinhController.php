@@ -14,6 +14,11 @@ use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
 use \App\Repositories\LopHocRepository;
 use \App\Repositories\KhoiRepository;
 use \App\Repositories\HocSinhRepository;
+use \App\Repositories\GiaoVienRepository;
+use App\Repositories\TinhThanhPhoRepository;
+use App\Repositories\QuanHuyenRepository;
+use App\Repositories\XaPhuongThiTranRepository;
+use App\Repositories\DoiTuongChinhSachRepository;
 use Storage;
 use Illuminate\Support\Facades\DB;
 
@@ -21,15 +26,33 @@ class QuanlyHocSinhController extends Controller
 {
     protected $LopHoc;
     protected $Khoi;
+    protected $HocSinh;
+    protected $GiaoVien;
+    protected $TinhThanhPhoRepository;
+    protected $QuanHuyenRepository;
+    protected $XaPhuongThiTranRepository;
+    protected $DoiTuongChinhSachRepository;
+
     public function __construct(
         LopHocRepository $LopHoc,
         KhoiRepository $Khoi,
-        HocSinhRepository $HocSinh
+        HocSinhRepository $HocSinh,
+        GiaoVienRepository $GiaoVien,
+        TinhThanhPhoRepository $TinhThanhPhoRepository,
+        QuanHuyenRepository  $QuanHuyenRepository,
+        XaPhuongThiTranRepository  $XaPhuongThiTranRepository,
+        DoiTuongChinhSachRepository $DoiTuongChinhSachRepository
+        
         
     ){
         $this->LopHoc = $LopHoc;
         $this->Khoi = $Khoi;
         $this->HocSinh = $HocSinh;
+        $this->GiaoVien = $GiaoVien;
+        $this->TinhThanhPhoRepository = $TinhThanhPhoRepository;
+        $this->QuanHuyenRepository = $QuanHuyenRepository;
+        $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
+        $this->DoiTuongChinhSachRepository = $DoiTuongChinhSachRepository;
     }
 
     /**
@@ -90,8 +113,23 @@ class QuanlyHocSinhController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        return view('quan-ly-hoc-sinh.edit');
+    {   
+        $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
+        $data = $this->HocSinh->getOneHocSinh($id);
+        $doi_tuong_chinh_sach = $this->DoiTuongChinhSachRepository->getAllDoiTuongChinhSach();
+        $maqh_hs_hktt = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->ho_khau_thuong_tru_matp);
+        $xaid_hs_hktt = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->ho_khau_thuong_tru_maqh);
+        $maqh_hs_noht = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->noi_o_hien_tai_matp);
+        $xaid_hs_noht = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->noi_o_hien_tai_maqh);
+        return view('quan-ly-hoc-sinh.edit', compact(
+            'data', 
+            'thanhpho', 
+            'maqh_hs_hktt', 
+            'xaid_hs_hktt',
+            'maqh_hs_noht',
+            'xaid_hs_noht',
+            'doi_tuong_chinh_sach'
+        ));
 
     }
 
@@ -104,7 +142,27 @@ class QuanlyHocSinhController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $dataRequest = $request->all();
+        if(isset($dataRequest['avatar'])){
+            $avatar = $request->file("avatar");
+            
+            if ($avatar) {
+                // $pathLoad = Storage::putFile(
+                //     'public/uploads/avatar_hs',
+                //     $avatar
+                // );
+                $pathLoad = $avatar->store('public/uploads/avatar_hs');
+                $path =  $pathLoad;
+                // dd($path);
+                // $path = trim($path, 'public/');
+                $dataRequest['avatar'] = $path;
+                // dd($dataRequest['avatar']);
+            }
+        }
+        unset($dataRequest['_token']);
+        
+        $this->HocSinh->updateHocSinh($id, $dataRequest);
+        return redirect()->route('quan-ly-hoc-sinh-index')->with('thong_bao', 'Hoàn thành');
     }
 
     /**

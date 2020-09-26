@@ -30,7 +30,7 @@ class GiaoVienRepository extends BaseRepository
     {
         $data = $this->table;
     
-        return $data->paginate($limit);;
+        return $data->paginate($limit);
     }
     public function getLopHoc($lop_id)
     {
