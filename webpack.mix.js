@@ -13,7 +13,7 @@ const mix = require("laravel-mix");
 
 mix.styles(
     [
-        // "public/assets/vendors/base/vendors.bundle.css",
+        "public/assets/vendors/base/vendors.bundle.css",
         "public/assets/demo/base/style.bundle.css",
         "public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css",
         "public/vendors/tether/dist/css/tether.css",
@@ -24,6 +24,7 @@ mix.styles(
         "public/vendors/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css",
         "public/vendors/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css",
         "public/vendors/bootstrap-select/dist/css/bootstrap-select.css",
+        "public/vendors/select2/dist/css/select2.css",
         "public/vendors/nouislider/distribute/nouislider.css",
         "public/vendors/owl.carousel/dist/assets/owl.carousel.css",
         "public/vendors/owl.carousel/dist/assets/owl.theme.default.css",
@@ -39,10 +40,8 @@ mix.styles(
         "public/vendors/chartist/dist/chartist.min.css",
         "public/vendors/sweetalert2/dist/sweetalert2.min.css",
         "public/vendors/socicon/css/socicon.css",
-        // "public/vendors/vendors/line-awesome/css/line-awesome.css",
-        // "public/vendors/vendors/flaticon/css/flaticon.css",
         "public/vendors/vendors/metronic/css/styles.css",
-        // "public/vendors/vendors/fontawesome5/css/all.min.css",
+        "public/vendors/vendors/fontawesome5/css/all.min.css"
     ],
     "public/css/all.css"
 )
@@ -50,6 +49,8 @@ mix.styles(
         [
             "public/assets/vendors/base/vendors.bundle.js",
             "public/assets/demo/base/scripts.bundle.js",
+            "public/assets/demo/custom/components/base/treeview.js",
+            "public/assets/demo/custom/crud/forms/widgets/select2.js",
             "public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js",
             "public/assets/app/js/dashboard.js",
             "public/vendors/jquery.repeater/src/lib.js",
@@ -107,7 +108,8 @@ mix.styles(
             "public/vendors/js/framework/components/plugins/base/sweetalert2.init.js",
             // "public/vendors/wizard/wizard.js",
             // "public/assets/demo/custom/crud/wizard/wizard.js",
-            "public/assets/snippets/custom/pages/user/login.js"
+            "public/assets/snippets/custom/pages/user/login.js",
+            "public/vendors/jquery-validation/dist/jquery.validate.min.js"
         ],
         "public/js/all.js"
     )

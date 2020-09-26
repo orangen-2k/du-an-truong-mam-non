@@ -3,12 +3,12 @@
 @section('style')
 <style>
     .m-table {
-        font-size: 12px
+        font-size: 11px
     }
 
     .m-table th,
     .m-table td {
-        padding: 0.62rem !important;
+        padding: 0.22rem !important;
     }
 
     .search {
@@ -47,7 +47,37 @@
 #table-hoc-sinh_wrapper>.row:first-child{
     display: none;
 }
-    
+.danh-sach-khoi-lop .m-accordion__item-title, .m-accordion__item-mode, .m-dropdown__content ul li span{
+    color: black;
+    font-size: 12px !important;
+}
+.danh-sach-khoi-lop .m-accordion__item{
+    color: black;
+
+    border-bottom: 1px solid #eee5e5 !important;
+margin-bottom: 0rem !important
+}
+.m-accordion__item-head .la-plus{
+    font-size: 20px;
+    font-weight: bold;
+    color: #19be19;
+}
+
+.m-accordion .m-accordion__item .m-accordion__item-head{
+         padding: 0.5rem 1rem;
+}
+.collapsed{
+    position: relative;
+}
+.la-ellipsis-v:hover .dropdown__wrapper{
+    display: block !important;    
+}
+.m-nav .m-nav__item > .m-nav__link .m-nav__link-text{
+    width: 96% !important;
+}
+.m-accordion .m-accordion__item{
+    overflow: auto !important;
+}
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 @endsection
@@ -55,17 +85,125 @@
 <div class="m-content">
     <div class="m-portlet">
         <div class="m-portlet__body row ">
-            <div class="col-md-3"></div>
+            <div class="col-md-3 danh-sach-khoi-lop">
+                <div class="m-portlet m-portlet--full-height">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h3 class="m-portlet__head-text">
+                                   Năm học: 2020-2021
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <div class="m-portlet__body"> --}}
+
+                        <!--begin::Section-->
+                        <div class="m-accordion m-accordion--default m-accordion--solid m-accordion--section  m-accordion--toggle-arrow" id="m_accordion_7" role="tablist">
+
+                            <!--begin::Item-->
+                            <div class="m-accordion__item">
+                                <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_7_item_1_head" data-toggle="collapse" href="#m_accordion_7_item_1_body" aria-expanded="false">
+                                    <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="m-accordion__item-title">Khối cành (2 tuổi)</span>  
+                                    <i class="la la-plus"></i>
+                                </div>
+                                <div class="m-accordion__item-body collapse" id="m_accordion_7_item_1_body" role="tabpanel" aria-labelledby="m_accordion_7_item_1_head" >
+                                    <div class="m-accordion__item-content">
+                                        <div class="m-dropdown__wrapper">
+                                            <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
+                                            <div class="m-dropdown__inner">
+                                                <div class="m-dropdown__body">
+                                                    <div class="m-dropdown__content">
+                                                        <ul class="m-nav">
+                                                            <li class="m-nav__item pl-4"  style="cursor: pointer">
+                                                                <span href="" class="m-nav__link">
+                                                                    <span class="m-nav__link-text">Lớp Hoa lý 1 (40)</span>
+                                                                    <div class="dropdown">
+                                                                    <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                        <a class="dropdown-item" href="#">Action</a>
+                                                                        <a class="dropdown-item" href="#">Another action</a>
+                                                                        <a class="dropdown-item" href="#">Something else here</a>
+                                                                      </div>
+                                                                    </div>
+                
+                                                                </span>
+                                                            </li>
+                                                            <li class="m-nav__item pl-4" style="cursor: pointer">
+                                                                <span href="" class="m-nav__link">
+                                                               
+                                                                    <span class="m-nav__link-text">Lớp Hoa lý 1 (40)</span>
+                                                                    <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v"></i>
+
+                                                                </span>
+                                                            </li>
+                                                            <li class="m-nav__item pl-4" style="cursor: pointer">
+                                                                <span href="" class="m-nav__link">                             
+                                                                    <span class="m-nav__link-text">Lớp Hoa lý 1 (40)</span>
+                                                                    <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v"></i>
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+
+                                                        <!--end::Nav-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="m-accordion__item">
+                                <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_7_item_2_head" data-toggle="collapse" href="#m_accordion_7_item_2_body" aria-expanded="    false">
+                                    <span class="m-accordion__item-mode"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="m-accordion__item-title">Khối lá (3 tuổi)</span>
+                                    <i class="la la-plus"></i>
+                                </div>
+                                <div class="m-accordion__item-body collapse" id="m_accordion_7_item_2_body" role="tabpanel" aria-labelledby="m_accordion_7_item_2_head" >
+                                    <div class="m-accordion__item-content">
+                                      
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--end::Item-->
+
+                            <!--begin::Item-->
+                            <div class="m-accordion__item">
+                                <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_7_item_3_head" data-toggle="collapse" href="#m_accordion_7_item_3_body" aria-expanded="    false">
+                                    <span class="m-accordion__item-mode"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="m-accordion__item-title">Khối hoa (4 tuổi)</span>
+                                    <i class="la la-plus"></i>
+                                </div>
+                                <div class="m-accordion__item-body collapse" id="m_accordion_7_item_3_body" role="tabpanel" aria-labelledby="m_accordion_7_item_3_head" >
+                                    <div class="m-accordion__item-content">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--end::Item-->
+                        </div>
+
+                        <!--end::Section-->
+                    {{-- </div> --}}
+                </div>
+            </div>
             <div class="col-md-9 table-responsive scoll-table">
                 <table id="table-hoc-sinh" class="table table-striped table-bordered m-table">
                     <thead >
                         <tr>
-                            <th ><input type="checkbox" id="" onclick="checkAll(this)"></th>
-                            <th style="width: 50px;">Stt</th>
-                            <th style="width: 100px;">Mã học sinh</th>
-                            <th style="width: 150px;">Họ tên</th>
-                            <th style="width: 100px;">Ngày sinh</th>
-                            <th style="width: 100px;">Giới tính</th>
+                            <th style="width: 5%;"><input type="checkbox" id="" onclick="checkAll(this)"></th>
+                            <th style="width: 10%;">Stt</th>
+                            <th style="width: 15%;">Mã học sinh</th>
+                            <th style="width: 20%;">Họ tên</th>
+                            <th style="width: 15%;">Ngày sinh</th>
+                            <th style="width: 15%;">Giới tính</th>
                             <th >Chức năng</th>
                         </tr>
                     </thead>
