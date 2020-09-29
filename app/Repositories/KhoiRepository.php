@@ -6,7 +6,7 @@ use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
 use App\Models\Khoi;
 
-class KhoiRepository extends BaseRepository 
+class KhoiRepository extends BaseModelRepository 
 {
     protected $model;
     public function __construct(
@@ -16,20 +16,20 @@ class KhoiRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function getTable()
+    public function getModel()
     {
-        return 'khoi';
+        return Khoi::class;
     }
 
     public function getAllKhoi(){
 		return  $this->model->get();
     }
 
-    public function getAll()
-    {   
-        $data = $this->table->get();
-        return $data;
-    }
+    // public function getAll()
+    // {   
+    //     $data = $this->table->get();
+    //     return $data;
+    // }
     public function LopHoc($khoi_id)
     {
         $data = DB::table('lop_hoc')
@@ -49,8 +49,7 @@ class KhoiRepository extends BaseRepository
 
     public function post_create($arr)
     {   
-        unset($arr['_token']);
-        return $this->model::insert($arr);
+        return $this->model::create($arr)->id;
     }
     public function destroy($id)
     {
