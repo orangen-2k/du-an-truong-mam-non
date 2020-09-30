@@ -86,6 +86,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
     });
     Route::prefix('thong-bao')->group(function () {
-        Route::view('/', 'thong-bao/index');
+        Route::get('/', 'ThongBaoController@uiThongBaoGiaoVien')->name('thong-bao.ui-gv');
+        Route::get('/hoc-sinh', 'ThongBaoController@uiThongBaoHocSinh')->name('thong-bao.ui-hs');
+
+        Route::post('sendto', 'ThongBaoController@store')->name('sendto');
     });
 });
