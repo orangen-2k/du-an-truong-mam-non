@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
-use App\Models\LopHoc;
+use App\Models\Lop;
 class LopHocRepository extends BaseRepository
 {
     protected $model;
     public function __construct(
-        LopHoc $model
+        Lop $model
     ) {
         parent::__construct();
         $this->model = $model;

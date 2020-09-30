@@ -57,10 +57,11 @@
     border-bottom: 1px solid #eee5e5 !important;
 margin-bottom: 0rem !important
 }
-.m-accordion__item-head .la-plus{
+ .la-plus{
     font-size: 20px;
     font-weight: bold;
     color: #19be19;
+    cursor: pointer;
 }
 
 .m-accordion .m-accordion__item .m-accordion__item-head{
@@ -76,7 +77,7 @@ margin-bottom: 0rem !important
     width: 96% !important;
 }
 .m-accordion .m-accordion__item{
-    overflow: auto !important;
+    overflow: visible !important;
 }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
@@ -90,9 +91,48 @@ margin-bottom: 0rem !important
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
                             <div class="m-portlet__head-title">
-                                <h3 class="m-portlet__head-text">
-                                   Năm học: 2020-2021
+                                <div class="row">
+                                <h3 class="m-portlet__head-text col-md-10">
+                                   Năm học: 2020-2021 
                                 </h3>
+                                <span class="col-md-2"><i class="la la-plus " data-toggle="modal" data-target="#modal-add-khoi"></i></span>
+                               {{-- start modal add khối --}}
+                               <div class="modal fade" id="modal-add-khoi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <form  method="post">   
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Thêm khối</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"  id="basic-addon3">Tên khối</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="ten_khoi" id="basic-url" aria-describedby="basic-addon3">
+                                                </div>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"  id="basic-addon3">Độ tuổi</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="do_tuoi">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                            <button type="submit" class="btn btn-primary">Thêm</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                               {{-- end modal add khối --}}
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -102,13 +142,14 @@ margin-bottom: 0rem !important
                         <div class="m-accordion m-accordion--default m-accordion--solid m-accordion--section  m-accordion--toggle-arrow" id="m_accordion_7" role="tablist">
 
                             <!--begin::Item-->
+                            @foreach ($namhoc->Khoi as $item)
                             <div class="m-accordion__item">
-                                <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_7_item_1_head" data-toggle="collapse" href="#m_accordion_7_item_1_body" aria-expanded="false">
+                            <div class="m-accordion__item-head collapsed" role="tab" id="tab{{$item->id}}_item_1_head" data-toggle="collapse" href="#tab{{$item->id}}_item_1_body" aria-expanded="false">
                                     <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span class="m-accordion__item-title">Khối cành (2 tuổi)</span>  
+                                    <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{$item->do_tuoi}} tuổi)</span>  
                                     <i class="la la-plus"></i>
                                 </div>
-                                <div class="m-accordion__item-body collapse" id="m_accordion_7_item_1_body" role="tabpanel" aria-labelledby="m_accordion_7_item_1_head" >
+                                <div class="m-accordion__item-body collapse" id="tab{{$item->id}}_item_1_body" role="tabpanel" aria-labelledby="tab{{$item->id}}_item_1_head" >
                                     <div class="m-accordion__item-content">
                                         <div class="m-dropdown__wrapper">
                                             <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
@@ -116,34 +157,23 @@ margin-bottom: 0rem !important
                                                 <div class="m-dropdown__body">
                                                     <div class="m-dropdown__content">
                                                         <ul class="m-nav">
+                                                            @foreach ($item->LopHoc as $lop_hoc)
                                                             <li class="m-nav__item pl-4"  style="cursor: pointer">
                                                                 <span href="" class="m-nav__link">
-                                                                    <span class="m-nav__link-text">Lớp Hoa lý 1 (40)</span>
+                                                                    <span class="m-nav__link-text">{{$lop_hoc->ten_lop}} ({{ $lop_hoc->tong_so_hoc_sinh }})</span>
                                                                     <div class="dropdown">
                                                                     <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                        <a class="dropdown-item" href="#">Action</a>
-                                                                        <a class="dropdown-item" href="#">Another action</a>
-                                                                        <a class="dropdown-item" href="#">Something else here</a>
+                                                                        <a class="dropdown-item" href="#">Sửa</a>
+                                                                        <a class="dropdown-item" href="#">Xóa</a>
+                                                                        <a class="dropdown-item" href="#">Chi tiết</a>
                                                                       </div>
                                                                     </div>
-                
                                                                 </span>
                                                             </li>
-                                                            <li class="m-nav__item pl-4" style="cursor: pointer">
-                                                                <span href="" class="m-nav__link">
-                                                               
-                                                                    <span class="m-nav__link-text">Lớp Hoa lý 1 (40)</span>
-                                                                    <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v"></i>
-
-                                                                </span>
-                                                            </li>
-                                                            <li class="m-nav__item pl-4" style="cursor: pointer">
-                                                                <span href="" class="m-nav__link">                             
-                                                                    <span class="m-nav__link-text">Lớp Hoa lý 1 (40)</span>
-                                                                    <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v"></i>
-                                                                </span>
-                                                            </li>
+                                                            @endforeach
+                                                          
+                                                   
                                                         </ul>
 
                                                         <!--end::Nav-->
@@ -154,40 +184,8 @@ margin-bottom: 0rem !important
                                     </div>
                                 </div>
                             </div>
-
-                            <!--end::Item-->
-
-                            <!--begin::Item-->
-                            <div class="m-accordion__item">
-                                <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_7_item_2_head" data-toggle="collapse" href="#m_accordion_7_item_2_body" aria-expanded="    false">
-                                    <span class="m-accordion__item-mode"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span class="m-accordion__item-title">Khối lá (3 tuổi)</span>
-                                    <i class="la la-plus"></i>
-                                </div>
-                                <div class="m-accordion__item-body collapse" id="m_accordion_7_item_2_body" role="tabpanel" aria-labelledby="m_accordion_7_item_2_head" >
-                                    <div class="m-accordion__item-content">
-                                      
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--end::Item-->
-
-                            <!--begin::Item-->
-                            <div class="m-accordion__item">
-                                <div class="m-accordion__item-head collapsed" role="tab" id="m_accordion_7_item_3_head" data-toggle="collapse" href="#m_accordion_7_item_3_body" aria-expanded="    false">
-                                    <span class="m-accordion__item-mode"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span class="m-accordion__item-title">Khối hoa (4 tuổi)</span>
-                                    <i class="la la-plus"></i>
-                                </div>
-                                <div class="m-accordion__item-body collapse" id="m_accordion_7_item_3_body" role="tabpanel" aria-labelledby="m_accordion_7_item_3_head" >
-                                    <div class="m-accordion__item-content">
-                                       
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--end::Item-->
+                            @endforeach
+                            
                         </div>
 
                         <!--end::Section-->

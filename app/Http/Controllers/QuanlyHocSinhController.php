@@ -21,6 +21,7 @@ use App\Repositories\XaPhuongThiTranRepository;
 use App\Repositories\DoiTuongChinhSachRepository;
 use Storage;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\NamHocRepository;
 
 class QuanlyHocSinhController extends Controller
 {
@@ -32,7 +33,7 @@ class QuanlyHocSinhController extends Controller
     protected $QuanHuyenRepository;
     protected $XaPhuongThiTranRepository;
     protected $DoiTuongChinhSachRepository;
-
+    protected $NamHocRepository;
     public function __construct(
         LopHocRepository $LopHoc,
         KhoiRepository $Khoi,
@@ -41,7 +42,8 @@ class QuanlyHocSinhController extends Controller
         TinhThanhPhoRepository $TinhThanhPhoRepository,
         QuanHuyenRepository  $QuanHuyenRepository,
         XaPhuongThiTranRepository  $XaPhuongThiTranRepository,
-        DoiTuongChinhSachRepository $DoiTuongChinhSachRepository
+        DoiTuongChinhSachRepository $DoiTuongChinhSachRepository,
+        NamHocRepository $NamHocRepository
         
         
     ){
@@ -53,6 +55,7 @@ class QuanlyHocSinhController extends Controller
         $this->QuanHuyenRepository = $QuanHuyenRepository;
         $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
         $this->DoiTuongChinhSachRepository = $DoiTuongChinhSachRepository;
+        $this->NamHocRepository = $NamHocRepository;
     }
 
     /**
@@ -65,12 +68,15 @@ class QuanlyHocSinhController extends Controller
     //     $khoi = $this->Khoi->getAllKhoi();  
     //     return view('quan-ly-hoc-sinh.index',compact('khoi'));
     // }
-    public function index()
+    public function index($id)
     {
+        // dd($id);
+        $namhoc = $this->NamHocRepository->find($id);  
         $hocsinh = $this->HocSinh->getAll();
         // dd($hocsinh);
         return view('quan-ly-hoc-sinh.quan-ly-hoc-sinh',[
             'hocsinh' => $hocsinh,
+            'namhoc' => $namhoc
         ]);
     }
 
@@ -360,35 +366,35 @@ class QuanlyHocSinhController extends Controller
 
 
     public function errorFileImport(Request $request){
-        $nameFile=$request->file_import->getClientOriginalName();
-        $nameFileArr=explode('.',$nameFile);
-        $duoiFile=end($nameFileArr);
+        // $nameFile=$request->file_import->getClientOriginalName();
+        // $nameFileArr=explode('.',$nameFile);
+        // $duoiFile=end($nameFileArr);
 
-        $fileRead = $_FILES['file_import']['tmp_name'];
-        $pathLoad = Storage::putFile(
-            'uploads/excels',
-            $request->file('file_import')
-        );
-        $path = str_replace("/","\\",$pathLoad);
-        $fileReadStorage= storage_path('app\\'.$path);
-        // $fileReadStorage= storage_path('app/public/'.$pathLoad);
+        // $fileRead = $_FILES['file_import']['tmp_name'];
+        // $pathLoad = Storage::putFile(
+        //     'uploads/excels',
+        //     $request->file('file_import')
+        // );
+        // $path = str_replace("/","\\",$pathLoad);
+        // $fileReadStorage= storage_path('app\\'.$path);
+        // // $fileReadStorage= storage_path('app/public/'.$pathLoad);
 
-        $spreadsheet = $this->createSpreadSheet($fileReadStorage,$duoiFile);
-        $data = $spreadsheet->getActiveSheet()->toArray();
+        // $spreadsheet = $this->createSpreadSheet($fileReadStorage,$duoiFile);
+        // $data = $spreadsheet->getActiveSheet()->toArray();
             
-        // $truong = explode(' - ', $data[0][0]);
-        // $id_truong = trim(array_pop($truong));
-        // $arrayApha=['H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK'];
-        // $vitri=$this->checkError($data, $arrayApha, 8 , 7, 36);
+        // // $truong = explode(' - ', $data[0][0]);
+        // // $id_truong = trim(array_pop($truong));
+        // // $arrayApha=['H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK'];
+        // // $vitri=$this->checkError($data, $arrayApha, 8 , 7, 36);
     
-        $spreadsheet2 = IOFactory::load($fileReadStorage);
-        $worksheet = $spreadsheet2->getActiveSheet();
-        Storage::delete($path);
-        // $this->errorRebBackGroud($vitri,$worksheet);
-        $writer = IOFactory::createWriter($spreadsheet2, "Xlsx"); 
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="Error-file-nhap-so-lieu-tuyen-sinh.xlsx"');
-        $writer->save("php://output");
+        // $spreadsheet2 = IOFactory::load($fileReadStorage);
+        // $worksheet = $spreadsheet2->getActiveSheet();
+        // Storage::delete($path);
+        // // $this->errorRebBackGroud($vitri,$worksheet);
+        // $writer = IOFactory::createWriter($spreadsheet2, "Xlsx"); 
+        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        // header('Content-Disposition: attachment; filename="Error-file-nhap-so-lieu-tuyen-sinh.xlsx"');
+        // $writer->save("php://output");
     }
 
    

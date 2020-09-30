@@ -119,7 +119,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                <a type="button" href="{{route('nam-hoc-chi-tiet')}}" class="btn m-btn--pill m-btn--air btn-outline-info">Xếp lớp</a>
+                                <a type="button" href="{{route('nam-hoc-chi-tiet',['id'=>113])}}" class="btn m-btn--pill m-btn--air btn-outline-info">Xếp lớp</a>
                                 <button
                                     type="button"
                                     class="btn m-btn--pill m-btn--air btn-outline-info"
