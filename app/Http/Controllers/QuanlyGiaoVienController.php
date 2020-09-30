@@ -154,4 +154,9 @@ class QuanlyGiaoVienController extends Controller
         $this->GiaoVienRepository->destroy_gv($data['id']);
         return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
     }
+
+    public function getGiaoVienChuaCoLop()
+    {   
+       return $this->GiaoVienRepository->getGIaoVienChuaCoLop();
+    }
 }

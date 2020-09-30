@@ -40,11 +40,14 @@ Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::post('/update/{id}', 'QuanlyGiaoVienController@update')->name('quan-ly-giao-vien-update');
     Route::post('/lop-theo-khoi', 'QuanlyGiaoVienController@getLopTheoKhoi')->name('quan-ly-giao-vien-get-lop-theo-khoi');
     Route::post('/destroy', 'QuanlyGiaoVienController@destroy')->name('quan-ly-giao-vien-destroy');
+
+    Route::get('/get-giao-vien-chua-co-lop', 'QuanlyGiaoVienController@getGiaoVienChuaCoLop')->name('quan-ly-giao-vien-chua-co-lop');
 });
 Route::prefix('quan-ly-hoc-sinh')->group(function () {
-    Route::get('/', 'QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
+    Route::get('/thong-tin/{id}', 'QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
     Route::get('/create', 'QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
     Route::get('/edit/{id}', 'QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
+    Route::post('/update/{id}', 'QuanlyHocSinhController@update')->name('quan-ly-hoc-sinh-update');
     Route::post('/store', 'QuanlyHocSinhController@store')->name('quan-ly-hoc-sinh-store');
 
     Route::post('export-bieu-mau', 'QuanlyHocSinhController@exportBieuMau')->name('export-bieu-mau-nhap-hoc-sinh');
@@ -66,6 +69,8 @@ Route::prefix('quan-ly-khoi')->group(function () {
     Route::post('/post_create', 'KhoiController@post_create')->name('quan-ly-khoi-post_create');
     Route::post('/destroy', 'KhoiController@destroy')->name('quan-ly-khoi-destroy');
     Route::post('/store/{id}', 'KhoiController@store')->name('quan-ly-khoi-store');
+    Route::post('/show', 'KhoiController@show')->name('quan-ly-khoi-show');
+    Route::post('/update', 'KhoiController@update')->name('quan-ly-khoi-update');
 });
 
 Route::prefix('quan-ly-lop')->group(function () {
@@ -74,16 +79,23 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::get('/show/{id}', 'LopController@show')->name('quan-ly-lop-show');
     Route::get('/phan-lop', 'LopController@phanLop')->name('quan-ly-lop-phan-lop');
     Route::get('/xep-lop', 'LopController@xepLop')->name('quan-ly-lop-xep-lop');
-    Route::get('/edit/{id}', 'LopController@edit')->name('quan-ly-lop-edit');
+
+    //Lớp v2
+
+    Route::post('/edit', 'LopController@edit')->name('quan-ly-lop-edit');
     Route::post('/store', 'LopController@store')->name('quan-ly-lop-phan-store');
-    Route::post('/update/{id}', 'LopController@update')->name('quan-ly-lop-update');
+    Route::post('/update', 'LopController@update')->name('quan-ly-lop-update');
     Route::post('/destroy', 'LopController@destroy')->name('quan-ly-lop-destroy');
+
+    // start v2
+    Route::post('/show-data-hoc-sinh-theo-lop', 'LopController@showHsTheoLop')->name('quan-ly-lop-show-data-hoc-sinh');
 });
 
 Route::group(['middleware' => ['web', 'auth']], function () {
     Route::prefix('nam-hoc')->group(function () {
         Route::get('/', 'NamHocController@index')->name('nam-hoc.index');
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
+        Route::get('/chi-tiet-nam-hoc/{id}', 'QuanLyTrongNamController@index')->name('nam-hoc-chi-tiet');
     });
     Route::prefix('thong-bao')->group(function () {
         Route::get('/', 'ThongBaoController@uiThongBaoGiaoVien')->name('thong-bao.ui-gv');

@@ -22,7 +22,7 @@ class Lop extends Model
 
     public function HocSinh()
     {
-        return $this->hasMany(HocSinh::class);
+        return $this->hasMany(HocSinh::class,'lop_id','id');
     }
 
     public function Khoi()

@@ -71,12 +71,8 @@ class QuanLyDangKyNhapHocController extends Controller
 
         $avatar =$request->file("avatar");
         if($avatar != null){
-            $pathLoad = Storage::putFile(
-                'public/uploads/avatar',
-                $avatar
-            );
-            $path = str_replace("/","\\",$pathLoad);
-            $path = trim($path, 'public/');
+            $pathLoad = $avatar->store('public/uploads/avatar');
+            $path =  $pathLoad;
             $data['avatar']=$path;
         }else{
             $data['avatar']=$hs_dk->avatar;

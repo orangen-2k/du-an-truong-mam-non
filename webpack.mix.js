@@ -49,6 +49,8 @@ mix.styles(
         [
             "public/assets/vendors/base/vendors.bundle.js",
             "public/assets/demo/base/scripts.bundle.js",
+            "public/assets/demo/custom/components/base/treeview.js",
+            "public/assets/demo/custom/crud/forms/widgets/select2.js",
             "public/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js",
             "public/assets/app/js/dashboard.js",
             "public/vendors/jquery.repeater/src/lib.js",

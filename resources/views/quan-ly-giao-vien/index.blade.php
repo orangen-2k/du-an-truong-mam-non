@@ -1,5 +1,12 @@
 @extends('layouts.main')
 @section('title', "Quản lý giáo viên")
+@section('style')
+<style>
+    .paginate_button{
+        /* background-color: red !important */
+    }
+</style>
+@endsection
 @section('content')
 <div class="m-content">
     <div class="row">
@@ -108,7 +115,8 @@
     </section>
     <div class="m-portlet">
         <div class="m-portlet__body table-responsive">
-            <table class="table m-table m-table--head-bg-success">
+            
+            <table id="myTable"  class="table m-table dataTable m-table--head-bg-success">
                 <thead>
                     <tr>
                         <th>STT</th>
@@ -122,10 +130,30 @@
                         <th>Chức năng</th>
                     </tr>
                 </thead>
+                <thead>
+                    <tr>
+                        <td scope="row"><input class="search1" style="width: 70px;" type="text"></td>
+                        <td scope="row"><input class="search2" style="width: 70px;" type="text"></td>
+                        <td scope="row"><input class="search3" style="width: 70px;" type="text"></td>
+                        <td scope="row"><input class="search4" style="width: 70px;" type="text"></td>
+                        <td scope="row"><input class="search5" style="width: 70px;" type="text"></td>
+                        <td scope="row">
+                            <select name="" id="" class="search6">
+                                <option value="">Chọn</option>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </td>
+                        <td scope="row"><input class="search7" style="width: 70px;" type="text"></td>
+                        <td scope="row"><input class="search8" style="width: 70px;" type="text"></td>
+                        <td scope="row"><input class="search9" style="width: 70px;" type="text"></td>
+                    </tr>
+                </thead>
                 <tbody>
                     @php
                     $i = !isset($_GET['page']) ? 1 : ($limit * ($_GET['page']-1) + 1)
                     @endphp
+                    
                     @foreach ($data as $item)
                     <tr>
                         <th scope="row">{{$i++}}</th>
@@ -133,7 +161,7 @@
                         <td>{{$item->ten}}</td>
                         @if ($item->anh == "")
                         <td><img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
-                                height="100px" width="75px" alt=""></td>
+                                height="100px" width="85px" alt=""></td>
                         @else
                         <td><img src="{{ Storage::url($item->anh)}}" height="100px" width="75px" alt=""></td>
                         @endif
@@ -148,8 +176,7 @@
                         <td>
                             <a href="{{route('quan-ly-giao-vien-edit', ['lop_id'=>$item->lop_id, 'id' => $item->id])}}"><button
                                     type="button" class="btn btn-primary">Chi tiết</button></a>
-                            <button type="button" onclick="delete_gv({{$item->id}})"
-                                    class="btn btn-danger">Xóa</button>
+                            <button type="button" onclick="delete_gv({{$item->id}})" class="btn btn-danger">Xóa</button>
                         </td>
 
                     </tr>
@@ -207,5 +234,93 @@
         })
     }
 </script>
+<script>
+$(document).ready( function () {
+//     $('#myTable').DataTable({
+//     "pagingType": "full_numbers"
+//   });
+    var dtable = $('#myTable').DataTable();
 
+    $('.search1').on('keyup change', function() {
+    dtable
+    .column(0).search(this.value)
+    .draw();
+    });
+
+    $('.search2').on('keyup change', function() {
+    dtable
+    .column(1).search(this.value)
+    .draw();
+    });
+
+    $('.search3').on('keyup change', function() {
+    dtable
+    .column(2).search(this.value)
+    .draw();
+    });
+
+    $('.search4').on('keyup change', function() {
+    dtable
+    .column(3).search(this.value)
+    .draw();
+    });
+    $('.search5').on('keyup change', function() {
+    dtable
+    .column(4).search(this.value)
+    .draw();
+    });
+
+    $('.search6').on('change', function() {
+    dtable
+    .column(5).search(this.value)
+    .draw();
+    });
+
+    $('.search7').on('keyup change', function() {
+    dtable
+    .column(6).search(this.value)
+    .draw();
+    });
+
+    $('.search8').on('keyup change', function() {
+    dtable
+    .column(7).search(this.value)
+    .draw();
+    });
+});
+$(".dataTable").on("draw.dt", function (e) {                    
+    setCustomPagingSigns.call($(this));
+}).each(function () {
+    setCustomPagingSigns.call($(this)); // initialize
+});
+
+
+// this should work with standard datatables styling - li.previous/li.next
+function setCustomPagingSigns() {
+    var wrapper = this.parent();
+    wrapper.find("li.previous > a").text("<");
+    wrapper.find("li.next > a").text(">");          
+}
+
+//  - a.previous/a.next
+function setCustomPagingSigns() {
+    var wrapper = this.parent();
+    wrapper.find("a.previous").text("<");
+    wrapper.find("a.next").text(">");           
+}
+
+// this one works with complex headers example, bootstrap style
+function setCustomPagingSigns() {
+    var wrap = this.closest(".dataTables_wrapper");
+    var lastrow= wrap.find("div.row:nth-child(3)");
+    lastrow.find("li.previous>a").text("<");
+    lastrow.find("li.next>a").text(">");    
+}
+
+</script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+ {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> --}}
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> 
 @endsection
