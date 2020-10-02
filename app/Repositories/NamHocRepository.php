@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\NamHoc;
 use App\Repositories\BaseModelRepository;
+use Carbon\Carbon;
 
 class NamHocRepository extends BaseModelRepository
 {
@@ -23,5 +24,11 @@ class NamHocRepository extends BaseModelRepository
     public function getAllNamHoc()
     {
         return $this->model::orderBy('start_date', 'desc')->get();
+    }
+
+    public function layNamHocHienTai()
+    {
+        return $this->model::whereDate('start_date', '<=', Carbon::now())
+            ->whereDate('end_date', '>=', Carbon::now())->first();
     }
 }

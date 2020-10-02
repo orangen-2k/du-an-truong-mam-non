@@ -98,6 +98,12 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/chi-tiet-nam-hoc/{id}', 'QuanLyTrongNamController@index')->name('nam-hoc-chi-tiet');
     });
     Route::prefix('thong-bao')->group(function () {
-        Route::view('/', 'thong-bao/index');
+        Route::get('/', 'ThongBaoController@index')->name('thong-bao.index');
+        Route::get('/toan-truong', 'ThongBaoController@uiThongBaoToanTruong')->name('thong-bao.ui-tt');
+        Route::get('/giao-vien', 'ThongBaoController@uiThongBaoGiaoVien')->name('thong-bao.ui-gv');
+        Route::get('/hoc-sinh', 'ThongBaoController@uiThongBaoHocSinh')->name('thong-bao.ui-hs');
+
+        Route::post('sendto', 'ThongBaoController@store')->name('sendto');
+        Route::post('sendto-toan-truong', 'ThongBaoController@postToanTruong')->name('sendto_toantruong');
     });
 });
