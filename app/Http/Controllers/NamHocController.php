@@ -41,9 +41,8 @@ class NamHocController extends Controller
     }
     public function chiTietNamHoc()
     {
-        
+
         return view('nam-hoc.chi_tiet_nam_hoc');
-        
-    
+
     }
 }

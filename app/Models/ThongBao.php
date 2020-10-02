@@ -8,9 +8,7 @@ class ThongBao extends Model
 {
     protected $table = 'thong_bao';
     protected $fillable = [
-        'title',
-        'content',
-        'user_id',
-        'auth_id',
+        'thongbao_id',
+        'user_id'
     ];
 }
