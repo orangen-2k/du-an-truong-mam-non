@@ -11,9 +11,9 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
-use \App\Repositories\LopHocRepository;
+use \App\Repositories\LopRepository;
 use \App\Repositories\KhoiRepository;
-use \App\Repositories\HocSinhRepository;
+use  App\Repositories\HocSinhRepository;
 use \App\Repositories\GiaoVienRepository;
 use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\QuanHuyenRepository;
@@ -25,9 +25,9 @@ use App\Repositories\NamHocRepository;
 
 class QuanlyHocSinhController extends Controller
 {
-    protected $LopHoc;
+    protected $LopRepository;
     protected $Khoi;
-    protected $HocSinh;
+    protected $HocSinhRepository;
     protected $GiaoVien;
     protected $TinhThanhPhoRepository;
     protected $QuanHuyenRepository;
@@ -35,9 +35,9 @@ class QuanlyHocSinhController extends Controller
     protected $DoiTuongChinhSachRepository;
     protected $NamHocRepository;
     public function __construct(
-        LopHocRepository $LopHoc,
+        LopRepository $LopRepository,
         KhoiRepository $Khoi,
-        HocSinhRepository $HocSinh,
+        HocSinhRepository $HocSinhRepository,
         GiaoVienRepository $GiaoVien,
         TinhThanhPhoRepository $TinhThanhPhoRepository,
         QuanHuyenRepository  $QuanHuyenRepository,
@@ -47,9 +47,9 @@ class QuanlyHocSinhController extends Controller
         
         
     ){
-        $this->LopHoc = $LopHoc;
+        $this->LopRepository = $LopRepository;
         $this->Khoi = $Khoi;
-        $this->HocSinh = $HocSinh;
+        $this->HocSinhRepository = $HocSinhRepository;
         $this->GiaoVien = $GiaoVien;
         $this->TinhThanhPhoRepository = $TinhThanhPhoRepository;
         $this->QuanHuyenRepository = $QuanHuyenRepository;
@@ -72,7 +72,7 @@ class QuanlyHocSinhController extends Controller
     {
         // dd($id);
         $namhoc = $this->NamHocRepository->find($id);  
-        $hocsinh = $this->HocSinh->getAll();
+        $hocsinh = $this->HocSinhRepository->getAll();
         // dd($hocsinh);
         return view('quan-ly-hoc-sinh.quan-ly-hoc-sinh',[
             'hocsinh' => $hocsinh,
@@ -397,6 +397,48 @@ class QuanlyHocSinhController extends Controller
         // $writer->save("php://output");
     }
 
-   
+    public function showHocSinhChuaCoLop(Request $request)
+    {
+        $lop_id = $request->id;
+        $lop = $this->LopRepository->find($lop_id);
+        $ten_lop = $lop->ten_lop;
+        $tong_so_hs = $lop->tong_so_hoc_sinh;
+        $hoc_sinh_nam_chua_co_lop = $this->HocSinhRepository->getAllHocSinhChuaCoLop(0);
+        $hoc_sinh_nu_chua_co_lop = $this->HocSinhRepository->getAllHocSinhChuaCoLop(1);
+        $do_tuoi = config('common.do_tuoi');
+        // dd($do_tuoi);
+        $data_hs_chua_co_lop = [];
+        foreach ($do_tuoi as $key => $value) {
+            $data_nu = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value,1);
+            $data_nam = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value,0);
+            $data_do_tuoi=[
+                'do_tuoi'=>$value,
+                'nam'=>$data_nam,
+                'nu'=>$data_nu,
+            ];
+            array_push($data_hs_chua_co_lop,$data_do_tuoi);
+        }
+        return [
+            'ten_lop' => $ten_lop,
+            'tong_so_hs' => $tong_so_hs,
+            'hoc_sinh_nam_chua_co_lop' => $hoc_sinh_nam_chua_co_lop,
+            'hoc_sinh_nu_chua_co_lop' => $hoc_sinh_nu_chua_co_lop,
+            'data_hs_chua_co_lop' => $data_hs_chua_co_lop
+        ];
+    }
+
+    public function chuyenLop(Request $request)
+    {
+        $lop_id = $request->lop_id;
+        $lop_id_chuyen = $request->lop_id_chuyen;
+        $id_hs_chuyen_lop = $request->id_hs_chuyen_lop;
+        $this->HocSinhRepository->chuyenLop($lop_id_chuyen,$id_hs_chuyen_lop);
+        $lop_chuyen = $this->LopRepository->find($lop_id_chuyen);
+        $lop_hien_tai = $this->LopRepository->find($lop_id);
+        return [
+            'sl_hs_cua_lop_chuyen_den' => count($lop_chuyen->HocSinh),
+            'sl_hs_cua_lop_hien_tai' => count($lop_hien_tai->HocSinh),
+        ];
+    }
 
 }
