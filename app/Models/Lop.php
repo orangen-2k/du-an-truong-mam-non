@@ -17,7 +17,7 @@ class Lop extends Model
 
     public function GiaoVien()
     {
-        return $this->hasMany(GiaoVien::class);
+        return $this->hasMany(GiaoVien::class,'lop_id','id');
     }
 
     public function HocSinh()

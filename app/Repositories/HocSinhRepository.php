@@ -2,11 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Repositories\BaseRepository;
+use App\Repositories\BaseModelRepository;
 use Illuminate\Support\Facades\DB;
 use App\Models\HocSinh;
+use Carbon\Carbon;
 
-class HocSinhRepository extends BaseRepository
+class HocSinhRepository extends BaseModelRepository
 {
     protected $model;
     public function __construct(
@@ -16,9 +17,9 @@ class HocSinhRepository extends BaseRepository
         $this->model = $model;
     }
 
-    public function getTable()
+    public function getModel()
     {
-        return 'hoc_sinh';
+        return HocSinh::class;
     }
 
     public function getAllHocSinh(){
@@ -63,6 +64,34 @@ class HocSinhRepository extends BaseRepository
     {
         $data = $this->table;
         return $data->paginate($limit);
+    }
+
+    public function getAllHocSinhChuaCoLop($gioi_tinh){
+        return  $this->model->where('lop_id',0)->where('gioi_tinh',$gioi_tinh)->count();
+    }
+
+    public function xepLopTuDong($id_lop,$do_tuoi,$gioi_tinh,$sl_hs)
+    {
+        return $this->model
+        ->whereRaw('ROUND(DATEDIFF(CURDATE(), ngay_sinh)/365,0)=?',[$do_tuoi])
+        ->where("lop_id",0)->where('gioi_tinh',$gioi_tinh)
+        ->orderBy('created_at')
+        ->limit($sl_hs)
+        ->update(["lop_id" => $id_lop]);
+    }
+
+    public function getHocSinhChuaCoLopTheoDoTuoi($tuoi,$gioi_tinh)
+    {
+        return $this->model
+        ->whereRaw('ROUND(DATEDIFF(CURDATE(), ngay_sinh)/365,0)= ? ',[$tuoi])
+        ->where('gioi_tinh',$gioi_tinh)
+        ->where("lop_id",0)
+        ->count();
+    }
+
+    public function chuyenLop($lop_id,$id_hs_chuyen_lop)
+    {
+       return $this->model->whereIn('id',$id_hs_chuyen_lop)->update(['lop_id'=>$lop_id]);
     }
     
 }
