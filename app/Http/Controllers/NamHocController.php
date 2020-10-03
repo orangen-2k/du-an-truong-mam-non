@@ -13,7 +13,7 @@ class NamHocController extends Controller
         $this->NamHocRepository = $NamHocRepository;
     }
 
-    public function index(Type $var = null)
+    public function index()
     {
         $data = $this->NamHocRepository->getAllNamHoc();
         return view('nam-hoc.index', compact('data'));
