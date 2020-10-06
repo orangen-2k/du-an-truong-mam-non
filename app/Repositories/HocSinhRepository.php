@@ -70,6 +70,14 @@ class HocSinhRepository extends BaseModelRepository
         return  $this->model->where('lop_id',0)->where('gioi_tinh',$gioi_tinh)->count();
     }
 
+    public function getSlHocSinhChuaCoLop(){
+        return  $this->model->where('lop_id',0)->count();
+    }
+
+    public function getDataHocSinhChuaCoLop(){
+        return  $this->model->where('lop_id',0)->get();
+    }
+
     public function xepLopTuDong($id_lop,$do_tuoi,$gioi_tinh,$sl_hs)
     {
         return $this->model

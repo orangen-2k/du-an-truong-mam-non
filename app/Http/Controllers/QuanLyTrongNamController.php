@@ -64,10 +64,10 @@ class QuanLyTrongNamController extends Controller
         $khoi = $this->KhoiRepository->getAll();
         $giao_vien = $this->GiaoVienRepository->getGIaoVienChuaCoLop();
         $namhoc = $this->NamHocRepository->find($id);  
-        $hocsinh = $this->HocSinhRepository->getAll();
+        $sl_hs_chua_co_lop = $this->HocSinhRepository->getSlHocSinhChuaCoLop();
         // dd($hocsinh);
         return view('nam-hoc.chi_tiet_nam_hoc',[
-            'hocsinh' => $hocsinh,
+            'sl_hs_chua_co_lop' => $sl_hs_chua_co_lop,
             'namhoc' => $namhoc,
             'id_nam_hoc' =>$id,
             'khoi' => $khoi,
