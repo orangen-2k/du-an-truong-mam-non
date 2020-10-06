@@ -132,8 +132,13 @@
                   <h3 class="m-portlet__head-text col-md-10">
                     Năm học: {{$namhoc->name}} <input type="hidden" name="" id="nam_hoc" value="{{$namhoc->id}}">
                   </h3>
+                 
+                  @if ($namhoc->type == 1)
                   <span class="col-md-2"><i class="la la-plus " data-toggle="modal"
                       data-target="#modal-add-khoi"></i></span>
+                      @endif
+                
+
                   {{-- start modal add khối --}}
                   <div class="modal fade" id="modal-add-khoi" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -494,8 +499,10 @@
                 <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{$item->do_tuoi}} tuổi)</span>
                 <div class="dropdown">
+                  @if ($namhoc->type ==1)
                   <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true"></i>
+                  data-toggle="dropdown" aria-haspopup="true"></i>
+                  @endif      
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <span class="dropdown-item" data-toggle="modal" onclick="getDataSuaKhoi({{$item->id}})"
                       data-target="#modal-sua-khoi"><i class="flaticon-edit-1"></i> Sửa</span>
@@ -526,11 +533,14 @@
                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false"></i>
                                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @if ($namhoc->type == 1)
                                     <span class="dropdown-item" data-toggle="modal" data-target="#modal-cap-nhat-lop"
-                                      onclick="getDataCapNhatLop({{$lop_hoc->id}})"><i class="flaticon-edit-1"></i>
-                                      Sửa</span>
-                                    <span class="dropdown-item" onclick="deleteLop({{$lop_hoc->id}})"><i
-                                        class="flaticon-delete"></i>Xóa</span>
+                                    onclick="getDataCapNhatLop({{$lop_hoc->id}})"><i class="flaticon-edit-1"></i>
+                                    Sửa</span>
+                                  <span class="dropdown-item" onclick="deleteLop({{$lop_hoc->id}})"><i
+                                      class="flaticon-delete"></i>Xóa</span> 
+                                    @endif
+                          
                                     <span class="dropdown-item"><i class="flaticon-paper-plane"></i>Chi tiết</span>
                                   </div>
                                 </div>
