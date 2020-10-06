@@ -31,4 +31,10 @@ class NamHocRepository extends BaseModelRepository
         return $this->model::whereDate('start_date', '<=', Carbon::now())
             ->whereDate('end_date', '>=', Carbon::now())->first();
     }
+
+    public function checkNew()
+    {
+        $data = $this->model::where('type', 1)->get();
+        return count($data) > 0 ? 0 : 1;
+    }
 }

@@ -16,12 +16,12 @@
                     <div class="m-portlet__head-tools">
                         <ul class="nav nav-pills m-portlet__nav nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
                             <li class="nav-item m-tabs__item">
-                                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_widget5_tab1_content" role="tab" aria-selected="false">
+                                <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_widget5_tab1_content" role="tab" aria-selected="true">
                                     Toàn bộ
                                 </a>
                             </li>
                             <li class="nav-item m-tabs__item">
-                                <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#m_widget5_tab2_content" role="tab" aria-selected="true">
+                                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_widget5_tab2_content" role="tab" aria-selected="false">
                                     Giáo viên
                                 </a>
                             </li>
@@ -42,19 +42,19 @@
                                             <div class="m-dropdown__content">
                                                 <ul class="m-nav">
                                                     <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
+                                                    <a href="{{ route('thong-bao.ui-tt') }}" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-share"></i>
                                                             <span class="m-nav__link-text">Gửi toàn trường</span>
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
+                                                        <a href="{{ route('thong-bao.ui-gv') }}" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-chat-1"></i>
                                                             <span class="m-nav__link-text">Gửi giáo viên</span>
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="" class="m-nav__link">
+                                                        <a href="{{ route('thong-bao.ui-hs') }}" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-info"></i>
                                                             <span class="m-nav__link-text">Gửi phụ huynh</span>
                                                         </a>
@@ -73,284 +73,159 @@
 
                     <!--begin::Content-->
                     <div class="tab-content">
-                        <div class="tab-pane" id="m_widget5_tab1_content" aria-expanded="true">
+                        <div class="tab-pane active show" id="m_widget5_tab1_content" aria-expanded="true">
 
-                            <!--begin::m-widget5-->
-                            <div class="m-widget3">
-                                <div class="m-widget3__item">
-                                    <div class="m-widget3__header">
-                                        <div class="m-widget3__user-img">
-                                            <img class="m-widget3__img" src="../../assets/app/media/img/users/user1.jpg" alt="">
+                            <!--begin::m-widget3-->
+                            @foreach ($data as $item )
+                                @if ($item->type == 1)
+                                <div class="m-widget3">
+                                    <div class="m-widget3__item">
+                                        <div class="m-widget3__header">
+                                            <div class="m-widget3__user-img">
+                                                <img class="m-widget3__img" src="../../assets/app/media/img/users/user1.jpg" alt="">
+                                            </div>
+                                            <div class="m-widget3__info">
+                                                <span class="m-widget3__username">
+                                                    {{ $item->Auth->name}}
+                                                </span><br>
+                                                <span class="m-widget3__time">
+                                                    2 day ago
+                                                </span>
+                                            </div>
+                                        <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
+                                                Xem
+                                            </a>
                                         </div>
-                                        <div class="m-widget3__info">
-                                            <span class="m-widget3__username">
-                                                Melania Trump
-                                            </span><br>
-                                            <span class="m-widget3__time">
-                                                2 day ago
-                                            </span>
+                                        <div class="m-widget3__body">
+                                            <div class="m-widget5__section">
+                                                <h4 class="m-widget5__title">
+                                                    {{ $item->title}}
+                                                </h4>
+                                                <div class="m-widget5__info">
+                                                    <span class="m-widget5__author">
+                                                        Author:
+                                                    </span>
+                                                    <span class="m-widget5__info-author m--font-info">
+                                                        {{ $item->Auth->name}}
+                                                    </span>
+                                                    <span class="m-widget5__info-label">
+                                                        Released:
+                                                    </span>
+                                                    <span class="m-widget5__info-date m--font-info">
+                                                        {{ $item->created_at}}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <span class="m-widget3__status m--font-info">
-                                            Pending
-                                        </span>
-                                    </div>
-                                    <div class="m-widget3__body">
-                                        <p class="m-widget3__text">
-                                            Lorem ipsum dolor sit amet,consectetuer edipiscing elit,sed diam nonummy nibh euismod tinciduntut laoreet doloremagna aliquam erat volutpat.
-                                        </p>
                                     </div>
                                 </div>
-                            </div>
+                                <hr>
+                                @endif
+                            @endforeach
+                            
 
-                            <!--end::m-widget5-->
+                            <!--end::m-widget3-->
                         </div>
-                        <div class="tab-pane active show" id="m_widget5_tab2_content" aria-expanded="false">
+                        <div class="tab-pane" id="m_widget5_tab2_content" aria-expanded="false">
 
                             <!--begin::m-widget5-->
-                            <div class="m-widget5">
-                                <div class="m-widget5__item">
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__pic">
-                                            <img class="m-widget7__img" src="../../assets/app/media/img//products/product11.jpg" alt="">
-                                        </div>
-                                        <div class="m-widget5__section">
-                                            <h4 class="m-widget5__title">
-                                                Branding Mockup
-                                            </h4>
-                                            <span class="m-widget5__desc">
-                                                Make Metronic Great Again.Lorem Ipsum Amet
-                                            </span>
-                                            <div class="m-widget5__info">
-                                                <span class="m-widget5__author">
-                                                    Author:
-                                                </span>
-                                                <span class="m-widget5__info-author m--font-info">
-                                                    Fly themes
-                                                </span>
-                                                <span class="m-widget5__info-label">
-                                                    Released:
-                                                </span>
-                                                <span class="m-widget5__info-date m--font-info">
-                                                    23.08.17
-                                                </span>
+                                @foreach ($data as $item )
+                                    @if ($item->type == 2)
+                                    <div class="m-widget3">
+                                        <div class="m-widget3__item">
+                                            <div class="m-widget3__header">
+                                                <div class="m-widget3__user-img">
+                                                    <img class="m-widget3__img" src="../../assets/app/media/img/users/user1.jpg" alt="">
+                                                </div>
+                                                <div class="m-widget3__info">
+                                                    <span class="m-widget3__username">
+                                                        {{ $item->Auth->name}}
+                                                    </span><br>
+                                                    <span class="m-widget3__time">
+                                                        2 day ago
+                                                    </span>
+                                                </div>
+                                                <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
+                                                    Xem
+                                                </a>
+                                            </div>
+                                            <div class="m-widget3__body">
+                                                <div class="m-widget5__section">
+                                                    <h4 class="m-widget5__title">
+                                                        {{ $item->title}}
+                                                    </h4>
+                                                    <div class="m-widget5__info">
+                                                        <span class="m-widget5__author">
+                                                            Author:
+                                                        </span>
+                                                        <span class="m-widget5__info-author m--font-info">
+                                                            {{ $item->Auth->name}}
+                                                        </span>
+                                                        <span class="m-widget5__info-label">
+                                                            Released:
+                                                        </span>
+                                                        <span class="m-widget5__info-date m--font-info">
+                                                            {{ $item->created_at}}
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__stats1">
-                                            <span class="m-widget5__number">24,583</span><br>
-                                            <span class="m-widget5__sales">sales</span>
-                                        </div>
-                                        <div class="m-widget5__stats2">
-                                            <span class="m-widget5__number">3809</span><br>
-                                            <span class="m-widget5__votes">votes</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget5__item">
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__pic">
-                                            <img class="m-widget7__img" src="../../assets/app/media/img//products/product6.jpg" alt="">
-                                        </div>
-                                        <div class="m-widget5__section">
-                                            <h4 class="m-widget5__title">
-                                                Great Logo Designn
-                                            </h4>
-                                            <span class="m-widget5__desc">
-                                                Make Metronic Great Again.Lorem Ipsum Amet
-                                            </span>
-                                            <div class="m-widget5__info">
-                                                <span class="m-widget5__author">
-                                                    Author:
-                                                </span>
-                                                <span class="m-widget5__info-author m--font-info">
-                                                    Fly themes
-                                                </span>
-                                                <span class="m-widget5__info-label">
-                                                    Released:
-                                                </span>
-                                                <span class="m-widget5__info-date m--font-info">
-                                                    23.08.17
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__stats1">
-                                            <span class="m-widget5__number">19,200</span><br>
-                                            <span class="m-widget5__sales">sales</span>
-                                        </div>
-                                        <div class="m-widget5__stats2">
-                                            <span class="m-widget5__number">1046</span><br>
-                                            <span class="m-widget5__votes">votes</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget5__item">
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__pic">
-                                            <img class="m-widget7__img" src="../../assets/app/media/img//products/product10.jpg" alt="">
-                                        </div>
-                                        <div class="m-widget5__section">
-                                            <h4 class="m-widget5__title">
-                                                Awesome Mobile App
-                                            </h4>
-                                            <span class="m-widget5__desc">
-                                                Make Metronic Great Again.Lorem Ipsum Amet
-                                            </span>
-                                            <div class="m-widget5__info">
-                                                <span class="m-widget5__author">
-                                                    Author:
-                                                </span>
-                                                <span class="m-widget5__info-author m--font-info">
-                                                    Fly themes
-                                                </span>
-                                                <span class="m-widget5__info-label">
-                                                    Released:
-                                                </span>
-                                                <span class="m-widget5__info-date m--font-info">
-                                                    23.08.17
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__stats1">
-                                            <span class="m-widget5__number">10,054</span><br>
-                                            <span class="m-widget5__sales">sales</span>
-                                        </div>
-                                        <div class="m-widget5__stats2">
-                                            <span class="m-widget5__number">1103</span><br>
-                                            <span class="m-widget5__votes">votes</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <hr>
+                                    @endif
+                                @endforeach
+                                <!--end::m-widget5-->
                             </div>
+                            <div class="tab-pane" id="m_widget5_tab3_content" aria-expanded="false">
 
-                            <!--end::m-widget5-->
-                        </div>
-                        <div class="tab-pane" id="m_widget5_tab3_content" aria-expanded="false">
-
-                            <!--begin::m-widget5-->
-                            <div class="m-widget5">
-                                <div class="m-widget5__item">
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__pic">
-                                            <img class="m-widget7__img" src="../../assets/app/media/img//products/product10.jpg" alt="">
+                                <!--begin::m-widget5-->
+                                @foreach ($data as $item )
+                                @if ($item->type == 3)
+                                <div class="m-widget3">
+                                    <div class="m-widget3__item">
+                                        <div class="m-widget3__header">
+                                            <div class="m-widget3__user-img">
+                                                <img class="m-widget3__img" src="../../assets/app/media/img/users/user1.jpg" alt="">
+                                            </div>
+                                            <div class="m-widget3__info">
+                                                <span class="m-widget3__username">
+                                                    {{ $item->Auth->name}}
+                                                </span><br>
+                                                <span class="m-widget3__time">
+                                                    2 day ago
+                                                </span>
+                                            </div>
+                                            <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
+                                                Xem
+                                            </a>
                                         </div>
-                                        <div class="m-widget5__section">
-                                            <h4 class="m-widget5__title">
-                                                Branding Mockup
-                                            </h4>
-                                            <span class="m-widget5__desc">
-                                                Make Metronic Great Again.Lorem Ipsum Amet
-                                            </span>
-                                            <div class="m-widget5__info">
-                                                <span class="m-widget5__author">
-                                                    Author:
-                                                </span>
-                                                <span class="m-widget5__info-author m--font-info">
-                                                    Fly themes
-                                                </span>
-                                                <span class="m-widget5__info-label">
-                                                    Released:
-                                                </span>
-                                                <span class="m-widget5__info-date m--font-info">
-                                                    23.08.17
-                                                </span>
+                                        <div class="m-widget3__body">
+                                            <div class="m-widget5__section">
+                                                <h4 class="m-widget5__title">
+                                                    {{ $item->title}}
+                                                </h4>
+                                                <div class="m-widget5__info">
+                                                    <span class="m-widget5__author">
+                                                        Author:
+                                                    </span>
+                                                    <span class="m-widget5__info-author m--font-info">
+                                                        {{ $item->Auth->name}}
+                                                    </span>
+                                                    <span class="m-widget5__info-label">
+                                                        Released:
+                                                    </span>
+                                                    <span class="m-widget5__info-date m--font-info">
+                                                        {{ $item->created_at}}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__stats1">
-                                            <span class="m-widget5__number">10.054</span><br>
-                                            <span class="m-widget5__sales">sales</span>
-                                        </div>
-                                        <div class="m-widget5__stats2">
-                                            <span class="m-widget5__number">1103</span><br>
-                                            <span class="m-widget5__votes">votes</span>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="m-widget5__item">
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__pic">
-                                            <img class="m-widget7__img" src="../../assets/app/media/img//products/product11.jpg" alt="">
-                                        </div>
-                                        <div class="m-widget5__section">
-                                            <h4 class="m-widget5__title">
-                                                Great Logo Designn
-                                            </h4>
-                                            <span class="m-widget5__desc">
-                                                Make Metronic Great Again.Lorem Ipsum Amet
-                                            </span>
-                                            <div class="m-widget5__info">
-                                                <span class="m-widget5__author">
-                                                    Author:
-                                                </span>
-                                                <span class="m-widget5__info-author m--font-info">
-                                                    Fly themes
-                                                </span>
-                                                <span class="m-widget5__info-label">
-                                                    Released:
-                                                </span>
-                                                <span class="m-widget5__info-date m--font-info">
-                                                    23.08.17
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__stats1">
-                                            <span class="m-widget5__number">24,583</span><br>
-                                            <span class="m-widget5__sales">sales</span>
-                                        </div>
-                                        <div class="m-widget5__stats2">
-                                            <span class="m-widget5__number">3809</span><br>
-                                            <span class="m-widget5__votes">votes</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="m-widget5__item">
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__pic">
-                                            <img class="m-widget7__img" src="../../assets/app/media/img//products/product6.jpg" alt="">
-                                        </div>
-                                        <div class="m-widget5__section">
-                                            <h4 class="m-widget5__title">
-                                                Awesome Mobile App
-                                            </h4>
-                                            <span class="m-widget5__desc">
-                                                Make Metronic Great Again.Lorem Ipsum Amet
-                                            </span>
-                                            <div class="m-widget5__info">
-                                                <span class="m-widget5__author">
-                                                    Author:
-                                                </span>
-                                                <span class="m-widget5__info-author m--font-info">
-                                                    Fly themes
-                                                </span>
-                                                <span class="m-widget5__info-label">
-                                                    Released:
-                                                </span>
-                                                <span class="m-widget5__info-date m--font-info">
-                                                    23.08.17
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-widget5__content">
-                                        <div class="m-widget5__stats1">
-                                            <span class="m-widget5__number">19,200</span><br>
-                                            <span class="m-widget5__sales">1046</span>
-                                        </div>
-                                        <div class="m-widget5__stats2">
-                                            <span class="m-widget5__number">1046</span><br>
-                                            <span class="m-widget5__votes">votes</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <hr>
+                                @endif
+                            @endforeach
 
                             <!--end::m-widget5-->
                         </div>
@@ -363,56 +238,5 @@
             <!--end:: Widgets/Best Sellers-->
         </div>
     </div>
-    <!--begin::Modal-->
-						<div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-lg" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">New message</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<table id="table_id" style="with: 100%">
-                                            <thead>
-                                                <tr>
-                                                    <th><input type="checkbox" onclick="checkAll(this)"></th>
-                                                    <th>Column 1</th>
-                                                    <th>Column 2</th>
-                                                    <th>Column 2</th>
-                                                    <th>Column 2</th>
-                                                    <th>Column 2</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td><input type="checkbox" class="checkbox"></td>
-                                                    <td>Row 1 Data 1</td>
-                                                    <td>Row 1 Data 2</td>
-                                                    <td>d</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="checkbox" class="checkbox"></td>
-                                                    <td>Row 2 Data 1</td>
-                                                    <td>Row 2 Data 2</td>
-                                                    <td>d</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary">Send message</button>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!--end::Modal-->
 </div>
 @endsection
