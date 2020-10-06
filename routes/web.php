@@ -93,6 +93,8 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::post('/destroy', 'LopController@destroy')->name('quan-ly-lop-destroy');
 
     Route::post('/show-data-hoc-sinh-theo-lop', 'LopController@showHsTheoLop')->name('quan-ly-lop-show-data-hoc-sinh');
+    Route::get('/show-data-hoc-sinh-chua-co-lop', 'LopController@getDataHocSinhChuaCoLop')->name('quan-ly-lop-show-data-hoc-sinh-chua-co-lop');
+
     Route::post('/xep-lop-tu-dong', 'LopController@xepLopTuDong')->name('quan-ly-lop-xep-lop-tu-dong');
     
 });

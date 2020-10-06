@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Repositories\GiaoVienRepository;
 use App\Repositories\LopRepository;
 use App\Repositories\HocSinhRepository;
+use App\Http\Requests\Khoi\Store;
+use App\Http\Requests\Khoi\Update;
 
 class KhoiController extends Controller
 {
@@ -45,9 +47,9 @@ class KhoiController extends Controller
         return view('quan-ly-khoi.index', compact('khoi', 'lop'));
     }
 
-    public function post_create(Request $request)
+    public function post_create(Store $Store)
     {
-        $request = $request->all();
+        $request = $Store->all();
         return $this->KhoiRepository->post_create($request);
     }
 
@@ -70,10 +72,10 @@ class KhoiController extends Controller
         return $this->KhoiRepository->find($id);
     }
 
-    public function update(Request $request)
+    public function update(Update $Update)
     {
-        $data = $request->all();
-        $id = $request->id;
+        $data = $Update->all();
+        $id = $Update->id;
         return $this->KhoiRepository->update($id,$data);
     }
 
