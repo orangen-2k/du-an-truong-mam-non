@@ -85,7 +85,7 @@
   }
 
   .m-nav .m-nav__item>.m-nav__link .m-nav__link-text {
-    width: 96% !important;
+    width: 85% !important;
   }
 
   .m-accordion .m-accordion__item {
@@ -102,6 +102,15 @@
 
   .thong-tin-xep-lop {
     padding: 0.2rem 2.2rem !important
+  }
+  .error {
+    color: red;
+  }
+  .lop_hoc .m-nav__link{
+    padding: 5px 0px !important
+  }
+  .lop_hoc .m-nav__link-text {
+    padding-left: 23px !important;
   }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
@@ -145,13 +154,26 @@
                               </div>
                               <input type="text" class="form-control" id="ten_khoi" name="ten_khoi"
                                 aria-describedby="basic-addon3">
+                               
                             </div>
+                            <div class="input-group-prepend">
+                              <p class="error error-ten-khoi"></p>
+                            </div>
+
                             <div class="input-group mb-3">
                               <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Độ tuổi</span>
                               </div>
-                              <input type="number" class="form-control" aria-describedby="basic-addon3" id="do_tuoi"
-                                name="do_tuoi">
+                                <select class="form-control m-input m-input--square" name="do_tuoi" id="do_tuoi">
+                                  <option value="">Chọn</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                </select>
+                            </div>
+                            <div class="input-group-prepend">
+                              <p class="error error-do-tuoi"></p>
                             </div>
                           </div>
                         </div>
@@ -173,7 +195,7 @@
           <!--begin::Section-->
           <div
             class="m-accordion m-accordion--default m-accordion--solid m-accordion--section  m-accordion--toggle-arrow"
-            id="danh_sach_khoi_lop" role="tablist">
+            id="" role="tablist">
             {{-- start modal sửa khối --}}
             <div class="modal fade" id="modal-sua-khoi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
@@ -196,12 +218,8 @@
                         <input type="text" class="form-control" id="sua_ten_khoi" name="ten_khoi"
                           aria-describedby="basic-addon3">
                       </div>
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon3">Độ tuổi</span>
-                        </div>
-                        <input type="number" class="form-control" aria-describedby="basic-addon3" id="sua_do_tuoi"
-                          name="do_tuoi">
+                      <div class="input-group-prepend">
+                        <p class="error error-update-ten-khoi"></p>
                       </div>
                     </div>
                   </div>
@@ -235,14 +253,9 @@
                             <label for="exampleInputEmail1">Tên lớp</label>
                             <input type="text" name="ten_lop" class="form-control m-input m-input--square" id="ten_lop"
                               placeholder="Nhập tên lớp">
-                            @error('ten_lop')
-                            <div class="alert alert-danger mt-2 alert-dismissible fade show" role="alert">
-                              {{ $message }}
-                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            @enderror
+                              <div class="input-group-prepend">
+                                <p class="error error-ten-lop"></p>
+                              </div>
                           </div>
                           <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Giáo viên chủ nhiệm</label>
@@ -302,14 +315,9 @@
                             <label for="exampleInputEmail1">Tên lớp</label>
                             <input type="text" name="ten_lop" class="form-control m-input m-input--square"
                               id="sua_ten_lop" placeholder="Nhập tên lớp">
-                            @error('ten_lop')
-                            <div class="alert alert-danger mt-2 alert-dismissible fade show" role="alert">
-                              {{ $message }}
-                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            @enderror
+                              <div class="input-group-prepend">
+                                <p class="error error-update-ten-lop"></p>
+                              </div>
                           </div>
                           <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Giáo viên chủ nhiệm</label>
@@ -409,7 +417,7 @@
                             <input type="hidden" id="sua_lop_id">
                             <label for="exampleInputEmail1">Số lượng học sinh nam</label>
                             <input type="number" name="ten_lop" class="form-control m-input m-input--square"
-                              id="nhap_hoc_sinh_nam_chua_co_lop" value="0" placeholder="Nhập số lượng học sinh nam">
+                              id="nhap_hoc_sinh_nam_chua_co_lop" value="0" min="0" placeholder="Nhập số lượng học sinh nam">
                           </div>
                         </div>
                       </div>
@@ -418,7 +426,7 @@
                           <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Số lượng học sinh nữ</label>
                             <input type="number" name="ten_lop" class="form-control m-input m-input--square"
-                              id="nhap_hoc_sinh_nu_chua_co_lop" value="0" placeholder="Nhập số lượng học sinh nữ">
+                              id="nhap_hoc_sinh_nu_chua_co_lop" value="0" min="0" placeholder="Nhập số lượng học sinh nữ">
                           </div>
                         </div>
                       </div>
@@ -478,8 +486,9 @@
             </div>
             {{-- end modal chuyển lớp  --}}
             <!--begin::Item-->
+            <div id="danh_sach_khoi_lop">
             @foreach ($namhoc->Khoi as $item)
-            <div class="m-accordion__item">
+            <div class="m-accordion__item ">
               <div class="m-accordion__item-head collapsed" role="tab" id="tab{{$item->id}}_item_1_head"
                 data-toggle="collapse" href="#tab{{$item->id}}_item_1_body" aria-expanded="false">
                 <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -499,7 +508,7 @@
               </div>
               <div class="m-accordion__item-body collapse" id="tab{{$item->id}}_item_1_body" role="tabpanel"
                 aria-labelledby="tab{{$item->id}}_item_1_head">
-                <div class="m-accordion__item-content">
+                <div class="">
                   <div class="m-dropdown__wrapper">
                     <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
                     <div class="m-dropdown__inner">
@@ -507,7 +516,7 @@
                         <div class="m-dropdown__content">
                           <ul class="m-nav">
                             @foreach ($item->LopHoc as $lop_hoc)
-                            <li class="m-nav__item pl-4" id='lop_{{$lop_hoc->id}}' style="cursor: pointer">
+                            <li class="m-nav__item pl-4 lop_hoc" onclick="addColor(this)" id='lop_{{$lop_hoc->id}}' style="cursor: pointer">
                               <span href="" class="m-nav__link">
                                 <span onclick="showHocSinhCuaLop({{$lop_hoc->id}})" class="m-nav__link-text "> <span
                                     class="ten_lop"> {{$lop_hoc->ten_lop}} </span>
@@ -541,9 +550,15 @@
               </div>
             </div>
             @endforeach
-
           </div>
-
+            <div class="m-accordion__item" onclick="getDataHsChuaCoLop()">
+              <div class="m-accordion__item-head collapsed" role="tab" id="hoc-sinh-chua-co-tuoi"
+                data-toggle="collapse" >
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="m-accordion__item-title">Học sinh chưa có lớp ({{$sl_hs_chua_co_lop}})</span>
+              </div>
+            </div>
+          </div>
           <!--end::Section-->
           {{-- </div> --}}
         </div>
@@ -553,12 +568,14 @@
           <div class="m-portlet__head d-flex justify-content-end">
             <div class="m-portlet__head-caption">
               <div class="m-portlet__head-title">
-                <button type="button" disabled id="button_chuyen_lop"
-                  class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent mr-3" data-toggle="modal"
-                  data-target="#modal-chuyen-lop" onclick="getDataHocSinhChuyen()">Chuyển lớp</button>
-                <button disabled type="button" id="button_xep_lop_tu_dong" onclick="showSlHocSinhChuaCoLop()"
-                  data-toggle="modal" data-target="#modal-xep-lop-tu-dong" class="btn btn-secondary">Xếp
-                  lớp tự động</button>
+                @if ($namhoc->type == 1)
+                <button type="button" style="display: none" id="button_chuyen_lop"
+                class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent mr-3" data-toggle="modal"
+                data-target="#modal-chuyen-lop" onclick="getDataHocSinhChuyen()">Chuyển lớp</button>
+              <button style="display: none" type="button" id="button_xep_lop_tu_dong" onclick="showSlHocSinhChuaCoLop()"
+                data-toggle="modal" data-target="#modal-xep-lop-tu-dong" class="btn btn-secondary">Xếp
+                lớp tự động</button>
+                @endif
               </div>
             </div>
           </div>
@@ -689,6 +706,14 @@
     console.log('Error fetching the data');
     return Promise.reject(error);
   });
+  //click add mau lop
+const addColor = (e) =>{
+  var list_element_lop = document.querySelectorAll('.lop_hoc')
+  list_element_lop.forEach(element => {
+    $(element).css('background','transparent')
+  });
+  $(e).css('background','#bafac8')
+}
 
 //start route khối
 var url_create_khoi = "{{route('quan-ly-khoi-post_create')}}";
@@ -710,6 +735,7 @@ var url_xep_lop_tu_dong = "{{route('quan-ly-lop-xep-lop-tu-dong')}}";
 
 //start route hoc sinh
 var url_get_hs_lop = "{{route('quan-ly-lop-show-data-hoc-sinh')}}";
+var url_get_field_chua_co_lop = "{{route('quan-ly-lop-show-data-hoc-sinh-chua-co-lop')}}";
 var url_get_hs_chua_co_lop = "{{route('quan-ly-hoc-sinh-chua-co-lop')}}";
 var url_chuyen_lop = "{{route('quan-ly-hoc-sinh-chuyen-lop')}}";
 
@@ -717,6 +743,7 @@ var url_chuyen_lop = "{{route('quan-ly-hoc-sinh-chuyen-lop')}}";
 
 // start crud khối
 const addKhoi = () => {
+ 
     axios.post(url_create_khoi, {
       'ten_khoi': $('#ten_khoi').val(),
       'do_tuoi': $('#do_tuoi').val(),
@@ -741,7 +768,7 @@ const addKhoi = () => {
                 </div>
             </div>
             <div class="m-accordion__item-body collapse" id="tab${response.data}_item_1_body" role="tabpanel" aria-labelledby="tab${response.data}_item_1_head" >
-                <div class="m-accordion__item-content">
+                <div class="">
                     <div class="m-dropdown__wrapper">
                         <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
                         <div class="m-dropdown__inner">
@@ -759,9 +786,15 @@ const addKhoi = () => {
         </div>
       `)
       $('#modal-add-khoi').modal('hide')
+      swal({
+          title: "Thêm khối thành công",
+          icon: "success",
+        });
     })
     .catch(function (error) {
-      console.log(error);
+      $('.error').html('')
+      $('.error-do-tuoi').html(error.response.data.errors.do_tuoi)
+      $('.error-ten-khoi').html(error.response.data.errors.ten_khoi)
     });
 };
 
@@ -790,8 +823,13 @@ const capNhatKhoi = (id) =>{
      var id_box_khoi_update = 'tab'+$('#id_khoi_sua').val()+'_item_1_head'
      var testgetid = $(`#${id_box_khoi_update}`).find('.m-accordion__item-title').html(`${response.data.ten_khoi} (${response.data.do_tuoi+" tuổi"})`)
      $('#modal-sua-khoi').modal('hide')
+     swal({
+          title: "Cập nhật thành công",
+          icon: "success",
+        });
     })
     .catch(function (error) {
+      $('.error-update-ten-khoi').html(error.response.data.errors.ten_khoi)
       console.log(error);
     });
 };
@@ -882,8 +920,8 @@ const showHocSinhCuaLop = (id) => {
         .column(4).search(this.value)
         .draw();
         });
-        $('#button_xep_lop_tu_dong').removeAttr('disabled')
-        $('#button_chuyen_lop').removeAttr('disabled')
+        $('#button_xep_lop_tu_dong').css('display','block')
+        $('#button_chuyen_lop').css('display','block')
         $('#id_lop_xep').val(id)
         
     })
@@ -891,6 +929,68 @@ const showHocSinhCuaLop = (id) => {
       console.log(error);
     });
 };
+
+const getDataHsChuaCoLop = () =>{
+  axios.get(url_get_field_chua_co_lop)
+    .then(function (response) {
+      var html_thong_tin_hs = "";
+      var i = 1;
+      response.data.forEach(element => {
+        html_thong_tin_hs+=`
+        <tr>
+              <th><input class="checkbox" type="checkbox" id_hs="${element.id}"></th>
+              <th scope="row">${i++}</th>
+              <td>${element.ma_hoc_sinh}</td>
+              <td>${element.ten}</td>
+              <td>${element.ngay_sinh}</td>
+              <td>${Object.values(gioi_tinh)[element.gioi_tinh]}</td>
+              <td> <a  href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}"><i class="flaticon-paper-plane"></i></a>
+              </td>
+            </tr>
+        `
+      });
+      dtable.destroy();
+     $('#show-data-hoc-sinh').html(html_thong_tin_hs);
+    
+      dtable= $('#table-hoc-sinh').DataTable( {
+          'paging': false,
+          "aoColumnDefs": [
+              { "bSortable": false, "aTargets": [ 0, 6 ] }, 
+          ]
+          }
+      );
+        $('.search-mahs').on('keyup change', function() {
+        dtable
+        .column(2).search(this.value)
+        .draw();
+        });
+    
+        $('.search-ten').on('keyup change', function() {
+        dtable
+        .column(3).search(this.value)
+        .draw();
+        });
+        
+        $('.search-gioitinh').on('change', function() {
+        dtable
+        .column(5).search(this.value)
+        .draw();    
+        });
+
+        $('.search-ngaysinh').on('keyup change', function() {
+        dtable
+        .column(4).search(this.value)
+        .draw();
+        });
+        $('#button_xep_lop_tu_dong').css('display','none')
+        $('#button_chuyen_lop').css('display','none')
+        $('#id_lop_xep').val(id)
+        
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
 // end show học sinh theo lớp
 // start quản lý lớp crud
 $('#id_giao_vien_cn').select2();
@@ -951,7 +1051,7 @@ const addLop = () =>{
 
       var id_box_khoi_them_lop = 'tab'+$('#khoi_id').val()+'_item_1_body'
       $(`#${id_box_khoi_them_lop}`).find('ul').append(`
-      <li class="m-nav__item pl-4" id='lop_${response.data.id}' style="cursor: pointer">
+      <li class="m-nav__item pl-4 lop_hoc row" onclick="addColor(this)" id='lop_${response.data.id}' style="cursor: pointer">
         <span href="" class="m-nav__link">
           <span onclick="showHocSinhCuaLop(${response.data.id})" class="m-nav__link-text ten_lop">${response.data.ten_lop}
             <span class="sl_hs_cua_lop">(0)</span></span>
@@ -974,6 +1074,7 @@ const addLop = () =>{
       
     })
     .catch(function (error) {
+      $('.error-ten-lop').html(error.response.data.errors.ten_lop)
       console.log(error);
     });
 };
@@ -1061,7 +1162,7 @@ const suaLop = () =>{
       $('#modal-cap-nhat-lop').modal('hide')
     })
     .catch(function (error) {
-      console.log(error);
+      $('.error-update-ten-lop').html(error.response.data.errors.ten_lop)
     });
 };
 
@@ -1132,10 +1233,10 @@ const xepLop = () =>{
     showHocSinhCuaLop($('#id_lop_xep').val())
     var component_lop = 'lop_'+$('#id_lop_xep').val()
     $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop})`)
-    // swal({
-    //       title: "Xếp lớp thành công",
-    //       icon: "success",
-    //     });
+    swal({
+          title: "Xếp lớp thành công",
+          icon: "success",
+        });
         $('#modal-xep-lop-tu-dong').modal('hide')
   })
   .catch(function (error) {
@@ -1202,6 +1303,10 @@ const chuyenLop = () =>{
 
     var component_lop = 'lop_'+$('#id_lop_xep').val()
     $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop_hien_tai})`)
+    swal({
+          title: "Chuyển lớp thành công",
+          icon: "success",
+    });
   })
   .catch(function (error) {
     console.log(error);
