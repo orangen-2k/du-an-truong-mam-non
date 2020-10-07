@@ -11,9 +11,9 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
-use \App\Repositories\LopHocRepository;
+use \App\Repositories\LopRepository;
 use \App\Repositories\KhoiRepository;
-use \App\Repositories\HocSinhRepository;
+use  App\Repositories\HocSinhRepository;
 use \App\Repositories\GiaoVienRepository;
 use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\QuanHuyenRepository;
@@ -21,38 +21,41 @@ use App\Repositories\XaPhuongThiTranRepository;
 use App\Repositories\DoiTuongChinhSachRepository;
 use Storage;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\NamHocRepository;
 
 class QuanlyHocSinhController extends Controller
 {
-    protected $LopHoc;
+    protected $LopRepository;
     protected $Khoi;
-    protected $HocSinh;
+    protected $HocSinhRepository;
     protected $GiaoVien;
     protected $TinhThanhPhoRepository;
     protected $QuanHuyenRepository;
     protected $XaPhuongThiTranRepository;
     protected $DoiTuongChinhSachRepository;
-
+    protected $NamHocRepository;
     public function __construct(
-        LopHocRepository $LopHoc,
+        LopRepository $LopRepository,
         KhoiRepository $Khoi,
-        HocSinhRepository $HocSinh,
+        HocSinhRepository $HocSinhRepository,
         GiaoVienRepository $GiaoVien,
         TinhThanhPhoRepository $TinhThanhPhoRepository,
         QuanHuyenRepository  $QuanHuyenRepository,
         XaPhuongThiTranRepository  $XaPhuongThiTranRepository,
-        DoiTuongChinhSachRepository $DoiTuongChinhSachRepository
+        DoiTuongChinhSachRepository $DoiTuongChinhSachRepository,
+        NamHocRepository $NamHocRepository
         
         
     ){
-        $this->LopHoc = $LopHoc;
+        $this->LopRepository = $LopRepository;
         $this->Khoi = $Khoi;
-        $this->HocSinh = $HocSinh;
+        $this->HocSinhRepository = $HocSinhRepository;
         $this->GiaoVien = $GiaoVien;
         $this->TinhThanhPhoRepository = $TinhThanhPhoRepository;
         $this->QuanHuyenRepository = $QuanHuyenRepository;
         $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
         $this->DoiTuongChinhSachRepository = $DoiTuongChinhSachRepository;
+        $this->NamHocRepository = $NamHocRepository;
     }
 
     /**
@@ -376,35 +379,80 @@ class QuanlyHocSinhController extends Controller
 
 
     public function errorFileImport(Request $request){
-        $nameFile=$request->file_import->getClientOriginalName();
-        $nameFileArr=explode('.',$nameFile);
-        $duoiFile=end($nameFileArr);
+        // $nameFile=$request->file_import->getClientOriginalName();
+        // $nameFileArr=explode('.',$nameFile);
+        // $duoiFile=end($nameFileArr);
 
-        $fileRead = $_FILES['file_import']['tmp_name'];
-        $pathLoad = Storage::putFile(
-            'uploads/excels',
-            $request->file('file_import')
-        );
-        $path = str_replace("/","\\",$pathLoad);
-        $fileReadStorage= storage_path('app\\'.$path);
-        // $fileReadStorage= storage_path('app/public/'.$pathLoad);
+        // $fileRead = $_FILES['file_import']['tmp_name'];
+        // $pathLoad = Storage::putFile(
+        //     'uploads/excels',
+        //     $request->file('file_import')
+        // );
+        // $path = str_replace("/","\\",$pathLoad);
+        // $fileReadStorage= storage_path('app\\'.$path);
+        // // $fileReadStorage= storage_path('app/public/'.$pathLoad);
 
-        $spreadsheet = $this->createSpreadSheet($fileReadStorage,$duoiFile);
-        $data = $spreadsheet->getActiveSheet()->toArray();
+        // $spreadsheet = $this->createSpreadSheet($fileReadStorage,$duoiFile);
+        // $data = $spreadsheet->getActiveSheet()->toArray();
             
-        // $truong = explode(' - ', $data[0][0]);
-        // $id_truong = trim(array_pop($truong));
-        // $arrayApha=['H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK'];
-        // $vitri=$this->checkError($data, $arrayApha, 8 , 7, 36);
+        // // $truong = explode(' - ', $data[0][0]);
+        // // $id_truong = trim(array_pop($truong));
+        // // $arrayApha=['H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF','AG','AH','AI','AJ','AK'];
+        // // $vitri=$this->checkError($data, $arrayApha, 8 , 7, 36);
     
-        $spreadsheet2 = IOFactory::load($fileReadStorage);
-        $worksheet = $spreadsheet2->getActiveSheet();
-        Storage::delete($path);
-        // $this->errorRebBackGroud($vitri,$worksheet);
-        $writer = IOFactory::createWriter($spreadsheet2, "Xlsx"); 
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="Error-file-nhap-so-lieu-tuyen-sinh.xlsx"');
-        $writer->save("php://output");
+        // $spreadsheet2 = IOFactory::load($fileReadStorage);
+        // $worksheet = $spreadsheet2->getActiveSheet();
+        // Storage::delete($path);
+        // // $this->errorRebBackGroud($vitri,$worksheet);
+        // $writer = IOFactory::createWriter($spreadsheet2, "Xlsx"); 
+        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        // header('Content-Disposition: attachment; filename="Error-file-nhap-so-lieu-tuyen-sinh.xlsx"');
+        // $writer->save("php://output");
     }
+
+    public function showHocSinhChuaCoLop(Request $request)
+    {
+        $lop_id = $request->id;
+        $lop = $this->LopRepository->find($lop_id);
+        $ten_lop = $lop->ten_lop;
+        $tong_so_hs = $lop->tong_so_hoc_sinh;
+        $hoc_sinh_nam_chua_co_lop = $this->HocSinhRepository->getAllHocSinhChuaCoLop(0);
+        $hoc_sinh_nu_chua_co_lop = $this->HocSinhRepository->getAllHocSinhChuaCoLop(1);
+        $do_tuoi = config('common.do_tuoi');
+        // dd($do_tuoi);
+        $data_hs_chua_co_lop = [];
+        foreach ($do_tuoi as $key => $value) {
+            $data_nu = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value,1);
+            $data_nam = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value,0);
+            $data_do_tuoi=[
+                'do_tuoi'=>$value,
+                'nam'=>$data_nam,
+                'nu'=>$data_nu,
+            ];
+            array_push($data_hs_chua_co_lop,$data_do_tuoi);
+        }
+        return [
+            'ten_lop' => $ten_lop,
+            'tong_so_hs' => $tong_so_hs,
+            'hoc_sinh_nam_chua_co_lop' => $hoc_sinh_nam_chua_co_lop,
+            'hoc_sinh_nu_chua_co_lop' => $hoc_sinh_nu_chua_co_lop,
+            'data_hs_chua_co_lop' => $data_hs_chua_co_lop
+        ];
+    }
+
+    public function chuyenLop(Request $request)
+    {
+        $lop_id = $request->lop_id;
+        $lop_id_chuyen = $request->lop_id_chuyen;
+        $id_hs_chuyen_lop = $request->id_hs_chuyen_lop;
+        $this->HocSinhRepository->chuyenLop($lop_id_chuyen,$id_hs_chuyen_lop);
+        $lop_chuyen = $this->LopRepository->find($lop_id_chuyen);
+        $lop_hien_tai = $this->LopRepository->find($lop_id);
+        return [
+            'sl_hs_cua_lop_chuyen_den' => count($lop_chuyen->HocSinh),
+            'sl_hs_cua_lop_hien_tai' => count($lop_hien_tai->HocSinh),
+        ];
+    }
+
 
 }

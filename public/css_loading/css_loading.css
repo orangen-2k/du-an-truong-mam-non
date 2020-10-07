@@ -17,7 +17,7 @@
     overflow-y: auto;
 }
 #preload{
-  background-color: rgba(0, 0, 0, 0.1);
+  /* background-color: rgba(0, 0, 0, 0.1); */
 }
 .preload-icon {
     font-size: 66px;

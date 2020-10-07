@@ -74,7 +74,7 @@ class LopController extends Controller
     public function store(Store $request)
     {
         $data = [
-            "khoi_id" => $request->khoi,
+            "khoi_id" => $request->khoi_id,
             "ten_lop" => $request->ten_lop,
         ];
         $idLop = $this->LopRepository->addLop($data);
@@ -87,7 +87,7 @@ class LopController extends Controller
                 $this->GiaoVienRepository->phanLopGiaoVienPhu($value, $idLop->id);
             }
         }
-        return redirect()->route('quan-ly-lop-index')->with('status', 'Thêm mới dữ liệu thành công');
+        return $idLop;
     }
     /**
      * Display the specified resource.
@@ -118,17 +118,26 @@ class LopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit(Request $request)
+    {   $id = $request->id;
         $lop = $this->LopRepository->find($id);
 
         $khoi = $this->KhoiRepository->getAllKhoi();
         $giao_vien = $this->GiaoVienRepository->getGIaoVienChuaCoLop();
-        return view('quan-ly-lop.edit', [
-            'khoi' => $khoi,
+        $giao_vien_phu = $lop->giao_vien_phu;
+        $giao_vien_cn = $lop->giao_vien_chu_nhiem;
+
+        // return view('quan-ly-lop.edit', [
+        //     'khoi' => $khoi,
+        //     'giao_vien' => $giao_vien,
+        //     'lop' => $lop
+        // ]);
+        return [
             'giao_vien' => $giao_vien,
-            'lop' => $lop
-        ]);
+            'lop' => $lop,
+            'giao_vien_phu' => $giao_vien_phu,
+            'giao_vien_cn' => $giao_vien_cn,
+        ];
     }
 
     /**
@@ -138,8 +147,9 @@ class LopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Update $request, $id)
+    public function update(Update $request)
     {
+        $id = $request->lop_id;
         $lop = $this->LopRepository->find($id);
         $this->LopRepository->update($id, $request->all());
         foreach ($lop->GiaoVien as $key => $value) {
@@ -154,7 +164,7 @@ class LopController extends Controller
                 $this->GiaoVienRepository->phanLopGiaoVienPhu($value, $lop->id);
             }
         }
-        return redirect()->route('quan-ly-lop-index')->with('status', 'Cập nhật dữ liệu thành công');
+        return 'thành công';
     }
 
     /**
@@ -166,10 +176,8 @@ class LopController extends Controller
     public function destroy(Request $request)
     {
         $lop_id = $request->id;
-        $this->GiaoVienRepository->xoaLopGiaoVien($lop_id);
-        $this->HocSinhRepository->xoaLopHocSinh($lop_id);
         $this->LopRepository->delete($lop_id);
-        return redirect()->route('quan-ly-lop-index')->with('status', 'Xóa dữ liệu thành công');
+        return 'thành công';
     }
 
     public function phanLop()
@@ -188,4 +196,59 @@ class LopController extends Controller
         ['hoc_sinh' => $hoc_sinh]
     );
     }
+
+    public function showHsTheoLop(Request $request)
+    {
+        $id = $request->id;
+        $lop = $this->LopRepository->find($id);
+        $ten_lop = $lop->ten_lop;
+        $tong_so_hs = $lop->tong_so_hoc_sinh;
+        return [
+            'danh_sach_lop' => $lop->Khoi->LopHoc,
+            'ten_lop' => $ten_lop,
+            'hoc_sinh_cua_lop' => $lop->HocSinh,
+            'tong_so_hs' => $tong_so_hs,
+        ];
+    }
+
+    public function xepLopTuDong(Request $request)
+    {
+        $lop = $this->LopRepository->find($request->id_lop);
+        $do_tuoi = $lop->Khoi->do_tuoi;
+        $sl_hs_nam = $request->sl_hs_nam;
+        $sl_hs_nu = $request->sl_hs_nu;
+        $sl_hs_nam_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,0);
+        $sl_hs_nu_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,1);
+        if($sl_hs_nam > $sl_hs_nam_con_lai){
+            return response()->json([
+                'message' => 'so-luong-khong-du',
+                'sl_hs_con_lai' => $sl_hs_nam_con_lai,
+                'gioi_tinh' => 'Nam'
+            ], 422);
+        }
+
+        if($sl_hs_nu > $sl_hs_nu_con_lai){
+            return response()->json([
+                'message' => 'so-luong-khong-du',
+                'sl_hs_con_lai' => $sl_hs_nu_con_lai,
+                'gioi_tinh' => 'Nữ'
+
+            ], 422);
+        }
+       
+        $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,0,$sl_hs_nam);
+        $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,1,$sl_hs_nu);
+        return [
+            'hs_cua_lop' => $lop->HocSinh,
+            'sl_hs_cua_lop' => count($lop->HocSinh)
+        ];
+
+
+    }
+
+    public function getDataHocSinhChuaCoLop()
+    {
+       return $this->HocSinhRepository->getDataHocSinhChuaCoLop();
+    }
+
 }

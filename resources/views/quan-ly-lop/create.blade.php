@@ -60,7 +60,6 @@
                                     <option value={{ $item->id }}>{{ $item->ma_gv}}-{{$item->ten }}</option>
                                     @endforeach
                                 </select>
-
                             </div>
                             <div class="form-group m-form__group">
                                 <label for="exampleInputPassword1">Giáo viên phụ</label>
