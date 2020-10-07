@@ -62,6 +62,10 @@ class QuanlyHocSinhController extends Controller
      */
     public function index()
     {   
+    // $url = file_get_contents("https://raw.githubusercontent.com/duyet/vietnamese-namedb/master/uit_member.json");
+    // $json = json_decode($url);
+    // dd($json[100]->full_name);
+
         $params = request()->all();
         if (isset(request()->page_size)) {
             $limit = request()->page_size;
