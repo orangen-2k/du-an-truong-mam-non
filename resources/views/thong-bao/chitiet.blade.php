@@ -101,11 +101,11 @@
                                 <span class="m-accordion__item-mode"></span>
                             </div>
                             <div class="m-accordion__item-body collapse" id="m_accordion_5_item_2_body" role="tabpanel" aria-labelledby="m_accordion_5_item_2_head" data-parent="#m_accordion_5" style="">
-                                <div class="m-accordion__item-content">
+                                {{-- <div class="m-accordion__item-content">
                                         @foreach ($data->ThongBao as $item)
                                             <a href="javascript:;">{{ $item->User->name . ' - ' . $item->User->username }}</a>{{ ', ' }}
                                         @endforeach
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <!--end::Item-->

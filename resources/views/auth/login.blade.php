@@ -18,7 +18,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!-- begin::Head -->
 	<head>
 		<meta charset="utf-8" />
-		<title>Metronic | Login Page - 3</title>
+		<title>Đăng nhập</title>
 		<meta name="description" content="Latest updates and statistic charts">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
 
@@ -64,7 +64,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						</div>
 						<div class="m-login__signin">
 							<div class="m-login__head">
-								<h3 class="m-login__title">Sign In To Admin</h3>
+								<h3 class="m-login__title"></h3>
 							</div>
                             <form class="m-login__form m-form" action="{{ route('login') }}" method="POST">
                                 @if (session('message'))
@@ -84,20 +84,20 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="row m-login__form-sub">
 									<div class="col m--align-left m-login__form-left">
 										<label class="m-checkbox  m-checkbox--focus">
-											<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember me
+											<input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Lưu tài khoản
 											<span></span>
 										</label>
 									</div>
 									<div class="col m--align-right m-login__form-right">
 										@if (Route::has('password.request'))
                                                 <a  href="{{ route('password.request') }}" id="m_login_forget_password" class="m-link">
-                                                    {{ __('Forgot Your Password?') }}
+                                                    {{ __('Quên mật khẩu?') }}
                                                 </a>
                                         @endif
 									</div>
 								</div>
 								<div class="m-login__form-action">
-									<button type="submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">Sign In</button>
+									<button type="submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air m-login__btn m-login__btn--primary">ĐĂNG NHẬP</button>
 								</div>
 							</form>
 						</div>
@@ -181,8 +181,8 @@ License: You must have a valid license purchased only from themeforest(the above
 						</div>
 						<div class="m-login__forget-password">
 							<div class="m-login__head">
-								<h3 class="m-login__title">Forgotten Password ?</h3>
-								<div class="m-login__desc">Enter your email to reset your password:</div>
+								<h3 class="m-login__title">Quên mật khẩu ?</h3>
+								<div class="m-login__desc">Vui lòng nhập email để lấy lại mật khẩu:</div>
 							</div>
 							<form class="m-login__form m-form" action="{{ route('password.email') }}" method="POST">
 								@csrf
