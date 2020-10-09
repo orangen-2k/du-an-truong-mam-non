@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use Carbon\Carbon;
 use Mail;
+use App\Models\Account;
 use Illuminate\Support\Str;
 use Hash;
 use App\Http\Requests\Auth\RegisterRequest;
@@ -50,4 +51,5 @@ class AuthController extends Controller
         $auth = Auth::user();
         return view('auth.profile',compact('auth'));
     }
+   
 }

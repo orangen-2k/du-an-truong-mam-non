@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Thông tin ca nhân")
+@section('title', "Thông tin cá nhân")
 @section('content')
 <div class="m-content">
 						<div class="row">
@@ -8,16 +8,17 @@
 									<div class="m-portlet__body">
 										<div class="m-card-profile">
 											<div class="m-card-profile__title m--hide">
-												Your Profile
+												Trang cá nhân
 											</div>
 											<div class="m-card-profile__pic">
 												<div class="m-card-profile__pic-wrapper">
 													<img src="../assets/app/media/img/users/user4.jpg" alt="" />
 												</div>
+											
 											</div>
 											<div class="m-card-profile__details">
-												<span class="m-card-profile__name">Mark Andre</span>
-												<a href="" class="m-card-profile__email m-link">mark.andre@gmail.com</a>
+												<span class="m-card-profile__name">@auth {{Auth::user()->name }} @endauth</span>
+												<a href="" class="m-card-profile__email m-link">@auth {{Auth::user()->email }} @endauth</a>
 											</div>
 										</div>
 										<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
@@ -68,41 +69,7 @@
 											</li>
 										</ul>
 										<div class="m-portlet__body-separator"></div>
-										<div class="m-widget1 m-widget1--paddingless">
-											<div class="m-widget1__item">
-												<div class="row m-row--no-padding align-items-center">
-													<div class="col">
-														<h3 class="m-widget1__title">Member Profit</h3>
-														<span class="m-widget1__desc">Awerage Weekly Profit</span>
-													</div>
-													<div class="col m--align-right">
-														<span class="m-widget1__number m--font-brand">+$17,800</span>
-													</div>
-												</div>
-											</div>
-											<div class="m-widget1__item">
-												<div class="row m-row--no-padding align-items-center">
-													<div class="col">
-														<h3 class="m-widget1__title">Orders</h3>
-														<span class="m-widget1__desc">Weekly Customer Orders</span>
-													</div>
-													<div class="col m--align-right">
-														<span class="m-widget1__number m--font-danger">+1,800</span>
-													</div>
-												</div>
-											</div>
-											<div class="m-widget1__item">
-												<div class="row m-row--no-padding align-items-center">
-													<div class="col">
-														<h3 class="m-widget1__title">Issue Reports</h3>
-														<span class="m-widget1__desc">System bugs and issues</span>
-													</div>
-													<div class="col m--align-right">
-														<span class="m-widget1__number m--font-success">-27,49%</span>
-													</div>
-												</div>
-											</div>
-										</div>
+										
 									</div>
 								</div>
 							</div>
@@ -148,21 +115,11 @@
 																			<li class="m-nav__item">
 																				<a href="" class="m-nav__link">
 																					<i class="m-nav__link-icon flaticon-share"></i>
-																					<span class="m-nav__link-text">Create Post</span>
+																					<span class="m-nav__link-text">Đổi Mật khẩu</span>
 																				</a>
 																			</li>
-																			<li class="m-nav__item">
-																				<a href="" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-chat-1"></i>
-																					<span class="m-nav__link-text">Send Messages</span>
-																				</a>
-																			</li>
-																			<li class="m-nav__item">
-																				<a href="" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-multimedia-2"></i>
-																					<span class="m-nav__link-text">Upload File</span>
-																				</a>
-																			</li>
+																			
+																			
 																			<li class="m-nav__section">
 																				<span class="m-nav__section-text">Useful Links</span>
 																			</li>
@@ -175,7 +132,7 @@
 																			<li class="m-nav__item">
 																				<a href="" class="m-nav__link">
 																					<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-																					<span class="m-nav__link-text">Support</span>
+																					<span class="m-nav__link-text">Trợ giúp</span>
 																				</a>
 																			</li>
 																			<li class="m-nav__separator m-nav__separator--fit m--hide">
@@ -195,41 +152,61 @@
 									</div>
 									<div class="tab-content">
 										<div class="tab-pane active" id="m_user_profile_tab_1">
-											<form class="m-form m-form--fit m-form--label-align-right">
+											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('trang-ca-nhan-update',['id' =>Auth::user()->id]) }}"  >
+												@csrf
 												<div class="m-portlet__body">
 													<div class="form-group m-form__group m--margin-top-10 m--hide">
 														<div class="alert m-alert m-alert--default" role="alert">
-															The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
+															
 														</div>
+														@auth
 													</div>
+													<?php 
+															$message = Session::get('message');
+															if ($message) {
+																echo '<div class="alert alert-success">'. $message .'</div>';
+																Session::put('message', null);
+															}
+														?>
 													<div class="form-group m-form__group row">
 														<div class="col-10 ml-auto">
-															<h3 class="m-form__section">1. Personal Details</h3>
+															<h3 class="m-form__section">Thông tin cá nhân</h3>
 														</div>
 													</div>
 													<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">Full Name</label>
+														<label for="example-text-input"  class="col-2 col-form-label">Họ tên</label>
 														<div class="col-7">
-															<input class="form-control m-input" type="text" value="Mark Andre">
+															<input class="form-control m-input" type="text" name="name"  disabled  value="{{Auth::user()->name }}">
 														</div>
 													</div>
-													<div class="form-group m-form__group row">
+													<div class="form-group m-form__group row" >
+														<label for="example-text-input" class="col-2 col-form-label" name="email">Email</label>
+														<div class="col-7">
+														@error('email')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input " type="text" name="email"  value="{{Auth::user()->email }}">
+														</div>
+													</div>
+													
+
+												<!-- 	<div class="form-group m-form__group row">
 														<label for="example-text-input" class="col-2 col-form-label">Occupation</label>
 														<div class="col-7">
 															<input class="form-control m-input" type="text" value="CTO">
 														</div>
-													</div>
-													<div class="form-group m-form__group row">
+													</div> -->
+													<!-- <div class="form-group m-form__group row">
 														<label for="example-text-input" class="col-2 col-form-label">Company Name</label>
 														<div class="col-7">
 															<input class="form-control m-input" type="text" value="Keenthemes">
 															<span class="m-form__help">If you want your invoices addressed to a company. Leave blank to use your full name.</span>
 														</div>
-													</div>
-													<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">Phone No.</label>
+													</div> -->
+												<!-- 	<div class="form-group m-form__group row">
+														<label for="example-text-input" class="col-2 col-form-label">Email</label>
 														<div class="col-7">
-															<input class="form-control m-input" type="text" value="+456669067890">
+															<input class="form-control m-input" type="text" value="{{Auth::user()->email }}">
 														</div>
 													</div>
 													<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
@@ -256,13 +233,8 @@
 															<input class="form-control m-input" type="text" value="California">
 														</div>
 													</div>
-													<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">Postcode</label>
-														<div class="col-7">
-															<input class="form-control m-input" type="text" value="45000">
-														</div>
-													</div>
-													
+													 -->
+												
 												</div>
 												<div class="m-portlet__foot m-portlet__foot--fit">
 													<div class="m-form__actions">
@@ -270,12 +242,13 @@
 															<div class="col-2">
 															</div>
 															<div class="col-7">
-																<button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom">Save changes</button>&nbsp;&nbsp;
-																<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
+																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Update</button>&nbsp;&nbsp;
+																<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Hủy</button>
 															</div>
 														</div>
 													</div>
 												</div>
+												@endauth
 											</form>
 										</div>
 										<div class="tab-pane " id="m_user_profile_tab_2">

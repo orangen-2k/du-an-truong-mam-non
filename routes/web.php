@@ -14,10 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
  */
 Route::get('/', function () {
-    return view('index');
+    return view('index'); 
 })->middleware('auth', 'web')->name('app');
 Auth::routes();
-Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('auth.profile');
+//Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('profile');
+Route::get('trang-ca-nhan-edit/{id}', 'AccountController@editProfile')->name('trang-ca-nhan-edit');
+Route::post('trang-ca-nhan-update/{id}', 'AccountController@updateProfile')->name('trang-ca-nhan-update');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
@@ -102,7 +104,6 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/toan-truong', 'ThongBaoController@uiThongBaoToanTruong')->name('thong-bao.ui-tt');
         Route::get('/giao-vien', 'ThongBaoController@uiThongBaoGiaoVien')->name('thong-bao.ui-gv');
         Route::get('/hoc-sinh', 'ThongBaoController@uiThongBaoHocSinh')->name('thong-bao.ui-hs');
-
         Route::post('sendto', 'ThongBaoController@store')->name('sendto');
         Route::post('sendto-toan-truong', 'ThongBaoController@postToanTruong')->name('sendto_toantruong');
     });

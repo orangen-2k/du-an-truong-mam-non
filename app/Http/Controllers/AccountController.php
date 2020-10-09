@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Repositories\AccountRepository;
 use App\User;
+use Auth;
+use App\Models\Account;
 use Illuminate\Http\Request;
+use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -103,12 +106,12 @@ class AccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id 
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+      
     }
 
     /**
@@ -133,4 +136,25 @@ class AccountController extends Controller
     {
         //
     }
+    public function editProfile( $id)
+    {
+         $user = User::find($id);
+         return view('auth.profile',compact('user'));
+     }
+ 
+    public function updateProfile(RegisterRequest $request,$id)
+    {
+         $user = User::find($id);
+         $params = $request->all();
+        // $params['name'] = request()->get('name');
+         $params['email'] = request()->get('email');
+ 
+        //  if (!empty(request()->get('password'))) {
+        //      $params['password'] = request()->get('password');
+        //  }
+              $user->update($params);
+         return redirect()->back();
+    }
+ 
+
 }
