@@ -3,6 +3,9 @@
 namespace App\Http\Requests\Lop;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Khoi;
+use App\Models\Lop;
 
 class Update extends FormRequest
 {
@@ -23,15 +26,28 @@ class Update extends FormRequest
      */
     public function rules()
     {
+        Validator::extend('custom_rule', function ($attribute, $value) {
+            $dataKhoi = Lop::find($this->lop_id)->Khoi;
+            $query = $dataKhoi->NamHoc->Khoi;
+            foreach ($query as $key => $value) {
+               $count = $value->LopHoc->where('ten_lop',$this->ten_lop)->where('id','!=',$this->lop_id)->count();
+               if($count>0){
+                   return false;
+               }
+            }
+            return true;
+        });
+        
+        // dd($this->ten_lop);
         return [
-            'ten_lop' => 'required|unique:lop_hoc,ten_lop,'.request()->lop_id,
+            'ten_lop' => 'required|custom_rule',
         ];
     }
     public function messages()
     {
         return [
             'ten_lop.required' => 'Tên lớp không được để trống',
-            'ten_lop.unique' => 'Tên lớp đã tồn tại'
+            'ten_lop.custom_rule' => 'Tên lớp đã tồn tại'
         ];
     }
 }

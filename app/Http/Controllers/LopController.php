@@ -176,10 +176,8 @@ class LopController extends Controller
     public function destroy(Request $request)
     {
         $lop_id = $request->id;
-        $this->GiaoVienRepository->xoaLopGiaoVien($lop_id);
-        $this->HocSinhRepository->xoaLopHocSinh($lop_id);
         $this->LopRepository->delete($lop_id);
-        return redirect()->route('quan-ly-lop-index')->with('status', 'Xóa dữ liệu thành công');
+        return 'thành công';
     }
 
     public function phanLop()
@@ -203,6 +201,54 @@ class LopController extends Controller
     {
         $id = $request->id;
         $lop = $this->LopRepository->find($id);
-        return $lop->HocSinh;
+        $ten_lop = $lop->ten_lop;
+        $tong_so_hs = $lop->tong_so_hoc_sinh;
+        return [
+            'danh_sach_lop' => $lop->Khoi->LopHoc,
+            'ten_lop' => $ten_lop,
+            'hoc_sinh_cua_lop' => $lop->HocSinh,
+            'tong_so_hs' => $tong_so_hs,
+        ];
     }
+
+    public function xepLopTuDong(Request $request)
+    {
+        $lop = $this->LopRepository->find($request->id_lop);
+        $do_tuoi = $lop->Khoi->do_tuoi;
+        $sl_hs_nam = $request->sl_hs_nam;
+        $sl_hs_nu = $request->sl_hs_nu;
+        $sl_hs_nam_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,0);
+        $sl_hs_nu_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,1);
+        if($sl_hs_nam > $sl_hs_nam_con_lai){
+            return response()->json([
+                'message' => 'so-luong-khong-du',
+                'sl_hs_con_lai' => $sl_hs_nam_con_lai,
+                'gioi_tinh' => 'Nam'
+            ], 422);
+        }
+
+        if($sl_hs_nu > $sl_hs_nu_con_lai){
+            return response()->json([
+                'message' => 'so-luong-khong-du',
+                'sl_hs_con_lai' => $sl_hs_nu_con_lai,
+                'gioi_tinh' => 'Nữ'
+
+            ], 422);
+        }
+       
+        $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,0,$sl_hs_nam);
+        $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,1,$sl_hs_nu);
+        return [
+            'hs_cua_lop' => $lop->HocSinh,
+            'sl_hs_cua_lop' => count($lop->HocSinh)
+        ];
+
+
+    }
+
+    public function getDataHocSinhChuaCoLop()
+    {
+       return $this->HocSinhRepository->getDataHocSinhChuaCoLop();
+    }
+
 }

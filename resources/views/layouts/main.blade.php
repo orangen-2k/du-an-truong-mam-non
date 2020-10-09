@@ -89,6 +89,7 @@
 		  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		  @yield('script')
 		<!--end::Page Scripts -->
+		  @include('layouts._share.notify')
 	</body>
 
 	<!-- end::Body -->

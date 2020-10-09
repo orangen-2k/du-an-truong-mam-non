@@ -57,6 +57,11 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
 
     Route::post('import-bieu-mau-hoc-sinh', 'QuanlyHocSinhController@importFile')->name('import-bieu-mau-nhap-hoc-sinh');
     Route::post('error-import-bieu-mau-hoc-sinh', 'QuanlyHocSinhController@errorFileImport')->name('error-import-bieu-mau-nhap-hoc-sinh');
+
+    //v2
+    Route::post('/hoc-sinh-chua-co-lop', 'QuanlyHocSinhController@showHocSinhChuaCoLop')->name('quan-ly-hoc-sinh-chua-co-lop');
+    Route::post('/chuyen-lop', 'QuanlyHocSinhController@chuyenLop')->name('quan-ly-hoc-sinh-chuyen-lop');
+
 });
 
 Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
@@ -89,8 +94,11 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::post('/update', 'LopController@update')->name('quan-ly-lop-update');
     Route::post('/destroy', 'LopController@destroy')->name('quan-ly-lop-destroy');
 
-    // start v2
     Route::post('/show-data-hoc-sinh-theo-lop', 'LopController@showHsTheoLop')->name('quan-ly-lop-show-data-hoc-sinh');
+    Route::get('/show-data-hoc-sinh-chua-co-lop', 'LopController@getDataHocSinhChuaCoLop')->name('quan-ly-lop-show-data-hoc-sinh-chua-co-lop');
+
+    Route::post('/xep-lop-tu-dong', 'LopController@xepLopTuDong')->name('quan-ly-lop-xep-lop-tu-dong');
+
 });
 
 Route::group(['middleware' => ['web', 'auth']], function () {
@@ -104,7 +112,15 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/toan-truong', 'ThongBaoController@uiThongBaoToanTruong')->name('thong-bao.ui-tt');
         Route::get('/giao-vien', 'ThongBaoController@uiThongBaoGiaoVien')->name('thong-bao.ui-gv');
         Route::get('/hoc-sinh', 'ThongBaoController@uiThongBaoHocSinh')->name('thong-bao.ui-hs');
+<<<<<<< HEAD
+=======
+        Route::get('/{id}', 'ThongBaoController@showThongBao')->name('thong-bao.show')->where('id', '[0-9]+');;
+
+>>>>>>> 7695e69cc078713e13178d7dd12862207686729d
         Route::post('sendto', 'ThongBaoController@store')->name('sendto');
         Route::post('sendto-toan-truong', 'ThongBaoController@postToanTruong')->name('sendto_toantruong');
     });
+
+    Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
+
 });

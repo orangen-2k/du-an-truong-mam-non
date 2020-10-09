@@ -40,6 +40,8 @@ class LopHocRepository extends BaseRepository
         ->where('lop_hoc.id', $lop_id);
         return $data->first();
     }
+
+
     
   
 }
