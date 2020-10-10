@@ -155,6 +155,8 @@ class AccountController extends Controller
               $user->update($params);
          return redirect()->back();
     }
+
+  
  
 
 }

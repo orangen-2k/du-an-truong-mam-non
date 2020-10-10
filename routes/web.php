@@ -112,11 +112,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/toan-truong', 'ThongBaoController@uiThongBaoToanTruong')->name('thong-bao.ui-tt');
         Route::get('/giao-vien', 'ThongBaoController@uiThongBaoGiaoVien')->name('thong-bao.ui-gv');
         Route::get('/hoc-sinh', 'ThongBaoController@uiThongBaoHocSinh')->name('thong-bao.ui-hs');
-<<<<<<< HEAD
-=======
         Route::get('/{id}', 'ThongBaoController@showThongBao')->name('thong-bao.show')->where('id', '[0-9]+');;
 
->>>>>>> 7695e69cc078713e13178d7dd12862207686729d
         Route::post('sendto', 'ThongBaoController@store')->name('sendto');
         Route::post('sendto-toan-truong', 'ThongBaoController@postToanTruong')->name('sendto_toantruong');
     });
