@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
@@ -8345,3 +8347,4 @@
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
 }
+>>>>>>> 7a3c7f5832d7cd1a318f284f6e1f02b928ea52ac

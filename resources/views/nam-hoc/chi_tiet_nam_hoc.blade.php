@@ -143,7 +143,6 @@
                   <div class="modal fade" id="modal-add-khoi" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="exampleModalLabel">Thêm khối</h5>
@@ -527,7 +526,7 @@
                               <span href="" class="m-nav__link">
                                 <span onclick="showHocSinhCuaLop({{$lop_hoc->id}})" class="m-nav__link-text "> <span
                                     class="ten_lop"> {{$lop_hoc->ten_lop}} </span>
-                                  <span class="sl_hs_cua_lop">({{ $lop_hoc->tong_so_hoc_sinh }})</span></span>
+                                  <span class="sl_hs_cua_lop">({{$namhoc->type ==1 ? $lop_hoc->tong_so_hoc_sinh : $lop_hoc->tong_so_hoc_sinh_lop_cu }})</span></span>
                                 <div class="dropdown">
                                   <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v"
                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -540,8 +539,7 @@
                                   <span class="dropdown-item" onclick="deleteLop({{$lop_hoc->id}})"><i
                                       class="flaticon-delete"></i>Xóa</span> 
                                     @endif
-                          
-                                    <span class="dropdown-item"><i class="flaticon-paper-plane"></i>Chi tiết</span>
+                                  <a href="{{ route('quan-ly-lop-show',['id'=>$lop_hoc->id]) }}" class="dropdown-item"><i class="flaticon-paper-plane"></i>Chi tiết</a>
                                   </div>
                                 </div>
                               </span>
@@ -874,9 +872,9 @@ const deleteKhoi = (id) =>{
 // start show học sinh theo lớp
 var gioi_tinh = {!! json_encode(config('common.gioi_tinh')) !!}
 const showHocSinhCuaLop = (id) => {
-
   axios.post(url_get_hs_lop, {
       'id': id,
+      'nam_hoc':$('#nam_hoc').val()
     })
     .then(function (response) {
       // console.log(gioi_tinh.1)
@@ -940,7 +938,9 @@ const showHocSinhCuaLop = (id) => {
     });
 };
 
+
 const getDataHsChuaCoLop = () =>{
+
   axios.get(url_get_field_chua_co_lop)
     .then(function (response) {
       var html_thong_tin_hs = "";
@@ -1266,6 +1266,7 @@ const xepLop = () =>{
 const getDataHocSinhChuyen = () =>{
   axios.post(url_get_hs_lop, {
       'id': $('#id_lop_xep').val(),
+      'nam_hoc':$('#nam_hoc').val()
     })
   .then(function (response) {
     var html_danh_sach_hs="";
@@ -1300,6 +1301,7 @@ const getDataHocSinhChuyen = () =>{
 };
 
 const chuyenLop = () =>{
+  
   axios.post(url_chuyen_lop, {
       'lop_id_chuyen': $('#id_lop_chuyen').val(),
       'lop_id': $('#id_lop_xep').val(),

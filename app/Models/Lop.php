@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\GiaoVien;
 use App\Models\HocSinh;
 use App\Models\Khoi;
+use App\Models\LichSuHoc;
+use App\Models\NamHoc;
 
 class Lop extends Model
 {
@@ -44,4 +46,31 @@ class Lop extends Model
     {
         return $this->hasMany(HocSinh::class)->where('lop_id',$this->id)->count();    
     }
+
+    public function LichSuHoc()
+    {
+        return $this->hasMany(LichSuHoc::class,'lop_id','id');    
+    }
+
+    public function getTongSoHocSinhLopCuAttribute()
+    {
+        return $this->hasMany(LichSuHoc::class)->where('lop_id',$this->id)->count();    
+    }
+
+    
+    public function getLenLopTiepTheoAttribute()
+    {
+        $id_nam_hoc_moi = NamHoc::max('id');
+        $khoi = Khoi::find($this->khoi_id);
+        $tuoi_tiep_theo = $khoi->do_tuoi +1;   
+        if($tuoi_tiep_theo > 5){
+            return [];
+        }
+        $khoi_tiep_theo =Khoi::where('do_tuoi',$tuoi_tiep_theo)->where('nam_hoc_id',$id_nam_hoc_moi)->first();  
+        
+        return $khoi_tiep_theo->LopHoc;  
+    }
+
+
+    
 }
