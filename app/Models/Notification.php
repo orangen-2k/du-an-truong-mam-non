@@ -11,5 +11,5 @@ class Notification extends Model
     use Notifiable, SyncWithFirebase;
 
     protected $table = 'notification';
-    protected $fillable = ['title', 'content', 'route', 'user_id', 'auth_id', 'type', 'bell'];
+    protected $fillable = ['title', 'content', 'route', 'user_id', 'auth_id', 'type', 'bell','created_at','updated_at'];
 }
