@@ -107,7 +107,7 @@ mix.styles(
             "public/vendors/sweetalert2/dist/sweetalert2.min.js",
             "public/vendors/js/framework/components/plugins/base/sweetalert2.init.js",
             // "public/vendors/wizard/wizard.js",
-            // "public/assets/demo/custom/crud/wizard/wizard.js",
+            "public/assets/demo/custom/crud/wizard/wizard.js",
             "public/assets/snippets/custom/pages/user/login.js",
             "public/vendors/jquery-validation/dist/jquery.validate.min.js"
         ],

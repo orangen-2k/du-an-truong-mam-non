@@ -11,7 +11,6 @@ class Khoi extends Model
     protected $table = 'khoi';
     protected $fillable = 
     [
-        "id",
         "ten_khoi",
         'do_tuoi',
         'nam_hoc_id',

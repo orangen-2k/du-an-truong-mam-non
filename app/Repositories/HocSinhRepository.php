@@ -101,5 +101,11 @@ class HocSinhRepository extends BaseModelRepository
     {
        return $this->model->whereIn('id',$id_hs_chuyen_lop)->update(['lop_id'=>$lop_id]);
     }
+
+    public function updateHocSinhTn($id_lop,$data)
+    {
+        return $this->model->where('lop_id',$id_lop)->update($data);
+
+    }
     
 }
