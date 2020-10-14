@@ -184,6 +184,7 @@
             showCloseButton: true,
             });
         } else {
+            Swal.showLoading()
             $.post(
             "{{ route('sendto') }}",
             {
@@ -191,6 +192,7 @@
                 title: $("[name='title']").val(),
                 content: editor.getData(),
                 user_id: toPeoples,
+                type: 2
             },
             function (response) {
                 Swal.fire({
@@ -201,6 +203,7 @@
                 timer: 1500
                 })
                 console.log(response);
+                location.reload()
             }
             );
         }

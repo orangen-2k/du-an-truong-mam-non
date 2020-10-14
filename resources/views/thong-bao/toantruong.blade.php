@@ -93,6 +93,7 @@
                 '_token': "{{ csrf_token() }}",
                 'title': $("[name='title']").val(),
                 'content': editor.getData(),
+                'type': 1
             }, function (response) {
                 Swal.fire({
                     position: 'center',
@@ -102,6 +103,7 @@
                     timer: 1500
                 })
                 console.log(response);
+                location.reload()
             })
         }
     }

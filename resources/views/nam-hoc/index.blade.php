@@ -23,7 +23,7 @@
     }
     .m-portlet.m-portlet--creative .m-portlet__head .m-portlet__head-caption .m-portlet__head-title .m-portlet__head-text{
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 15px
+        font-size: 13px
     }
 </style>
 @endsection @section('content')
@@ -42,9 +42,11 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <button class="btn btn-outline-secondary m-btn" data-toggle="modal" data-target="#m_modal_1">
+                        {{-- <button class="btn btn-outline-secondary m-btn" data-toggle="modal" data-target="#m_modal_1"> --}}
+                        <button class="btn btn-outline-secondary m-btn" type="button" onclick="checkNew()">
                             <i class="flaticon-add"></i>
                         </button>
+
                     </div>
                 </div>
                 <div class="m-portlet__body">
@@ -63,7 +65,8 @@
                                             <div class="fc-content">
                                                 {{ $item->name }}
                                                 <span class="pull-right">
-                                                    <i class="fa fa-lock-open"></i>
+                                                    <i
+                                                        class="fa {{ $item->type == 1 ? 'fa-lock-open' : 'fa-lock'}}"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -274,6 +277,18 @@
 <script>
     var url_chi_tiet_nam_hoc = "{{route('nam-hoc-chi-tiet',['pardam'])}}"
     var url_chuyen_du_lieu_nam_hoc = "{{route('get-chuyen-du-lieu-nam-hoc',['pardam'])}}"
+    function checkNew() {
+        if ('{{ $checkNew }}' == 1) {
+            $('#m_modal_1').modal('show');
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Năm học hiện tại chưa đóng!',
+                footer: '<p class="text-danger">Nhà trường cần đóng năm học hiện tại mới có thể khởi tạo năm học mới.</p>'
+            })
+        }
+    }
+
     function getData(element) {
         let id = $(element).attr("data-id");
         var url_chi_tiet_nam_hoc_v1 = url_chi_tiet_nam_hoc.replaceAll('pardam', id)
@@ -288,10 +303,9 @@
         $("#static_start_date").val(start_date);
         $("#static_end_date").val(end_date);
     }
-</script>
-<script language="javascript">
-    $(document).ready(function() {
-        jQuery.validator.addMethod("greaterThan", function(
+
+    $(document).ready(function () {
+        jQuery.validator.addMethod("greaterThan", function (
             value,
             element,
             params
@@ -308,9 +322,6 @@
 
         $("#form-ceate").validate({
             rules: {
-                name: {
-                    required: true
-                },
                 start_date: {
                     required: true
                 },
@@ -320,43 +331,25 @@
                 }
             },
             messages: {
-                name: {
-                    required: "Vui lòng nhập năm học"
-                },
                 start_date: {
                     required: "Vui lòng nhập thời gian bắt đầu năm học"
                 },
                 end_date: {
                     required: "Vui lòng nhập thời gian kết thúc năm học",
-                    greaterThan:
-                        "Vui lòng nhập thời gian kết thúc lớn hơn thời gian bắt đầu"
+                    greaterThan: "Vui lòng nhập thời gian kết thúc lớn hơn thời gian bắt đầu"
                 }
             }
         });
     });
-    // $(document).ready(function() {
-    //     $('#form-ceate').submit(function(e) {
-    //         var data = {
-    //             _token: '{{csrf_token()}}',
-    //             name: $('[name="name"]').val(),
-    //             start: $('[name="start"]').val(),
-    //             end: $('[name="end"]').val()
-    //         };
-    //         console.log(data);
-    //         e.preventDefault();
-    //         // $.post("{{ route('nam-hoc.store')}}", {
-    //         //     _token: '{{csrf_token()}}',
-    //         //     name: $('[name="name"]').val(),
-    //         //     start: $('[name="start"]').val(),
-    //         //     end: $('[name="end"]').val()
-    //         // },function(result) {
-    //         //     console.log(result);
-    //         // });
-
-    //     });
-    // });
 </script>
 
+@if (count($errors->all()) > 0)
+<script>
+    $(window).on('load',function(){
+        $('#m_modal_1').modal('show');
+    });
+</script>
+@endif
 @if (session('success'))
 <script>
     Swal.fire({
@@ -366,6 +359,7 @@
         showConfirmButton: false,
         timer: 2000
     });
+
 </script>
 @endif @if (session('error'))
 <script>

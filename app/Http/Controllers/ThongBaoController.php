@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\NoiDungThongBao;
 use App\Repositories\GiaoVienRepository;
 use App\Repositories\NamhocRepository;
+use App\Repositories\NoiDungThongBaoRepository;
+use App\Repositories\NotificationRepository;
 use App\Repositories\ThongBaoRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,22 +17,40 @@ class ThongBaoController extends Controller
     protected $GiaoVienRepository;
     protected $NamhocRepository;
     protected $ThongBaoRepository;
+    protected $NoiDungThongBaoRepository;
+    protected $NotificationRepository;
 
     public function __construct(
         GiaoVienRepository $GiaoVienRepository,
         NamhocRepository $NamhocRepository,
-        ThongBaoRepository $ThongBaoRepository
+        ThongBaoRepository $ThongBaoRepository,
+        NoiDungThongBaoRepository $NoiDungThongBaoRepository,
+        NotificationRepository $NotificationRepository
 
     ) {
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->NamhocRepository = $NamhocRepository;
         $this->ThongBaoRepository = $ThongBaoRepository;
+        $this->NoiDungThongBaoRepository = $NoiDungThongBaoRepository;
+        $this->NotificationRepository = $NotificationRepository;
     }
 
     public function index()
     {
-        return view('thong-bao.index');
+        $data = $this->NoiDungThongBaoRepository->getAll();
+        return view('thong-bao.index', compact('data'));
     }
+
+    public function showThongBao($id)
+    {
+        $data = $this->NoiDungThongBaoRepository->findById($id);
+        if ($data) {
+            return view('thong-bao.chitiet', compact('data'));
+        } else {
+            return redirect()->route('thong-bao.index');
+        }
+    }
+
     public function uiThongBaoToanTruong()
     {
         return view('thong-bao.toantruong');
@@ -65,9 +85,12 @@ class ThongBaoController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'auth_id' => Auth::id(),
+            'type' => $request->type,
         ])->id;
 
         foreach ($user_id as $key) {
+            $this->NotificationRepository->createNotifications($request->title, $request->content, route("thong-bao.show", ['id' => $thongbao_id]), $key, Auth::id());
+
             $dataInput = [
                 'thongbao_id' => $thongbao_id,
                 'user_id' => $key,
@@ -93,28 +116,28 @@ class ThongBaoController extends Controller
         foreach ($users as $item) {
             array_push($user_id, $item->id);
         }
-
         $thongbao_id = NoiDungThongBao::create([
             'title' => $request->title,
             'content' => $request->content,
             'auth_id' => Auth::id(),
+            'type' => $request->type,
         ])->id;
 
-        $data = [];
         foreach ($user_id as $key) {
-            $dataInput = [
-                'thongbao_id' => $thongbao_id,
-                'user_id' => $key,
-            ];
-            $this->ThongBaoRepository->create($dataInput);
-            $object = (object) $dataInput;
-            array_push($data, $object);
+            $this->NotificationRepository->createNotifications($request->title, $request->content, route("thong-bao.show", ['id' => $thongbao_id]), $key, Auth::id());
         };
+        $data = [];
+        $dataInput = [
+            'thongbao_id' => $thongbao_id,
+            'user_id' => 0,
+        ];
+        $this->ThongBaoRepository->create($dataInput);
+        $object = (object) $dataInput;
+        array_push($data, $object);
 
         return response()->json([
             'data' => $data,
             'code' => 200,
         ], 200);
     }
-
 }

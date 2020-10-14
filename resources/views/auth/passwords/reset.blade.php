@@ -47,7 +47,7 @@
 					<div class="m-login__container">
 						<div class="m-login__logo">
 							<a href="#">
-								<img src="{!! asset('assets/app/media/img/logos/logo-1.png') !!}">
+								<img src="{!! asset('images/coolkids.png') !!}">
 							</a>
 						</div>
 						<div class="m-login__signin">

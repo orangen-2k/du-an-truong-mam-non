@@ -40,4 +40,9 @@ class NamHocRepository extends BaseModelRepository
     {
         return $this->model->max('id');
     }
+    public function checkNew()
+    {
+        $data = $this->model::where('type', 1)->get();
+        return count($data) > 0 ? 0 : 1;
+    }
 }
