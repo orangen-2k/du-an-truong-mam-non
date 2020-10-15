@@ -104,6 +104,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/', 'NamHocController@index')->name('nam-hoc.index');
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
         Route::get('/chi-tiet-nam-hoc/{id}', 'QuanLyTrongNamController@index')->name('nam-hoc-chi-tiet');
+        Route::post('/dong-nam-hoc', 'NamHocController@lock')->name('nam-hoc.lock');
+        Route::get('/lich-su', function () {return 'route lịch sử học chưa gắn';})->name('nam-hoc-lich-su');
+
     });
     Route::prefix('thong-bao')->group(function () {
         Route::get('/', 'ThongBaoController@index')->name('thong-bao.index');

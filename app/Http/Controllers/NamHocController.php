@@ -46,4 +46,9 @@ class NamHocController extends Controller
     {
         return view('nam-hoc.chi_tiet_nam_hoc');
     }
+
+    public function lock(){
+       $result =  $this->NamHocRepository->lock();
+       return ['mess' => 'success','code' => 200];
+    }
 }

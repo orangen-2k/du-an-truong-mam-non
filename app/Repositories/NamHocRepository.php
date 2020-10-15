@@ -37,4 +37,10 @@ class NamHocRepository extends BaseModelRepository
         $data = $this->model::where('type', 1)->get();
         return count($data) > 0 ? 0 : 1;
     }
+
+    public function lock()
+    {
+        $data =  $this->model::where('type', 1)->update(['type' => 2]);
+        return $data;
+    }
 }
