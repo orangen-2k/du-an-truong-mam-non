@@ -13,6 +13,9 @@ return [
         'tuoi_3'=> 3,
         'tuoi_4'=> 4,
         'tuoi_5'=> 5,
-    ]
+    ],
+    'trang_thai_hoc_sinh' => [
+        'chưa có lớp','đang học','thôi học','ra trường'
+    ] 
 ]
 ?>

@@ -105,8 +105,12 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
         Route::get('/chi-tiet-nam-hoc/{id}', 'QuanLyTrongNamController@index')->name('nam-hoc-chi-tiet');
         Route::post('/dong-nam-hoc', 'NamHocController@lock')->name('nam-hoc.lock');
-        Route::get('/lich-su', function () {return 'route lịch sử học chưa gắn';})->name('nam-hoc-lich-su');
-
+        Route::get('/chuyen-du-lieu-nam-hoc/{id}', 'QuanLyTrongNamController@getchuyenDuLieuNamHoc')->name('get-chuyen-du-lieu-nam-hoc');
+        Route::post('/chuyen-du-lieu-nam-hoc', 'QuanLyTrongNamController@postchuyenDuLieuNamHoc')->name('post-chuyen-du-lieu-nam-hoc');
+        Route::post('/get-du-lieu-khoi-lop-nam-moi', 'QuanLyTrongNamController@getDuLieuKhoiLopNamMoi')->name('get-du-lieu-khoi-lop-nam-moi');
+        Route::get('/get-du-lieu-len-lop/{id}', 'QuanLyTrongNamController@duLieuLenLop')->name('get-du-lieu-len_lop');
+        Route::post('/len-lop-cho-hoc-sinh', 'QuanLyTrongNamController@leLopChoHocSinh')->name('len-lop-cho-hoc-sinh');
+        Route::get('/du-lieu-nam-hoc-moi-len-lop', 'QuanLyTrongNamController@getDuLieuNamHocMoiLenLop')->name('du-lieu-nam-hoc-moi-len-lop');
     });
     Route::prefix('thong-bao')->group(function () {
         Route::get('/', 'ThongBaoController@index')->name('thong-bao.index');

@@ -31,7 +31,15 @@ class NamHocRepository extends BaseModelRepository
         return $this->model::whereDate('start_date', '<=', Carbon::now())
             ->whereDate('end_date', '>=', Carbon::now())->first();
     }
+    public function getNamHocCu()
+    {
+        return $this->model->OrderBy('id','desc')->offset(1)->limit(1)->get();
+    }
 
+    public function maxID()
+    {
+        return $this->model->max('id');
+    }
     public function checkNew()
     {
         $data = $this->model::where('type', 1)->get();
