@@ -102,6 +102,7 @@
                                         <th>Tên đăng nhập</th>
                                         <th>Email</th>
                                         <th>Trạng thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -138,6 +139,10 @@
                                             </form>
                                             @endif
                                         </td>
+                                         <td> @if ($item->id != Auth::id())
+                                             <a href="{{ route('edit-admin', ['id' =>$item->id]) }}" class="flaticon-edit"></a>
+                                             @endif
+                                            </td>
                                     </tr>
                                     @empty
                                     <td>

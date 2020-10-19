@@ -4,7 +4,7 @@
     }
 </style>
 <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase.js"></script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.6.1/sweetalert2.min.css">
 <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-analytics.js"></script>
 <script>
     var firebaseConfig = {

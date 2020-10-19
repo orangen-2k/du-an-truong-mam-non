@@ -26,44 +26,22 @@
 												<span class="m-nav__section-text">Section</span>
 											</li>
 											<li class="m-nav__item">
-												<a href="{{ route('profile') }}" class="m-nav__link">
+												<a href="{{ route('profile',['id' =>Auth::user()->id]) }}" class="m-nav__link">
 													<i class="m-nav__link-icon flaticon-profile-1"></i>
 													<span class="m-nav__link-title">
 														<span class="m-nav__link-wrap">
-															<span class="m-nav__link-text">My Profile</span>
+															<span class="m-nav__link-text">Trang cá nhân</span>
 															<span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
 														</span>
 													</span>
 												</a>
 											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-share"></i>
-													<span class="m-nav__link-text">Activity</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-chat-1"></i>
-													<span class="m-nav__link-text">Messages</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-graphic-2"></i>
-													<span class="m-nav__link-text">Sales</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-time-3"></i>
-													<span class="m-nav__link-text">Events</span>
-												</a>
-											</li>
+										
+										
 											<li class="m-nav__item">
 												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
 													<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-													<span class="m-nav__link-text">Support</span>
+													<span class="m-nav__link-text">Hỗ trợ</span>
 												</a>
 											</li>
 										</ul>
@@ -80,7 +58,7 @@
 												<li class="nav-item m-tabs__item">
 													<a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
 														<i class="flaticon-share m--hide"></i>
-														Update Profile
+														Cập nhật tài khoản
 													</a>
 												</li>
 										
@@ -148,7 +126,7 @@
 
 										<div class="tab-pane " id="m_user_profile_tab_2">
 										<form class="m-form m-form--fit m-form--label-align-right" method="post" 
-											action="{{route('changePassword')}}">
+											action="{{route('update-mat-khau',['id'=>Auth::user()->id])}}">
 											@csrf
 												<div class="m-portlet__body">
 													<div class="form-group m-form__group m--margin-top-10 m--hide">
@@ -164,10 +142,17 @@
 										@endif
 
 										@if(session()->get('message'))
-											<div class="alert alert-success" role="alert">
-												<a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-												<strong>Thành công:</strong>&nbsp;{{session()->get('message')}}
-											</div>
+										<script >
+														swal({
+															title: "Mật khẩu đã được thay đổi!",
+															text: "Vui lòng đăng nhập lại để tiếp tục!",
+															type: "success",
+															button: "OK!" ,
+															icon: "success",
+															reverseButtons: !0
+														});
+													
+											</script>
 										@endif
 															<div class="form-group m-form__group row">
 														<div class="col-10 ml-auto">
@@ -178,13 +163,14 @@
 													<div class="form-group m-form__group row">
 														<label for="example-text-input" class="col-2 col-form-label">Mật khẩu cũ</label>
 														<div class="col-7">
-															<input class="form-control m-input" type="password" name="password"  value="">
+															<input class="form-control m-input" type="password" name="current_password"  value="">
 														</div>
 													</div>
 													<div class="form-group m-form__group row">
+														
 														<label for="example-text-input" class="col-2 col-form-label" >Mật khẩu mới</label>
 														<div class="col-7">
-														@error('email')
+														@error('new_password')
 															<small style="color:red">{{$message}}</small>
 															@enderror
 															<input class="form-control m-input " type="password" name="new_password" value="">
@@ -194,16 +180,13 @@
 													<div class="form-group m-form__group row">
 														<label for="example-text-input" class="col-2 col-form-label" >Nhập lại mật khẩu mới</label>
 														<div class="col-7">
-														@error('email')
+														@error('password_confirmation')
 															<small style="color:red">{{$message}}</small>
 															@enderror
 															<input class="form-control m-input " type="password" name="password_confirmation" value="">
 														</div>
 														
 													</div>
-
-
-							
 													
 												</div>
 												<div class="m-portlet__foot m-portlet__foot--fit">
@@ -212,8 +195,8 @@
 															<div class="col-2">
 															</div>
 															<div class="col-7">
-																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Update</button>&nbsp;&nbsp;
-																<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
+																<button type="" id="btnresult" onclick="changePassword()"  class="btn btn-accent m-btn m-btn--air m-btn--custom">Update</button>&nbsp;&nbsp;
+																<a id="btnresult" onclick="changePassword()" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</a>
 															</div>
 														</div>
 													</div>
@@ -230,4 +213,5 @@
 					</div>
 				</div>
 			</div>
+
 @endsection

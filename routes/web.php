@@ -18,9 +18,17 @@ Route::get('/', function () {
 })->middleware('auth', 'web')->name('app');
 Auth::routes();
 //Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('profile');
-Route::get('trang-ca-nhan-edit/{id}', 'AccountController@editProfile')->name('trang-ca-nhan-edit');
-Route::post('trang-ca-nhan-update/{id}', 'AccountController@updateProfile')->name('trang-ca-nhan-update');
+Route::get('trang-ca-nhan/{id}', 'AccountController@editProfile')->name('profile');
+Route::post('chinh-sua-trang-ca-nhan/{id}', 'AccountController@updateProfile')->name('updateProfile');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('trang-ca-nhan/doi-mat-khau/{id}','AccountController@changePasswordForm')->name('doi-mat-khau');
+Route::post('trang-ca-nhan/update-mat-khau/{id}','AccountController@changePassword')->name('update-mat-khau');
+
+//Sua tk
+Route::get('/account/edit-admin/{id}','AccountController@getEditAdmin')->name('edit-admin');
+Route::post('/account/update-admin/{id}','AccountController@editAdmin')->name('update-admin');
+Route::get('/account/edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
+Route::post('/account/update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
 
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
 Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');

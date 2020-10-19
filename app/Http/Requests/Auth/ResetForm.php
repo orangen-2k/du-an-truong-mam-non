@@ -25,7 +25,8 @@ class ResetForm extends FormRequest
     {
         return [
             'password' => 'required|min:8|confirmed',
-            'password_confirmation' => 'required|same:password'
+            'new_password'=>'required|string|min:8',
+            'password_confirmation' => 'required|same:new_password'
         ];
     }
 
@@ -34,6 +35,9 @@ class ResetForm extends FormRequest
             'password.required' => 'Vui lòng điền Mật khẩu!',
             'password.min' => 'Mật khẩu trên 8 ký tự',
             'password.confirmed' => 'Mật khẩu không khớp',
+
+            'new_password.required' => 'Vui lòng điền Mật khẩu!',
+            'new_password.min' => 'Mật khẩu trên 8 ký tự',
 
             'password_confirmation.required' => 'Vui lòng điền Mật khẩu!',
             'password_confirmation.same' => 'Mật khẩu không khớp'

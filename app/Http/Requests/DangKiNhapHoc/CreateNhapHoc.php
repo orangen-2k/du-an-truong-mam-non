@@ -32,6 +32,7 @@ class CreateNhapHoc extends FormRequest
             'dan_toc' => 'required',
             'ten_cha' => 'required',
             'cmtnd_cha' => 'required|integer',
+            'dien_thoai'=>'required|min:11|numeric',
             'dien_thoai_cha' => 'required|min:11|numeric',
             'ten_me' => 'required',
             'cmtnd_me' => 'required|integer|min:0',

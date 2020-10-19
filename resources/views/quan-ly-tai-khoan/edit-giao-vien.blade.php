@@ -3,54 +3,7 @@
 @section('content')
 <div class="m-content">
 						<div class="row">
-							<div class="col-xl-3 col-lg-4">
-								<div class="m-portlet m-portlet--full-height  ">
-									<div class="m-portlet__body">
-										<div class="m-card-profile">
-											<div class="m-card-profile__title m--hide">
-												Trang cá nhân
-											</div>
-											<div class="m-card-profile__pic">
-												<div class="m-card-profile__pic-wrapper">
-													<img src="../assets/app/media/img/users/user4.jpg" alt="" />
-												</div>
-											
-											</div>
-											<div class="m-card-profile__details">
-												<span class="m-card-profile__name">@auth {{Auth::user()->name }} @endauth</span>
-												<a href="" class="m-card-profile__email m-link">@auth {{Auth::user()->email }} @endauth</a>
-											</div>
-										</div>
-										<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
-											<li class="m-nav__separator m-nav__separator--fit"></li>
-											<li class="m-nav__section m--hide">
-												<span class="m-nav__section-text">Section</span>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-profile-1"></i>
-													<span class="m-nav__link-title">
-														<span class="m-nav__link-wrap">
-															<span class="m-nav__link-text">Tài Khoản</span>
-															<span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
-														</span>
-													</span>
-												</a>
-											</li>
-										
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-													<span class="m-nav__link-text">Hỗ trợ</span>
-												</a>
-											</li>
-										</ul>
-										<div class="m-portlet__body-separator"></div>
-										
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-9 col-lg-8">
+							<div class="col-xl-12 col-lg-9">
 								<div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
 									<div class="m-portlet__head">
 										<div class="m-portlet__head-tools">
@@ -58,7 +11,7 @@
 												<li class="nav-item m-tabs__item">
 													<a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
 														<i class="flaticon-share m--hide"></i>
-														Cập nhật tài khoản
+														Update Profile
 													</a>
 												</li>
 												<li class="nav-item m-tabs__item">
@@ -66,7 +19,11 @@
 														Messages
 													</a>
 												</li>
-											
+												<li class="nav-item m-tabs__item">
+													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
+														Settings
+													</a>
+												</li>
 											</ul>
 										</div>
 										<div class="m-portlet__head-tools">
@@ -85,12 +42,12 @@
 																			<li class="m-nav__section m-nav__section--first">
 																				<span class="m-nav__section-text">Quick Actions</span>
 																			</li>
-																			<li class="m-nav__item">
+																			<!-- <li class="m-nav__item">
 																				<a href="{{route('doi-mat-khau', ['id' =>Auth::user()->id])}}" class="m-nav__link">
 																					<i class="m-nav__link-icon flaticon-share"></i>
 																					<span class="m-nav__link-text">Đổi Mật khẩu</span>
 																				</a>
-																			</li>
+																			</li> -->
 																			
 																			
 																			<li class="m-nav__section">
@@ -125,7 +82,7 @@
 									</div>
 									<div class="tab-content">
 										<div class="tab-pane active" id="m_user_profile_tab_1">
-											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('updateProfile',['id' =>Auth::user()->id]) }}"  >
+											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('update-giao-vien', ['id' =>$giao_vien->id])}}" >
 												@csrf
 												<div class="m-portlet__body">
 													<div class="form-group m-form__group m--margin-top-10 m--hide">
@@ -147,22 +104,97 @@
 														</div>
 													</div>
 													<div class="form-group m-form__group row">
-														<label for="example-text-input"  class="col-2 col-form-label">Họ tên</label>
+														<label for="example-text-input"  class="col-2 col-form-label">Mã giáo viên</label>
 														<div class="col-7">
-															<input class="form-control m-input" type="text" name="name"  disabled  value="{{Auth::user()->name }}">
+															<input class="form-control m-input" type="text" name="ma_gv"  disabled  value="{{$giao_vien->ma_gv}}">
 														</div>
 													</div>
-													<div class="form-group m-form__group row" >
-														<label for="example-text-input" class="col-2 col-form-label" name="email">Email</label>
+													<div class="form-group m-form__group row">
+														<label for="example-text-input"  class="col-2 col-form-label">Họ tên</label>
 														<div class="col-7">
-														@error('email')
+														@error('ten')
 															<small style="color:red">{{$message}}</small>
 															@enderror
-															<input class="form-control m-input " type="text" name="email"  value="{{Auth::user()->email }}">
+															<input class="form-control m-input" type="text" name="ten"  value="{{$giao_vien->ten}}">
+														</div>
+													</div>
+												
+													</div>
+													<div class="form-group m-form__group row" >
+														<label for="example-text-input" class="col-2 col-form-label" >Số điện thoại</label>
+														<div class="col-7">
+														@error('dien_thoai ')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input " type="text" name="dien_thoai"  value="{{$giao_vien->dien_thoai }}">
 														</div>
 													</div>
 													
 
+													<div class="form-group m-form__group row">
+														<label for="example-text-input" class="col-2 col-form-label">Ngày sinh </label>
+														<div class="col-7">
+														@error('ngay_sinh')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="date" name="ngay_sinh" value="{{$giao_vien->ngay_sinh }}">
+														</div>
+													</div>
+													<div class="form-group m-form__group row" >
+														<label for="example-text-input" class="col-2 col-form-label" name="">Số điện thoại</label>
+														<div class="col-7">
+														
+															<input class="form-control m-input " type="text" name="dien_thoai"  value="{{$giao_vien->dien_thoai }}">
+														</div>
+													</div>
+
+													<div class="form-group m-form__group row">
+														<label for="example-text-input" class="col-2 col-form-label">Dân tộc </label>
+														<div class="col-7">
+														@error('dan_toc')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="text" name="dan_toc" value="{{$giao_vien->dan_toc }}">
+														</div>
+													</div>
+													<div class="form-group m-form__group row">
+														<label for="example-text-input" class="col-2 col-form-label">Trình độ </label>
+														<div class="col-7">
+														@error('trinh_do')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="text" name="trinh_do" value="{{$giao_vien->trinh_do }}">
+														</div>
+													</div>
+													<div class="form-group m-form__group row">
+														<label for="example-text-input" class="col-2 col-form-label">Chuyên môn</label>
+														<div class="col-7">
+														@error('chuyen_mon')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="text" name="chuyen_mon" value="{{$giao_vien->chuyen_mon }}">
+														</div>
+													</div>
+													<div class="form-group m-form__group row">
+														<label for="example-text-input" class="col-2 col-form-label">Nơi đào tạo </label>
+														<div class="col-7">
+														@error('noi_dao_tao')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="text" name="noi_dao_tao" value="{{$giao_vien->noi_dao_tao}}">
+														</div>
+													</div>
+													<div class="form-group m-form__group row">
+														<label for="example-text-input" class="col-2 col-form-label">Năm tốt nghiệp</label>
+														<div class="col-7">
+														@error('nam_tot_nghiep')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="text" name="nam_tot_nghiep" value="{{$giao_vien->nam_tot_nghiep }}">
+														</div>
+													</div>
+
+												
 												</div>
 												<div class="m-portlet__foot m-portlet__foot--fit">
 													<div class="m-form__actions">
@@ -170,14 +202,15 @@
 															<div class="col-2">
 															</div>
 															<div class="col-7">
-																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Update</button>&nbsp;&nbsp;
-																<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Hủy</button>
+																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" id="btnresult">Update</button>&nbsp;&nbsp;
+																<a href="{{route('account.ds-gv')}}">Quay lại</a>
 															</div>
 														</div>
 													</div>
 												</div>
 												@endauth
 											</form>
+											
 										</div>
 										<div class="tab-pane " id="m_user_profile_tab_2">
 										</div>
@@ -190,4 +223,5 @@
 					</div>
 				</div>
 			</div>
+		
 @endsection

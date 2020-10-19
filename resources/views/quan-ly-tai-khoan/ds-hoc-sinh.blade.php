@@ -102,6 +102,7 @@
                                         <th>Tên đăng nhập</th>
                                         <th>Email</th>
                                         <th>Trạng thái</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -138,6 +139,7 @@
                                             </form>
                                             @endif
                                         </td>
+                                        
                                     </tr>
                                     @empty
                                     <td>
