@@ -32,6 +32,12 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
     Route::post('/submit-xac-nhan-ma-dang-ky', 'DangKiNhapHocController@XacNhanDangKy')->name('submit-xac-nhan-ma-dangki');
 });
 
+// HIEUPT-13/10/2020-QUAN_LY_GIAO_TRINH
+
+Route::prefix('/quan-ly-giao-trinh')->group(function(){
+    Route::get('/', 'QuanLyGiaoTrinhController@index')->name('quan-ly-giao-trinh-index');
+});
+
 Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::get('/', 'QuanlyGiaoVienController@index')->name('quan-ly-giao-vien-index');
     Route::get('/create', 'QuanlyGiaoVienController@create')->name('quan-ly-giao-vien-create');
