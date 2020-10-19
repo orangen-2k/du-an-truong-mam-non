@@ -666,6 +666,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		let createDangKi = () => {
 			let myForm = document.getElementById('myForm');
 			var formData = new FormData(myForm)
+			formData.append('image', $('input[type=file]')[0].files[0]); 
 			axios.post(url_submit_dangki ,formData)
 			.then(function (response) {
 				console.log(response.data);
