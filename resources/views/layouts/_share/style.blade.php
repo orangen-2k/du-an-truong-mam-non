@@ -4,7 +4,7 @@
 <link href="{!! asset('assets/demo/base/style.bundle.css') !!}" rel="stylesheet" type="text/css" /> 
 <style>
         body{
-                font-family: Arial, Helvetica, sans-serif
+                font-family: Arial, Helvetica, sans-serif !important;
         }
         #m_aside_left,.m-brand.m-brand--skin-dark{
                 background-color: white

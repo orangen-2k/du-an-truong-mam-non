@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Notification;
 use App\Repositories\BaseModelRepository;
-
+use Carbon\Carbon;
 class NotificationRepository extends BaseModelRepository
 {
     protected $model;
@@ -30,6 +30,8 @@ class NotificationRepository extends BaseModelRepository
             'auth_id' => $auth_id,
             'type' => 1,
             'bell' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
         return $data;
     }

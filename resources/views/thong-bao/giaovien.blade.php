@@ -203,6 +203,7 @@
                 timer: 1500
                 })
                 console.log(response);
+                location.reload()
             }
             );
         }

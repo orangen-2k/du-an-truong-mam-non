@@ -11,6 +11,20 @@
         color: red;
     }
 
+    .m-section {
+        margin: 0px !important
+    }
+    .m-portlet.m-portlet--creative .m-portlet__head .m-portlet__head-caption .m-portlet__head-label.m-portlet__head-label--success {
+    min-width: 400px;
+    font-size: 1rem !important;
+    }
+    .m-portlet.m-portlet--creative{
+        height: 115px;
+    }
+    .m-portlet.m-portlet--creative .m-portlet__head .m-portlet__head-caption .m-portlet__head-title .m-portlet__head-text{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 13px
+    }
 </style>
 @endsection @section('content')
 <div class="m-content">
@@ -28,6 +42,7 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
+                        {{-- <button class="btn btn-outline-secondary m-btn" data-toggle="modal" data-target="#m_modal_1"> --}}
                         <button class="btn btn-outline-secondary m-btn" type="button" onclick="checkNew()">
                             <i class="flaticon-add"></i>
                         </button>
@@ -42,7 +57,7 @@
                                 <div id="m_calendar_external_events" class="fc-unthemed">
                                     @forelse ($data as $item)
 
-                                    <div onclick="getData(this)" data-name="{{ $item->name }}"
+                                    <div onclick="getData(this)" data-name="{{ $item->name }}" data-id="{{ $item->id }}"
                                         data-start_date="{{ $item->start_date }}" data-end_date="{{ $item->end_date }}"
                                         class="m-nav__link fc-event fc-event-external fc-start m-fc-event--primary m--margin-bottom-15 ui-draggable ui-draggable-handle"
                                         data-color="m-fc-event--primary">
@@ -88,9 +103,86 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                <a type="button"
-                                    href="{{route('nam-hoc-chi-tiet',['id'=>isset($data[0]) ? $data[0]->id : ''])}}"
-                                    class="btn m-btn--pill m-btn--air btn-outline-info">Xếp lớp</a>
+                                <button style="cursor: pointer" type="button" data-toggle="modal"
+                                    data-target="#modal_chon_khoi_tao_nam_hoc"
+                                    class="btn m-btn--pill m-btn--air btn-outline-info">
+                                    Xếp lớp
+                                </button>
+                                <div class="modal fade" id="modal_chon_khoi_tao_nam_hoc" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                      <div class="modal-content">
+                                        <div class="m-portlet__head">
+                                            <div class="m-portlet__head-caption">
+                                                <div class="m-portlet__head-title">
+                                                    <h3 class="m-portlet__head-text">
+                                                        Khởi tạo năm học mới
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                           
+                                            <div class="m-portlet__body">
+
+                                                <!--begin::Section-->
+                                                <div class="m-section">
+                                                    <span class="m-section__sub">
+                                                        Hệ thống sẽ khởi tạo năm học mới 2019 - 2020 bằng 1 trong 2 cách:
+                                                    </span>
+                                                    <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+                                                        <div class="m-portlet__head">
+                                                            
+                                                            <div class="m-portlet__head-caption">
+                                                                <div class="m-portlet__head-title">
+                                                                    <h3 class="m-portlet__head-text">
+                                                                       <span> Khởi tạo năm học mới và đẩy dữ liệu của năm học cũ lên.</span>
+                                                                    </h3>
+                                                                    <h4 class="m-portlet__head-label m-portlet__head-label--success">
+                                                                        <span>Khởi tạo năm học mới và đẩy dữ liệu của năm học cũ lên</span>
+                                                                    </h4>
+                                                                </div>
+                                                            </div>
+                                                            <div class="m-portlet__head-tools">
+                                                                <a id="day_du_lieu_nam_cu" href="{{route('get-chuyen-du-lieu-nam-hoc',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</a>
+                                                            </div>
+                                                        </div>
+                                   
+                                                    </div>
+                                                    <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
+                                                        <div class="m-portlet__head">
+                                                            
+                                                            <div class="m-portlet__head-caption">
+                                                                <div class="m-portlet__head-title">
+                                                                    <h3 class="m-portlet__head-text ">
+                                                                       <span> Hệ thống sẽ khởi tạo năm học mới mà không chuyển dữ liệu từ năm trước lên <br>
+                                                                    các thầy/cô cần nhập lại dữ liệu.
+                                                                    </span>
+                                                                    </h3>
+                               
+                                                                    <h4 class="m-portlet__head-label m-portlet__head-label--success">
+                                                                        <span>Chỉ khởi tạo năm học mới</span>
+                                                                    </h4>
+                                                                </div>
+                                                            </div>
+                                                            <div class="m-portlet__head-tools">
+                                                                <a id="chi_tiet_nam_hoc" href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</a>
+                                                            </div>
+                                                        </div>
+                                   
+                                                    </div>
+                                                </div>
+        
+                                                <!--end::Section-->
+                                               
+        
+                                                <!--end::Section-->
+                                            </div>
+                   
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
                                 <button type="button" class="btn m-btn--pill m-btn--air btn-outline-warning">
                                     Lịch sử
                                 </button>
@@ -140,6 +232,14 @@
                     <div class="modal-body">
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group">
+                                <label>Năm học</label>
+                                <input type="text" class="form-control m-input @error('name') is-invalid @enderror"
+                                    name="name" />
+                                @error('name')
+                                <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group m-form__group">
                                 <label>Ngày bắt đầu năm học:</label>
                                 <input type="date"
                                     class="form-control m-input @error('start_date') is-invalid @enderror"
@@ -174,7 +274,9 @@
 </div>
 
 @endsection @section('script')
-<script type="text/javascript">
+<script>
+    var url_chi_tiet_nam_hoc = "{{route('nam-hoc-chi-tiet',['pardam'])}}"
+    var url_chuyen_du_lieu_nam_hoc = "{{route('get-chuyen-du-lieu-nam-hoc',['pardam'])}}"
     function checkNew() {
         if ('{{ $checkNew }}' == 1) {
             $('#m_modal_1').modal('show');
@@ -188,6 +290,12 @@
     }
 
     function getData(element) {
+        let id = $(element).attr("data-id");
+        var url_chi_tiet_nam_hoc_v1 = url_chi_tiet_nam_hoc.replaceAll('pardam', id)
+        var url_chuyen_du_lieu_nam_hoc_v1 = url_chuyen_du_lieu_nam_hoc.replaceAll('pardam', id)
+        $("#day_du_lieu_nam_cu").attr('href',url_chi_tiet_nam_hoc_v1)
+        $("#chi_tiet_nam_hoc").attr('href',url_chuyen_du_lieu_nam_hoc_v1)
+
         let name = $(element).attr("data-name");
         let start_date = $(element).attr("data-start_date");
         let end_date = $(element).attr("data-end_date");

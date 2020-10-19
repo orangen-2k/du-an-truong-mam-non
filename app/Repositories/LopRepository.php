@@ -35,6 +35,12 @@ class LopRepository extends BaseModelRepository
     if (isset($params['keyword']) && $params['keyword'] != null) {
       $queryBulder->where('ten_lop', 'like', '%' . $params['keyword'] . '%');
     }
+    if (isset($params['keyword']) && $params['keyword'] != null) {
+      $queryBulder->where('ten_lop', 'like', '%' . $params['keyword'] . '%');
+    }
+    if (isset($params['keyword']) && $params['keyword'] != null) {
+      $queryBulder->where('ten_lop', 'like', '%' . $params['keyword'] . '%');
+    }
     return $queryBulder->OrderBy('created_at', 'desc')->paginate($params['limit']);
   }
 }
