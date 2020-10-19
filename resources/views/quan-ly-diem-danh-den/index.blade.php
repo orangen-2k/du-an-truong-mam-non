@@ -115,7 +115,6 @@
     .lop_hoc .m-nav__link-text {
         padding-left: 23px !important;
     }
-
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
@@ -134,9 +133,10 @@
                             <div class="m-portlet__head-title">
                                 <div class="row">
                                     <h4 class="m-portlet__head-text col-md-10">
-                                        Năm học: {{$namhoc->name}} 
+                                        Năm học: {{$namhoc->name}}
                                     </h4>
-                                    <i style="cursor: pointer" class="la la-refresh" data-toggle="modal" data-target="#modal-nam-hoc"></i>
+                                    <i style="cursor: pointer" class="la la-refresh" data-toggle="modal"
+                                        data-target="#modal-nam-hoc"></i>
                                 </div>
                             </div>
                         </div>
@@ -219,35 +219,34 @@
 
                 <div class="m-portlet m-portlet--full-height">
                     <input type="number" id="lop_id" hidden class="ml-3">
-                <div class="form-group m-form__group row ml-3" id="select_display" style="display: none">
-                    <label class="col-lg-2 col-form-label select2">Tháng: </label>
-                    <div class="col-lg-11">
-                        <select name="time" id="thang"  class="form-control select2">
-                        
-                            @for($i = 1; $i < 13; $i++)
-                            <option value="{{$i}}">Tháng {{$i}}</option>
-                            @endfor
-                        </select>
-                    </div>
-                </div>
-                <label class="col-lg-2 col-form-label select2">Chú thích: </label>
-                <div class="row ml-3">
-                    <div class="col" style="color:#149018"><b><i>N: Đi học cả ngày</i></b></div>
-                    <div class="col" style="color:#EB451F"><b><i>NH: Nghỉ học cả ngày</i></b></div>
-                    <div class="col" style="color:#1520B4"><b><i>S: Đi học buổi sáng</i></b></div>
-                    <div class="col" style="color:#1520B4"><b><i>C: Đi học buổi Chiều</i></b></div>
-                    <div class="col" style="color:#FF9900"><b><i>A: Có ăn</i></b></div>
+                    <div class="form-group m-form__group row ml-3" id="select_display" style="display: none">
+                        <label class="col-lg-2 col-form-label select2">Tháng: </label>
+                        <div class="col-lg-11">
+                            <select name="time" id="thang" class="form-control select2">
 
-                </div>
+                                @for($i = 1; $i < 13; $i++) <option value="{{$i}}">Tháng {{$i}}</option>
+                                    @endfor
+                            </select>
+                        </div>
+                    </div>
+                    <label class="col-lg-2 col-form-label select2">Chú thích: </label>
+                    <div class="row ml-3">
+                        <div class="col" style="color:#149018"><b><i>N: Đi học cả ngày</i></b></div>
+                        <div class="col" style="color:#EB451F"><b><i>NH: Nghỉ học cả ngày</i></b></div>
+                        <div class="col" style="color:#1520B4"><b><i>S: Đi học buổi sáng</i></b></div>
+                        <div class="col" style="color:#1520B4"><b><i>C: Đi học buổi Chiều</i></b></div>
+                        <div class="col" style="color:#FF9900"><b><i>A: Có ăn</i></b></div>
+
+                    </div>
                     {{-- <div class="m-portlet__body"> --}}
 
                     <!--begin::Section-->
-                    
+
                     <!--end::Section-->
 
                     {{-- </div> --}}
                 </div>
-                
+
             </div>
 
 
@@ -298,11 +297,12 @@
                         </tr>
                     </thead>
                     <tbody id="show-data">
-                       
+
                     </tbody>
                 </table>
                 {{-- Modal --}}
-                <div class="modal fade show" id="thongke" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 17px;">
+                <div class="modal fade show" id="thongke" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" style="display: none; padding-right: 17px;">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -312,43 +312,47 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                            <div class="form-group" id="content-modal">
-                                
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Đóng</button>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {{-- EndModel --}}
-                {{-- Modal NamHoc--}}
-                <div class="modal fade show" id="modal-nam-hoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 17px;">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Năm Học</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <select class="form-control form-control-sm" id="select-nam">
-                                    @foreach ($getAllNamHoc as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
-                                  </select>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Đóng</button>
-                                
+                                <div class="form-group" id="content-modal">
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm"
+                                        data-dismiss="modal">Đóng</button>
+
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {{-- EndModel --}}
+                    {{-- Modal NamHoc--}}
+                    
+                    {{-- EndModel --}}
                 </div>
-                {{-- EndModel --}}
-            </div>
+                <div class="modal fade show" id="modal-nam-hoc" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Năm Học</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <select class="form-control form-control-sm" id="select-nam">
+                                        @foreach ($getAllNamHoc as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm"
+                                        data-dismiss="modal">Đóng</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
