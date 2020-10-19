@@ -18,9 +18,13 @@ class GiaoVien extends Seeder
         // dd($json_ten[1]);
 
         $lop_hoc_moi = DB::table('lop_hoc')
+        
         ->join('khoi', 'khoi.id', '=', 'lop_hoc.khoi_id')
+        ->select('lop_hoc.*')
         ->where('khoi.nam_hoc_id', $nam_hoc_moi->id)->get();
+        
         foreach ($lop_hoc_moi as $key) {
+            
             DB::table('giao_vien')->insert([
                 'ma_gv' => 'PH0'.rand(1000,99999999),
                 'lop_id' => $key->id,
