@@ -1,18 +1,5 @@
 
 <!DOCTYPE html>
-
-<!-- 
-Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 4
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Dribbble: www.dribbble.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-Renew Support: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
--->
 <html lang="en">
 
 	<!-- begin::Head -->
@@ -44,7 +31,9 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--RTL version:<link href="../../../assets/demo/default/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 
 		<!--end::Global Theme Styles -->
-        <link rel="shortcut icon" href="{!! asset('assets/demo/media/img/logo/favicon.ico') !!}" />
+		<link rel="shortcut icon" href="{!! asset('assets/demo/media/img/logo/favicon.ico') !!}" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.min.css">
+		
 	</head>
 
 	<!-- end::Head -->
@@ -54,12 +43,13 @@ License: You must have a valid license purchased only from themeforest(the above
 
 		<!-- begin:: Page -->
 		<div class="m-grid m-grid--hor m-grid--root m-page">
-			<div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2" id="m_login" style="background-image: url(../../../assets/app/media/img//bg/bg-3.jpg);">
+			<div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2 
+			@if (session('error_email'))m-login--forget-password @endif" id="m_login" style="background-image: url(../../../assets/app/media/img//bg/bg-3.jpg);">
 				<div class="m-grid__item m-grid__item--fluid	m-login__wrapper">
 					<div class="m-login__container">
 						<div class="m-login__logo">
 							<a href="#">
-								<img src="{!! asset('assets/app/media/img/logos/logo-1.png') !!}">
+								<img src="{!! asset('images/coolkids.png') !!}" width="300" >
 							</a>
 						</div>
 						<div class="m-login__signin">
@@ -72,7 +62,6 @@ License: You must have a valid license purchased only from themeforest(the above
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
 									<span>{{session('message')}}</span>		
 									</div>
-									
 								@endif
                                 @csrf
 								<div class="form-group m-form__group">
@@ -190,7 +179,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<input class="form-control m-input" type="text" placeholder="Email" name="email" id="m_email" autocomplete="off">
 								</div>
 								<div class="m-login__form-action">
-									<button type="submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air  m-login__btn m-login__btn--primaryr">Request</button>&nbsp;&nbsp;
+									<button type="submit" class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air  m-login__btn m-login__btn--primaryr">Gửi</button>&nbsp;&nbsp;
 									<button id="m_login_forget_password_cancel" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom m-login__btn">Cancel</button>
 								</div>
 							</form>
@@ -211,14 +200,50 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--begin::Global Theme Bundle -->
 		<script src="{!! asset('assets/vendors/base/vendors.bundle.js') !!}" type="text/javascript"></script>
 		<script src="{!! asset('assets/demo/base/scripts.bundle.js') !!}" type="text/javascript"></script>
-
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.min.js"></script>
 		<!--end::Global Theme Bundle -->
 
 		<!--begin::Page Scripts -->
 		<script src="{!! asset('assets/snippets/custom/pages/user/login.js') !!}" type="text/javascript"></script>
-
+		<script>
+			$(".alert").fadeTo(2000, 500).slideUp(500, function(){
+    			$(".alert").slideUp(500);
+			});
+		</script>
 		<!--end::Page Scripts -->
 	</body>
 
 	<!-- end::Body -->
 </html>
+@if (session('error_email'))
+	<script>
+		Swal.fire({
+			position: 'top-center',
+			icon: 'warning',
+			title: 'Địa chỉ email không tồn tại',
+			timer: 5000
+		})
+	</script>
+@endif
+@if (session('success_email'))
+	<script>
+		Swal.fire({
+			position: 'top-center',
+			icon: 'success',
+			title: 'Gửi Email thành công !',
+			text: 'Vui lòng kiểm tra email để thay đổi mật khẩu',
+			timer: 5000
+		})
+	</script>
+@endif
+@if (session('success_password'))
+	<script>
+		Swal.fire({
+			position: 'top-center',
+			icon: 'success',
+			title: 'Đổi mật khẩu thành công !',
+			text: 'Vui lòng đăng nhập lại',
+			timer: 3000
+		})
+	</script>
+@endif

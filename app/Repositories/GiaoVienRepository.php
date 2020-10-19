@@ -3,10 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\GiaoVien;
-use App\Repositories\BaseRepository;
+use App\Repositories\BaseModelRepository;
 use Illuminate\Support\Facades\DB;
 
-class GiaoVienRepository extends BaseRepository
+class GiaoVienRepository extends BaseModelRepository
 {
     protected $model;
     public function __construct(
@@ -123,4 +123,5 @@ class GiaoVienRepository extends BaseRepository
 
         return $query->get($columns);
     }
+
 }
