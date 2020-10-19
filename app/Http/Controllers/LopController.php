@@ -7,6 +7,7 @@ use App\Repositories\KhoiRepository;
 use App\Repositories\GiaoVienRepository;
 use App\Repositories\LopRepository;
 use App\Repositories\HocSinhRepository;
+use App\Repositories\NamHocRepository;
 use App\Http\Requests\Lop\Store;
 use App\Http\Requests\Lop\Update;
 
@@ -16,18 +17,20 @@ class LopController extends Controller
     protected $GiaoVienRepository;
     protected $LopRepository;
     protected $HocSinhRepository;
-
+    protected $NamHocRepository;
 
     public function __construct(
         LopRepository $LopRepository,
         GiaoVienRepository $GiaoVienRepository,
         KhoiRepository $KhoiRepository,
-        HocSinhRepository $HocSinhRepository
+        HocSinhRepository $HocSinhRepository,
+        NamHocRepository $NamHocRepository
     ) {
         $this->LopRepository = $LopRepository;
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->KhoiRepository = $KhoiRepository;
         $this->HocSinhRepository = $HocSinhRepository;
+        $this->NamHocRepository = $NamHocRepository;
     }
     /**
      * Display a listing of the resource.
@@ -199,14 +202,24 @@ class LopController extends Controller
 
     public function showHsTheoLop(Request $request)
     {
+        // return 1;
         $id = $request->id;
         $lop = $this->LopRepository->find($id);
+        $namhoc = $this->NamHocRepository->find($request->nam_hoc);
+        // $hoc_sinh_cua_lop = $namhoc->type == 1 ? $lop->HocSinh : $lop->LichSuHoc;
+        if ($namhoc->type == 1) {
+            $hoc_sinh_cua_lop = $lop->HocSinh;
+        }else{
+            $hoc_sinh_cua_lop =$lop->LichSuHoc->map(function($student){
+                return $student->HocSinh;
+            });
+        }
         $ten_lop = $lop->ten_lop;
         $tong_so_hs = $lop->tong_so_hoc_sinh;
         return [
             'danh_sach_lop' => $lop->Khoi->LopHoc,
             'ten_lop' => $ten_lop,
-            'hoc_sinh_cua_lop' => $lop->HocSinh,
+            'hoc_sinh_cua_lop' => $hoc_sinh_cua_lop,
             'tong_so_hs' => $tong_so_hs,
         ];
     }

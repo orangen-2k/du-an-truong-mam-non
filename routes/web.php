@@ -104,6 +104,15 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/', 'NamHocController@index')->name('nam-hoc.index');
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
         Route::get('/chi-tiet-nam-hoc/{id}', 'QuanLyTrongNamController@index')->name('nam-hoc-chi-tiet');
+        Route::get('/chuyen-du-lieu-nam-hoc/{id}', 'QuanLyTrongNamController@getchuyenDuLieuNamHoc')->name('get-chuyen-du-lieu-nam-hoc');
+        Route::post('/chuyen-du-lieu-nam-hoc', 'QuanLyTrongNamController@postchuyenDuLieuNamHoc')->name('post-chuyen-du-lieu-nam-hoc');
+        Route::post('/get-du-lieu-khoi-lop-nam-moi', 'QuanLyTrongNamController@getDuLieuKhoiLopNamMoi')->name('get-du-lieu-khoi-lop-nam-moi');
+        Route::get('/get-du-lieu-len-lop/{id}', 'QuanLyTrongNamController@duLieuLenLop')->name('get-du-lieu-len_lop');
+        Route::post('/len-lop-cho-hoc-sinh', 'QuanLyTrongNamController@leLopChoHocSinh')->name('len-lop-cho-hoc-sinh');
+        Route::get('/du-lieu-nam-hoc-moi-len-lop', 'QuanLyTrongNamController@getDuLieuNamHocMoiLenLop')->name('du-lieu-nam-hoc-moi-len-lop');
+
+        
+
     });
     Route::prefix('thong-bao')->group(function () {
         Route::get('/', 'ThongBaoController@index')->name('thong-bao.index');
@@ -115,6 +124,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('sendto', 'ThongBaoController@store')->name('sendto');
         Route::post('sendto-toan-truong', 'ThongBaoController@postToanTruong')->name('sendto_toantruong');
     });
+
+    Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
+
 });
 
 Route::prefix('quan-ly-diem-danh-den')->group(function () {
