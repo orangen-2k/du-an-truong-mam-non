@@ -134,3 +134,7 @@ Route::prefix('quan-ly-diem-danh-den')->group(function () {
     Route::post('/lay-theo-lop', 'QuanlyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
     Route::post('/thong-ke-diem-danh', 'QuanlyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
 });
+
+Route::prefix('quan-ly-feed-back')->group(function () {
+    Route::get('/', 'ThongKeFeedBackController@index')->name('quan-ly-feed-back-index');
+});

@@ -79,8 +79,7 @@
                 <div class="m-wizard m-wizard--2 m-wizard--success m-wizard--step-first" id="m_wizard">
                     <div class="m-wizard__form">
 
-                        <div class="m-form m-form--label-align-left- m-form--state-" id="m_form"
-                            >
+                        <div class="m-form m-form--label-align-left- m-form--state-" id="m_form">
 
 
                             <div class="m-portlet__body">
