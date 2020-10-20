@@ -126,3 +126,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
 
 });
+
+Route::prefix('quan-ly-diem-danh-den')->group(function () {
+    Route::get('/{id}', 'QuanlyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
+    Route::post('/lay-theo-lop', 'QuanlyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
+    Route::post('/thong-ke-diem-danh', 'QuanlyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
+});
