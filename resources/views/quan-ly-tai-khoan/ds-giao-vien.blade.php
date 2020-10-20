@@ -119,7 +119,7 @@
                                         function displayAvatar($avatarImg)
                                         {
                                         if($avatarImg != null) {
-                                            return asset('images/'.$avatarImg);
+                                            return asset('storage/' . $avatarImg);
                                         }
                                             return asset('images/avatar-default.png');
                                         }
