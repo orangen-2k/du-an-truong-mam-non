@@ -28,7 +28,7 @@ class GiaoVienRepository extends BaseModelRepository
     }
     public function getAllGV_limit($params, $limit)
     {
-        $data = $this->table;
+        $data = $this->model;
 
         return $data->paginate($limit);
     }
@@ -92,7 +92,7 @@ class GiaoVienRepository extends BaseModelRepository
 
     public function getGV($id, $lop_id)
     {
-        $data = $this->table;
+        $data = $this->model;
         if ($lop_id > 0) {
             $data = $data
                 ->join('lop_hoc', 'lop_hoc.id', '=', 'giao_vien.lop_id')
