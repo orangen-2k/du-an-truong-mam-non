@@ -73,8 +73,7 @@ class QuanlyGiaoVienController extends Controller
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         return view('quan-ly-giao-vien.create', compact('khoi', 'lop', 'thanhpho'));
     }
-    // public function store(ValidateCreateQuanLiGV $request)
-    public function store(Request $request)
+    public function store(ValidateCreateQuanLiGV $request)
     {   $request['role'] = 2;
         $request['name'] = $request['ten'];
         $user = $this->AccountRepository->storeAcount($request->all());
