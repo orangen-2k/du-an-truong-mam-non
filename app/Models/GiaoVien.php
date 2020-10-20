@@ -20,6 +20,7 @@ class GiaoVien extends Model
         'noi_dao_tao',
         'nam_tot_nghiep',
         'dia_chi',
-        'type'
+        'type',
+        'ma_gv'
     ];
 }

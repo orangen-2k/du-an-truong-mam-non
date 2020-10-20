@@ -78,15 +78,9 @@
             <div class="m-portlet m-portlet--full-height">
                 <div class="m-wizard m-wizard--2 m-wizard--success m-wizard--step-first" id="m_wizard">
                     <div class="m-wizard__form">
-
-                        <div class="m-form m-form--label-align-left- m-form--state-" id="m_form"
-                            >
-
-
+                        <div class="m-form m-form--label-align-left- m-form--state-" id="m_form">
                             <div class="m-portlet__body">
-
-
-                                <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
+                                <div class=" m-wizard__form-step--current" id="m_wizard_form_step_1">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="m-form__heading">
@@ -108,6 +102,17 @@
                                                         <input type="text" name="ten" class="form-control m-input name-field"
                                                             placeholder="Điền họ và tên">
                                                             @error('ten')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label"><span
+                                                            class="text-danger">*</span> Email: </label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                        <input type="text" name="email" class="form-control m-input name-field"
+                                                            placeholder="Email">
+                                                            @error('email')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
                                                     </div>

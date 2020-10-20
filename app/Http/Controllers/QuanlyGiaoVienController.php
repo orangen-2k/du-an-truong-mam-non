@@ -11,6 +11,7 @@ use App\Repositories\QuanHuyenRepository;
 use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\XaPhuongThiTranRepository;
 use App\Http\Requests\ValidateCreateQuanLiGV;
+use App\Repositories\AccountRepository;
 use Storage;
 
 class QuanlyGiaoVienController extends Controller
@@ -21,13 +22,15 @@ class QuanlyGiaoVienController extends Controller
     protected $TinhThanhPhoRepository;
     protected $QuanHuyenRepository;
     protected $XaPhuongThiTranRepository;
+    protected $AccountRepository;
     public function __construct(
         GiaoVienRepository $GiaoVienRepository,
         KhoiRepository $KhoiRepository,
         LopHocRepository $LopHocRepository,
         TinhThanhPhoRepository $TinhThanhPhoRepository,
         QuanHuyenRepository $QuanHuyenRepository,
-        XaPhuongThiTranRepository $XaPhuongThiTranRepository
+        XaPhuongThiTranRepository $XaPhuongThiTranRepository,
+        AccountRepository $AccountRepository
     ) {
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->KhoiRepository = $KhoiRepository;
@@ -35,6 +38,7 @@ class QuanlyGiaoVienController extends Controller
         $this->TinhThanhPhoRepository = $TinhThanhPhoRepository;
         $this->QuanHuyenRepository = $QuanHuyenRepository;
         $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
+        $this->AccountRepository = $AccountRepository;
     }
     public function index()
     {
@@ -69,11 +73,17 @@ class QuanlyGiaoVienController extends Controller
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         return view('quan-ly-giao-vien.create', compact('khoi', 'lop', 'thanhpho'));
     }
-    public function store(ValidateCreateQuanLiGV $request)
-    {   
+    // public function store(ValidateCreateQuanLiGV $request)
+    public function store(Request $request)
+    {   $request['role'] = 2;
+        $request['name'] = $request['ten'];
+        $user = $this->AccountRepository->storeAcount($request->all());
         $anh = $request->file("anh");
         $dataRequest = $request->all();
-    
+        $dataRequest['user_id'] = $user->id;
+        unset($dataRequest['email']);
+        unset($dataRequest['role']);
+        unset($dataRequest['name']);
         if ($anh) {
             $pathLoad = Storage::putFile(
                 'public/uploads/anh_gv',
@@ -85,7 +95,7 @@ class QuanlyGiaoVienController extends Controller
         }
         unset($dataRequest['_token']);
         unset($dataRequest['khoi']);
-        
+        $dataRequest['ma_gv'] = 'GV'. time();
         $this->GiaoVienRepository->store_gv($dataRequest);
         return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
     }

@@ -200,9 +200,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                <button type="button" class="btn m-btn--pill m-btn--air btn-outline-warning">
-                                    Lịch sử
-                                </button>
+                                
                             </h3>
                         </div>
                     </div>

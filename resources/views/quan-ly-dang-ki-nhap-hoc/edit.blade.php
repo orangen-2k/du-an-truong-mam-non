@@ -32,7 +32,7 @@
                                 action="{{ route('submit-edit-hs-dang-ky-nhap-hoc') }}" method="POST" enctype="multipart/form-data">
                                 <div class="m-portlet__body">
                                     @csrf
-                                    <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
+                                    <div class=" m-wizard__form-step--current" id="m_wizard_form_step_1">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="col-md-5">

@@ -4,6 +4,10 @@ namespace App\Repositories;
 
 use App\Repositories\BaseModelRepository;
 use App\User;
+use Illuminate\Support\Facades\Hash;
+use Mail;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AccountRepository extends BaseModelRepository
 {
@@ -35,6 +39,31 @@ class AccountRepository extends BaseModelRepository
             $data->where('active', $params['active']);
         }
         return $data->paginate($params['page_size']);
+    }
+
+    public function storeAcount( $data ){
+        $token = Str::random(60).md5(time());
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'username' => $data['email'],
+            'password' => Hash::make($data['email']),
+            'token' => $token,
+            'role' => $data['role'],
+            'time_code' => Carbon::now()
+        ]);
+    
+        $email = $user->email;
+        $url = route('password.reset',['token' => $token,'email' => $data['email']]);
+        $send_data=[
+            'route' => $url,
+            'title' => "Tài khoản được đăng ký thành công !"
+        ];
+        Mail::send('auth.email_dang_ky', $send_data, function($message) use ($email){
+	        $message->to($email, 'Reset password')->subject('New Account Susses!');
+        });
+
+        return $user;
     }
 
 }
