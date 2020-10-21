@@ -394,11 +394,11 @@
                                                         <span class="m-nav__section-text">Section</span>
                                                     </li>
                                                     <li class="m-nav__item">
-                                                        <a href="{{ route('profile', ['id' =>Auth::user()->id]) }}" class="m-nav__link">
+                                                        <a href="{{ route('profile') }}" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                             <span class="m-nav__link-title">
                                                                 <span class="m-nav__link-wrap">
-                                                                    <span class="m-nav__link-text">My Profile</span>
+                                                                    <span class="m-nav__link-text">Trang cá nhân</span>
                                                                     <span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
                                                                 </span>
                                                             </span>
@@ -407,13 +407,13 @@
                                                     <li class="m-nav__item">
                                                         <a href="header/profile.html" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-share"></i>
-                                                            <span class="m-nav__link-text">Activity</span>
+                                                            <span class="m-nav__link-text">Hoạt động</span>
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__item">
                                                         <a href="header/profile.html" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-chat-1"></i>
-                                                            <span class="m-nav__link-text">Messages</span>
+                                                            <span class="m-nav__link-text">Tin nhắn</span>
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__separator m-nav__separator--fit">
@@ -427,9 +427,16 @@
                                                     <li class="m-nav__item">
                                                         <a href="header/profile.html" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-lifebuoy"></i>
-                                                            <span class="m-nav__link-text">Support</span>
+                                                            <span class="m-nav__link-text">Hỗ trợ</span>
                                                         </a>
                                                     </li>
+                                                         <li class="m-nav__item">
+                                                        <a href="{{route('doi-mat-khau')}}" class="m-nav__link">
+                                                            <i class="m-nav__link-icon  flaticon-lock"></i>
+                                                            <span class="m-nav__link-text">Đổi mật khẩu</span>
+                                                        </a>
+                                                    </li>
+                                                   
                                                     <li class="m-nav__separator m-nav__separator--fit">
                                                     </li>
                                                     <li class="m-nav__item">

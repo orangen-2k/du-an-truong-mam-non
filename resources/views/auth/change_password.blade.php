@@ -61,12 +61,12 @@
 														Cập nhật tài khoản
 													</a>
 												</li>
-										
+<!-- 										
 												<li class="nav-item m-tabs__item">
 													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
 														Messages
 													</a>
-												</li>
+												</li> -->
 												
 											</ul>
 										</div>
@@ -126,12 +126,12 @@
 
 										<div class="tab-pane " id="m_user_profile_tab_2">
 										<form class="m-form m-form--fit m-form--label-align-right" method="post" 
-											action="{{route('update-mat-khau',['id'=>Auth::user()->id])}}">
+											action="{{route('update-mat-khau')}}">
 											@csrf
 												<div class="m-portlet__body">
 													<div class="form-group m-form__group m--margin-top-10 m--hide">
 														<div class="alert m-alert m-alert--default" role="alert">
-															The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
+															
 														</div>
 													</div>
 
@@ -195,8 +195,8 @@
 															<div class="col-2">
 															</div>
 															<div class="col-7">
-																<button type="" id="btnresult" onclick="changePassword()"  class="btn btn-accent m-btn m-btn--air m-btn--custom">Update</button>&nbsp;&nbsp;
-																<a id="btnresult" onclick="changePassword()" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</a>
+																<button type="submit" id="btnresult" onclick="changePassword()"  class="btn btn-accent m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
+																<button  class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
 															</div>
 														</div>
 													</div>

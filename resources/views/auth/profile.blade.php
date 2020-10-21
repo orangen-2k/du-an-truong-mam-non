@@ -61,11 +61,7 @@
 														Cập nhật tài khoản
 													</a>
 												</li>
-												<li class="nav-item m-tabs__item">
-													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
-														Messages
-													</a>
-												</li>
+											
 											
 											</ul>
 										</div>
@@ -86,7 +82,7 @@
 																				<span class="m-nav__section-text">Quick Actions</span>
 																			</li>
 																			<li class="m-nav__item">
-																				<a href="{{route('doi-mat-khau', ['id' =>Auth::user()->id])}}" class="m-nav__link">
+																				<a href="{{route('doi-mat-khau')}}" class="m-nav__link">
 																					<i class="m-nav__link-icon flaticon-share"></i>
 																					<span class="m-nav__link-text">Đổi Mật khẩu</span>
 																				</a>
@@ -125,7 +121,7 @@
 									</div>
 									<div class="tab-content">
 										<div class="tab-pane active" id="m_user_profile_tab_1">
-											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('updateProfile',['id' =>Auth::user()->id]) }}"  >
+											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('updateProfile') }}"  >
 												@csrf
 												<div class="m-portlet__body">
 													<div class="form-group m-form__group m--margin-top-10 m--hide">
@@ -170,7 +166,7 @@
 															<div class="col-2">
 															</div>
 															<div class="col-7">
-																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Update</button>&nbsp;&nbsp;
+																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
 																<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Hủy</button>
 															</div>
 														</div>

@@ -141,18 +141,15 @@ class AccountController extends Controller
     {
         //
     }
-    public function editProfile( $id)
+    public function editProfile()
     {
-         $user = User::find($id);
-         return view('auth.profile',compact('user'));
+         return view('auth.profile');
      }
  
-    public function updateProfile(RegisterRequest $request,$id)
+    public function updateProfile(RegisterRequest $request)
     {
-         $user = User::find($id);
+         $user = Auth::user();
          $params = $request->all();
-        // $params['name'] = request()->get('name');
-         $params['email'] = request()->get('email');
 
          $user->update($params);
          return redirect()->back()->with("message","Cập nhật email thành công !");
@@ -184,6 +181,7 @@ class AccountController extends Controller
     User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
     Auth::logout();
     return redirect()->route('login')->with("message","Đăng nhập lại để tiếp tục");
+   
   }
  
   //sửa tk trường

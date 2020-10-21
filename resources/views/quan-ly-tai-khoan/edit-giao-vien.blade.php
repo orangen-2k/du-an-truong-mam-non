@@ -11,10 +11,10 @@
 												<li class="nav-item m-tabs__item">
 													<a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
 														<i class="flaticon-share m--hide"></i>
-														Update Profile
+														Cập nhật hồ sơ
 													</a>
 												</li>
-												<li class="nav-item m-tabs__item">
+												<!-- <li class="nav-item m-tabs__item">
 													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
 														Messages
 													</a>
@@ -23,7 +23,7 @@
 													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
 														Settings
 													</a>
-												</li>
+												</li> -->
 											</ul>
 										</div>
 										<div class="m-portlet__head-tools">
@@ -202,7 +202,7 @@
 															<div class="col-2">
 															</div>
 															<div class="col-7">
-																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" id="btnresult">Update</button>&nbsp;&nbsp;
+																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom" id="btnresult">Cập nhật</button>&nbsp;&nbsp;
 																<a href="{{route('account.ds-gv')}}">Quay lại</a>
 															</div>
 														</div>
