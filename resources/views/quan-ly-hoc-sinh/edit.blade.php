@@ -599,8 +599,6 @@
                                                             <input type="text" name="email_dang_ky" class="form-control m-input"
                                                             value="{{$data->email_dang_ky}}"
                                                                 placeholder="Điền email" >
-
-
                                                                 @error('email_dang_ky')
                                                                    {{ $message }}
                                                                 @enderror
@@ -619,7 +617,7 @@
                                         <div class="row">
                                             <div class="col-lg-8"></div>
                                             <div class="col-lg-1">
-                                                <a href="{{route('quan-ly-hoc-sinh-index')}}"><div class="btn btn-danger">
+                                                <a href="{{route('quan-ly-hoc-sinh-index',['id'=>125])}}"><div class="btn btn-danger">
                                                     <span>
                                                         <span>Hủy</span>
                                                     </span>

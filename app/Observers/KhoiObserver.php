@@ -39,7 +39,7 @@ class KhoiObserver
     {
        $lop_hoc = $khoi->LopHoc;
        foreach ($lop_hoc as $key => $item) {
-        HocSinh::where('lop_id',$item->id)->update(['lop_id'=>0]);
+        HocSinh::where('lop_id',$item->id)->update(['lop_id'=>0,'type'=>1]);
        }
         $khoi->LopHoc()->delete();
     }

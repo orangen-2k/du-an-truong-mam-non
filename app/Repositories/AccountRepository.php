@@ -37,4 +37,9 @@ class AccountRepository extends BaseModelRepository
         return $data->paginate($params['page_size']);
     }
 
+    public function KhoaTaiKhoan($id_user)
+    {
+        return $this->model::where('id',$id_user)->update(['active'=>2]);
+    }
+
 }

@@ -67,15 +67,16 @@ class HocSinhRepository extends BaseModelRepository
     }
 
     public function getAllHocSinhChuaCoLop($gioi_tinh){
-        return  $this->model->where('lop_id',0)->where('gioi_tinh',$gioi_tinh)->count();
+        return  $this->model->where('lop_id',0)->where('type',0)->where('gioi_tinh',$gioi_tinh)->count();
     }
 
-    public function getSlHocSinhChuaCoLop(){
-        return  $this->model->where('lop_id',0)->count();
+    public function getSlHocSinhType($type){
+        return  $this->model->where('lop_id',0)->where('type',$type)->count();
     }
 
-    public function getDataHocSinhChuaCoLop(){
-        return  $this->model->where('lop_id',0)->get();
+
+    public function getDataHocSinhChuaCoLop($type){
+        return  $this->model->where('lop_id',0)->where('type',$type)->get();
     }
 
     public function xepLopTuDong($id_lop,$do_tuoi,$gioi_tinh,$sl_hs)
@@ -94,6 +95,7 @@ class HocSinhRepository extends BaseModelRepository
         ->whereRaw('ROUND(DATEDIFF(CURDATE(), ngay_sinh)/365,0)= ? ',[$tuoi])
         ->where('gioi_tinh',$gioi_tinh)
         ->where("lop_id",0)
+        ->where("type",0)
         ->count();
     }
 

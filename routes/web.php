@@ -59,6 +59,8 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     //v2
     Route::post('/hoc-sinh-chua-co-lop', 'QuanlyHocSinhController@showHocSinhChuaCoLop')->name('quan-ly-hoc-sinh-chua-co-lop');
     Route::post('/chuyen-lop', 'QuanlyHocSinhController@chuyenLop')->name('quan-ly-hoc-sinh-chuyen-lop');
+    Route::post('/thoi-hoc', 'QuanlyHocSinhController@thoiHoc')->name('quan-ly-hoc-sinh-thoi-hoc');
+    
 
 });
 
@@ -93,7 +95,7 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::post('/destroy', 'LopController@destroy')->name('quan-ly-lop-destroy');
 
     Route::post('/show-data-hoc-sinh-theo-lop', 'LopController@showHsTheoLop')->name('quan-ly-lop-show-data-hoc-sinh');
-    Route::get('/show-data-hoc-sinh-chua-co-lop', 'LopController@getDataHocSinhChuaCoLop')->name('quan-ly-lop-show-data-hoc-sinh-chua-co-lop');
+    Route::get('/show-data-hoc-sinh-chua-co-lop/{type}', 'LopController@getDataHocSinhChuaCoLop')->name('quan-ly-lop-show-data-hoc-sinh-type');
 
     Route::post('/xep-lop-tu-dong', 'LopController@xepLopTuDong')->name('quan-ly-lop-xep-lop-tu-dong');
 
@@ -110,9 +112,11 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/get-du-lieu-len-lop/{id}', 'QuanLyTrongNamController@duLieuLenLop')->name('get-du-lieu-len_lop');
         Route::post('/len-lop-cho-hoc-sinh', 'QuanLyTrongNamController@leLopChoHocSinh')->name('len-lop-cho-hoc-sinh');
         Route::get('/du-lieu-nam-hoc-moi-len-lop', 'QuanLyTrongNamController@getDuLieuNamHocMoiLenLop')->name('du-lieu-nam-hoc-moi-len-lop');
-
+        Route::get('/get_hoc_sinh_tot_nghiep_theo_nam/{id}', 'QuanLyTrongNamController@hocSinhTotNghiepTheoNam')->name('hoc_sinh_tot_nghiep_theo_nam');
+        Route::post('/kiem_tra_ton_tai_thong_tin_nam_hoc', 'QuanLyTrongNamController@kiemTraTonTaiDuLieuNamHoc')->name('kiem_tra_ton_tai_thong_tin_nam_hoc');
+        Route::post('/xoa_toan_bo_du_lieu_nam_hoc_hien_tai', 'QuanLyTrongNamController@xoaToanBoDuLieuCuaNamHocHienTai')->name('xoa_toan_bo_du_lieu_nam_hoc_hien_tai');
         
-
+        
     });
     Route::prefix('thong-bao')->group(function () {
         Route::get('/', 'ThongBaoController@index')->name('thong-bao.index');

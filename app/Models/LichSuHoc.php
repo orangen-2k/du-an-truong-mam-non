@@ -23,4 +23,9 @@ class LichSuHoc extends Model
     {
         return $this->belongsto(HocSinh::class,'hoc_sinh_id','id');
     }
+
+    public function Lop()
+    {
+        return $this->belongsto(Lop::class,'lop_id','id');
+    }
 }

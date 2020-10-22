@@ -68,10 +68,14 @@ class QuanLyTrongNamController extends Controller
         $khoi = $this->KhoiRepository->getAll();
         $giao_vien = $this->GiaoVienRepository->getGIaoVienChuaCoLop();
         $namhoc = $this->NamHocRepository->find($id);
-        $sl_hs_chua_co_lop = $this->HocSinhRepository->getSlHocSinhChuaCoLop();
+        $sl_hs_type = [];
+        $sl_hs_type[0] = $this->HocSinhRepository->getSlHocSinhType(0);
+        $sl_hs_type[1] = $this->HocSinhRepository->getSlHocSinhType(1);
+        $sl_hs_type[2] = $this->HocSinhRepository->getSlHocSinhType(2);
+        $sl_hs_type[3] = $this->NamHocRepository->getSlHocSinhTotNgiepTheoNam($id);
         // dd($hocsinh);
         return view('nam-hoc.chi_tiet_nam_hoc', [
-            'sl_hs_chua_co_lop' => $sl_hs_chua_co_lop,
+            'sl_hs_type' => $sl_hs_type,
             'namhoc' => $namhoc,
             'id_nam_hoc' => $id,
             'khoi' => $khoi,
@@ -114,15 +118,15 @@ class QuanLyTrongNamController extends Controller
         $collection = collect($lop);
         $data_lop_cu = $collection->collapse();
         $data_lop_cu->all();
-      
+
         foreach ($data_lop_cu as $key => $value) {
             $da_len_lop = LichSuHoc::where('lop_id', '=', $value->id)->count();
             if ($da_len_lop > 0) {
                 $value->tong_hoc_sinh = $value->TongSoHocSinhLopCu;
-            }else{
+            } else {
                 $value->tong_hoc_sinh = $value->TongSoHocSinh;
             }
-            
+
             $value->len_lop_tiep_theo = $value->LenLopTiepTheo;
         }
 
@@ -162,6 +166,7 @@ class QuanLyTrongNamController extends Controller
                 LichSuDay::insert($lich_su_day);
             }
         }
+        $this->NamHocRepository->update($id,['backup'=>2]);
     }
 
     public function getDuLieuKhoiLopNamMoi(Request $request)
@@ -215,7 +220,7 @@ class QuanLyTrongNamController extends Controller
                         ]
                     );
                 }
-                $this->HocSinhRepository->updateHocSinhTn($item[1], ['lop_id' => 0, 'type' => 3]);
+                $this->HocSinhRepository->updateHocSinhTn($item[0], ['lop_id' => 0, 'type' => 3]);
             } elseif ($item[1] == -1) {
                 $hoc_sinh_cua_lop = $this->HocSinhRepository->getHocSinhCuaLop($item[0], []);
                 foreach ($hoc_sinh_cua_lop as $key => $value) {
@@ -229,7 +234,7 @@ class QuanLyTrongNamController extends Controller
                         ]
                     );
                 }
-                $this->HocSinhRepository->updateHocSinhTn($item[1], ['lop_id' => 0, 'type' => 1]);
+                $this->HocSinhRepository->updateHocSinhTn($item[0], ['lop_id' => 0, 'type' => 1]);
             } else {
                 $hoc_sinh_cua_lop = $this->HocSinhRepository->getHocSinhCuaLop($item[0], []);
                 foreach ($hoc_sinh_cua_lop as $key => $value) {
@@ -267,5 +272,112 @@ class QuanLyTrongNamController extends Controller
         }
 
         return $data_lop_moi;
+    }
+
+    public function hocSinhTotNghiepTheoNam($id)
+    {
+        return  $this->NamHocRepository->hocSinhTotNghiepTheoNam($id);
+    }
+
+    public function kiemTraTonTaiDuLieuNamHoc(Request $request)
+    {
+        $id = $request->id_nam_hoc;
+        $type = $request->type;
+        $nam_hoc_cu =  $this->NamHocRepository->getNamHocCu();
+
+        $nam_hoc_moi = $this->NamHocRepository->find($id);
+
+        $khoi_cu = $nam_hoc_cu[0]->Khoi;
+        $khoi_moi = $nam_hoc_moi->Khoi;
+
+        //khi người dùng chọn tự động
+        if (count($khoi_moi) > 0) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        foreach ($khoi_cu as $key => $value) {
+            foreach ($value->LopHoc as $key => $lopHoc) {
+                if($type != 2 && count($lopHoc->LichSuHoc)>0){
+                    return response()->json(['error' => 'Unauthorized'], 401);
+                }
+            }
+        }
+
+        // khi người dùng chọn thủ công
+        if($type==2 && $nam_hoc_moi->backup != 1){
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        
+    }
+
+    public function xoaToanBoDuLieuCuaNamHocHienTai(Request $request)
+    {
+        $type = $request->type;
+        $nam_hoc_cu =  $this->NamHocRepository->getNamHocCu();
+        $id_nam_hoc_moi =  $request->id_nam_hoc;
+        $nam_hoc_moi = $this->NamHocRepository->find($id_nam_hoc_moi);
+        // dd($nam_hoc_cu);
+
+        if($nam_hoc_moi->backup == 1 || $nam_hoc_moi->backup == 2){
+            $khoi_cu = $nam_hoc_cu[0]->Khoi;
+            $khoi_moi = $nam_hoc_moi->Khoi;
+            $danh_sach_hs = [];
+            foreach ($khoi_cu as $key => $lop) {
+               
+                foreach ($lop->LopHoc as $key => $value) {
+                    array_push($danh_sach_hs, $value->LichSuHoc);
+                }
+            }
+            $collection = collect($danh_sach_hs);
+            $data_hoc_sinh_roll_back = $collection->collapse();
+            $data_hoc_sinh = $data_hoc_sinh_roll_back->all();;
+            $list_id_delete = $data_hoc_sinh_roll_back->pluck('id');
+            foreach ($khoi_moi as $key => $value_khoi) {
+                $this->KhoiRepository->delete($value_khoi->id);
+            }
+            foreach ($data_hoc_sinh as $key => $value_hs_update) {
+                $data_hs_update = [
+                    'lop_id' => $value_hs_update->lop_id,
+                    'type' => 1
+                ];
+                $this->HocSinhRepository->update($value_hs_update->hoc_sinh_id, $data_hs_update);
+            }
+            LichSuHoc::destroy($list_id_delete);
+            $this->NamHocRepository->update($id_nam_hoc_moi,['backup'=>0]);
+          
+        }
+        if($type == 2){
+            $LopCu= $nam_hoc_cu[0]->Khoi->map(function($data){
+                return $data->LopHoc;
+            });
+            $collection = collect($LopCu);
+            $LopCu = $collection->collapse();
+            $LopCu->all();
+            $lich_su_hoc = [];
+            // dd($LopCu[0]->id);
+            foreach ($LopCu as $key => $value) {
+                // array_push($lop_hoc_cu,$value->LopHoc);
+                $hoc_sinh_cua_lop = $this->HocSinhRepository->getHocSinhCuaLop($value->id, []);
+                // dd($hoc_sinh_cua_lop);
+                foreach ($hoc_sinh_cua_lop as $key => $value) {
+                    array_push(
+                        $lich_su_hoc,
+                        [
+                            'hoc_sinh_id' => $value->id,
+                            'lop_id' => $value->lop_id,
+                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                        ]
+                    );
+                }
+
+                $this->HocSinhRepository->updateHocSinhTn($value->lop_id, ['lop_id' => 0, 'type' => 1]);
+            }
+            // dd($lich_su_hoc);
+            LichSuHoc::insert($lich_su_hoc);
+            $this->NamHocRepository->update($id_nam_hoc_moi,['backup'=>1]);
+            
+        }
+        // dd(1);
+       
     }
 }
