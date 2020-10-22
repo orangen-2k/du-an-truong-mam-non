@@ -159,10 +159,11 @@
                                                                 </div>
                                                             </div>
                                                             <div class="m-portlet__head-tools">
-                                                                <a id="day_du_lieu_nam_cu" href="{{route('get-chuyen-du-lieu-nam-hoc',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</a>
+                                                                <span id="day_du_lieu_nam_cu" onclick="kiemTraTonTaiDuLieu(1,{{$data[0]->id}})" class="btn btn-success">Thực hiện</span>
+                                                                {{-- <span id="day_du_lieu_nam_cu" href="{{route('get-chuyen-du-lieu-nam-hoc',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</span> --}}
                                                             </div>
                                                         </div>
-                                   
+            
                                                     </div>
                                                     <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
                                                         <div class="m-portlet__head">
@@ -181,7 +182,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="m-portlet__head-tools">
-                                                                <a id="chi_tiet_nam_hoc" href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</a>
+                                                                <span id="chi_tiet_nam_hoc" onclick="kiemTraTonTaiDuLieu(2,{{$data[0]->id}})" class="btn btn-success">Thực hiện</span>
+                                                                {{-- <a id="chi_tiet_nam_hoc" href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</a> --}}
                                                             </div>
                                                         </div>
                                    
@@ -189,8 +191,6 @@
                                                 </div>
         
                                                 <!--end::Section-->
-                                               
-        
                                                 <!--end::Section-->
                                             </div>
                    
@@ -200,7 +200,13 @@
                                       </div>
                                     </div>
                                   </div>
-                                
+                                <button type="button" class="btn m-btn--pill m-btn--air btn-outline-warning">
+                                    Lịch sử
+                                </button>
+
+                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class="btn m-btn--pill    btn-success">
+                                    Quản lý năm học
+                                </a>
                             </h3>
                         </div>
                     </div>
@@ -296,6 +302,8 @@
     var check_lock = '{{ $checkNew }}';
     var url_chi_tiet_nam_hoc = "{{route('nam-hoc-chi-tiet',['pardam'])}}"
     var url_chuyen_du_lieu_nam_hoc = "{{route('get-chuyen-du-lieu-nam-hoc',['pardam'])}}"
+    var url_kiem_tra_ton_tai_thong_tin_nam_hoc = "{{route('kiem_tra_ton_tai_thong_tin_nam_hoc')}}"
+    var url_xoa_toan_bo_du_lieu_nam_hoc_hien_tai = "{{route('xoa_toan_bo_du_lieu_nam_hoc_hien_tai')}}"
     function checkNew() {
         if (Number(check_lock) == 1) {
             $('#m_modal_1').modal('show');
@@ -349,9 +357,11 @@
         let id = $(element).attr("data-id");
         var url_chi_tiet_nam_hoc_v1 = url_chi_tiet_nam_hoc.replaceAll('pardam', id)
         var url_chuyen_du_lieu_nam_hoc_v1 = url_chuyen_du_lieu_nam_hoc.replaceAll('pardam', id)
-        $("#day_du_lieu_nam_cu").attr('href',url_chi_tiet_nam_hoc_v1)
-        $("#chi_tiet_nam_hoc").attr('href',url_chuyen_du_lieu_nam_hoc_v1)
+        $("#day_du_lieu_nam_cu").attr('href',url_chuyen_du_lieu_nam_hoc_v1)
+        $("#chi_tiet_nam_hoc").attr('href',url_chi_tiet_nam_hoc_v1)
+        $("#quan_ly_nam_hoc").attr('href',url_chi_tiet_nam_hoc_v1)
 
+        
         let name = $(element).attr("data-name");
         let start_date = $(element).attr("data-start_date");
         let end_date = $(element).attr("data-end_date");
@@ -408,6 +418,50 @@
             }
         });
     });
+    const kiemTraTonTaiDuLieu = (type,id_nam_hoc) =>{
+        var url_redirect = '' 
+        if(type==1){
+            url_redirect = url_chuyen_du_lieu_nam_hoc.replaceAll('pardam', id_nam_hoc)
+         
+        }else{
+            url_redirect = url_chi_tiet_nam_hoc.replaceAll('pardam', id_nam_hoc)
+        }
+        axios.post(url_kiem_tra_ton_tai_thong_tin_nam_hoc,{
+            'id_nam_hoc' : id_nam_hoc,
+            'type' : type
+        })
+        .then(function (response) {
+            window.location.href = url_redirect
+        })
+        .catch(function (error) {
+            xoaDuLieuNamHoc(type,id_nam_hoc,url_redirect)
+        })
+        .then(function () {
+        });
+    };
+    const xoaDuLieuNamHoc = (type,id_nam_hoc,url_redirect) =>{
+        Swal.fire({
+            title: 'Dư liệu năm học đã có !',
+            text: "Để thực hiện tiếp hệ thống sẽ xóa toàn bộ dữ liệu của năm học hiện tại và trở lại trang thái khi bạn khởi tạo năm học này.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Tôi đồng ý!',
+            }).then((result) => {
+               if(result.value){
+                axios.post(url_xoa_toan_bo_du_lieu_nam_hoc_hien_tai,{
+                    'id_nam_hoc' : id_nam_hoc,
+                    'type' : type
+                })
+                .then(function (response) {
+                    window.location.href = url_redirect                              
+                })
+                .catch(function (error) {
+                })
+               }
+            })
+    };
 </script>
 
 @if (count($errors->all()) > 0)
@@ -437,5 +491,10 @@
         showConfirmButton: false,
         timer: 2000
     });
+
+
+
+
 </script>
+
 @endif @endsection

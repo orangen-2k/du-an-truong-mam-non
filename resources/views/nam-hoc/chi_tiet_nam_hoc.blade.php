@@ -103,12 +103,15 @@
   .thong-tin-xep-lop {
     padding: 0.2rem 2.2rem !important
   }
+
   .error {
     color: red;
   }
-  .lop_hoc .m-nav__link{
+
+  .lop_hoc .m-nav__link {
     padding: 5px 0px !important
   }
+
   .lop_hoc .m-nav__link-text {
     padding-left: 23px !important;
   }
@@ -132,12 +135,12 @@
                   <h3 class="m-portlet__head-text col-md-10">
                     Năm học: {{$namhoc->name}} <input type="hidden" name="" id="nam_hoc" value="{{$namhoc->id}}">
                   </h3>
-                 
+
                   @if ($namhoc->type == 1)
                   <span class="col-md-2"><i class="la la-plus " data-toggle="modal"
                       data-target="#modal-add-khoi"></i></span>
-                      @endif
-                
+                  @endif
+
 
                   {{-- start modal add khối --}}
                   <div class="modal fade" id="modal-add-khoi" tabindex="-1" role="dialog"
@@ -158,7 +161,7 @@
                               </div>
                               <input type="text" class="form-control" id="ten_khoi" name="ten_khoi"
                                 aria-describedby="basic-addon3">
-                               
+
                             </div>
                             <div class="input-group-prepend">
                               <p class="error error-ten-khoi"></p>
@@ -168,13 +171,13 @@
                               <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">Độ tuổi</span>
                               </div>
-                                <select class="form-control m-input m-input--square" name="do_tuoi" id="do_tuoi">
-                                  <option value="">Chọn</option>
-                                  <option value="2">2</option>
-                                  <option value="3">3</option>
-                                  <option value="4">4</option>
-                                  <option value="5">5</option>
-                                </select>
+                              <select class="form-control m-input m-input--square" name="do_tuoi" id="do_tuoi">
+                                <option value="">Chọn</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
                             </div>
                             <div class="input-group-prepend">
                               <p class="error error-do-tuoi"></p>
@@ -257,9 +260,9 @@
                             <label for="exampleInputEmail1">Tên lớp</label>
                             <input type="text" name="ten_lop" class="form-control m-input m-input--square" id="ten_lop"
                               placeholder="Nhập tên lớp">
-                              <div class="input-group-prepend">
-                                <p class="error error-ten-lop"></p>
-                              </div>
+                            <div class="input-group-prepend">
+                              <p class="error error-ten-lop"></p>
+                            </div>
                           </div>
                           <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Giáo viên chủ nhiệm</label>
@@ -319,9 +322,9 @@
                             <label for="exampleInputEmail1">Tên lớp</label>
                             <input type="text" name="ten_lop" class="form-control m-input m-input--square"
                               id="sua_ten_lop" placeholder="Nhập tên lớp">
-                              <div class="input-group-prepend">
-                                <p class="error error-update-ten-lop"></p>
-                              </div>
+                            <div class="input-group-prepend">
+                              <p class="error error-update-ten-lop"></p>
+                            </div>
                           </div>
                           <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Giáo viên chủ nhiệm</label>
@@ -421,7 +424,8 @@
                             <input type="hidden" id="sua_lop_id">
                             <label for="exampleInputEmail1">Số lượng học sinh nam</label>
                             <input type="number" name="ten_lop" class="form-control m-input m-input--square"
-                              id="nhap_hoc_sinh_nam_chua_co_lop" value="0" min="0" placeholder="Nhập số lượng học sinh nam">
+                              id="nhap_hoc_sinh_nam_chua_co_lop" value="0" min="0"
+                              placeholder="Nhập số lượng học sinh nam">
                           </div>
                         </div>
                       </div>
@@ -430,7 +434,8 @@
                           <div class="form-group m-form__group">
                             <label for="exampleInputEmail1">Số lượng học sinh nữ</label>
                             <input type="number" name="ten_lop" class="form-control m-input m-input--square"
-                              id="nhap_hoc_sinh_nu_chua_co_lop" value="0" min="0" placeholder="Nhập số lượng học sinh nữ">
+                              id="nhap_hoc_sinh_nu_chua_co_lop" value="0" min="0"
+                              placeholder="Nhập số lượng học sinh nữ">
                           </div>
                         </div>
                       </div>
@@ -463,7 +468,7 @@
                       <div class="col-md-12">
 
                         <label for="exampleInputPassword1">Học sinh cần chuyển lớp</label>
-                        <select style="width: 100%"  class="form-control m-select2" id="hoc_sinh_can_chuyen"
+                        <select style="width: 100%" class="form-control m-select2" id="hoc_sinh_can_chuyen"
                           name="hoc_sinh_can_chuyen[]" multiple="multiple">
                           <option value="">Chọn học sinh</option>
                         </select>
@@ -472,8 +477,7 @@
                       <div class="col-md-12 mt-4">
 
                         <label for="exampleInputEmail1">Chuyển đến lớp</label>
-                        <select style="width: 100%"  class="form-control m-select2" id="id_lop_chuyen"
-                         >
+                        <select style="width: 100%" class="form-control m-select2" id="id_lop_chuyen">
 
                         </select>
 
@@ -491,79 +495,106 @@
             {{-- end modal chuyển lớp  --}}
             <!--begin::Item-->
             <div id="danh_sach_khoi_lop">
-            @foreach ($namhoc->Khoi as $item)
-            <div class="m-accordion__item ">
-              <div class="m-accordion__item-head collapsed" role="tab" id="tab{{$item->id}}_item_1_head"
-                data-toggle="collapse" href="#tab{{$item->id}}_item_1_body" aria-expanded="false">
-                <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{$item->do_tuoi}} tuổi)</span>
-                <div class="dropdown">
-                  @if ($namhoc->type ==1)
-                  <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v" id="dropdownMenuButton"
-                  data-toggle="dropdown" aria-haspopup="true"></i>
-                  @endif      
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <span class="dropdown-item" data-toggle="modal" onclick="getDataSuaKhoi({{$item->id}})"
-                      data-target="#modal-sua-khoi"><i class="flaticon-edit-1"></i> Sửa</span>
-                    <span class="dropdown-item" onclick="deleteKhoi({{$item->id}})"><i
-                        class="flaticon-delete"></i>Xóa</span>
-                    <span class="dropdown-item" data-toggle="modal" onclick="getIdKhoi({{$item->id}})"
-                      data-target="#modal-add-lop"><i class="flaticon-add"></i> Thêm lớp</span>
+              @foreach ($namhoc->Khoi as $item)
+              <div class="m-accordion__item ">
+                <div class="m-accordion__item-head collapsed" role="tab" id="tab{{$item->id}}_item_1_head"
+                  data-toggle="collapse" href="#tab{{$item->id}}_item_1_body" aria-expanded="false">
+                  <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{$item->do_tuoi}} tuổi)</span>
+                  <div class="dropdown">
+                    @if ($namhoc->type ==1)
+                    <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v" id="dropdownMenuButton"
+                      data-toggle="dropdown" aria-haspopup="true"></i>
+                    @endif
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <span class="dropdown-item" data-toggle="modal" onclick="getDataSuaKhoi({{$item->id}})"
+                        data-target="#modal-sua-khoi"><i class="flaticon-edit-1"></i> Sửa</span>
+                      <span class="dropdown-item" onclick="deleteKhoi({{$item->id}})"><i
+                          class="flaticon-delete"></i>Xóa</span>
+                      <span class="dropdown-item" data-toggle="modal" onclick="getIdKhoi({{$item->id}})"
+                        data-target="#modal-add-lop"><i class="flaticon-add"></i> Thêm lớp</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="m-accordion__item-body collapse" id="tab{{$item->id}}_item_1_body" role="tabpanel"
-                aria-labelledby="tab{{$item->id}}_item_1_head">
-                <div class="">
-                  <div class="m-dropdown__wrapper">
-                    <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
-                    <div class="m-dropdown__inner">
-                      <div class="m-dropdown__body">
-                        <div class="m-dropdown__content">
-                          <ul class="m-nav">
-                            @foreach ($item->LopHoc as $lop_hoc)
-                            <li class="m-nav__item pl-4 lop_hoc" onclick="addColor(this)" id='lop_{{$lop_hoc->id}}' style="cursor: pointer">
-                              <span href="" class="m-nav__link">
-                                <span onclick="showHocSinhCuaLop({{$lop_hoc->id}})" class="m-nav__link-text "> <span
-                                    class="ten_lop"> {{$lop_hoc->ten_lop}} </span>
-                                  <span class="sl_hs_cua_lop">({{$namhoc->type ==1 ? $lop_hoc->tong_so_hoc_sinh : $lop_hoc->tong_so_hoc_sinh_lop_cu }})</span></span>
-                                <div class="dropdown">
-                                  <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v"
-                                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false"></i>
-                                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    @if ($namhoc->type == 1)
-                                    <span class="dropdown-item" data-toggle="modal" data-target="#modal-cap-nhat-lop"
-                                    onclick="getDataCapNhatLop({{$lop_hoc->id}})"><i class="flaticon-edit-1"></i>
-                                    Sửa</span>
-                                  <span class="dropdown-item" onclick="deleteLop({{$lop_hoc->id}})"><i
-                                      class="flaticon-delete"></i>Xóa</span> 
-                                    @endif
-                                  <a href="{{ route('quan-ly-lop-show',['id'=>$lop_hoc->id]) }}" class="dropdown-item"><i class="flaticon-paper-plane"></i>Chi tiết</a>
+                <div class="m-accordion__item-body collapse" id="tab{{$item->id}}_item_1_body" role="tabpanel"
+                  aria-labelledby="tab{{$item->id}}_item_1_head">
+                  <div class="">
+                    <div class="m-dropdown__wrapper">
+                      <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
+                      <div class="m-dropdown__inner">
+                        <div class="m-dropdown__body">
+                          <div class="m-dropdown__content">
+                            <ul class="m-nav">
+                              @foreach ($item->LopHoc as $lop_hoc)
+                              <li class="m-nav__item pl-4 lop_hoc" onclick="addColor(this)" id='lop_{{$lop_hoc->id}}'
+                                style="cursor: pointer">
+                                <span href="" class="m-nav__link">
+                                  <span onclick="showHocSinhCuaLop({{$lop_hoc->id}})" class="m-nav__link-text "> <span
+                                      class="ten_lop"> {{$lop_hoc->ten_lop}} </span>
+                                    <span
+                                      class="sl_hs_cua_lop">({{$namhoc->type ==1 ? $lop_hoc->tong_so_hoc_sinh : $lop_hoc->tong_so_hoc_sinh_lop_cu }})</span></span>
+                                  <div class="dropdown">
+                                    <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v"
+                                      id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                      aria-expanded="false"></i>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                      @if ($namhoc->type == 1)
+                                      <span class="dropdown-item" data-toggle="modal" data-target="#modal-cap-nhat-lop"
+                                        onclick="getDataCapNhatLop({{$lop_hoc->id}})"><i class="flaticon-edit-1"></i>
+                                        Sửa</span>
+                                      <span class="dropdown-item" onclick="deleteLop({{$lop_hoc->id}})"><i
+                                          class="flaticon-delete"></i>Xóa</span>
+                                      @endif
+                                      <a href="{{ route('quan-ly-lop-show',['id'=>$lop_hoc->id]) }}"
+                                        class="dropdown-item"><i class="flaticon-paper-plane"></i>Chi tiết</a>
+                                    </div>
                                   </div>
-                                </div>
-                              </span>
-                            </li>
-                            @endforeach
+                                </span>
+                              </li>
+                              @endforeach
 
 
-                          </ul>
+                            </ul>
 
-                          <!--end::Nav-->
+                            <!--end::Nav-->
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              @endforeach
             </div>
-            @endforeach
-          </div>
-            <div class="m-accordion__item" onclick="getDataHsChuaCoLop()">
+            @if ($namhoc->type == 1)
+            <div class="m-accordion__item" onclick="getDataHsChuaCoLop(0)">
               <div class="m-accordion__item-head collapsed" role="tab" id="hoc-sinh-chua-co-tuoi"
-                data-toggle="collapse" >
+                data-toggle="collapse">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="m-accordion__item-title">Học sinh chưa có lớp ({{$sl_hs_chua_co_lop}})</span>
+                <span class="m-accordion__item-title">Học sinh mới tuyển sinh ({{$sl_hs_type[0]}})</span>
+              </div>
+            </div>
+            <div class="m-accordion__item" onclick="getDataHsChuaCoLop(1)">
+              <div class="m-accordion__item-head collapsed" role="tab" id="hoc-sinh-chua-co-tuoi"
+                data-toggle="collapse">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="m-accordion__item-title">Học sinh đang theo học chưa có lớp ({{$sl_hs_type[1]}})</span>
+              </div>
+            </div>
+            <div class="m-accordion__item" onclick="getDataHsChuaCoLop(2)">
+              <div class="m-accordion__item-head collapsed" role="tab" data-toggle="collapse">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="m-accordion__item-title">Học sinh thôi học (<span
+                    id="hoc_sinh_thoi_hoc">{{$sl_hs_type[2]}}</span>) </span>
+              </div>
+            </div>
+            
+            @endif
+            <div class="m-accordion__item" onclick="getDataHsChuaCoLop(3)">
+              <div class="m-accordion__item-head collapsed" role="tab" id="hoc-sinh-chua-co-tuoi"
+                data-toggle="collapse">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span class="m-accordion__item-title">Học sinh tốt nghiệp ({{$sl_hs_type[3]}})</span>
               </div>
             </div>
           </div>
@@ -578,11 +609,12 @@
               <div class="m-portlet__head-title">
                 @if ($namhoc->type == 1)
                 <button type="button" style="display: none" id="button_chuyen_lop"
-                class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent mr-3" data-toggle="modal"
-                data-target="#modal-chuyen-lop" onclick="getDataHocSinhChuyen()">Chuyển lớp</button>
-              <button style="display: none" type="button" id="button_xep_lop_tu_dong" onclick="showSlHocSinhChuaCoLop()"
-                data-toggle="modal" data-target="#modal-xep-lop-tu-dong" class="btn btn-secondary">Xếp
-                lớp tự động</button>
+                  class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent mr-3" data-toggle="modal"
+                  data-target="#modal-chuyen-lop" onclick="getDataHocSinhChuyen()">Chuyển lớp</button>
+                <button style="display: none" type="button" id="button_xep_lop_tu_dong"
+                  onclick="showSlHocSinhChuaCoLop()" data-toggle="modal" data-target="#modal-xep-lop-tu-dong"
+                  class="btn btn-secondary">Xếp
+                  lớp tự động</button>
                 @endif
               </div>
             </div>
@@ -597,6 +629,7 @@
                 <th style="width: 15%;">Ngày sinh</th>
                 <th style="width: 15%;">Giới tính</th>
                 <th>Chi tiết</th>
+                <th id="fidel_thoi_hoc">Thôi học</th>
               </tr>
             </thead>
             <thead class="filter">
@@ -614,6 +647,7 @@
                   </select>
                 </td>
 
+                <td scope="row"><input class="search8" style="width: 70px;" type="hidden"></td>
                 <td scope="row"><input class="search8" style="width: 70px;" type="hidden"></td>
                 {{-- <td scope="row"><input class="search9" style="width: 70px;" type="text"></td> --}}
               </tr>
@@ -715,6 +749,8 @@
     return Promise.reject(error);
   });
   //click add mau lop
+
+var slHsCuaLop = 0;
 const addColor = (e) =>{
   var list_element_lop = document.querySelectorAll('.lop_hoc')
   list_element_lop.forEach(element => {
@@ -743,9 +779,11 @@ var url_xep_lop_tu_dong = "{{route('quan-ly-lop-xep-lop-tu-dong')}}";
 
 //start route hoc sinh
 var url_get_hs_lop = "{{route('quan-ly-lop-show-data-hoc-sinh')}}";
-var url_get_field_chua_co_lop = "{{route('quan-ly-lop-show-data-hoc-sinh-chua-co-lop')}}";
+var url_get_field_hoc_sinh_type = "{{route('quan-ly-lop-show-data-hoc-sinh-type',['id'])}}";
 var url_get_hs_chua_co_lop = "{{route('quan-ly-hoc-sinh-chua-co-lop')}}";
 var url_chuyen_lop = "{{route('quan-ly-hoc-sinh-chuyen-lop')}}";
+var url_thoi_hoc = "{{route('quan-ly-hoc-sinh-thoi-hoc')}}";
+var url_get_hoc_sinh_tot_nghiep = "{{route('hoc_sinh_tot_nghiep_theo_nam',['id'])}}";
 
 //end route hoc sinh
 
@@ -872,16 +910,18 @@ const deleteKhoi = (id) =>{
 // start show học sinh theo lớp
 var gioi_tinh = {!! json_encode(config('common.gioi_tinh')) !!}
 const showHocSinhCuaLop = (id) => {
+
   axios.post(url_get_hs_lop, {
       'id': id,
       'nam_hoc':$('#nam_hoc').val()
     })
     .then(function (response) {
       // console.log(gioi_tinh.1)
-      console.log(response.data)
       var html_thong_tin_hs = "";
       var i = 1;
       response.data.hoc_sinh_cua_lop.forEach(element => {
+        var route_chi_tiet_hoc_sinh = "{{route('quan-ly-hoc-sinh-edit',['id'])}}"
+        var route_chi_tiet_hoc_sinh_new = route_chi_tiet_hoc_sinh.replace('id',element.id)
         html_thong_tin_hs+=`
         <tr>
               <th><input class="checkbox" type="checkbox" id_hs="${element.id}"></th>
@@ -890,8 +930,10 @@ const showHocSinhCuaLop = (id) => {
               <td>${element.ten}</td>
               <td>${element.ngay_sinh}</td>
               <td>${Object.values(gioi_tinh)[element.gioi_tinh]}</td>
-              <td> <a  href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}"><i class="flaticon-paper-plane"></i></a>
+              <td style="text-align: center;"> <a  href="${route_chi_tiet_hoc_sinh_new}"><i class="flaticon-paper-plane"></i></a>
               </td>
+              <td style="text-align: center;cursor: pointer;"> <i style='color:blue' onclick="setThoiHoc(${element.id},${id})" class="fab fa-expeditedssl"></i>
+              </td>  
             </tr>
         `
       });
@@ -931,7 +973,7 @@ const showHocSinhCuaLop = (id) => {
         $('#button_xep_lop_tu_dong').css('display','block')
         $('#button_chuyen_lop').css('display','block')
         $('#id_lop_xep').val(id)
-        
+        slHsCuaLop = response.data.hoc_sinh_cua_lop.length
     })
     .catch(function (error) {
       console.log(error);
@@ -939,9 +981,14 @@ const showHocSinhCuaLop = (id) => {
 };
 
 
-const getDataHsChuaCoLop = () =>{
+const getDataHsChuaCoLop = (type) =>{
+  if(type == 3){
+    var url_get_field_hoc_sinh_type_new = url_get_hoc_sinh_tot_nghiep.replace('id',$('#nam_hoc').val())
+  }else{
+    var url_get_field_hoc_sinh_type_new = url_get_field_hoc_sinh_type.replace('id',type)
+  }
 
-  axios.get(url_get_field_chua_co_lop)
+  axios.get(url_get_field_hoc_sinh_type_new)
     .then(function (response) {
       var html_thong_tin_hs = "";
       var i = 1;
@@ -954,7 +1001,9 @@ const getDataHsChuaCoLop = () =>{
               <td>${element.ten}</td>
               <td>${element.ngay_sinh}</td>
               <td>${Object.values(gioi_tinh)[element.gioi_tinh]}</td>
-              <td> <a  href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}"><i class="flaticon-paper-plane"></i></a>
+              <td style="text-align: center;"> <a  href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}"><i class="flaticon-paper-plane"></i></a>
+              </td>
+              <td>
               </td>
             </tr>
         `
@@ -1323,6 +1372,37 @@ const chuyenLop = () =>{
   .catch(function (error) {
     console.log(error);
   });
+};
+
+const setThoiHoc = (id,id_lop) =>{
+  Swal.fire({
+  title: 'Bạn có chắc chắn cho học sinh này thôi học?',
+  text: "Lý do cho học sinh thôi học!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Tôi đồng ý!',
+  input: 'text',
+}).then((result) => {
+  if(result.value){
+    axios.post(url_thoi_hoc,{
+      'id' : id,
+      'ly_do_thoi_hoc' : result.value
+    })
+  .then(function (response) { 
+    var slHs = showHocSinhCuaLop(id_lop)
+    var component_lop = 'lop_'+$('#id_lop_xep').val()
+    $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${slHsCuaLop-1})`)
+    var slHocSinhThoiHoc = Number($('#hoc_sinh_thoi_hoc').html())
+    $('#hoc_sinh_thoi_hoc').html(slHocSinhThoiHoc+1)
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  }
+})
 };
 </script>
 @endsection
