@@ -198,8 +198,94 @@
                 </div>
             </div>
             
+            
+        </div>
+        <div class="m-portlet__body row">
+            <div class="d-flex flex-row-reverse bd-highlight col align-self-end">
+                <div class="p-2 bd-highlight"><a href="">Xuất Excel</a></div>
+                <div class="p-2 bd-highlight"><a href="">Nhập Excel</a></div>
+                <div class="p-2 bd-highlight"><a href="">Tải Biểu Mẫu</a></div>
+              </div>
+            <table class="table table-bordered m-table m-table--border-grey m-table--head-bg-success mt-2">
+                <thead>
+                    <tr >
+                        <th style=" font-weight:bold; text-align:center">Tên hoạt động</th>
+                        <th style=" font-weight:bold; text-align:center">Thứ 2</th>
+                        <th style=" font-weight:bold; text-align:center">Thứ 3</th>
+                        <th style=" font-weight:bold; text-align:center">Thứ 4</th>
+                        <th style=" font-weight:bold; text-align:center">Thứ 5</th>
+                        <th style=" font-weight:bold; text-align:center">Thứ 6</th>
+                        <th style=" font-weight:bold; text-align:center">Thứ 7</th>
+                        <th style=" font-weight:bold; text-align:center">Chủ nhật</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row"  style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold">Đón trẻ & ăn sáng</th>
+                        <td style="width:150px">Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td style="width:150px">Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td style="width:150px">Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td style="width:150px">Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td style="width:150px">Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td style="width:150px">Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td style="width:150px">Xếp hàng nhảy theo điệu nhạc chất</td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold">Hoạt động góc </th>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff ; font-weight:bold">Hoạt động học</th>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold ">Hoạt động học</th>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold ">Hoạt động học</th>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold" >Hoạt động học</th>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
+                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+    
 </div>
 @endsection
 @section('script')
