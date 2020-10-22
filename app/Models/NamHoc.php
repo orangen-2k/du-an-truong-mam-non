@@ -8,7 +8,7 @@ use App\Models\Khoi;
 class NamHoc extends Model
 {
     protected $table = 'nam_hoc';
-    protected $fillable = ['name', 'start_date', 'end_date'];
+    protected $fillable = ['name', 'start_date', 'end_date','backup'];
 
     public function Khoi()
     {

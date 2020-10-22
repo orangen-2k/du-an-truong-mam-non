@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Models\ThoiHoc;
+use App\Models\Lop;
+use App\Models\LichSuHoc;
+
 class HocSinh extends Model
 {
     protected $table = 'hoc_sinh';
@@ -39,11 +43,28 @@ class HocSinh extends Model
         'noi_o_hien_tai_maqh',
         'noi_o_hien_tai_xaid',
         'noi_o_hien_tai_so_nha',
+        'type',
         'user_id'
     ];
+
+
+    public function ThoiHoc()
+    {
+        return $this->belongsTo(ThoiHoc::class,'hoc_sinh_id','id');
+    }
+
+    public function Lop()
+    {
+        return $this->belongsTo(Lop::class,'lop_id','id');
+    }
+
     public function User()
     {
-       return $this->belongsTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class,'user_id','id');
     }
-   
+
+    public function LichSuHoc()
+    {
+        return $this->hasMany(LichSuHoc::class,'hoc_sinh_id','id');
+    }
 }
