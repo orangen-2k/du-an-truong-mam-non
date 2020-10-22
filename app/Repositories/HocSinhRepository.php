@@ -26,9 +26,13 @@ class HocSinhRepository extends BaseModelRepository
   		return  $this->model->all();
     }
 
+    public function getMaxId(){
+  		return  $this->model->max('id');
+    }
+
     public function createHocSinh($arrayData)
     {
-        return $this->model->insert($arrayData);
+        return $this->model->create($arrayData);
     }
 
     public function updateHocSinh($key, $arrayData)
@@ -39,6 +43,11 @@ class HocSinhRepository extends BaseModelRepository
     public function getOneHocSinh($id)
     {
         return  $this->model->where('id', '=', $id)->first();
+    }
+
+    public function getHocSinhByIdTk($id)
+    {
+        return  $this->model->where('user_id', '=', $id)->get();
     }
 
     public function xoaLopHocSinh($lop_id)

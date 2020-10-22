@@ -27,9 +27,9 @@
                             <div class="row">
                                  <div class="col-md-6">
                                     <div class="form-group m-form__group row">
-                                        <label class="col-lg-4 col-form-label">Tên học sinh</label>
+                                        <label class="col-lg-4 col-form-label">Mã đơn đăng ký</label>
                                         <div class="col-lg-6">
-                                            <input type="text" name="ten_sreach" class="form-control m-input m-input--square" id="" placeholder="Tên học sinh">
+                                            <input type="text" name="ma_don" class="form-control m-input m-input--square" id="" placeholder="Tên học sinh">
                                         </div>
                                     </div>
                                 </div>
@@ -38,6 +38,15 @@
                                         <label class="col-lg-4 col-form-label">Số điện thoại đăng kí</label>
                                         <div class="col-lg-6">
                                             <input type="number" name="sdt_dk_sreach" class="form-control m-input m-input--square" id="" placeholder="Số điện thoại đăng ký">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group m-form__group row">
+                                        <label class="col-lg-4 col-form-label">Tên học sinh</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" name="ten_sreach" class="form-control m-input m-input--square" id="" placeholder="Tên học sinh">
                                         </div>
                                     </div>
                                 </div>
@@ -75,13 +84,14 @@
                    <div class="col-md-5 d-flex ">
                     </div>
                   <div class="col-md-6 d-flex  ">
-                        <label class="col-lg-3 col-form-label">Trạng thái:</label>
-                        <div class="col-lg-4">
+                      <div class="col-md-5"></div>
+                        {{-- <label class="col-lg-3 col-form-label">Trạng thái:</label> --}}
+                        {{-- <div class="col-lg-4">
                             <select class="form-control" id="status-view">
                                 <option value="2"  @if(isset($params['status_view']) && $params['status_view']==2) selected @endif >Chưa xem</option>
                                 <option value="3" @if(isset($params['status_view']) && $params['status_view']==3) selected @endif>Đang xem</option>
                             </select>
-                        </div>
+                        </div> --}}
 
                         <label class="col-lg-3 col-form-label">Kích thước:</label>
                         <div class="col-lg-3">

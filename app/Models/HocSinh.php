@@ -3,24 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 use App\Models\ThoiHoc;
 use App\Models\Lop;
-use App\User;
 use App\Models\LichSuHoc;
 
 class HocSinh extends Model
 {
     protected $table = 'hoc_sinh';
     protected $fillable = [
+        'id',
         'lop_id',
         'ten',
         'gioi_tinh',
+        'ma_hoc_sinh',
         'ten_thuong_goi',
         'avatar',
         'ngay_sinh',
         'noi_sinh',
         'dan_toc',
-        'tuoi',
         'ngay_vao_truong',
         'doi_tuong_chinh_sach',
         'hoc_sinh_khuyet_tat',
@@ -42,8 +43,10 @@ class HocSinh extends Model
         'noi_o_hien_tai_maqh',
         'noi_o_hien_tai_xaid',
         'noi_o_hien_tai_so_nha',
-        'type'
+        'type',
+        'user_id'
     ];
+
 
     public function ThoiHoc()
     {
