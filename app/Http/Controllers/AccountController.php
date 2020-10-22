@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use App\Http\Requests\Account\RegisterSchoolRequest;
 
 class AccountController extends Controller
 {
@@ -72,9 +73,9 @@ class AccountController extends Controller
 
     }
 
-    public function createStudent()
+    public function createSchool()
     {
-        return 'đây là view tạo tk hs';
+        return view('quan-ly-tai-khoan/create-school');
 
     }
 
@@ -84,9 +85,10 @@ class AccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeSchool(RegisterSchoolRequest $request)
     {
-        //
+        $data = $this->AccountRepository->storeAcount($request->all());
+        return redirect()->back()->with('mess','Đăng ký tài khoản thành công !');
     }
 
     /**

@@ -35,7 +35,7 @@
 								<li class="m-menu__item m-menu__item--submenu m-menu__item--open m-menu__item--hover" aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;" class="m-menu__link m-menu__toggle"><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Điểm danh</span><i class="m-menu__ver-arrow la la-angle-right"></i></a>
 									<div class="m-menu__submenu " m-hidden-height="160" style=""><span class="m-menu__arrow"></span>
 										<ul class="m-menu__subnav">
-											<li class="m-menu__item " aria-haspopup="true"><a href="../../components/buttons/base/default.html" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Điểm danh đến
+											<li class="m-menu__item " aria-haspopup="true"><a href="{{route('quan-ly-diem-danh-den-index', ['id' => 0])}}" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Điểm danh đến
 														</span></a></li>
 											<li class="m-menu__item " aria-haspopup="true"><a href="../../components/buttons/base/square.html" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Điểm danh về
 														</span></a></li>
@@ -120,16 +120,7 @@
 									</ul>
 								</div>
 							</li>
-							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;" class="m-menu__link m-menu__toggle"><i class="m-menu__link-icon flaticon-network"></i><span class="m-menu__link-text">Quản lý đơn đăng ký nhập học</span><i
-								class="m-menu__ver-arrow la la-angle-right"></i></a>
-						   <div class="m-menu__submenu "><span class="m-menu__arrow"></span>
-							   <ul class="m-menu__subnav">
-								   <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span class="m-menu__link"><span class="m-menu__link-text">item</span></span></li>
-								   <li class="m-menu__item " aria-haspopup="true"><a href="components/widgets/general.html" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Thông kê đơn đăng ký</span></a></li>
-						   
-							   </ul>
-						   </div>
-					   </li>
+							
 					   <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;" class="m-menu__link m-menu__toggle"><i class="m-menu__link-icon flaticon-network"></i><span class="m-menu__link-text">Quản lý feedback</span><i
 						class="m-menu__ver-arrow la la-angle-right"></i></a>
 				   <div class="m-menu__submenu "><span class="m-menu__arrow"></span>

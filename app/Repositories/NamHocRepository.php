@@ -74,4 +74,9 @@ class NamHocRepository extends BaseModelRepository
 
         return $data_hoc_sinh;
     }
+    public function lock()
+    {
+        $data =  $this->model::where('type', 1)->update(['type' => 2]);
+        return $data;
+    }
 }

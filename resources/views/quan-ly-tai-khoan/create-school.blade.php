@@ -23,7 +23,7 @@
                 <!--begin::Form-->
             <form class="m-form m-form--fit m-form--label-align-right" id="form-dang-ky" method="POST" action="{{ route('account.store-school') }}">
                     @csrf
-                    <div class="m-portlet__body">
+                    <div class="m-portlet__body" style="min-height: 30vw;">
                         <div class="form-group m-form__group row">
                             <label class="col-form-label col-lg-3 col-sm-12"></label>
                             <div class="m-input-icon m-input-icon--left m-input-icon--right col-lg-5 col-md-9 col-sm-12">
@@ -48,12 +48,19 @@
                             </div>
                             
                         </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-form-label col-lg-4 col-sm-12"></label>
+                        <div class="m-form__actions col-lg-5 col-md-9 col-sm-12">
+                            <button type="submit" class="btn btn-primary">Đăng ký</button>
+                            <a href="{{ route('account.index') }}"  class="btn btn-secondary">Hủy</a>
+                        </div>
+                            
+                        </div>
                     </div>
                     <div class="m-portlet__foot m-portlet__foot--fit row">
                         <label class="col-form-label col-lg-4 col-sm-12"></label>
                         <div class="m-form__actions col-lg-5 col-md-9 col-sm-12">
-                            <button type="submit" class="btn btn-primary">Đăng ký</button>
-                            <button type="reset" class="btn btn-secondary">Hủy</button>
                         </div>
                     </div>
                 </form>

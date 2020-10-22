@@ -106,6 +106,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/', 'NamHocController@index')->name('nam-hoc.index');
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
         Route::get('/chi-tiet-nam-hoc/{id}', 'QuanLyTrongNamController@index')->name('nam-hoc-chi-tiet');
+        Route::post('/dong-nam-hoc', 'NamHocController@lock')->name('nam-hoc.lock');
         Route::get('/chuyen-du-lieu-nam-hoc/{id}', 'QuanLyTrongNamController@getchuyenDuLieuNamHoc')->name('get-chuyen-du-lieu-nam-hoc');
         Route::post('/chuyen-du-lieu-nam-hoc', 'QuanLyTrongNamController@postchuyenDuLieuNamHoc')->name('post-chuyen-du-lieu-nam-hoc');
         Route::post('/get-du-lieu-khoi-lop-nam-moi', 'QuanLyTrongNamController@getDuLieuKhoiLopNamMoi')->name('get-du-lieu-khoi-lop-nam-moi');
@@ -131,4 +132,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
 
+});
+
+Route::prefix('quan-ly-diem-danh-den')->group(function () {
+    Route::get('/{id}', 'QuanlyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
+    Route::post('/lay-theo-lop', 'QuanlyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
+    Route::post('/thong-ke-diem-danh', 'QuanlyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
 });
