@@ -35,7 +35,7 @@ class EditNhapHoc extends FormRequest
             'cmtnd_me' => 'required|integer|min:0',
             'dien_thoai_me' => 'required|min:11|numeric',
             'dien_thoai_dang_ki' => 'required|min:11|numeric',
-            'email_dang_ky' => 'required|email:rfc,dns',
+            'email_dang_ky' => 'required|between:3,64',
             'ho_khau_thuong_tru_matp' => 'required',
             'ho_khau_thuong_tru_maqh' => 'required',
             'ho_khau_thuong_tru_xaid' => 'required',

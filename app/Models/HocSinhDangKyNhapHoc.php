@@ -10,6 +10,7 @@ class HocSinhDangKyNhapHoc extends Model
     protected $fillable = [
         'lop_id',
         'ten',
+        'ma_don',
         'gioi_tinh',
         'ten_thuong_goi',
         'avatar',

@@ -20,4 +20,6 @@ Route::group(['middleware' => ['auth', 'web']], function () {
     Route::get('danh-sach-tai-khoan-giao-vien', 'AccountController@index')->name('account.ds-gv');
     Route::get('danh-sach-tai-khoan-hoc-sinh', 'AccountController@index')->name('account.ds-hs');
     Route::post('thay-doi-trang-thai', 'AccountController@editStatus')->name('account.editStatus');
+
+    Route::post('gop-tai-khoan', 'AccountController@gopTaiKhoan')->name('account-gop-tai-khoan');
 });

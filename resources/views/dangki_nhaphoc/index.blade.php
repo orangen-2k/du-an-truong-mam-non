@@ -482,8 +482,8 @@ License: You must have a valid license purchased only from themeforest(the above
 												<div class="row">
 													<div class="col-lg-9"></div>
 													<div class="col-lg-3">
-														<button type="button" onclick="createDangKi()" class="btn btn-success">Submit</button>
-														<button type="reset" class="btn btn-secondary">Cancel</button>
+														<button type="button" onclick="createDangKi()" class="btn btn-success">Tạo đơn</button>
+														<button type="reset" class="btn btn-secondary">Hủy</button>
 													</div>
 												</div>
 											</div>
@@ -511,6 +511,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="modal-body">
 									<form action="" id="formMaXacNhan">
 										<div class="row">
+											@csrf
 											<div class="col-md-2 offset-1 ">
 													<input class="form-control border" maxlength='1' type="text" name="ma_xac_thuc1" >
 											</div>
