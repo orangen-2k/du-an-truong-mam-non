@@ -44,14 +44,21 @@ License: You must have a valid license purchased only from themeforest(the above
 		<!--RTL version:<link href="../../../assets/demo/default/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
 
 		<!--end::Global Theme Styles -->
-        <link rel="shortcut icon" href="{!! asset('assets/demo/media/img/logo/favicon.ico') !!}" />
+		<link rel="shortcut icon" href="{!! asset('assets/demo/media/img/logo/favicon.ico') !!}" />
+		
+		<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
+
 	</head>
 
 	<!-- end::Head -->
 
 	<!-- begin::Body -->
 	<body class="m--skin- m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--fixed m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
-
+		
+		<div id="preload" class="preload-container text-center" style="display: none">
+			<img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+		  </div>
+		  
 		<!-- begin:: Page -->
 		<div class="m-grid m-grid--hor m-grid--root m-page">
 			<div class="m-grid__item m-grid__item--fluid m-grid m-grid--hor m-login m-login--signin m-login--2 m-login-2--skin-2" id="m_login" style="background-image: url(../../../assets/app/media/img//bg/bg-3.jpg);">
@@ -665,11 +672,14 @@ License: You must have a valid license purchased only from themeforest(the above
 
 
 		let createDangKi = () => {
+			$('#preload').css('display','block');
 			let myForm = document.getElementById('myForm');
 			var formData = new FormData(myForm)
+			formData.append('avatar', $('input[type=file]')[0].files[0]); 
 			axios.post(url_submit_dangki ,formData)
 			.then(function (response) {
 				console.log(response.data);
+				$('#preload').css('display','none');
 				$("#id_form_dang_ky").val(response.data);
 				$( "#foo" ).trigger( "click" );
 			})

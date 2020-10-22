@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('title', 'Thêm mới học sinh')
+		<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 
 @section('style')
 <style>
@@ -17,6 +18,7 @@
     }
 
 </style>
+
 @endsection
 @section('content')
     <div class="m-content">
@@ -50,7 +52,7 @@
                                 action="{{ route('submit-edit-hs-dang-ky-nhap-hoc') }}" method="POST" enctype="multipart/form-data">
                                 <div class="m-portlet__body">
                                     @csrf
-                                    <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
+                                    <div class=" m-wizard__form-step--current" id="m_wizard_form_step_1">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="col-md-5">
@@ -175,7 +177,7 @@
                                             <div class="col-xl-6 ">
 
                                                <div class="form-group m-form__group row offset-1">
-                                                    <img id="showimg"  src="{!! asset('storage'.$hs_dk  ->avatar) !!}"  width="290" />
+                                                    <img id="showimg"  src="{!! asset('storage/'.$hs_dk->avatar) !!}"  width="290" />
                                                </div>
 
                                                <div class="form-group m-form__group row offset-1">

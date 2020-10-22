@@ -12,14 +12,15 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('them-tai-khoan-giao-vien', 'AccountController@createTeacher')->name('account.create-teacher');
-Route::get('them-tai-khoan-hoc-sinh', 'AccountController@createStudent')->name('account.create-student');
+
 
 Route::group(['middleware' => ['auth', 'web']], function () {
     Route::get('danh-sach-tai-khoan-nha-truong', 'AccountController@index')->name('account.index');
     Route::get('danh-sach-tai-khoan-giao-vien', 'AccountController@index')->name('account.ds-gv');
     Route::get('danh-sach-tai-khoan-hoc-sinh', 'AccountController@index')->name('account.ds-hs');
     Route::post('thay-doi-trang-thai', 'AccountController@editStatus')->name('account.editStatus');
-
     Route::post('gop-tai-khoan', 'AccountController@gopTaiKhoan')->name('account-gop-tai-khoan');
+    Route::get('them-tai-khoan-giao-vien', 'AccountController@createTeacher')->name('account.create-teacher');
+    Route::get('them-tai-khoan-nha-truong', 'AccountController@createSchool')->name('account.create-school');
+    Route::post('them-tai-khoan-nha-truong', 'AccountController@storeSchool')->name('account.store-school');
 });

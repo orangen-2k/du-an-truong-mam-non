@@ -125,8 +125,6 @@ class QuanLyDangKyNhapHocController extends Controller
 
             $this->HocSinh->createHocSinh($data);
 
-            $this->DangKiNhapHoc->update($id,[ 'status'=> 3]);
-
 
             $emailNguoiGui = $data['email_dang_ky'];
             $data_email = array('name'=> $data['ten'],'content'=> '
@@ -136,11 +134,10 @@ class QuanLyDangKyNhapHocController extends Controller
                 $message->to($emailNguoiGui, 'Tutorials Point')->subject('Thông tin tài khoản App CoolKids');
                 $message->from('giacmonghoanmyy@gmail.com','KidsGraden');
             });
-
-
-
-
         }
+
+        $this->DangKiNhapHoc->updateHocSinhDangKy($id,['status'=>3]);
+
         return redirect()->route('quan-ly-dang-ky-nhap-hoc.index')->with('status', 'Đã chuyển bé '.$data['ten'].' danh sách học sinh của trường');
     }
   
