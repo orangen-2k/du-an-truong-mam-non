@@ -86,7 +86,7 @@
                             <div class="m-portlet__body">
 
 
-                                <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
+                                <div class="m-wizard__form-step--current" id="m_wizard_form_step_1">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="m-form__heading">

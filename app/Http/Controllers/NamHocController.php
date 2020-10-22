@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\NamHocRepository;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -45,5 +46,10 @@ class NamHocController extends Controller
     public function chiTietNamHoc()
     {
         return view('nam-hoc.chi_tiet_nam_hoc');
+    }
+
+    public function lock(){
+       $result =  $this->NamHocRepository->lock();
+       return ['mess' => 'success','code' => 200];
     }
 }

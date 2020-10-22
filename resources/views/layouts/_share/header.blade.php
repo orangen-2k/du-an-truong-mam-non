@@ -364,7 +364,9 @@
                              m-dropdown-toggle="click">
                                 <a href="#" class="m-nav__link m-dropdown__toggle">
                                     <span class="m-topbar__userpic">
-                                        <img src="{!! asset('assets/app/media/img/users/user4.jpg') !!}" class="m--img-rounded m--marginless" alt="" />
+
+                                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/avatar-default.png') }}" class="m--img-rounded m--marginless" alt="" />
+                                        
                                     </span>
                                     <span class="m-topbar__username m--hide">Nick</span>
                                 </a>
@@ -374,7 +376,7 @@
                                         <div class="m-dropdown__header m--align-center" style="background: url(assets/app/media/img/misc/user_profile_bg.jpg); background-size: cover;">
                                             <div class="m-card-user m-card-user--skin-dark">
                                                 <div class="m-card-user__pic">
-                                                    <img src="{!! asset('storage/'.Auth::user()->avatar) !!}" class="m--img-rounded m--marginless" alt="" />
+                                                    <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/avatar-default.png') }}" class="m--img-rounded m--marginless" alt="" />
 
                                                     <!--
             <span class="m-type m-type--lg m--bg-danger"><span class="m--font-light">S<span><span>
