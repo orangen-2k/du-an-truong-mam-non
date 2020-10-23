@@ -162,7 +162,6 @@
                                                                     <tr>
                                                                         <th>STT</th>
                                                                         <th>TÊN LỚP</th>
-
                                                                         <th>KHỐI</th>
                                                                     </tr>
                                                                 </thead>
@@ -389,13 +388,13 @@
                                                     <span>Quản lý năm học</span>
                                                 </span>
                                             </a>
-                                            <a href="#" onclick="getDuLieuLenLop()" class="btn btn-warning m-btn m-btn--custom m-btn--icon"
+                                            <button id="tiep_tuc"  disabled onclick="getDuLieuLenLop()" class="btn btn-warning m-btn m-btn--custom m-btn--icon"
                                                 data-wizard-action="next">
                                                 <span>
                                                     <span> Tiếp Tục</span>&nbsp;&nbsp;
                                                     <i class="la la-arrow-right"></i>
                                                 </span>
-                                            </a>
+                                            </button>
                                         </div>
                                         <div class="col-lg-2"></div>
                                     </div>
@@ -424,6 +423,7 @@ const saoLuuKhoiLop = () => {
             'nam_hoc_moi': $('#nam_hoc_moi').val()
         })
         .then(function(response) {
+            $('#tiep_tuc').removeAttr('disabled')
             $('#modal-sao-luu').modal('hide');
             getKhoiLopNamHocMoi()
         })
@@ -447,6 +447,9 @@ const getKhoiLopNamHocMoi = () => {
 
             var html_danh_sach_lop_moi = ""
             var i = 1;
+            if(response.data.data_lop_moi.length>0){
+                $('#tiep_tuc').removeAttr('disabled')
+            }
             response.data.data_lop_moi.forEach(element => {
                 html_danh_sach_lop_moi += `
             <tr>
@@ -465,9 +468,9 @@ const getKhoiLopNamHocMoi = () => {
 };
 getKhoiLopNamHocMoi()
 
-const lenLopHocSinh = () => {
+// const lenLopHocSinh = () => {
 
-};
+// };
 
 const lenLopChoHocSinh = () => {
 
@@ -506,6 +509,7 @@ const getDuLieuLenLop = () => {
         .then(function(response) {
             var html_danh_sach_lop_moi = ""
             var i = 1;
+            
             response.data.forEach(element => {
                 html_danh_sach_lop_moi += `
                 <tr class="len_lop">
@@ -576,5 +580,6 @@ const getDuLieuLenLopNamHocMoi = () =>{
         });
 };
 getDuLieuLenLopNamHocMoi()
+// getDuLieuLenLop()
 </script>
 @endsection

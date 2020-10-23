@@ -41,6 +41,10 @@ class AccountRepository extends BaseModelRepository
         return $data->paginate($params['page_size']);
     }
 
+    public function KhoaTaiKhoan($id_user)
+    {
+        return $this->model::where('id',$id_user)->update(['active'=>2]);
+    }
     public function storeAcount( $data ){
         $token = Str::random(60).md5(time());
         $user = User::create([

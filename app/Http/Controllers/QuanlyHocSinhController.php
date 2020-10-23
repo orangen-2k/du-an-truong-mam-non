@@ -19,10 +19,13 @@ use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\QuanHuyenRepository;
 use App\Repositories\XaPhuongThiTranRepository;
 use App\Repositories\DoiTuongChinhSachRepository;
+use App\Repositories\AccountRepository;
 use Storage;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\NamHocRepository;
-
+use Carbon\Carbon;
+use App\Models\LichSuHoc;
+use App\Models\ThoiHoc;
 class QuanlyHocSinhController extends Controller
 {
     protected $LopRepository;
@@ -34,6 +37,7 @@ class QuanlyHocSinhController extends Controller
     protected $XaPhuongThiTranRepository;
     protected $DoiTuongChinhSachRepository;
     protected $NamHocRepository;
+    protected $AccountRepository;
     public function __construct(
         LopRepository $LopRepository,
         KhoiRepository $Khoi,
@@ -43,8 +47,8 @@ class QuanlyHocSinhController extends Controller
         QuanHuyenRepository  $QuanHuyenRepository,
         XaPhuongThiTranRepository  $XaPhuongThiTranRepository,
         DoiTuongChinhSachRepository $DoiTuongChinhSachRepository,
-        NamHocRepository $NamHocRepository
-        
+        NamHocRepository $NamHocRepository,
+        AccountRepository $AccountRepository
         
     ){
         $this->LopRepository = $LopRepository;
@@ -56,6 +60,7 @@ class QuanlyHocSinhController extends Controller
         $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
         $this->DoiTuongChinhSachRepository = $DoiTuongChinhSachRepository;
         $this->NamHocRepository = $NamHocRepository;
+        $this->AccountRepository = $AccountRepository;
     }
 
     /**
@@ -132,14 +137,16 @@ class QuanlyHocSinhController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    { 
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
-        $data = $this->HocSinh->getOneHocSinh($id);
+        $data = $this->HocSinhRepository->getOneHocSinh($id);
+     
         $doi_tuong_chinh_sach = $this->DoiTuongChinhSachRepository->getAllDoiTuongChinhSach();
         $maqh_hs_hktt = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->ho_khau_thuong_tru_matp);
         $xaid_hs_hktt = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->ho_khau_thuong_tru_maqh);
         $maqh_hs_noht = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->noi_o_hien_tai_matp);
         $xaid_hs_noht = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->noi_o_hien_tai_maqh);
+        // dd($data);
         return view('quan-ly-hoc-sinh.edit', compact(
             'data', 
             'thanhpho', 
@@ -181,7 +188,7 @@ class QuanlyHocSinhController extends Controller
         unset($dataRequest['_token']);
         
         $this->HocSinh->updateHocSinh($id, $dataRequest);
-        return redirect()->route('quan-ly-hoc-sinh-index')->with('thong_bao', 'Hoàn thành');
+        return redirect()->route('quan-ly-hoc-sinh-index',['id'=>1])->with('thong_bao', 'Hoàn thành');
     }
 
     /**
@@ -454,5 +461,30 @@ class QuanlyHocSinhController extends Controller
         ];
     }
 
+    public function thoiHoc(Request $request)
+    {
+        
+        $id = $request->id;
+        $ly_do_thoi_hoc = $request->ly_do_thoi_hoc;
+        $hoc_sinh_cua_lop = $this->HocSinhRepository->find($id);
+        
+        $lich_su_hoc =
+        [
+            'hoc_sinh_id' => $hoc_sinh_cua_lop->id,
+            'lop_id' => $hoc_sinh_cua_lop->lop_id,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ];
+        $thong_tin_thoi_hoc = [
+            'hoc_sinh_id' => $hoc_sinh_cua_lop->id,
+            'nam_hoc_id' => $hoc_sinh_cua_lop->Lop->Khoi->NamHoc->id,
+            'ly_do_thoi_hoc' => $ly_do_thoi_hoc,
+        ];
+        LichSuHoc::create($lich_su_hoc);
+        ThoiHoc::create($thong_tin_thoi_hoc);
+
+        $this->AccountRepository->KhoaTaiKhoan($hoc_sinh_cua_lop->User->id);
+        $this->HocSinhRepository->update($id,['lop_id'=>0,'type'=>2]);
+    }
 
 }
