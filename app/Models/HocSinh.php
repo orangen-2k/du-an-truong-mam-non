@@ -47,7 +47,7 @@ class HocSinh extends Model
 
     public function ThoiHoc()
     {
-        return $this->belongsTo(ThoiHoc::class,'hoc_sinh_id','id');
+        return $this->hasOne(ThoiHoc::class,'hoc_sinh_id','id');
     }
 
     public function Lop()

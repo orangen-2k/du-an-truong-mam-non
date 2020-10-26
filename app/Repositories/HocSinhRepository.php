@@ -67,7 +67,7 @@ class HocSinhRepository extends BaseModelRepository
     }
 
     public function getAllHocSinhChuaCoLop($gioi_tinh){
-        return  $this->model->where('lop_id',0)->where('type',0)->where('gioi_tinh',$gioi_tinh)->count();
+        return  $this->model->where('lop_id',0)->where('type','<',2)->where('gioi_tinh',$gioi_tinh)->count();
     }
 
     public function getSlHocSinhType($type){
@@ -76,13 +76,13 @@ class HocSinhRepository extends BaseModelRepository
 
 
     public function getDataHocSinhChuaCoLop($type){
-        return  $this->model->where('lop_id',0)->where('type',$type)->get();
+        return  $this->model->addSelect('*',DB::raw('(YEAR(CURDATE()) - YEAR(ngay_sinh)) as age'))->where('lop_id',0)->where('type',$type)->get();
     }
 
     public function xepLopTuDong($id_lop,$do_tuoi,$gioi_tinh,$sl_hs)
     {
         return $this->model
-        ->whereRaw('ROUND(DATEDIFF(CURDATE(), ngay_sinh)/365,0)=?',[$do_tuoi])
+        ->whereRaw('(YEAR(CURDATE()) - YEAR(ngay_sinh))=?',[$do_tuoi])
         ->where("lop_id",0)->where('gioi_tinh',$gioi_tinh)
         ->orderBy('created_at')
         ->limit($sl_hs)
@@ -92,10 +92,10 @@ class HocSinhRepository extends BaseModelRepository
     public function getHocSinhChuaCoLopTheoDoTuoi($tuoi,$gioi_tinh)
     {
         return $this->model
-        ->whereRaw('ROUND(DATEDIFF(CURDATE(), ngay_sinh)/365,0)= ? ',[$tuoi])
+        ->whereRaw('(YEAR(CURDATE()) - YEAR(ngay_sinh))= ? ',[$tuoi])
         ->where('gioi_tinh',$gioi_tinh)
         ->where("lop_id",0)
-        ->where("type",0)
+        ->where("type",'<',2)
         ->count();
     }
 
@@ -107,7 +107,11 @@ class HocSinhRepository extends BaseModelRepository
     public function updateHocSinhTn($id_lop,$data)
     {
         return $this->model->where('lop_id',$id_lop)->update($data);
+    }
 
+    public function getTuoiHocSinh($id_hs)
+    {
+      return  $this->model->selectRaw('(YEAR(CURDATE()) - YEAR(ngay_sinh)) as tuoi')->where('id',$id_hs)->get();
     }
     
 }

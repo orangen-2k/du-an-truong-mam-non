@@ -60,6 +60,9 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::post('/hoc-sinh-chua-co-lop', 'QuanlyHocSinhController@showHocSinhChuaCoLop')->name('quan-ly-hoc-sinh-chua-co-lop');
     Route::post('/chuyen-lop', 'QuanlyHocSinhController@chuyenLop')->name('quan-ly-hoc-sinh-chuyen-lop');
     Route::post('/thoi-hoc', 'QuanlyHocSinhController@thoiHoc')->name('quan-ly-hoc-sinh-thoi-hoc');
+    Route::post('/get-thong-tin-hoc-sinh-thoi-hoc', 'QuanlyHocSinhController@getThongTinThoiHoc')->name('get-thong-tin-hoc-sinh-thoi-hoc');  
+    Route::post('/xac-nhan-hoc-sinh-di-hoc-lai', 'QuanlyHocSinhController@xacNhanDiHocLai')->name('xac-nhan-hoc-sinh-di-hoc-lai');
+    
     
 
 });
