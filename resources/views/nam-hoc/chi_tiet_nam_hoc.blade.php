@@ -477,7 +477,15 @@
                       <div class="col-md-12 mt-4">
 
                         <label for="exampleInputEmail1">Chuyển đến lớp</label>
-                        <select style="width: 100%" class="form-control m-select2" id="id_lop_chuyen">
+                        <select style="width: 100%" class="form-control" id="id_lop_chuyen">
+                          <option>Chọn lớp chuyển đến</option>
+                          @foreach ($namhoc->Khoi as $item)
+                          <optgroup  age_khoi_lop="{{$item->do_tuoi}}" label="{{$item->ten_khoi}}">
+                            @foreach ($item->LopHoc as $item1)
+                            <option value="{{$item1->id}}">{{$item1->ten_lop}}</option>
+                            @endforeach
+                          </optgroup>
+                          @endforeach
 
                         </select>
 
@@ -487,6 +495,68 @@
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
                     <span onclick="chuyenLop()" class="btn btn-primary">Chuyển lớp</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            {{-- end modal chuyển lớp  --}}
+
+            {{-- start modal chuyển lớp --}}
+            <div class="modal fade" id="modal-di-hoc-lai" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-md" role="document">
+
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông tin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="m-form__group form-group row">
+                          <div class="col" style="color:#4CAF50"><b>Lý do: <span id="ly_do_thoi_hoc"></span></b></div>
+                        </div>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        <div class="m-form__group form-group row">
+                          <label class="col-3 col-form-label" style="color:#4CAF50"><b>Đi học lại</b></label>
+                          <div class="col-6">
+                            <span class="m-switch m-switch--outline m-switch--success">
+                              <label>
+                                <input onchange="DiHocLai()" type="checkbox" name="">
+                                <span></span>
+                              </label>
+                            </span>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-md-12 mt-4" style="display: none" id="chon_lop_hoc_lai">
+                        <div class="m-form__group form-group row">
+                          <input type="hidden" id="id_hoc_sinh_nghi_hoc">
+                          <label class="col-3 col-form-label" style="color:#4CAF50;"><b>Chọn lớp</b></label>
+                          <div class="col-6">
+                            <select class="form-control m-input" id="danh_sach_lop_hoc_lai">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                            </select>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <button onclick="xacNhanDiHocLai()" style="display: none" id="xac_nhan_di_hoc_lai"
+                      class="btn btn-primary">Xác nhận đi học lại</button>
                   </div>
                 </div>
 
@@ -578,7 +648,8 @@
               <div class="m-accordion__item-head collapsed" role="tab" id="hoc-sinh-chua-co-tuoi"
                 data-toggle="collapse">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="m-accordion__item-title">Học sinh đang theo học chưa có lớp ({{$sl_hs_type[1]}})</span>
+                <span class="m-accordion__item-title">Học sinh đang theo học chưa có lớp (<span
+                  id="hoc_sinh_dang_hoc_chua_co_lop">{{$sl_hs_type[1]}}</span>)</span>
               </div>
             </div>
             <div class="m-accordion__item" onclick="getDataHsChuaCoLop(2)">
@@ -588,7 +659,7 @@
                     id="hoc_sinh_thoi_hoc">{{$sl_hs_type[2]}}</span>) </span>
               </div>
             </div>
-            
+
             @endif
             <div class="m-accordion__item" onclick="getDataHsChuaCoLop(3)">
               <div class="m-accordion__item-head collapsed" role="tab" id="hoc-sinh-chua-co-tuoi"
@@ -611,6 +682,11 @@
                 <button type="button" style="display: none" id="button_chuyen_lop"
                   class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent mr-3" data-toggle="modal"
                   data-target="#modal-chuyen-lop" onclick="getDataHocSinhChuyen()">Chuyển lớp</button>
+
+                <button type="button" style="display: none" id="button_xep_lop"
+                  class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent mr-3" data-toggle="modal"
+                  data-target="#modal-chuyen-lop" onclick="xepLopThuCong()">Xếp lớp</button>
+
                 <button style="display: none" type="button" id="button_xep_lop_tu_dong"
                   onclick="showSlHocSinhChuaCoLop()" data-toggle="modal" data-target="#modal-xep-lop-tu-dong"
                   class="btn btn-secondary">Xếp
@@ -684,6 +760,7 @@
 @endsection
 @section('script')
 <script>
+  const html_danh_sach_lop = $('#id_lop_chuyen').html();
   var dtable;
   $(document).ready( function () {
          dtable= $('#table-hoc-sinh').DataTable( {
@@ -784,6 +861,9 @@ var url_get_hs_chua_co_lop = "{{route('quan-ly-hoc-sinh-chua-co-lop')}}";
 var url_chuyen_lop = "{{route('quan-ly-hoc-sinh-chuyen-lop')}}";
 var url_thoi_hoc = "{{route('quan-ly-hoc-sinh-thoi-hoc')}}";
 var url_get_hoc_sinh_tot_nghiep = "{{route('hoc_sinh_tot_nghiep_theo_nam',['id'])}}";
+
+var url_get_thong_tin_thoi_hoc = "{{route('get-thong-tin-hoc-sinh-thoi-hoc')}}"
+var url_xac_nhan_hoc_sinh_di_hoc_lai = "{{route('xac-nhan-hoc-sinh-di-hoc-lai')}}"
 
 //end route hoc sinh
 
@@ -972,6 +1052,9 @@ const showHocSinhCuaLop = (id) => {
         });
         $('#button_xep_lop_tu_dong').css('display','block')
         $('#button_chuyen_lop').css('display','block')
+        $('#button_xep_lop').css('display','none')
+        $('#hoc_sinh_can_chuyen').attr('disabled',false)
+
         $('#id_lop_xep').val(id)
         slHsCuaLop = response.data.hoc_sinh_cua_lop.length
     })
@@ -990,12 +1073,15 @@ const getDataHsChuaCoLop = (type) =>{
 
   axios.get(url_get_field_hoc_sinh_type_new)
     .then(function (response) {
+      if(type==2){ 
+        $('#fidel_thoi_hoc').html('Lý do')
+      }
       var html_thong_tin_hs = "";
       var i = 1;
       response.data.forEach(element => {
         html_thong_tin_hs+=`
         <tr>
-              <th><input class="checkbox" type="checkbox" id_hs="${element.id}"></th>
+              <th><input class="checkbox" type="checkbox" age="${element.age}" id_hs="${element.id}"></th>
               <th scope="row">${i++}</th>
               <td>${element.ma_hoc_sinh}</td>
               <td>${element.ten}</td>
@@ -1003,9 +1089,14 @@ const getDataHsChuaCoLop = (type) =>{
               <td>${Object.values(gioi_tinh)[element.gioi_tinh]}</td>
               <td style="text-align: center;"> <a  href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}"><i class="flaticon-paper-plane"></i></a>
               </td>
-              <td>
+              <td style="text-align: center;">
+              `
+              if(type==2){ 
+                html_thong_tin_hs+=`<span data-toggle="modal" data-target="#modal-di-hoc-lai" style="cursor: pointer;" onclick="diHocLai(${element.id})" ><i class="fab fa-stack-exchange"></i></span>`
+              }
+          html_thong_tin_hs+=  `
               </td>
-            </tr>
+        </tr>
         `
       });
       dtable.destroy();
@@ -1043,7 +1134,10 @@ const getDataHsChuaCoLop = (type) =>{
         });
         $('#button_xep_lop_tu_dong').css('display','none')
         $('#button_chuyen_lop').css('display','none')
-        $('#id_lop_xep').val(id)
+        if(type==1){ 
+          $('#button_xep_lop').css('display','block')
+      }
+        $('#id_lop_xep').val(0)
         
     })
     .catch(function (error) {
@@ -1281,7 +1375,7 @@ const showSlHocSinhChuaCoLop = () =>{
   });
 };
 $('#hoc_sinh_can_chuyen').select2()
-$('#id_lop_chuyen').select2()
+// $('#id_lop_chuyen').select2()
 const xepLop = () =>{
   axios.post(url_xep_lop_tu_dong,{
     'id_lop' : $('#id_lop_xep').val(),
@@ -1350,7 +1444,6 @@ const getDataHocSinhChuyen = () =>{
 };
 
 const chuyenLop = () =>{
-  
   axios.post(url_chuyen_lop, {
       'lop_id_chuyen': $('#id_lop_chuyen').val(),
       'lop_id': $('#id_lop_xep').val(),
@@ -1358,12 +1451,18 @@ const chuyenLop = () =>{
     })
   .then(function (response) {
     $('#modal-chuyen-lop').modal('hide')
-    showHocSinhCuaLop($('#id_lop_xep').val())
+    
     var component_lop_chuyen = 'lop_'+$('#id_lop_chuyen').val()
     $(`#${component_lop_chuyen}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop_chuyen_den})`)
-
-    var component_lop = 'lop_'+$('#id_lop_xep').val()
-    $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop_hien_tai})`)
+    if($('#id_lop_xep').val() != 0){
+      var component_lop = 'lop_'+$('#id_lop_xep').val()
+      $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop_hien_tai})`)
+      showHocSinhCuaLop($('#id_lop_xep').val())
+    }else{
+      getDataHsChuaCoLop(1)
+      $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_cua_lop_hien_tai}`)
+    }
+ 
     swal({
           title: "Chuyển lớp thành công",
           icon: "success",
@@ -1396,6 +1495,11 @@ const setThoiHoc = (id,id_lop) =>{
     $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${slHsCuaLop-1})`)
     var slHocSinhThoiHoc = Number($('#hoc_sinh_thoi_hoc').html())
     $('#hoc_sinh_thoi_hoc').html(slHocSinhThoiHoc+1)
+    $('#modal-xep-lop-tu-dong').modal('hide')
+    swal({
+          title: "Xác nhận cho học sinh thôi học",
+          icon: "success",
+    });
   })
   .catch(function (error) {
     // handle error
@@ -1404,5 +1508,107 @@ const setThoiHoc = (id,id_lop) =>{
   }
 })
 };
+
+const diHocLai = (id) =>{
+  axios.post(url_get_thong_tin_thoi_hoc,{
+      'id' : id
+    })
+  .then(function (response) { 
+    $('#id_hoc_sinh_nghi_hoc').val(id)
+   $('#ly_do_thoi_hoc').html(response.data.ly_do_thoi_hoc)
+   var html_lop_hoc_lai_cua_hoc_sinh = '';
+   response.data.lop_hoc.forEach(element => {
+    html_lop_hoc_lai_cua_hoc_sinh+=
+    `<option value = "${element.id}">${element.ten_lop}</option>` 
+   });
+   $('#danh_sach_lop_hoc_lai').html(html_lop_hoc_lai_cua_hoc_sinh)
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+};
+
+const DiHocLai = ()=>{
+  $("#chon_lop_hoc_lai").fadeToggle();
+  $("#xac_nhan_di_hoc_lai").fadeToggle();
+};
+
+const xacNhanDiHocLai = () =>{
+  var id_hs_nghi_hoc = $('#id_hoc_sinh_nghi_hoc').val()
+  var lop_chon_hoc_lai = $('#danh_sach_lop_hoc_lai').val()
+
+  axios.post(url_xac_nhan_hoc_sinh_di_hoc_lai,{
+      'id_hs_nghi_hoc' : id_hs_nghi_hoc,
+      'lop_chon_hoc_lai' : lop_chon_hoc_lai
+    })
+  .then(function (response) { 
+    var element_id_hs = `[id_hs*=${id_hs_nghi_hoc}]`
+    $('#modal-di-hoc-lai').modal('hide')
+    swal({
+          title: "Xác nhận học sinh đi học lại",
+          icon: "success",
+    });
+    $(`${element_id_hs}`).parents('tr').remove()
+    var component_lop = 'lop_'+lop_chon_hoc_lai
+    $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${slHsCuaLop+1})`)
+    var slHocSinhThoiHoc = Number($('#hoc_sinh_thoi_hoc').html())
+    $('#hoc_sinh_thoi_hoc').html(slHocSinhThoiHoc-1)
+
+    
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  }) 
+};
+
+const xepLopThuCong = () => {
+    var url_get_field_hoc_sinh_type_new = url_get_field_hoc_sinh_type.replace('id', 1)
+    axios.get(url_get_field_hoc_sinh_type_new)
+        .then(function(response) {
+          var html_danh_sach_hs="";
+          response.data.forEach(element => {
+            html_danh_sach_hs+=`
+            <option value="${element.id}">${element.ma_hoc_sinh}-${element.ten}</option>
+            `
+          });
+          $('#hoc_sinh_can_chuyen').html(html_danh_sach_hs)
+          $('#hoc_sinh_can_chuyen').attr('disabled',true)
+                var hoc_sinh_muon_xep = [];
+                var check = document.querySelectorAll(".checkbox");
+                var age = 0
+                for (let index = 0; index < check.length; index++) {
+                    if (check[index].checked) {
+                      if(hoc_sinh_muon_xep.length == 0){
+                        age = check[index].getAttribute("age")
+                      }
+
+                      if(age != check[index].getAttribute("age")){
+                        Swal.fire({
+                          icon: 'error',
+                          text: 'Học sinh bạn chọn không cùng độ tuổi vui lòng kiểm tra lại'
+                        }).then(function () {
+                          $('#modal-chuyen-lop').modal('hide')
+                        })
+                        
+                      }
+                      id_hoc_sinh_can_chuyen = check[index].getAttribute("id_hs");
+                      hoc_sinh_muon_xep.push(id_hoc_sinh_can_chuyen)
+                    }
+                }
+                $('#hoc_sinh_can_chuyen').val(hoc_sinh_muon_xep).trigger("change")
+                $('#id_lop_chuyen').html(html_danh_sach_lop)
+                $("#id_lop_chuyen").children("optgroup").hide();
+                $(`[age_khoi_lop=${age}]`).css('display','block')
+        })
+        .catch(function(error) {
+            console.log(error)
+        });
+};
+
+
+
+
 </script>
 @endsection

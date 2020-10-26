@@ -73,7 +73,7 @@ class QuanLyTrongNamController extends Controller
         $sl_hs_type[1] = $this->HocSinhRepository->getSlHocSinhType(1);
         $sl_hs_type[2] = $this->HocSinhRepository->getSlHocSinhType(2);
         $sl_hs_type[3] = $this->NamHocRepository->getSlHocSinhTotNgiepTheoNam($id);
-        // dd($hocsinh);
+        // dd($sl_hs_type[3]);
         return view('nam-hoc.chi_tiet_nam_hoc', [
             'sl_hs_type' => $sl_hs_type,
             'namhoc' => $namhoc,
@@ -220,7 +220,9 @@ class QuanLyTrongNamController extends Controller
                         ]
                     );
                 }
-                $this->HocSinhRepository->updateHocSinhTn($item[0], ['lop_id' => 0, 'type' => 3]);
+                // $this->HocSinhRepository->updateHocSinhTn($item[0], ['lop_id' => 0, 'type' => 3]);
+                $this->HocSinhRepository->updateHocSinhTn($item[0], ['type' => 3]);
+
             } elseif ($item[1] == -1) {
                 $hoc_sinh_cua_lop = $this->HocSinhRepository->getHocSinhCuaLop($item[0], []);
                 foreach ($hoc_sinh_cua_lop as $key => $value) {
@@ -322,7 +324,6 @@ class QuanLyTrongNamController extends Controller
             $khoi_moi = $nam_hoc_moi->Khoi;
             $danh_sach_hs = [];
             foreach ($khoi_cu as $key => $lop) {
-               
                 foreach ($lop->LopHoc as $key => $value) {
                     array_push($danh_sach_hs, $value->LichSuHoc);
                 }
@@ -353,8 +354,12 @@ class QuanLyTrongNamController extends Controller
             $LopCu = $collection->collapse();
             $LopCu->all();
             $lich_su_hoc = [];
+            $tot_nghiep = false;
             // dd($LopCu[0]->id);
             foreach ($LopCu as $key => $value) {
+                if($value->Khoi->do_tuoi == 5){
+                    $tot_nghiep = true;
+                }
                 // array_push($lop_hoc_cu,$value->LopHoc);
                 $hoc_sinh_cua_lop = $this->HocSinhRepository->getHocSinhCuaLop($value->id, []);
                 // dd($hoc_sinh_cua_lop);
@@ -369,8 +374,13 @@ class QuanLyTrongNamController extends Controller
                         ]
                     );
                 }
+                if($tot_nghiep){
+                    $this->HocSinhRepository->updateHocSinhTn($value->lop_id, ['type' => 3]);
+                }else{
+                    $this->HocSinhRepository->updateHocSinhTn($value->lop_id, ['lop_id' => 0, 'type' => 1]);
+                }
 
-                $this->HocSinhRepository->updateHocSinhTn($value->lop_id, ['lop_id' => 0, 'type' => 1]);
+               
             }
             // dd($lich_su_hoc);
             LichSuHoc::insert($lich_su_hoc);

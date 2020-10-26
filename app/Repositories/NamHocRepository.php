@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\LichSuHoc;
 use App\Models\NamHoc;
 use App\Repositories\BaseModelRepository;
 use Carbon\Carbon;
@@ -53,7 +54,8 @@ class NamHocRepository extends BaseModelRepository
         $khoi = $data_nam_hoc->Khoi()->where('do_tuoi', 5)->get();
         foreach ($khoi as $key => $value) {
             foreach ($value->LopHoc as $key => $lop_hoc) {
-                $hoc_sinh_tn += $lop_hoc->LichSuHoc()->count();
+                $hocsinh = $lop_hoc->HocSinh()->where('type',3)->count();
+                    $hoc_sinh_tn += $hocsinh;                
             }
         }
         return $hoc_sinh_tn;
@@ -61,13 +63,18 @@ class NamHocRepository extends BaseModelRepository
 
     public function hocSinhTotNghiepTheoNam($id_nam_hoc)
     {
+        
         $data_nam_hoc = $this->model->where('id', $id_nam_hoc)->first();
         $khoi = $data_nam_hoc->Khoi()->where('do_tuoi', 5)->get();
         $data_hoc_sinh = [];
         foreach ($khoi as $key => $value) {
             foreach ($value->LopHoc as $key => $lop_hoc) {
                 foreach ($lop_hoc->LichSuHoc as $key => $hoc_sinh) {
-                    array_push($data_hoc_sinh, $hoc_sinh->HocSinh);
+                    if($hoc_sinh->HocSinh->type ==3)
+                    {
+                        array_push($data_hoc_sinh, $hoc_sinh->HocSinh);
+                    }
+                   
                 }
             }
         }
