@@ -104,26 +104,19 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                <a  id="btn_xep_lop_or_lich_su"
-                                    href="@if (isset($data[0]) && $data[0]->id){{ route('nam-hoc-chi-tiet',['id' => $data[0]->id ]) }} @endif"
-                                    class="btn {{ isset($data[0]) && $data[0]->type != 1 ? 'btn-warning' : 'btn-info'}} btn-sm m-btn  m-btn m-btn--icon m-btn--pill">
-                                    @if (isset($data[0]) && $data[0]->type != 1)
-                                        <span>
-                                            <i class="la la-archive"></i>
-                                            <span>Lịch sử</span>
-                                        </span>
-                                    @else
-                                        <span>
-                                            <i class="la la-archive"></i>
-                                            <span>Xếp lớp</span>
-                                        </span>
-                                    @endif
-                                    
+                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-warning">
+                                    <span>
+                                        <i class="la la-archive"></i>
+                                        <span id="text-lich-su">Quản lý năm học</span>
+                                    </span>
                                 </a>
-                                <button style="cursor: pointer" type="button" data-toggle="modal"
+                                <button style="cursor: pointer" type="button" data-toggle="modal" id="btn_xep_lop_or_lich_su"
                                     data-target="#modal_chon_khoi_tao_nam_hoc"
-                                    class="btn m-btn--pill m-btn--air btn-outline-info">
-                                    Xếp lớp
+                                    class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-info">
+                                    <span>
+                                        <i class="la la-archive"></i>
+                                        <span>Xếp lớp</span>
+                                    </span>
                                 </button>
                                 <div class="modal fade" id="modal_chon_khoi_tao_nam_hoc" role="dialog">
                                     <div class="modal-dialog modal-lg">
@@ -200,13 +193,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                <button type="button" class="btn m-btn--pill m-btn--air btn-outline-warning">
-                                    Lịch sử
-                                </button>
-
-                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class="btn m-btn--pill    btn-success">
-                                    Quản lý năm học
-                                </a>
+                                
                             </h3>
                         </div>
                     </div>
@@ -373,11 +360,11 @@
         $("#static_end_date").val(end_date);
 
         if(type != 1){
-            $("#btn_xep_lop_or_lich_su").removeClass('invisible btn-info').addClass('btn-warning').attr('href',route)
-            .html('<span><i class="la la-archive"></i><span>Lịch sử</span></span>');
+            $("#btn_xep_lop_or_lich_su").addClass('d-none');
+            $('#text-lich-su').text('Lịch Sử');
         }else{
-            $("#btn_xep_lop_or_lich_su").removeClass('invisible btn-warning').addClass('btn-info').attr('href',route)
-            .html('<span><i class="la la-archive"></i><span>Xếp lớp</span></span>');
+            $("#btn_xep_lop_or_lich_su").removeClass('d-none');
+            $('#text-lich-su').text('Quản lý năm học');
         }
     }
 

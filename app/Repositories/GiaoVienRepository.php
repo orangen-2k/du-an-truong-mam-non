@@ -22,7 +22,7 @@ class GiaoVienRepository extends BaseModelRepository
     }
     public function getAll()
     {
-        $data = $this->table
+        $data = $this->model
             ->get();
         return $data;
     }

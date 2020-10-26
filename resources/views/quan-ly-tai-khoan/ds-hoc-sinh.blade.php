@@ -76,6 +76,7 @@
                     <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-question-circle"></i>Học
                         sinh</a>
                 </li>
+       
             </ul>
             
             
@@ -83,6 +84,9 @@
                 <div class="tab-pane active" id="m_tabs_3_1" role="tabpanel">
                     <div class="m-portlet">
                         <div class="m-portlet__body table-responsive">
+
+                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal">Gộp tài khoản</button>
+
                             <div class="col-12 form-group m-form__group d-flex justify-content-end">
                                 <label class="col-lg-2 col-form-label">Kích thước:</label>
                                 <div class="col-lg-2">
@@ -162,14 +166,57 @@
         </div>
     </div>
 
+
+
+
+
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Gộp tài khoản học sinh</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <label for="">Chọn các tài khoản muốn gộp:</label>
+                <select class="select2" name="account[]" onchange="chooseOptionAccount()" id="array_account" multiple="multiple">
+                    @foreach ($all_account as $item)
+                       <option value="{{$item->id}}" >{{$item->username}} - {{$item->name}} </option>
+                    @endforeach
+                    
+                 </select>
+            </div>
+                  <div class="ml-4 mb-5">
+                        <p>Chọn tài khoản : </p>
+                        <p style="font-size:12px !important;">( Ghi chú: Tài khoản chính để phụ huynh dùng thay cho các toàn khoản đã gộp ) </p>
+                        <div class="ml-3" id="show_select">
+
+                        </div>
+                    </div>
+   
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="submitGop()">Gộp</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <!--end::Portlet-->
-
-
 </div>
 @endsection
 @section('script')
 <script>
+
+$('.select2').select2();
+$('span.select2').css('width', '100%');
+
     var currentUrl = '{{ route($route_name) }}';
+    var url_accountGopTk = "{{ route('account-gop-tai-khoan') }}";
     $(document).ready(function () {
         $('#page-size').change(function () {
             var active = $('[name="active"]').val();
@@ -177,9 +224,50 @@
             var page_size = $(this).val();
             var reloadUrl =
                 `${currentUrl}?active=${active}&keyword=${keyword}&page_size=${page_size}`;
-            window.location.href = reloadUrl;
+              window.location.href = reloadUrl;
         });
     });
+
+
+function chooseOptionAccount (){
+        var value = $("#array_account").select2('data');
+        var html = ``;
+        for (var i = 0; i < value.length; i++) {
+            html += `
+            <div class="form-check">
+             <label class="form-check-label">
+                    <input type="radio" id="id_tk_chinh" class="form-check-input" value=${value[i].id} name="optradio">${value[i].text}
+                </label>
+            </div>
+                `;
+        }
+      $('#show_select').html(html);
+}
+
+
+
+    function submitGop(){
+        axios.post(url_accountGopTk, {
+              id_tk_chinh: $('#id_tk_chinh').val(),
+              array_account:  $("#array_account").val(),
+            })
+            .then(function (response) {
+                console.log('Thay đổi status THÀNH CÔNG');
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Gộp tài khoản thành công',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((result) => {
+                       location.reload();
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
 
     function editstatus(element) {
         console.log('Đang thay đổi status');

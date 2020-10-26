@@ -9,9 +9,12 @@ use App\Repositories\Auth\AuthRepositoryInterface;
 use Illuminate\Support\Facades\View;
 use App\Models\Khoi;
 use App\Models\Lop;
+use App\Models\HocSinh;
+use App\Models\User;
 
 use App\Observers\KhoiObserver;
 use App\Observers\LopObserver;
+use App\Observers\HocSinhObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Khoi::observe(KhoiObserver::class);
         Lop::observe(LopObserver::class);
+        HocSinh::observe(HocSinhObserver::class);
     }
 }
