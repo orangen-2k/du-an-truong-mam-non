@@ -50,4 +50,9 @@ class AuthController extends Controller
         $auth = Auth::user();
         return view('auth.profile',compact('auth'));
     }
+
+    public function getLogout(){
+        Auth::logout();
+        return redirect()->route('login');
+    }
 }

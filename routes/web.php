@@ -19,6 +19,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('auth.profile');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout','Auth\AuthController@getLogout')->name('get.logout');
 
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
 Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
