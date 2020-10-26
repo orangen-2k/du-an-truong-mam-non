@@ -185,7 +185,7 @@
                 <label for="">Chọn các tài khoản muốn gộp:</label>
                 <select class="select2" name="account[]" onchange="chooseOptionAccount()" id="array_account" multiple="multiple">
                     @foreach ($all_account as $item)
-                       <option value="{{$item->id}}" >{{$item->username}}</option>
+                       <option value="{{$item->id}}" >{{$item->username}} - {{$item->name}} </option>
                     @endforeach
                     
                  </select>

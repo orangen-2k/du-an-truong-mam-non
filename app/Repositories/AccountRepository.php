@@ -70,4 +70,11 @@ class AccountRepository extends BaseModelRepository
         return $user;
     }
 
+    public function getAccountHocSinh()
+    {
+        return $this->model::where('role', 3)
+        ->where('active', 1)
+        ->get();
+    }
+
 }

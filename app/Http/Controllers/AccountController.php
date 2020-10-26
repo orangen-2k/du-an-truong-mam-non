@@ -53,7 +53,7 @@ class AccountController extends Controller
         $data = $this->AccountRepository->getAllSchool($params);
         $data->appends($request->all())->links();
 
-        $all_account = $this->AccountRepository->getAll();
+        $all_account = $this->AccountRepository->getAccountHocSinh();
 
         return view($rederView, compact('data', 'params', 'route_name','all_account'));
     }
