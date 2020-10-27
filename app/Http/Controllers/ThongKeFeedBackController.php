@@ -39,7 +39,9 @@ class ThongKeFeedBackController extends Controller
         if ($id == 0) {
             $nam_hoc_hien_tai = $this->NamHocRepository->layNamHocHienTai();
             $id = $nam_hoc_hien_tai->id;
+            
         }
+        
         $getAllNamHoc = $this->NamHocRepository->getAllNamHoc();
         $khoi = $this->KhoiRepository->getAll();
         $giao_vien = $this->GiaoVienRepository->getGIaoVienChuaCoLop();
