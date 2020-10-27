@@ -6,7 +6,10 @@ use App\Repositories\AccountRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use \App\Repositories\HocSinhRepository;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Requests\Account\RegisterSchoolRequest;
 
 class AccountController extends Controller
 {
@@ -16,10 +19,15 @@ class AccountController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected $AccountRepository;
+    protected $HocSinh;
+
     public function __construct(
-        AccountRepository $AccountRepository
+        AccountRepository $AccountRepository,
+        HocSinhRepository $HocSinh
+
     ) {
         $this->AccountRepository = $AccountRepository;
+        $this->HocSinh = $HocSinh;
     }
 
     public function index(Request $request)
@@ -44,7 +52,10 @@ class AccountController extends Controller
 
         $data = $this->AccountRepository->getAllSchool($params);
         $data->appends($request->all())->links();
-        return view($rederView, compact('data', 'params', 'route_name'));
+
+        $all_account = $this->AccountRepository->getAccountHocSinh();
+
+        return view($rederView, compact('data', 'params', 'route_name','all_account'));
     }
 
     public function editStatus(Request $request)
@@ -72,9 +83,9 @@ class AccountController extends Controller
 
     }
 
-    public function createStudent()
+    public function createSchool()
     {
-        return 'đây là view tạo tk hs';
+        return view('quan-ly-tai-khoan/create-school');
 
     }
 
@@ -84,9 +95,10 @@ class AccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeSchool(RegisterSchoolRequest $request)
     {
-        //
+        $data = $this->AccountRepository->storeAcount($request->all());
+        return redirect()->back()->with('mess','Đăng ký tài khoản thành công !');
     }
 
     /**
@@ -132,5 +144,24 @@ class AccountController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function gopTaiKhoan(Request $request){
+        $array_id_tk = $request->array_account;
+        $id_chinh = $request->id_tk_chinh;
+        $arr = [];
+        $arr2 = [];
+        foreach($array_id_tk as $val){
+            if($val !== $id_chinh){
+                array_push($arr,$val);
+                $hs_tk_gop =  $this->HocSinh->getHocSinhByIdTk($val);
+                foreach($hs_tk_gop as $hs){
+                array_push($arr2,$hs->id);
+                   $this->HocSinh->updateHocSinh($hs->id,['user_id' => $id_chinh]);
+                }
+                  $this->AccountRepository->update($val,['active' => 0]);
+            }
+        }
+        return 'ok';
     }
 }

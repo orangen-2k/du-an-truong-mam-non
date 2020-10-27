@@ -44,7 +44,7 @@ class Lop extends Model
 
     public function getTongSoHocSinhAttribute()
     {
-        return $this->hasMany(HocSinh::class)->where('lop_id',$this->id)->count();    
+        return $this->hasMany(HocSinh::class)->where('lop_id',$this->id)->where('type',1)->count();    
     }
 
     public function LichSuHoc()

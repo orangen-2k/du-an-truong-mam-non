@@ -1,5 +1,25 @@
 @extends('layouts.main')
 @section('title', 'Thêm mới học sinh')
+		<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
+
+@section('style')
+<style>
+    .modal-lg {
+      max-width: 1100px;
+    }
+    #table-hoc-sinh_filter{
+        display: none;
+    }
+    #table-hoc-sinh_length{
+        padding-left: 29px !important
+    }
+    #table-hoc-sinh_info{
+        padding-left: 29px !important
+    }
+
+</style>
+
+@endsection
 @section('content')
     <div class="m-content">
         <div class="row">
@@ -26,13 +46,13 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="m-wizard m-wizard--2 m-wizard--success m-wizard--step-first" id="m_wizard">
+                    <div class="" id="m_wizard">
                         <div class="m-wizard__form">
                             <form class="m-form m-form--label-align-left- m-form--state-" id="m_form"
                                 action="{{ route('submit-edit-hs-dang-ky-nhap-hoc') }}" method="POST" enctype="multipart/form-data">
                                 <div class="m-portlet__body">
                                     @csrf
-                                    <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
+                                    <div class=" m-wizard__form-step--current" id="m_wizard_form_step_1">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="col-md-5">
@@ -65,6 +85,9 @@
 													<!-- <p class="text-danger text-small error" id="ten_error"></p> -->
 
                                                     </div>
+
+                                        
+
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger">*</span>Ngày sinh:</label>
@@ -146,24 +169,7 @@
                                                         </div>
                                                     </div>
 
-<!--                                                     
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label"><span
-                                                                class="text-danger">*</span>Ngày vào trường</label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <div class="input-group date">
-                                                                <input type="text" class="form-control m-input" readonly=""
-                                                                    placeholder="Select date" id="m_datepicker_2">
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text">
-                                                                        <i class="la la-calendar-check-o"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
 
-                                               
 
                                                 </div>
                                                 <div class="m-separator m-separator--dashed m-separator--lg"></div>
@@ -171,7 +177,7 @@
                                             <div class="col-xl-6 ">
 
                                                <div class="form-group m-form__group row offset-1">
-                                                    <img id="showimg"  src="{!! asset('storage'.$hs_dk  ->avatar) !!}"  width="290" />
+                                                    <img id="showimg"  src="{!! asset('storage/'.$hs_dk->avatar) !!}"  width="290" />
                                                </div>
 
                                                <div class="form-group m-form__group row offset-1">
@@ -615,13 +621,13 @@
                                             <div class="col-lg-10"></div>
                                           
                                             <div class="col-lg-2 m--align-right">
-                                                <button type="submit" class="btn btn-success">
+                                    
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                                                     <span>
                                                         <i class="la la-check"></i>&nbsp;&nbsp;
                                                         <span>Phê Duyệt</span>
                                                     </span>
                                                 </button>
-                                            
                                             </div>
                                             
                                             <div class="col-lg-2"></div>
@@ -629,16 +635,169 @@
                                     </div>
                                 </div>
                             </form>
+
+
+
+
+
+                            <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="width: 3000px !importen;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Tạo tài khoản học sinh</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div>
+                    <div class="form-check form-check-inline text-center">
+                        <input class="form-check-input" type="radio" checked onclick="selectWayCreate(1)" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                        <label class="form-check-label" for="inlineRadio1">Tạo tài khoản</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" onclick="selectWayCreate(2)" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                        <label class="form-check-label" for="inlineRadio2">Dùng chung tài khoản</label>
+                    </div>
+                </div>
+            </div>
+            <div id="viewChungTaiKhoan" style="display: none;">
+                <table id="table-hoc-sinh" class="table table-striped table-bordered m-table thong-tin-hoc-sinh-cua-lop">
+                    <thead>
+                        <tr>
+                            <th style="width: 4%;"></th>
+                            <th style="width: 8%;">Mã học sinh</th>
+                            <th style="width: 16%;">Họ tên</th>
+                            <th style="width: 13%;">Ảnh</th>
+                            <th style="width: 13%;">SĐT đăng kí</th>
+                            <th style="width: 16%;">Tên đăng nhập</th>
+                            <th style="width: 16%;">Tên cha</th>
+                            <th style="width: 16%;">Tên mẹ</th>
+                        </tr>
+                    </thead>
+                    <thead class="filter">
+                        <tr>
+                            <td scope="row"><input class="form-control search m-input" type="hidden" /></td>
+                            <td scope="row"><input class="form-control search m-input search-mahs" type="text" /></td>
+                            <td scope="row"><input class="form-control search m-input search-ten" type="text" /></td>
+                            <td scope="row"></td>
+                            <td scope="row"><input class="form-control search m-input search-dien_thoai_dang_ki" type="text" /></td>
+                            <td scope="row"><input class="form-control search m-input search-username" type="text" /></td>
+                            <td scope="row"><input class="form-control search m-input search-ten_cha" type="text" /></td>
+                            <td scope="row"><input class="form-control search m-input search-ten_me" type="text" /></td>
+                        </tr>
+                    </thead>
+                    <tbody id="show-data-hoc-sinh">
+                        @foreach($all_hs as $hs)
+                        <tr>
+                            <td><a href="#" onclick='submitGhepTaiKhoan("{{$hs->user_id}}")' />Chọn</td>
+                            <td>{{$hs->ma_hoc_sinh}}</td>
+                            <td>{{$hs->ten}}</td>
+                            <td>{{$hs->ten}}</td>
+                            <td>{{$hs->dien_thoai_dang_ki}}</td>
+                            <td>{{$hs->dien_thoai_dang_ki}}</td>
+                            <td>{{$hs->ten_cha}}</td>
+                            <td>{{$hs->ten_me}}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-right modal-footer" id="showButtonTuTao">
+                <button type="button" onclick="submitDuyet()" class="btn btn-primary">Lưu</button>
+            </div>
+         
+        </div>
+    </div>
+</div>
+                        </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-  
+
 
 @endsection
 @section('script')
+
+<script>
+  var dtable;
+  $(document).ready( function () {
+         dtable = $('#table-hoc-sinh').DataTable( {
+        // 'paging': false,
+            
+        "aoColumnDefs": [
+             { "bSortable": false, "aTargets": [ 0,1,2,3,4,5,6,7 ] }, 
+         ],
+        //  "info": false
+        //  searching: false,
+                "language": {
+                        "lengthMenu": '  Hiển thị <select>'+
+                        '<option value="10">10</option>'+
+                        '<option value="20">20</option>'+
+                        '<option value="30">30</option>'+
+                        '<option value="40">40</option>'+
+                        '<option value="50">50</option>'+
+                        '<option value="-1">All</option>'+
+                        '</select> dòng',
+                        "info": "  Trang _PAGE_ ",
+                        "paginate": {
+                            "previous": "Quay lại",
+                            "next": "Tiếp"
+                            }
+                    },
+         }
+    );
+        $('.search-mahs').on('keyup change', function() {
+        dtable
+        .column(1).search(this.value)
+        .draw();
+        });
+    
+        $('.search-ten').on('keyup change', function() {
+        dtable
+        .column(2).search(this.value)
+        .draw();
+        });
+        
+     
+        $('.search-dien_thoai_dang_ki').on('keyup change', function() {
+        dtable
+        .column(4).search(this.value)
+        .draw();
+        });
+
+        $('.search-ten_dang_nhap').on('change', function() {
+        dtable
+        .column(5).search(this.value)
+        .draw();    
+        });
+
+
+        $('.search-ten_cha').on('keyup change', function() {
+        dtable
+        .column(6).search(this.value)
+        .draw();
+        });
+
+        $('.search-ten_me').on('keyup change', function() {
+        dtable
+        .column(7).search(this.value)
+        .draw();
+        });
+
+    });
+
+
+</script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src="{!!  asset('assets/demo/custom/crud/forms/widgets/bootstrap-datepicker.js') !!}"></script>
@@ -646,6 +805,19 @@
      var url_quan_huyen_theo_thanh_pho= "{{route('get_quan_huyen_theo_thanh_pho')}}";
 	 var url_phuong_xa_theo_quan_huyen= "{{route('get_xa_phuong_theo_thi_tran')}}";
 	 var url_submit_edit= "{{route('submit-edit-hs-dang-ky-nhap-hoc')}}";
+	 var url_cap_nhap_id_user= "{{route('cap-nhap-id-user-for-hs')}}";
+
+	 var url_index_ql_dang_ki= "{{route('quan-ly-dang-ky-nhap-hoc.index')}}";
+
+    function  selectWayCreate(value){
+            if(value == 1){ 
+                $('#viewChungTaiKhoan').css('display','none')
+                $('#showButtonTuTao').css('display','inline-block')
+            }
+            else{ $('#viewChungTaiKhoan').css('display','block')
+                 $('#showButtonTuTao').css('display','none')
+            }
+    }
 
      function showimages(element) {
            		 var file = element.files[0];
@@ -677,7 +849,14 @@
 			axios.post(url_submit_edit ,formData)
 			.then(function (response) {
 				console.log(response.data);
-                alert('Cap nhạp thanh cong')
+               Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Tạo tài khoản thành công',
+                            showConfirmButton: false,
+                            timer: 1500
+                });
+                window.location.href = url_index_ql_dang_ki;
 			})
 			.catch(function (error) {
 				$('.error').text(' ')
@@ -686,6 +865,41 @@
                    }
 			})
 		}
+
+        let submitGhepTaiKhoan = (id_tk) => {
+
+
+            Swal.fire({
+                title: 'Bạn muốn dùng chung tài khoản với học sinh này ?',
+                text: "Hãy chắc chắn phụ huynh muốn dùng chung tài khoản với học sinh này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                ButtonColor: '#d33',
+                confirmButtonText: 'Dùng chung!',
+                }).then((result) => {
+                if (result.value) {
+                    let myForm = document.getElementById('m_form');
+		            var formData = new FormData(myForm);
+                    formData.append('user_id', id_tk);
+                    axios.post(url_submit_edit,formData)
+                    .then(function (response) {
+                      console.log(response.data);
+                       Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Ghép tài khoản thành công',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        window.location.href = url_index_ql_dang_ki;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+                }
+        })
+        }
 
 
       $("#ho_khau_thuong_tru_matp").change(function() {

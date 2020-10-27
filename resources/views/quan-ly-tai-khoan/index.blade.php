@@ -60,9 +60,11 @@
             <!--end::Portlet-->
         </div>
     </div>
+
+
     <div class="m-portlet">
         
-        <div class="m-portlet__body">
+         <div class="m-portlet__body">
             <ul class="nav nav-pills" role="tablist">
                 <li class="nav-item ">
                     <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-gear"></i>Quản
@@ -76,8 +78,15 @@
                     <a class="nav-link"  href="{{ route('account.ds-hs') }}"><i class="la la-question-circle"></i>Học
                         sinh</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('account.create-school') }}" class="btn btn-success btn-sm m-btn m-btn m-btn--icon m-btn--pill" data-toggle="m-tooltip"  data-original-title="Tạo mới">
+                        <span>
+                            <i class="la la-plus-circle"></i>
+                            <span>Tạo mới</span>
+                        </span>
+                    </a>
+                </li>
             </ul>
-            
             
             <div class="tab-content">
                 <div class="tab-pane active" id="m_tabs_3_1" role="tabpanel">
@@ -111,7 +120,7 @@
                                         function displayAvatar($avatarImg)
                                         {
                                         if($avatarImg != null) {
-                                            return asset('images/'.$avatarImg);
+                                            return asset('storage/' . $avatarImg);
                                         }
                                             return asset('images/avatar-default.png');
                                         }

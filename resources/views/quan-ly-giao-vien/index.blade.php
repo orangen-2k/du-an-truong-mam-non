@@ -323,4 +323,14 @@ function setCustomPagingSigns() {
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> --}}
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> 
+@if (session('thong_bao'))
+	<script>
+		Swal.fire({
+			position: 'top-center',
+			icon: 'success',
+			title: 'Thêm giáo viên thành công !',
+			timer: 3000
+		})
+	</script>
+@endif
 @endsection

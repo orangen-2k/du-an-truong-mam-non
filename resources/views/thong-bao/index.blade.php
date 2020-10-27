@@ -86,7 +86,7 @@
                                             </div>
                                             <div class="m-widget3__info">
                                                 <span class="m-widget3__username">
-                                                    {{ $item->Auth->name}}
+                                                    {{ 'Nhà trường' }}
                                                 </span><br>
                                                 <span class="m-widget3__time">
                                                     2 day ago
@@ -106,7 +106,7 @@
                                                         Author:
                                                     </span>
                                                     <span class="m-widget5__info-author m--font-info">
-                                                        {{ $item->Auth->name}}
+                                                        {{ 'Nhà trường' }}
                                                     </span>
                                                     <span class="m-widget5__info-label">
                                                         Released:

@@ -76,6 +76,14 @@
                     <a class="nav-link"  href="{{ route('account.ds-hs') }}"><i class="la la-question-circle"></i>Học
                         sinh</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('quan-ly-giao-vien-create') }}" class="btn btn-success btn-sm m-btn m-btn m-btn--icon m-btn--pill" data-toggle="m-tooltip"  data-original-title="Tạo mới">
+                        <span>
+                            <i class="la la-plus-circle"></i>
+                            <span>Tạo mới</span>
+                        </span>
+                    </a>
+                </li>
             </ul>
             
             
@@ -108,18 +116,19 @@
                                     @php
                                         use Illuminate\Support\Facades\Auth;
                                         $i = 1;
-                                        function displayAvatar($avatarImg)
+                                        function displayAvatar($avatarImg, $name)
                                         {
                                         if($avatarImg != null) {
-                                            return asset('images/'.$avatarImg);
+                                            return asset('storage/' . $avatarImg);
                                         }
-                                            return asset('images/avatar-default.png');
+                                            // return asset('images/avatar-default.png');
+                                            return 'https://ui-avatars.com/api/?name=' . $name . '&background=random';
                                         }
                                     @endphp
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{ displayAvatar($item->avatar) }}' width="50" class="img-thumbnail"></td>
+                                        <td><img src='{{ displayAvatar($item->avatar, $item->name) }}' width="50" class="img-thumbnail"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>

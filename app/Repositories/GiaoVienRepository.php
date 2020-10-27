@@ -22,7 +22,7 @@ class GiaoVienRepository extends BaseModelRepository
     }
     public function getAll()
     {
-        $data = $this->table
+        $data = $this->model
             ->get();
         return $data;
     }
@@ -91,8 +91,8 @@ class GiaoVienRepository extends BaseModelRepository
     }
 
     public function getGV($id, $lop_id)
-    {
-        $data = DB::table('giao_vien');
+    {   
+        $data = $this->model;
         if ($lop_id > 0) {
             $data = $data
                 ->join('lop_hoc', 'lop_hoc.id', '=', 'giao_vien.lop_id')
