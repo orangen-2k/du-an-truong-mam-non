@@ -45,4 +45,5 @@ class NamHocRepository extends BaseModelRepository
         $data = $this->model::where('type', 1)->get();
         return count($data) > 0 ? 0 : 1;
     }
+    
 }

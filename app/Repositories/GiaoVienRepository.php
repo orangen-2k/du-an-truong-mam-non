@@ -124,4 +124,14 @@ class GiaoVienRepository extends BaseModelRepository
         return $query->get($columns);
     }
 
+    public function getGiaoVienInLichSuDay($id)
+    {
+        $query = DB::table('lich_su_day')
+        ->join('giao_vien', 'giao_vien.id', '=', 'lich_su_day.giao_vien_id')
+        ->select('giao_vien.*')
+        ->where('lich_su_day.lop_id', $id)
+        ->get();
+        return $query;
+    }
+
 }

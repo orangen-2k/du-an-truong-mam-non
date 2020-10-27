@@ -136,5 +136,9 @@ Route::prefix('quan-ly-diem-danh-den')->group(function () {
 });
 
 Route::prefix('quan-ly-feed-back')->group(function () {
-    Route::get('/', 'ThongKeFeedBackController@index')->name('quan-ly-feed-back-index');
+    Route::get('/{id}', 'ThongKeFeedBackController@index')->name('quan-ly-feed-back-index');
+    Route::post('/show-feedback-cua-lop', 'ThongKeFeedBackController@ShowFeedBackCuaLop')->name('quan-ly-feed-back-show-feedback-cua-lop');
+    Route::post('/thay-doi-trang-thai-feedback', 'ThongKeFeedBackController@ThayDoiTrangThaiFeedBack')->name('quan-ly-feed-back-thay-doi-trang-thai');
+    Route::post('/da-xem-tat-ca', 'ThongKeFeedBackController@FeedBackChuaXemCuaLop')->name('quan-ly-feed-back-da-xem-tat-ca');
+    Route::post('/get-giao-vien-feed-back', 'ThongKeFeedBackController@GetGiaoVienFeedBack')->name('quan-ly-feed-back-get-giao-vien');
 });
