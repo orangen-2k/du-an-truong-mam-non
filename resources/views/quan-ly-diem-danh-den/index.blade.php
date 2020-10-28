@@ -216,7 +216,6 @@
                 </div>
             </div>
             <div class="col-md-9">
-
                 <div class="m-portlet m-portlet--full-height">
                     <input type="number" id="lop_id" hidden class="ml-3">
                     <div class="form-group m-form__group row ml-3" id="select_display" style="display: none">
@@ -340,6 +339,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <select class="form-control form-control-sm" id="select-nam">
+                                        <option value="0">Chọn</option>
                                         @foreach ($getAllNamHoc as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                         @endforeach
@@ -449,7 +449,7 @@
     }
     $("#thang").change(function(){
             $('#preload').css('display', 'block');
-            console.log(1)
+            
             var time = Number($('#thang').val());
             var id = Number($('#lop_id').val());
             showDiemDanhCuaLop(id, time);

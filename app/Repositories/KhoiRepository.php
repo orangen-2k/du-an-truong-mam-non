@@ -61,5 +61,11 @@ class KhoiRepository extends BaseModelRepository
     {unset($arr['_token']);
         return $this->model::where('id', $id)->update($arr);
     }
+    public function getNamHocTheoKhoi($khoi_id)
+    {
+        $data = DB::table('khoi')->join('nam_hoc', 'nam_hoc.id', '=', 'khoi.nam_hoc_id')
+        ->select('nam_hoc.type')->where('khoi.id', $khoi_id)->first();
+        return $data->type;
+    }
 
 }

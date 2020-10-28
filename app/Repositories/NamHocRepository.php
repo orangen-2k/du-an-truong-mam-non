@@ -29,8 +29,7 @@ class NamHocRepository extends BaseModelRepository
 
     public function layNamHocHienTai()
     {
-        return $this->model::whereDate('start_date', '<=', Carbon::now())
-            ->whereDate('end_date', '>=', Carbon::now())->first();
+        return $this->model::where('type', 1)->first();
     }
     public function getNamHocCu()
     {

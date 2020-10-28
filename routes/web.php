@@ -144,3 +144,11 @@ Route::prefix('quan-ly-diem-danh-den')->group(function () {
     Route::post('/lay-theo-lop', 'QuanlyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
     Route::post('/thong-ke-diem-danh', 'QuanlyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
 });
+
+Route::prefix('quan-ly-feed-back')->group(function () {
+    Route::get('/{id}', 'ThongKeFeedBackController@index')->name('quan-ly-feed-back-index');
+    Route::post('/show-feedback-cua-lop', 'ThongKeFeedBackController@ShowFeedBackCuaLop')->name('quan-ly-feed-back-show-feedback-cua-lop');
+    Route::post('/thay-doi-trang-thai-feedback', 'ThongKeFeedBackController@ThayDoiTrangThaiFeedBack')->name('quan-ly-feed-back-thay-doi-trang-thai');
+    Route::post('/da-xem-tat-ca', 'ThongKeFeedBackController@FeedBackChuaXemCuaLop')->name('quan-ly-feed-back-da-xem-tat-ca');
+    Route::post('/get-giao-vien-feed-back', 'ThongKeFeedBackController@GetGiaoVienFeedBack')->name('quan-ly-feed-back-get-giao-vien');
+});
