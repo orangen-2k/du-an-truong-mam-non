@@ -3,6 +3,7 @@
 
 	<!-- begin::Head -->
 	<head>
+		@routes()
 		<meta charset="utf-8" />
 		<title>
 			@yield('title')
