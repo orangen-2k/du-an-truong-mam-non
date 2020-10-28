@@ -17,12 +17,12 @@ Route::get('/', function () {
     return view('index'); 
 })->middleware('auth', 'web')->name('app');
 Auth::routes();
-//Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('profile');
+
 Route::group(['middleware' => ['web','auth']], function () {
-    Route::get('/trang-ca-nhan', 'AccountController@editProfile')->middleware('auth', 'web')->name('profile');
-    Route::post('/chinh-sua-trang-ca-nhan', 'AccountController@updateProfile')->middleware('auth', 'web')->name('updateProfile');
+    Route::get('/trang-ca-nhan', 'AccountController@editProfile')->name('profile');
+    Route::post('/chinh-sua-trang-ca-nhan', 'AccountController@updateProfile')->name('updateProfile');
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/trang-ca-nhan/doi-mat-khau','AccountController@changePasswordForm')->middleware('auth', 'web')->name('doi-mat-khau');
+    Route::get('/trang-ca-nhan/doi-mat-khau','AccountController@changePasswordForm')->name('doi-mat-khau');
     Route::post('/trang-ca-nhan/update-mat-khau','AccountController@changePassword')->name('update-mat-khau');
 
     //Sua tk
@@ -33,11 +33,11 @@ Route::group(['middleware' => ['web','auth']], function () {
 
 });
 
-Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
-Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
-Route::get('/quang_sac_sua', 'DangKiNhapHocController@basic_email');
-Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
-Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
+    Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
+    Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
+    Route::get('/quang_sac_sua', 'DangKiNhapHocController@basic_email');
+    Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
+    Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
 
 Route::prefix('/dang-ki-nhap-hoc')->group(function () {
     Route::get('/', 'DangKiNhapHocController@index')->name('dangki-nhap-hoc');

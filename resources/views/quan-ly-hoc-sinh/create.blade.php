@@ -239,7 +239,7 @@
                                             <div class="col-md-12">
                                                 <div class="m-form__heading">
                                                     <h3 class="m-form__heading-title">
-                                                        Hộ khẩu thường chú
+                                                        Hộ khẩu thường trú
                                                         <i data-toggle="m-tooltip" data-width="auto"
                                                             class="m-form__heading-help-icon flaticon-info" title=""
                                                             data-original-title="Some help text goes here"></i>

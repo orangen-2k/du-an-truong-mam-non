@@ -12,7 +12,7 @@
 											</div>
 											<div class="m-card-profile__pic">
 												<div class="m-card-profile__pic-wrapper">
-													<img src="../assets/app/media/img/users/user4.jpg" alt="" />
+													<img src="../upload/{{Auth::user()->avatar}}" alt="" />
 												</div>
 											
 											</div>
@@ -121,7 +121,7 @@
 									</div>
 									<div class="tab-content">
 										<div class="tab-pane active" id="m_user_profile_tab_1">
-											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('updateProfile') }}"  >
+											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('updateProfile') }}"  enctype="multipart/form-data" >
 												@csrf
 												<div class="m-portlet__body">
 													<div class="form-group m-form__group m--margin-top-10 m--hide">
@@ -145,7 +145,7 @@
 													<div class="form-group m-form__group row">
 														<label for="example-text-input"  class="col-2 col-form-label">Họ tên</label>
 														<div class="col-7">
-															<input class="form-control m-input" type="text" name="name"  disabled  value="{{Auth::user()->name }}">
+															<input class="form-control m-input" type="text" name="name"   value="{{Auth::user()->name }}">
 														</div>
 													</div>
 													<div class="form-group m-form__group row" >
@@ -155,6 +155,16 @@
 															<small style="color:red">{{$message}}</small>
 															@enderror
 															<input class="form-control m-input " type="text" name="email"  value="{{Auth::user()->email }}">
+														</div>
+													</div>
+													<div class="form-group m-form__group row" >
+														<label for="example-text-input" class="col-2 col-form-label" name="anh">Ảnh đại diện</label>
+														<div class="col-7">
+														@error('anh')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input " type="file" name="anh"  value="{{Auth::user()->avatar }}">
+															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%">
 														</div>
 													</div>
 													

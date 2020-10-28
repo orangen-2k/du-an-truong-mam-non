@@ -124,86 +124,86 @@
 										</div>
 									</div>
 
-										<div class="tab-pane " id="m_user_profile_tab_2">
-										<form class="m-form m-form--fit m-form--label-align-right" method="post" 
-											action="{{route('update-mat-khau')}}">
-											@csrf
-												<div class="m-portlet__body">
-													<div class="form-group m-form__group m--margin-top-10 m--hide">
-														<div class="alert m-alert m-alert--default" role="alert">
+											<div class="tab-pane " id="m_user_profile_tab_2">
+											<form class="m-form m-form--fit m-form--label-align-right" method="post" 
+												action="{{route('update-mat-khau')}}">
+												@csrf
+													<div class="m-portlet__body">
+														<div class="form-group m-form__group m--margin-top-10 m--hide">
+															<div class="alert m-alert m-alert--default" role="alert">
+																
+															</div>
+														</div>
+
+											@if (session('error'))
+												<div class="alert alert-danger"  role="alert">
+													{{session('error')}}
+												</div>
+											@endif
+
+											@if(session()->get('message'))
+											<script >
+															swal({
+																title: "Mật khẩu đã được thay đổi!",
+																text: "Vui lòng đăng nhập lại để tiếp tục!",
+																type: "success",
+																button: "OK!" ,
+																icon: "success",
+																reverseButtons: !0
+															});
+														
+												</script>
+											@endif
+																<div class="form-group m-form__group row">
+															<div class="col-10 ml-auto">
+																<h3 class="m-form__section">Đổi mật khẩu</h3>
+															</div>
+														</div>
+														@auth 
+														<div class="form-group m-form__group row">
+															<label for="example-text-input" class="col-2 col-form-label">Mật khẩu cũ</label>
+															<div class="col-7">
+																<input class="form-control m-input" type="password" name="current_password"  value="">
+															</div>
+														</div>
+														<div class="form-group m-form__group row">
+															
+															<label for="example-text-input" class="col-2 col-form-label" >Mật khẩu mới</label>
+															<div class="col-7">
+															@error('new_password')
+																<small style="color:red">{{$message}}</small>
+																@enderror
+																<input class="form-control m-input " type="password" name="new_password" value="">
+															</div>
 															
 														</div>
-													</div>
-
-										@if (session('error'))
-											<div class="alert alert-danger"  role="alert">
-												{{session('error')}}
-											</div>
-										@endif
-
-										@if(session()->get('message'))
-										<script >
-														swal({
-															title: "Mật khẩu đã được thay đổi!",
-															text: "Vui lòng đăng nhập lại để tiếp tục!",
-															type: "success",
-															button: "OK!" ,
-															icon: "success",
-															reverseButtons: !0
-														});
-													
-											</script>
-										@endif
-															<div class="form-group m-form__group row">
-														<div class="col-10 ml-auto">
-															<h3 class="m-form__section">Đổi mật khẩu</h3>
-														</div>
-													</div>
-													@auth 
-													<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">Mật khẩu cũ</label>
-														<div class="col-7">
-															<input class="form-control m-input" type="password" name="current_password"  value="">
-														</div>
-													</div>
-													<div class="form-group m-form__group row">
-														
-														<label for="example-text-input" class="col-2 col-form-label" >Mật khẩu mới</label>
-														<div class="col-7">
-														@error('new_password')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-															<input class="form-control m-input " type="password" name="new_password" value="">
-														</div>
-														
-													</div>
-													<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label" >Nhập lại mật khẩu mới</label>
-														<div class="col-7">
-														@error('password_confirmation')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-															<input class="form-control m-input " type="password" name="password_confirmation" value="">
-														</div>
-														
-													</div>
-													
-												</div>
-												<div class="m-portlet__foot m-portlet__foot--fit">
-													<div class="m-form__actions">
-														<div class="row">
-															<div class="col-2">
-															</div>
+														<div class="form-group m-form__group row">
+															<label for="example-text-input" class="col-2 col-form-label" >Nhập lại mật khẩu mới</label>
 															<div class="col-7">
-																<button type="submit" id="btnresult" onclick="changePassword()"  class="btn btn-accent m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
-																<button  class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
+															@error('password_confirmation')
+																<small style="color:red">{{$message}}</small>
+																@enderror
+																<input class="form-control m-input " type="password" name="password_confirmation" value="">
+															</div>
+															
+														</div>
+														
+													</div>
+													<div class="m-portlet__foot m-portlet__foot--fit">
+														<div class="m-form__actions">
+															<div class="row">
+																<div class="col-2">
+																</div>
+																<div class="col-7">
+																	<button type="submit" id="btnresult" onclick="changePassword()"  class="btn btn-accent m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
+																	<button  class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												@endauth 
-											</form>
-										</div>
+													@endauth 
+												</form>
+											</div>
 										<div class="tab-pane " id="m_user_profile_tab_3">
 										</div>
 									</div>

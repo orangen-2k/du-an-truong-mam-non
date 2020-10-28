@@ -24,14 +24,9 @@ class EditTaiKhoanRequest extends FormRequest
     public function rules()
     {
         return [      
-            'ten' => 'required',
-            'ngay_sinh' => 'required',
-            'dan_toc' => 'required',
-            'dien_thoai'=>'required|min:11|numeric',
-            'chuyen_mon'=>'required',
-            'trinh_do'=>'required',
-            'noi_dao_tao'=>'required',
-            'nam_tot_nghiep'=>'required|numeric',
+            'name'=>'required',
+            'email' => 'required|email|unique:users,id,email',
+            'anh'=>'required|mimes:jpeg,jpg,png,gif|max:10000',
     ];
     }
 
@@ -39,25 +34,15 @@ class EditTaiKhoanRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => ' :attribute không được để trống',
-            'integer' => ' :attribute phải là số nguyên',
-            'min' => ' :attribute ít nhất 11 số',
-            'numeric' => ' :attribute phải là số',
+            'name.required'=>'Vui lòng điền họ tên!',
+            'email.required' => 'Vui lòng điền Email!',
+            'email.email' => 'Email không hợp lệ!',
+            'email.unique' => 'Email đã được đăng ký!',
+            'anh.required'=>'Bạn chưa chọn ảnh!',
+            'anh.mimes'=>'Nhập sai định dạng ảnh!',
+            'anh.max'=>'Kích thước ảnh tối đa 10000kb',
         ];
     }
 
-    public function attributes()
-    {
-        return [
-            'ten' => 'Họ và tên',
-            'ngay_sinh' => 'Ngày sinh ',
-            'dan_toc' => 'Dân tộc',
-            'dien_thoai' => 'SĐT ',
-            'trinh_do'=>'Trình độ',
-            'chuyen_mon'=>'Chuyên môn',
-            'noi_dao_tao'=>'Nơi đào tạo',
-            'nam_tot_nghiep'=>'Năm tốt nghiệp',
-           
-        ];
-    }
+
 }

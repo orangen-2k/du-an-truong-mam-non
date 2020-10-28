@@ -109,10 +109,10 @@
                                     @php
                                         use Illuminate\Support\Facades\Auth;
                                         $i = 1;
-                                        function displayAvatar($avatarImg)
+                                        function displayAvatar($anh)
                                         {
                                         if($avatarImg != null) {
-                                            return asset('images/'.$avatarImg);
+                                            return asset('upload/'.$anh);
                                         }
                                             return asset('images/avatar-default.png');
                                         }
@@ -120,7 +120,7 @@
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{ displayAvatar($item->avatar) }}' width="50" class="img-thumbnail"></td>
+                                        <td><img src='../upload/{{ $item->anh }}' width="50" class="img-thumbnail"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>

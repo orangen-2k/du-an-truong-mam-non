@@ -11,6 +11,7 @@ use App\Repositories\QuanHuyenRepository;
 use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\XaPhuongThiTranRepository;
 use App\Http\Requests\ValidateCreateQuanLiGV;
+use GiaoVien;
 use Storage;
 
 class QuanlyGiaoVienController extends Controller
@@ -63,7 +64,7 @@ class QuanlyGiaoVienController extends Controller
     }
 
     public function create()
-    {
+    {   
         $khoi = $this->KhoiRepository->getAll();
         $lop = $this->LopHocRepository->getAll();
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
@@ -139,7 +140,7 @@ class QuanlyGiaoVienController extends Controller
                 // dd($path);
                 // $path = trim($path, 'public/');
                 $dataRequest['anh'] = $path;
-                // dd($dataRequest['anh']);
+                // dd($dataRequest['anh']); 
             }
         }
         unset($dataRequest['_token']);

@@ -409,7 +409,7 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> 
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="m-form__section m-form__section--first">
