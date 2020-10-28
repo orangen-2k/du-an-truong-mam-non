@@ -22,7 +22,7 @@ class hoc_sinhTableSeeder extends Seeder
         foreach($ListKhoi as $khoi){
             $ListLop = DB::table('lop_hoc')->where('khoi_id', $khoi->id)->get();
             foreach($ListLop as $lop){
-                $limit = 2;
+                $limit = 10;
                 for ($i = 0; $i < $limit; $i++) {
                     $data = [
                         'lop_id' => $lop->id,
