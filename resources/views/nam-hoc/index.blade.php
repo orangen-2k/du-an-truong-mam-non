@@ -24,6 +24,13 @@
         font-family: Arial, Helvetica, sans-serif;
         font-size: 13px
     }
+    .item_link_nam:hover{
+        left: 5px;
+        box-shadow: 2px 3px 5px #000;
+    }
+    .item_link_nam_shadow{
+        box-shadow: 2px 3px 5px #000 !important;
+    }
 </style>
 @endsection @section('content')
 <div class="m-content">
@@ -57,10 +64,11 @@
                                     @forelse ($data as $item)
 
                                     <div onclick="getData(this)" data-name="{{ $item->name }}" data-id="{{ $item->id }}"
-                                        data-start_date="{{ $item->start_date }}" data-end_date="{{ $item->end_date }}"
+                                        data-start_date="{{ date_format(date_create($item->start_date),"d/m/Y") }}" 
+                                        data-end_date="{{ date_format(date_create($item->end_date),"d/m/Y") }}"
                                         data-type="{{ $item->type }}"
                                         data-route="{{ route('nam-hoc-chi-tiet',['id'=> $item->id]) }}"
-                                        class="change_type m-nav__link fc-event fc-event-external fc-start m-fc-event--primary m--margin-bottom-15 ui-draggable ui-draggable-handle"
+                                        class="item_link_nam change_type m-nav__link fc-event fc-event-external fc-start m-fc-event--primary m--margin-bottom-15 ui-draggable ui-draggable-handle"
                                         data-color="m-fc-event--primary">
                                         <div class="fc-title">
                                             <div class="fc-content">
@@ -209,12 +217,12 @@
                         <div class="col-6">
                             <label class="col-form-label">Ngày bắt đầu năm học</label>
                             <input type="text" class="form-control m-input" readonly
-                                value="{{ isset($data[0]) ? $data[0]->start_date : '' }}" id="static_start_date" />
+                                value="{{ isset($data[0]) ? date_format(date_create($data[0]->start_date),"d/m/Y") : '' }}" id="static_start_date" />
                         </div>
                         <div class="col-6">
                             <label class="col-form-label">Ngày kết thúc năm học</label>
                             <input type="text" class="form-control m-input" readonly
-                                value="{{ isset($data[0]) ? $data[0]->end_date : '' }}" id="static_end_date" />
+                                value="{{ isset($data[0]) ? date_format(date_create($data[0]->end_date),"d/m/Y")   : '' }}" id="static_end_date" />
                         </div>
                     </div>
                 </div>
@@ -336,7 +344,13 @@
         }
     }
 
-    function getData(element) {
+    function getData(element) { 
+        let list_link = $('.item_link_nam').toArray();
+        console.log(list_link);
+        list_link.forEach(el => {
+            $(el).removeClass("bg-primary item_link_nam_shadow");
+        });
+        $(element).addClass("bg-primary item_link_nam_shadow");
         $('#loading').css('display','block');
         setTimeout(function(){
             $('#loading').css('display','none');
@@ -369,6 +383,8 @@
     }
 
     $(document).ready(function () {
+        let lists = $('.item_link_nam');
+        $(lists[0]).addClass('bg-primary item_link_nam_shadow');
         jQuery.validator.addMethod("greaterThan", function (
             value,
             element,
@@ -478,10 +494,6 @@
         showConfirmButton: false,
         timer: 2000
     });
-
-
-
-
 </script>
 
 @endif @endsection
