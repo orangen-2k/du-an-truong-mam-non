@@ -40,6 +40,11 @@ class LopHocRepository extends BaseRepository
         ->where('lop_hoc.id', $lop_id);
         return $data->first();
     }
+    public function getKhoiTheoLop($lop_id)
+    {
+        $data = $this->table->where('id', $lop_id)->first();
+        return $data;
+    }
 
 
     
