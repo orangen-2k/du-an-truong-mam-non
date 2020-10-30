@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Quản tài khoản")
+@section('title', "Quản lí tài khoản")
 @section('content')
 <div class="m-content">
     <div class="row">
@@ -111,6 +111,7 @@
                                         <th>Tên đăng nhập</th>
                                         <th>Email</th>
                                         <th>Trạng thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -120,7 +121,7 @@
                                         function displayAvatar($avatarImg, $name)
                                         {
                                         if($avatarImg != null) {
-                                            return asset('storage/' . $avatarImg);
+                                            return asset('update/' . $avatarImg);
                                         }
                                             // return asset('images/avatar-default.png');
                                             return 'https://ui-avatars.com/api/?name=' . $name . '&background=random';
@@ -129,7 +130,7 @@
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{ displayAvatar($item->avatar, $item->name) }}' width="50" class="img-thumbnail"></td>
+                                        <td><img src='../upload/{{$item->avatar}}' width="50" class="img-thumbnail"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
@@ -148,6 +149,10 @@
                                             </form>
                                             @endif
                                         </td>
+                                        <td> @if ($item->id != Auth::id())
+                                             <a href="{{ route('edit-admin', ['id' =>$item->id]) }}" class="flaticon-edit"></a>
+                                             @endif
+                                            </td>
                                     </tr>
                                     @empty
                                     <td>
