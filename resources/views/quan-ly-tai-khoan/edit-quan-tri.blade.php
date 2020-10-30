@@ -3,54 +3,8 @@
 @section('content')
 <div class="m-content">
 						<div class="row">
-							<div class="col-xl-3 col-lg-4">
-								<div class="m-portlet m-portlet--full-height  ">
-									<div class="m-portlet__body">
-										<div class="m-card-profile">
-											<div class="m-card-profile__title m--hide">
-												Trang cá nhân
-											</div>
-											<div class="m-card-profile__pic">
-												<div class="m-card-profile__pic-wrapper">
-													<img src="../upload/{{Auth::user()->avatar}}" alt="" />
-												</div>
-											
-											</div>
-											<div class="m-card-profile__details">
-												<span class="m-card-profile__name">@auth {{Auth::user()->name }} @endauth</span>
-												<a href="" class="m-card-profile__email m-link">@auth {{Auth::user()->email }} @endauth</a>
-											</div>
-										</div>
-										<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
-											<li class="m-nav__separator m-nav__separator--fit"></li>
-											<li class="m-nav__section m--hide">
-												<span class="m-nav__section-text">Section</span>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-profile-1"></i>
-													<span class="m-nav__link-title">
-														<span class="m-nav__link-wrap">
-															<span class="m-nav__link-text">Tài Khoản</span>
-															<span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
-														</span>
-													</span>
-												</a>
-											</li>
-										
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-													<span class="m-nav__link-text">Hỗ trợ</span>
-												</a>
-											</li>
-										</ul>
-										<div class="m-portlet__body-separator"></div>
-										
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-9 col-lg-8">
+					
+							<div class="col-xl-12 col-lg-9">
 								<div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
 									<div class="m-portlet__head">
 										<div class="m-portlet__head-tools">
@@ -61,8 +15,7 @@
 														Cập nhật tài khoản
 													</a>
 												</li>
-											
-											
+												
 											</ul>
 										</div>
 										<div class="m-portlet__head-tools">
@@ -81,12 +34,12 @@
 																			<li class="m-nav__section m-nav__section--first">
 																				<span class="m-nav__section-text">Quick Actions</span>
 																			</li>
-																			<li class="m-nav__item">
-																				<a href="{{route('doi-mat-khau')}}" class="m-nav__link">
+																			<!-- <li class="m-nav__item">
+																				<a href="{{route('doi-mat-khau', ['id' =>Auth::user()->id])}}" class="m-nav__link">
 																					<i class="m-nav__link-icon flaticon-share"></i>
 																					<span class="m-nav__link-text">Đổi Mật khẩu</span>
 																				</a>
-																			</li>
+																			</li> -->
 																			
 																			
 																			<li class="m-nav__section">
@@ -121,7 +74,7 @@
 									</div>
 									<div class="tab-content">
 										<div class="tab-pane active" id="m_user_profile_tab_1">
-											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('updateProfile') }}"  enctype="multipart/form-data" >
+											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('update-admin', ['id' =>$user->id])}}" >
 												@csrf
 												<div class="m-portlet__body">
 													<div class="form-group m-form__group m--margin-top-10 m--hide">
@@ -145,7 +98,10 @@
 													<div class="form-group m-form__group row">
 														<label for="example-text-input"  class="col-2 col-form-label">Họ tên</label>
 														<div class="col-7">
-															<input class="form-control m-input" type="text" name="name"   value="{{Auth::user()->name }}">
+														@error('name')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="text" name="name"   value="{{$user->name }}">
 														</div>
 													</div>
 													<div class="form-group m-form__group row" >
@@ -154,21 +110,9 @@
 														@error('email')
 															<small style="color:red">{{$message}}</small>
 															@enderror
-															<input class="form-control m-input " type="text" name="email"  value="{{Auth::user()->email }}">
+															<input class="form-control m-input " type="text" name="email"  value="{{$user->email }}">
 														</div>
 													</div>
-													<div class="form-group m-form__group row" >
-														<label for="example-text-input" class="col-2 col-form-label" name="anh">Ảnh đại diện</label>
-														<div class="col-7">
-														@error('anh')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-															<input class="form-control m-input " type="file" name="anh"  value="{{Auth::user()->avatar }}">
-															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%">
-														</div>
-													</div>
-													
-
 												</div>
 												<div class="m-portlet__foot m-portlet__foot--fit">
 													<div class="m-form__actions">
@@ -177,7 +121,7 @@
 															</div>
 															<div class="col-7">
 																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
-																<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Hủy</button>
+																<a href="{{route('account.index')}}">Quay lại</a>
 															</div>
 														</div>
 													</div>
