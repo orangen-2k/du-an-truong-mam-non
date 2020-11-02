@@ -88,8 +88,14 @@ class ThongBaoController extends Controller
             'type' => $request->type,
         ])->id;
 
+        $link = [
+            'route_name' => 'thong-bao.show',
+            'params' => ['id' => $thongbao_id]
+            ];
+        $route = json_encode($link);
+
         foreach ($user_id as $key) {
-            $this->NotificationRepository->createNotifications($request->title, $request->content, route("thong-bao.show", ['id' => $thongbao_id]), $key, Auth::id());
+            $this->NotificationRepository->createNotifications($request->title, $request->content, $route, $key, Auth::id());
 
             $dataInput = [
                 'thongbao_id' => $thongbao_id,
@@ -123,8 +129,14 @@ class ThongBaoController extends Controller
             'type' => $request->type,
         ])->id;
 
+        $link = [
+            'route_name' => 'thong-bao.show',
+            'params' => ['id' => $thongbao_id]
+            ];
+        $route = json_encode($link);
+
         foreach ($user_id as $key) {
-            $this->NotificationRepository->createNotifications($request->title, $request->content, route("thong-bao.show", ['id' => $thongbao_id]), $key, Auth::id());
+            $this->NotificationRepository->createNotifications($request->title, $request->content, $route, $key, Auth::id());
         };
         $data = [];
         $dataInput = [
