@@ -24,7 +24,6 @@ Route::get('/logout','Auth\AuthController@getLogout')->name('get.logout');
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/trang-ca-nhan', 'AccountController@editProfile')->name('profile');
     Route::post('/chinh-sua-trang-ca-nhan', 'AccountController@updateProfile')->name('updateProfile');
-    Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/trang-ca-nhan/doi-mat-khau','AccountController@changePasswordForm')->name('doi-mat-khau');
     Route::post('/trang-ca-nhan/update-mat-khau','AccountController@changePassword')->name('update-mat-khau');
 
