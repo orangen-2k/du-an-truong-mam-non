@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use File;
 use App\Models\Album;
+use Carbon\Carbon;
 
 class AlbumController extends Controller
 {
@@ -14,7 +15,16 @@ class AlbumController extends Controller
     {
        $lop_id = $request->lop_id;
        $data = [];
-       $album = Album::where('lop_id', $lop_id)->get();
+       $album = Album::where('lop_id', $lop_id);
+       if(isset($request->start_date) 
+          && $request->start_date != null
+          && isset($request->end_date) 
+          && $request->end_date != null
+          ){
+          $album->whereDate('created_at', ">=", $request->start_date)
+                ->whereDate('created_at', "<=", $request->end_date);
+       }
+       $album = $album->get();
        $dir = config('common.DB_HOST_STORAGE') . '/albums/lop_' . $lop_id .'/';
        foreach($album as $item){
             $array_images = [];
@@ -26,7 +36,8 @@ class AlbumController extends Controller
                 'item_images' => $array_images,
                 'auth_id' => $item->auth_id,
                 'lop_id' => $item->lop_id,
-                'content' => $item->content,
+                'title' => $item->title,
+                'created_at' => Carbon::parse($item->created_at)->format('d/m/Y')
             ];
             array_push($data, $param);
        }
@@ -36,7 +47,7 @@ class AlbumController extends Controller
     public function store(Request $request)
     {
         $album = Album::create([
-            'content' => $request->content,
+            'title' => $request->title,
             'item_images' => $request->item_images,
             'auth_id' => $request->auth_id,
             'lop_id' => $request->lop_id
