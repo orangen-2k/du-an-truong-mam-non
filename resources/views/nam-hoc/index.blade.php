@@ -24,6 +24,13 @@
         font-family: Arial, Helvetica, sans-serif;
         font-size: 13px
     }
+    .item_link_nam:hover{
+        left: 5px;
+        box-shadow: 2px 3px 5px #000;
+    }
+    .item_link_nam_shadow{
+        box-shadow: 2px 3px 5px #000 !important;
+    }
 </style>
 @endsection @section('content')
 <div class="m-content">
@@ -57,10 +64,11 @@
                                     @forelse ($data as $item)
 
                                     <div onclick="getData(this)" data-name="{{ $item->name }}" data-id="{{ $item->id }}"
-                                        data-start_date="{{ $item->start_date }}" data-end_date="{{ $item->end_date }}"
+                                        data-start_date="{{ date_format(date_create($item->start_date),"d/m/Y") }}" 
+                                        data-end_date="{{ date_format(date_create($item->end_date),"d/m/Y") }}"
                                         data-type="{{ $item->type }}"
                                         data-route="{{ route('nam-hoc-chi-tiet',['id'=> $item->id]) }}"
-                                        class="change_type m-nav__link fc-event fc-event-external fc-start m-fc-event--primary m--margin-bottom-15 ui-draggable ui-draggable-handle"
+                                        class="item_link_nam change_type m-nav__link fc-event fc-event-external fc-start m-fc-event--primary m--margin-bottom-15 ui-draggable ui-draggable-handle"
                                         data-color="m-fc-event--primary">
                                         <div class="fc-title">
                                             <div class="fc-content">
@@ -104,26 +112,19 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                <a  id="btn_xep_lop_or_lich_su"
-                                    href="@if (isset($data[0]) && $data[0]->id){{ route('nam-hoc-chi-tiet',['id' => $data[0]->id ]) }} @endif"
-                                    class="btn {{ isset($data[0]) && $data[0]->type != 1 ? 'btn-warning' : 'btn-info'}} btn-sm m-btn  m-btn m-btn--icon m-btn--pill">
-                                    @if (isset($data[0]) && $data[0]->type != 1)
-                                        <span>
-                                            <i class="la la-archive"></i>
-                                            <span>Lịch sử</span>
-                                        </span>
-                                    @else
-                                        <span>
-                                            <i class="la la-archive"></i>
-                                            <span>Xếp lớp</span>
-                                        </span>
-                                    @endif
-                                    
+                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-warning">
+                                    <span>
+                                        <i class="la la-archive"></i>
+                                        <span id="text-lich-su">Quản lý năm học</span>
+                                    </span>
                                 </a>
-                                <button style="cursor: pointer" type="button" data-toggle="modal"
+                                <button style="cursor: pointer" type="button" data-toggle="modal" id="btn_xep_lop_or_lich_su"
                                     data-target="#modal_chon_khoi_tao_nam_hoc"
-                                    class="btn m-btn--pill m-btn--air btn-outline-info">
-                                    Xếp lớp
+                                    class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-info">
+                                    <span>
+                                        <i class="la la-archive"></i>
+                                        <span>Xếp lớp</span>
+                                    </span>
                                 </button>
                                 <div class="modal fade" id="modal_chon_khoi_tao_nam_hoc" role="dialog">
                                     <div class="modal-dialog modal-lg">
@@ -159,10 +160,11 @@
                                                                 </div>
                                                             </div>
                                                             <div class="m-portlet__head-tools">
-                                                                <a id="day_du_lieu_nam_cu" href="{{route('get-chuyen-du-lieu-nam-hoc',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</a>
+                                                                <span id="day_du_lieu_nam_cu" onclick="kiemTraTonTaiDuLieu(1,{{$data[0]->id}})" class="btn btn-success">Thực hiện</span>
+                                                                {{-- <span id="day_du_lieu_nam_cu" href="{{route('get-chuyen-du-lieu-nam-hoc',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</span> --}}
                                                             </div>
                                                         </div>
-                                   
+            
                                                     </div>
                                                     <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
                                                         <div class="m-portlet__head">
@@ -181,7 +183,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="m-portlet__head-tools">
-                                                                <a id="chi_tiet_nam_hoc" href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</a>
+                                                                <span id="chi_tiet_nam_hoc" onclick="kiemTraTonTaiDuLieu(2,{{$data[0]->id}})" class="btn btn-success">Thực hiện</span>
+                                                                {{-- <a id="chi_tiet_nam_hoc" href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" class="btn btn-success">Thực hiện</a> --}}
                                                             </div>
                                                         </div>
                                    
@@ -189,8 +192,6 @@
                                                 </div>
         
                                                 <!--end::Section-->
-                                               
-        
                                                 <!--end::Section-->
                                             </div>
                    
@@ -216,12 +217,12 @@
                         <div class="col-6">
                             <label class="col-form-label">Ngày bắt đầu năm học</label>
                             <input type="text" class="form-control m-input" readonly
-                                value="{{ isset($data[0]) ? $data[0]->start_date : '' }}" id="static_start_date" />
+                                value="{{ isset($data[0]) ? date_format(date_create($data[0]->start_date),"d/m/Y") : '' }}" id="static_start_date" />
                         </div>
                         <div class="col-6">
                             <label class="col-form-label">Ngày kết thúc năm học</label>
                             <input type="text" class="form-control m-input" readonly
-                                value="{{ isset($data[0]) ? $data[0]->end_date : '' }}" id="static_end_date" />
+                                value="{{ isset($data[0]) ? date_format(date_create($data[0]->end_date),"d/m/Y")   : '' }}" id="static_end_date" />
                         </div>
                     </div>
                 </div>
@@ -296,6 +297,8 @@
     var check_lock = '{{ $checkNew }}';
     var url_chi_tiet_nam_hoc = "{{route('nam-hoc-chi-tiet',['pardam'])}}"
     var url_chuyen_du_lieu_nam_hoc = "{{route('get-chuyen-du-lieu-nam-hoc',['pardam'])}}"
+    var url_kiem_tra_ton_tai_thong_tin_nam_hoc = "{{route('kiem_tra_ton_tai_thong_tin_nam_hoc')}}"
+    var url_xoa_toan_bo_du_lieu_nam_hoc_hien_tai = "{{route('xoa_toan_bo_du_lieu_nam_hoc_hien_tai')}}"
     function checkNew() {
         if (Number(check_lock) == 1) {
             $('#m_modal_1').modal('show');
@@ -341,7 +344,13 @@
         }
     }
 
-    function getData(element) {
+    function getData(element) { 
+        let list_link = $('.item_link_nam').toArray();
+        console.log(list_link);
+        list_link.forEach(el => {
+            $(el).removeClass("bg-primary item_link_nam_shadow");
+        });
+        $(element).addClass("bg-primary item_link_nam_shadow");
         $('#loading').css('display','block');
         setTimeout(function(){
             $('#loading').css('display','none');
@@ -349,9 +358,11 @@
         let id = $(element).attr("data-id");
         var url_chi_tiet_nam_hoc_v1 = url_chi_tiet_nam_hoc.replaceAll('pardam', id)
         var url_chuyen_du_lieu_nam_hoc_v1 = url_chuyen_du_lieu_nam_hoc.replaceAll('pardam', id)
-        $("#day_du_lieu_nam_cu").attr('href',url_chi_tiet_nam_hoc_v1)
-        $("#chi_tiet_nam_hoc").attr('href',url_chuyen_du_lieu_nam_hoc_v1)
+        $("#day_du_lieu_nam_cu").attr('href',url_chuyen_du_lieu_nam_hoc_v1)
+        $("#chi_tiet_nam_hoc").attr('href',url_chi_tiet_nam_hoc_v1)
+        $("#quan_ly_nam_hoc").attr('href',url_chi_tiet_nam_hoc_v1)
 
+        
         let name = $(element).attr("data-name");
         let start_date = $(element).attr("data-start_date");
         let end_date = $(element).attr("data-end_date");
@@ -363,15 +374,17 @@
         $("#static_end_date").val(end_date);
 
         if(type != 1){
-            $("#btn_xep_lop_or_lich_su").removeClass('invisible btn-info').addClass('btn-warning').attr('href',route)
-            .html('<span><i class="la la-archive"></i><span>Lịch sử</span></span>');
+            $("#btn_xep_lop_or_lich_su").addClass('d-none');
+            $('#text-lich-su').text('Lịch Sử');
         }else{
-            $("#btn_xep_lop_or_lich_su").removeClass('invisible btn-warning').addClass('btn-info').attr('href',route)
-            .html('<span><i class="la la-archive"></i><span>Xếp lớp</span></span>');
+            $("#btn_xep_lop_or_lich_su").removeClass('d-none');
+            $('#text-lich-su').text('Quản lý năm học');
         }
     }
 
     $(document).ready(function () {
+        let lists = $('.item_link_nam');
+        $(lists[0]).addClass('bg-primary item_link_nam_shadow');
         jQuery.validator.addMethod("greaterThan", function (
             value,
             element,
@@ -408,6 +421,50 @@
             }
         });
     });
+    const kiemTraTonTaiDuLieu = (type,id_nam_hoc) =>{
+        var url_redirect = '' 
+        if(type==1){
+            url_redirect = url_chuyen_du_lieu_nam_hoc.replaceAll('pardam', id_nam_hoc)
+         
+        }else{
+            url_redirect = url_chi_tiet_nam_hoc.replaceAll('pardam', id_nam_hoc)
+        }
+        axios.post(url_kiem_tra_ton_tai_thong_tin_nam_hoc,{
+            'id_nam_hoc' : id_nam_hoc,
+            'type' : type
+        })
+        .then(function (response) {
+            window.location.href = url_redirect
+        })
+        .catch(function (error) {
+            xoaDuLieuNamHoc(type,id_nam_hoc,url_redirect)
+        })
+        .then(function () {
+        });
+    };
+    const xoaDuLieuNamHoc = (type,id_nam_hoc,url_redirect) =>{
+        Swal.fire({
+            title: 'Dư liệu năm học đã có !',
+            text: "Để thực hiện tiếp hệ thống sẽ xóa toàn bộ dữ liệu của năm học hiện tại và trở lại trang thái khi bạn khởi tạo năm học này.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Tôi đồng ý!',
+            }).then((result) => {
+               if(result.value){
+                axios.post(url_xoa_toan_bo_du_lieu_nam_hoc_hien_tai,{
+                    'id_nam_hoc' : id_nam_hoc,
+                    'type' : type
+                })
+                .then(function (response) {
+                    window.location.href = url_redirect                              
+                })
+                .catch(function (error) {
+                })
+               }
+            })
+    };
 </script>
 
 @if (count($errors->all()) > 0)
@@ -438,4 +495,5 @@
         timer: 2000
     });
 </script>
+
 @endif @endsection

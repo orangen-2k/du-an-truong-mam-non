@@ -259,9 +259,9 @@ class LopController extends Controller
 
     }
 
-    public function getDataHocSinhChuaCoLop()
+    public function getDataHocSinhChuaCoLop($type)
     {
-       return $this->HocSinhRepository->getDataHocSinhChuaCoLop();
+       return $this->HocSinhRepository->getDataHocSinhChuaCoLop($type);
     }
 
 }

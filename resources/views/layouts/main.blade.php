@@ -3,6 +3,7 @@
 
 	<!-- begin::Head -->
 	<head>
+		@routes()
 		<meta charset="utf-8" />
 		<title>
 			@yield('title')
@@ -49,7 +50,7 @@
 				@include('layouts._share.sidebar')
 
 				<!-- END: Left Sidebar -->
-				<div class="m-grid__item m-grid__item--fluid m-wrapper">
+				<div class="m-grid__item m-grid__item--fluid m-wrapper" id="pjax-container">
 
 					<!--start content -->
 					@yield('content')
@@ -90,6 +91,9 @@
 		  @yield('script')
 		<!--end::Page Scripts -->
 		  @include('layouts._share.notify')
+		  
+		  <!-- <script type="text/javascript" src="{{ asset('pjax/jquery.pjax.js') }}"></script> -->
+		  <!-- <script type="text/javascript" src="{{ asset('pjax/setup-pjax.js') }}"></script> -->
 	</body>
 
 	<!-- end::Body -->

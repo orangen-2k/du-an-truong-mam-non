@@ -116,18 +116,19 @@
                                     @php
                                         use Illuminate\Support\Facades\Auth;
                                         $i = 1;
-                                        function displayAvatar($avatarImg)
+                                        function displayAvatar($avatarImg, $name)
                                         {
                                         if($avatarImg != null) {
                                             return asset('storage/' . $avatarImg);
                                         }
-                                            return asset('images/avatar-default.png');
+                                            // return asset('images/avatar-default.png');
+                                            return 'https://ui-avatars.com/api/?name=' . $name . '&background=random';
                                         }
                                     @endphp
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{ displayAvatar($item->avatar) }}' width="50" class="img-thumbnail"></td>
+                                        <td><img src='{{ displayAvatar($item->avatar, $item->name) }}' width="50" class="img-thumbnail"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>

@@ -37,7 +37,7 @@ class LopObserver
     public function deleted(Lop $lop)
     {
         $lop->GiaoVien()->update(['lop_id'=> 0,'type' => 0]);
-        $lop->HocSinh()->update(['lop_id' => 0 ]);
+        $lop->HocSinh()->update(['lop_id' => 0,'type'=>1 ]);
     }
 
     /**

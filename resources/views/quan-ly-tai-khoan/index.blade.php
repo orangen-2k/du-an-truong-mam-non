@@ -64,7 +64,7 @@
 
     <div class="m-portlet">
         
-        <div class="m-portlet__body">
+         <div class="m-portlet__body">
             <ul class="nav nav-pills" role="tablist">
                 <li class="nav-item ">
                     <a class="nav-link active" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-gear"></i>Quản
@@ -117,18 +117,19 @@
                                     @php
                                         use Illuminate\Support\Facades\Auth;
                                         $i = 1;
-                                        function displayAvatar($avatarImg)
+                                        function displayAvatar($avatarImg, $name)
                                         {
                                         if($avatarImg != null) {
                                             return asset('storage/' . $avatarImg);
                                         }
-                                            return asset('images/avatar-default.png');
+                                            // return asset('images/avatar-default.png');
+                                            return 'https://ui-avatars.com/api/?name=' . $name . '&background=random';
                                         }
                                     @endphp
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{ displayAvatar($item->avatar) }}' width="50" class="img-thumbnail"></td>
+                                        <td><img src='{{ displayAvatar($item->avatar, $item->name) }}' width="50" class="img-thumbnail"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>

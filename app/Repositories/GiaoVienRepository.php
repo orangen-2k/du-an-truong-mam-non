@@ -22,7 +22,7 @@ class GiaoVienRepository extends BaseModelRepository
     }
     public function getAll()
     {
-        $data = $this->table
+        $data = $this->model
             ->get();
         return $data;
     }
@@ -91,7 +91,7 @@ class GiaoVienRepository extends BaseModelRepository
     }
 
     public function getGV($id, $lop_id)
-    {
+    {   
         $data = $this->model;
         if ($lop_id > 0) {
             $data = $data
@@ -122,6 +122,16 @@ class GiaoVienRepository extends BaseModelRepository
         }
 
         return $query->get($columns);
+    }
+
+    public function getGiaoVienInLichSuDay($id)
+    {
+        $query = DB::table('lich_su_day')
+        ->join('giao_vien', 'giao_vien.id', '=', 'lich_su_day.giao_vien_id')
+        ->select('giao_vien.*')
+        ->where('lich_su_day.lop_id', $id)
+        ->get();
+        return $query;
     }
 
 }

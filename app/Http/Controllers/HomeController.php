@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     /**
@@ -22,7 +23,9 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        return view('index');
+    {   
+        $data = DB::table('danh_gia_phu_huynh')->where('trang_thai', 1)->get();
+        $countFeedBack = count($data);
+        return view('index', compact('countFeedBack'));
     }
 }
