@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('album', 'Api\AlbumController@index');
+Route::get('album/{id}', 'Api\AlbumController@show');
+Route::post('storeAlbum', 'Api\AlbumController@store');
+Route::post('fileUpload', 'Api\AlbumController@fileUpload');
+Route::get('removeUpload', 'Api\AlbumController@removeUpload');
