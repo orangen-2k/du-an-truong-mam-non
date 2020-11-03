@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\NoiDungThongBao;
 use App\Repositories\GiaoVienRepository;
-use App\Repositories\NamhocRepository;
+use App\Repositories\NamHocRepository;
 use App\Repositories\NoiDungThongBaoRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\ThongBaoRepository;
@@ -15,21 +15,21 @@ use Illuminate\Support\Facades\DB;
 class ThongBaoController extends Controller
 {
     protected $GiaoVienRepository;
-    protected $NamhocRepository;
+    protected $NamHocRepository;
     protected $ThongBaoRepository;
     protected $NoiDungThongBaoRepository;
     protected $NotificationRepository;
 
     public function __construct(
         GiaoVienRepository $GiaoVienRepository,
-        NamhocRepository $NamhocRepository,
+        NamHocRepository $NamHocRepository,
         ThongBaoRepository $ThongBaoRepository,
         NoiDungThongBaoRepository $NoiDungThongBaoRepository,
         NotificationRepository $NotificationRepository
 
     ) {
         $this->GiaoVienRepository = $GiaoVienRepository;
-        $this->NamhocRepository = $NamhocRepository;
+        $this->NamHocRepository = $NamHocRepository;
         $this->ThongBaoRepository = $ThongBaoRepository;
         $this->NoiDungThongBaoRepository = $NoiDungThongBaoRepository;
         $this->NotificationRepository = $NotificationRepository;
@@ -63,7 +63,7 @@ class ThongBaoController extends Controller
     }
     public function uiThongBaoHocSinh()
     {
-        $data = $this->NamhocRepository->layNamHocHienTai();
+        $data = $this->NamHocRepository->layNamHocHienTai();
         return view('thong-bao.hocsinh', compact('data'));
     }
 

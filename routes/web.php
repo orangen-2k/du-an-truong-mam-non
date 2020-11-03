@@ -153,9 +153,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 });
 
 Route::prefix('quan-ly-diem-danh-den')->group(function () {
-    Route::get('/{id}', 'QuanlyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
-    Route::post('/lay-theo-lop', 'QuanlyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
-    Route::post('/thong-ke-diem-danh', 'QuanlyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
+    Route::get('/{id}', 'QuanLyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
+    Route::post('/lay-theo-lop', 'QuanLyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
+    Route::post('/thong-ke-diem-danh', 'QuanLyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
 });
 
 Route::prefix('quan-ly-feed-back')->group(function () {
