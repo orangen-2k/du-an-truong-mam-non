@@ -85,4 +85,9 @@ class NamHocRepository extends BaseModelRepository
         $data =  $this->model::where('type', 1)->update(['type' => 2]);
         return $data;
     }
+
+    public function getEndDateNamHoc($id_nam_hoc)
+    {
+        return  $this->model->where('id', $id_nam_hoc)->first();
+    }
 }
