@@ -28,6 +28,8 @@ class XaPhuongThiTranRepository extends BaseRepository
         return  $this->model->where('xaid','=',$xaid)->first();
     }
 
-
+    public function getAllXaPhuongThiTran(){
+        return $this->model->get();
+    }
 
 }

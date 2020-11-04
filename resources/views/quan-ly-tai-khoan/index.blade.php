@@ -111,24 +111,26 @@
                                         <th>Tên đăng nhập</th>
                                         <th>Email</th>
                                         <th>Trạng thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php
                                         use Illuminate\Support\Facades\Auth;
                                         $i = 1;
-                                        function displayAvatar($avatarImg)
+                                        function displayAvatar($avatarImg, $name)
                                         {
                                         if($avatarImg != null) {
                                             return asset('storage/' . $avatarImg);
                                         }
-                                            return asset('images/avatar-default.png');
+                                            // return asset('images/avatar-default.png');
+                                            return 'https://ui-avatars.com/api/?name=' . $name . '&background=random';
                                         }
                                     @endphp
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{ displayAvatar($item->avatar) }}' width="50" class="img-thumbnail"></td>
+                                        <td><img src='{{ $item->avatar ? asset('upload/' . $item->avatar) : 'https://ui-avatars.com/api/?name=' . $item->name . '&background=random' }}' width="50" class="img-thumbnail"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
@@ -147,6 +149,10 @@
                                             </form>
                                             @endif
                                         </td>
+                                        <td> @if ($item->id != Auth::id())
+                                             <a href="{{ route('edit-admin', ['id' =>$item->id]) }}" class="flaticon-edit"></a>
+                                             @endif
+                                            </td>
                                     </tr>
                                     @empty
                                     <td>

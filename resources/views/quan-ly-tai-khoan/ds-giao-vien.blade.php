@@ -110,6 +110,7 @@
                                         <th>Tên đăng nhập</th>
                                         <th>Email</th>
                                         <th>Trạng thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -128,7 +129,7 @@
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{ displayAvatar($item->avatar, $item->name) }}' width="50" class="img-thumbnail"></td>
+                                        <td><img src='{{  $item->avatar ? asset('upload/' . $item->avatar) : 'https://ui-avatars.com/api/?name=' . $item->name . '&background=random '}}' width="50" class="img-thumbnail"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
@@ -147,6 +148,7 @@
                                             </form>
                                             @endif
                                         </td>
+                                        <td><a href="{{route('edit-giao-vien', ['id' =>$item->id])}}" class="flaticon-edit"></a></td>
                                     </tr>
                                     @empty
                                     <td>

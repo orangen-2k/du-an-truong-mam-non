@@ -29,6 +29,9 @@ class QuanHuyenRepository extends BaseRepository
     public function getOneQuanHuyen($maqh){
         return  $this->model->where('maqh','=',$maqh)->first();
     }
-
+    public function getAllQuanHuyen()
+    {
+        return $this->model->get();
+    }
 
 }
