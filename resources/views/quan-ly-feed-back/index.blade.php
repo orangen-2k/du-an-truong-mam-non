@@ -482,7 +482,7 @@
             lop_id: lop_id
         }).then(function(response){
             var data = response.data.dataFeedBack.find(element => element.id == id)
-            var thoigian = moment(data.created_at).startOf('day').fromNow(); 
+            var thoigian = moment(data.created_at).fromNow(); 
             var contentHTML = 
             `
             <div class="form-row">

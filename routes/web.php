@@ -140,9 +140,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 });
 
 Route::prefix('quan-ly-diem-danh-den')->group(function () {
-    Route::get('/{id}', 'QuanlyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
-    Route::post('/lay-theo-lop', 'QuanlyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
-    Route::post('/thong-ke-diem-danh', 'QuanlyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
+    Route::get('/{id}', 'QuanLyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
+    Route::post('/lay-theo-lop', 'QuanLyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
+    Route::post('/thong-ke-diem-danh', 'QuanLyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
 });
 
 Route::prefix('quan-ly-feed-back')->group(function () {
@@ -151,4 +151,11 @@ Route::prefix('quan-ly-feed-back')->group(function () {
     Route::post('/thay-doi-trang-thai-feedback', 'ThongKeFeedBackController@ThayDoiTrangThaiFeedBack')->name('quan-ly-feed-back-thay-doi-trang-thai');
     Route::post('/da-xem-tat-ca', 'ThongKeFeedBackController@FeedBackChuaXemCuaLop')->name('quan-ly-feed-back-da-xem-tat-ca');
     Route::post('/get-giao-vien-feed-back', 'ThongKeFeedBackController@GetGiaoVienFeedBack')->name('quan-ly-feed-back-get-giao-vien');
+});
+
+Route::prefix('quan-ly-suc-khoe')->group(function(){
+    Route::get('/{id}', 'QuanlySucKhoeController@index')->name('quan-ly-suc-khoe-index');
+    Route::post('/show-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showQuanLySucKhoe')->name('quan-ly-suc-khoe-show-sk-hs');
+    Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
+    Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
 });
