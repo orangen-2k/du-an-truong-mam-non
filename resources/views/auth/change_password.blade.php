@@ -8,17 +8,16 @@
 									<div class="m-portlet__body">
 										<div class="m-card-profile">
 											<div class="m-card-profile__title m--hide">
-												Trang cá nhân
+												Your Profile
 											</div>
 											<div class="m-card-profile__pic">
 												<div class="m-card-profile__pic-wrapper">
 													<img src="../upload/{{Auth::user()->avatar}}" alt="" />
 												</div>
-											
 											</div>
 											<div class="m-card-profile__details">
-												<span class="m-card-profile__name">@auth {{Auth::user()->name }} @endauth</span>
-												<a href="" class="m-card-profile__email m-link">@auth {{Auth::user()->email }} @endauth</a>
+												<span class="m-card-profile__name">{{Auth::user()->name }}</span>
+												<a href="" class="m-card-profile__email m-link">{{Auth::user()->email}}</a>
 											</div>
 										</div>
 										<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
@@ -27,16 +26,17 @@
 												<span class="m-nav__section-text">Section</span>
 											</li>
 											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
+												<a href="{{ route('profile') }}" class="m-nav__link">
 													<i class="m-nav__link-icon flaticon-profile-1"></i>
 													<span class="m-nav__link-title">
 														<span class="m-nav__link-wrap">
-															<span class="m-nav__link-text">Tài Khoản</span>
+															<span class="m-nav__link-text">Trang cá nhân</span>
 															<span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
 														</span>
 													</span>
 												</a>
 											</li>
+										
 										
 											<li class="m-nav__item">
 												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
@@ -46,7 +46,7 @@
 											</li>
 										</ul>
 										<div class="m-portlet__body-separator"></div>
-										
+									
 									</div>
 								</div>
 							</div>
@@ -61,8 +61,13 @@
 														Cập nhật tài khoản
 													</a>
 												</li>
-											
-											
+<!-- 										
+												<li class="nav-item m-tabs__item">
+													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
+														Messages
+													</a>
+												</li> -->
+												
 											</ul>
 										</div>
 										<div class="m-portlet__head-tools">
@@ -82,13 +87,12 @@
 																				<span class="m-nav__section-text">Quick Actions</span>
 																			</li>
 																			<li class="m-nav__item">
-																				<a href="{{route('doi-mat-khau')}}" class="m-nav__link">
+																				<a href="" class="m-nav__link">
 																					<i class="m-nav__link-icon flaticon-share"></i>
-																					<span class="m-nav__link-text">Đổi Mật khẩu</span>
+																					<span class="m-nav__link-text">Đổi mật khẩu</span>
 																				</a>
 																			</li>
-																			
-																			
+																		
 																			<li class="m-nav__section">
 																				<span class="m-nav__section-text">Useful Links</span>
 																			</li>
@@ -101,7 +105,7 @@
 																			<li class="m-nav__item">
 																				<a href="" class="m-nav__link">
 																					<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-																					<span class="m-nav__link-text">Trợ giúp</span>
+																					<span class="m-nav__link-text">Support</span>
 																				</a>
 																			</li>
 																			<li class="m-nav__separator m-nav__separator--fit m--hide">
@@ -119,74 +123,87 @@
 											</ul>
 										</div>
 									</div>
-									<div class="tab-content">
-										<div class="tab-pane active" id="m_user_profile_tab_1">
-											<form class="m-form m-form--fit m-form--label-align-right" method="POST" action="{{route('updateProfile') }}"  enctype="multipart/form-data" >
+
+											<div class="tab-pane " id="m_user_profile_tab_2">
+											<form class="m-form m-form--fit m-form--label-align-right" method="post" 
+												action="{{route('update-mat-khau')}}">
 												@csrf
-												<div class="m-portlet__body">
-													<div class="form-group m-form__group m--margin-top-10 m--hide">
-														<div class="alert m-alert m-alert--default" role="alert">
+													<div class="m-portlet__body">
+														<div class="form-group m-form__group m--margin-top-10 m--hide">
+															<div class="alert m-alert m-alert--default" role="alert">
+																
+															</div>
+														</div>
+
+											@if (session('error'))
+												<div class="alert alert-danger"  role="alert">
+													{{session('error')}}
+												</div>
+											@endif
+
+											@if(session()->get('message'))
+											<script >
+															swal({
+																title: "Mật khẩu đã được thay đổi!",
+																text: "Vui lòng đăng nhập lại để tiếp tục!",
+																type: "success",
+																button: "OK!" ,
+																icon: "success",
+																reverseButtons: !0
+															});
+														
+												</script>
+											@endif
+																<div class="form-group m-form__group row">
+															<div class="col-10 ml-auto">
+																<h3 class="m-form__section">Đổi mật khẩu</h3>
+															</div>
+														</div>
+														@auth 
+														<div class="form-group m-form__group row">
+															<label for="example-text-input" class="col-2 col-form-label">Mật khẩu cũ</label>
+															<div class="col-7">
+																<input class="form-control m-input" type="password" name="current_password"  value="">
+															</div>
+														</div>
+														<div class="form-group m-form__group row">
+															
+															<label for="example-text-input" class="col-2 col-form-label" >Mật khẩu mới</label>
+															<div class="col-7">
+															@error('new_password')
+																<small style="color:red">{{$message}}</small>
+																@enderror
+																<input class="form-control m-input " type="password" name="new_password" value="">
+															</div>
 															
 														</div>
-														@auth
-													</div>
-													<?php 
-															$message = Session::get('message');
-															if ($message) {
-																echo '<div class="alert alert-success">'. $message .'</div>';
-																Session::put('message', null);
-															}
-														?>
-													<div class="form-group m-form__group row">
-														<div class="col-10 ml-auto">
-															<h3 class="m-form__section">Thông tin cá nhân</h3>
-														</div>
-													</div>
-													<div class="form-group m-form__group row">
-														<label for="example-text-input"  class="col-2 col-form-label">Họ tên</label>
-														<div class="col-7">
-															<input class="form-control m-input" type="text" name="name"   value="{{Auth::user()->name }}">
-														</div>
-													</div>
-													<div class="form-group m-form__group row" >
-														<label for="example-text-input" class="col-2 col-form-label" name="email">Email</label>
-														<div class="col-7">
-														@error('email')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-															<input class="form-control m-input " type="text" name="email"  value="{{Auth::user()->email }}">
-														</div>
-													</div>
-													<div class="form-group m-form__group row" >
-														<label for="example-text-input" class="col-2 col-form-label" name="anh">Ảnh đại diện</label>
-														<div class="col-7">
-														@error('anh')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-															<input class="form-control m-input " type="file" name="anh"  value="{{Auth::user()->avatar }}">
-															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%">
-														</div>
-													</div>
-													
-
-												</div>
-												<div class="m-portlet__foot m-portlet__foot--fit">
-													<div class="m-form__actions">
-														<div class="row">
-															<div class="col-2">
-															</div>
+														<div class="form-group m-form__group row">
+															<label for="example-text-input" class="col-2 col-form-label" >Nhập lại mật khẩu mới</label>
 															<div class="col-7">
-																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
-																<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Hủy</button>
+															@error('password_confirmation')
+																<small style="color:red">{{$message}}</small>
+																@enderror
+																<input class="form-control m-input " type="password" name="password_confirmation" value="">
+															</div>
+															
+														</div>
+														
+													</div>
+													<div class="m-portlet__foot m-portlet__foot--fit">
+														<div class="m-form__actions">
+															<div class="row">
+																<div class="col-2">
+																</div>
+																<div class="col-7">
+																	<button type="submit" id="btnresult" onclick="changePassword()"  class="btn btn-accent m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
+																	<button  class="btn btn-secondary m-btn m-btn--air m-btn--custom">Cancel</button>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-												@endauth
-											</form>
-										</div>
-										<div class="tab-pane " id="m_user_profile_tab_2">
-										</div>
+													@endauth 
+												</form>
+											</div>
 										<div class="tab-pane " id="m_user_profile_tab_3">
 										</div>
 									</div>
@@ -196,4 +213,5 @@
 					</div>
 				</div>
 			</div>
+
 @endsection

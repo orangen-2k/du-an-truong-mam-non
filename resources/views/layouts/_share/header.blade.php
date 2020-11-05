@@ -106,7 +106,7 @@
                                     <span class="m-topbar__userpic">
 
                                         <!-- <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/avatar-default.png') }}" class="m--img-rounded m--marginless" alt="" /> -->
-                                        <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . Auth::user()->name . '&background=random' }}" class="m--img-rounded m--marginless" alt="" />
+                                        <img src="{{ Auth::user()->avatar ? asset('upload/' . Auth::user()->avatar) : 'https://ui-avatars.com/api/?name=' . Auth::user()->name . '&background=random' }}" class="m--img-rounded m--marginless" alt="" />
                                     </span>
                                     <span class="m-topbar__username m--hide">Nick</span>
                                 </a>
@@ -140,7 +140,7 @@
                                                             <i class="m-nav__link-icon flaticon-profile-1"></i>
                                                             <span class="m-nav__link-title">
                                                                 <span class="m-nav__link-wrap">
-                                                                    <span class="m-nav__link-text">My Profile</span>
+                                                                    <span class="m-nav__link-text">Trang cá nhân</span>
                                                                     <span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
                                                                 </span>
                                                             </span>
@@ -149,15 +149,10 @@
                                                     <li class="m-nav__item">
                                                         <a href="header/profile.html" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-share"></i>
-                                                            <span class="m-nav__link-text">Activity</span>
+                                                            <span class="m-nav__link-text">Hoạt động</span>
                                                         </a>
                                                     </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="header/profile.html" class="m-nav__link">
-                                                            <i class="m-nav__link-icon flaticon-chat-1"></i>
-                                                            <span class="m-nav__link-text">Messages</span>
-                                                        </a>
-                                                    </li>
+                                                   
                                                     <li class="m-nav__separator m-nav__separator--fit">
                                                     </li>
                                                     <li class="m-nav__item">
@@ -170,6 +165,12 @@
                                                         <a href="header/profile.html" class="m-nav__link">
                                                             <i class="m-nav__link-icon flaticon-lifebuoy"></i>
                                                             <span class="m-nav__link-text">Support</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-nav__item">
+                                                        <a href="{{route('doi-mat-khau')}}" class="m-nav__link">
+                                                            <i class="m-nav__link-icon  flaticon-lock"></i>
+                                                            <span class="m-nav__link-text">Đổi mật khẩu</span>
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__separator m-nav__separator--fit">

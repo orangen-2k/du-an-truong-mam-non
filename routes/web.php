@@ -21,6 +21,19 @@ Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logout','Auth\AuthController@getLogout')->name('get.logout');
 
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::get('/trang-ca-nhan', 'AccountController@editProfile')->name('profile');
+    Route::post('/chinh-sua-trang-ca-nhan', 'AccountController@updateProfile')->name('updateProfile');
+    Route::get('/trang-ca-nhan/doi-mat-khau','AccountController@changePasswordForm')->name('doi-mat-khau');
+    Route::post('/trang-ca-nhan/update-mat-khau','AccountController@changePassword')->name('update-mat-khau');
+
+    //Sua tk
+    Route::get('/account/edit-admin/{id}','AccountController@getEditAdmin')->name('edit-admin');
+    Route::post('/account/update-admin/{id}','AccountController@editAdmin')->name('update-admin');
+    Route::get('/account/edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
+    Route::post('/account/update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
+
+});
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
 Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
 Route::get('/quang_sac_sua', 'DangKiNhapHocController@basic_email');
@@ -146,9 +159,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 });
 
 Route::prefix('quan-ly-diem-danh-den')->group(function () {
-    Route::get('/{id}', 'QuanlyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
-    Route::post('/lay-theo-lop', 'QuanlyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
-    Route::post('/thong-ke-diem-danh', 'QuanlyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
+    Route::get('/{id}', 'QuanLyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
+    Route::post('/lay-theo-lop', 'QuanLyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
+    Route::post('/thong-ke-diem-danh', 'QuanLyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
 });
 
 Route::prefix('quan-ly-feed-back')->group(function () {
@@ -157,4 +170,11 @@ Route::prefix('quan-ly-feed-back')->group(function () {
     Route::post('/thay-doi-trang-thai-feedback', 'ThongKeFeedBackController@ThayDoiTrangThaiFeedBack')->name('quan-ly-feed-back-thay-doi-trang-thai');
     Route::post('/da-xem-tat-ca', 'ThongKeFeedBackController@FeedBackChuaXemCuaLop')->name('quan-ly-feed-back-da-xem-tat-ca');
     Route::post('/get-giao-vien-feed-back', 'ThongKeFeedBackController@GetGiaoVienFeedBack')->name('quan-ly-feed-back-get-giao-vien');
+});
+
+Route::prefix('quan-ly-suc-khoe')->group(function(){
+    Route::get('/{id}', 'QuanlySucKhoeController@index')->name('quan-ly-suc-khoe-index');
+    Route::post('/show-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showQuanLySucKhoe')->name('quan-ly-suc-khoe-show-sk-hs');
+    Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
+    Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
 });

@@ -85,6 +85,16 @@
 									</ul>
 								</div>
 							</li>
+							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;" class="m-menu__link m-menu__toggle"><i class="m-menu__link-icon flaticon-interface-6"></i><span class="m-menu__link-text">Quản lý sức khỏe</span><i
+								class="m-menu__ver-arrow la la-angle-right"></i></a>
+						   		<div class="m-menu__submenu "><span class="m-menu__arrow"></span>
+							   		<ul class="m-menu__subnav">
+								   		<li class="m-menu__item  m-menu__item--parent" aria-haspopup="true"><span class="m-menu__link"><span class="m-menu__link-text">item</span></span></li>
+									   <li class="m-menu__item " aria-haspopup="true"><a href="{{route('quan-ly-suc-khoe-index', ['id' => 0])}}" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Sức khỏe</span></a></li>
+							   
+							   		</ul>
+						   		</div>
+					   		</li>
 							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover"><a href="javascript:;" class="m-menu__link m-menu__toggle"><i class="m-menu__link-icon flaticon-interface-6"></i><span class="m-menu__link-text">Quản lý giáo trình</span><i
 									 class="m-menu__ver-arrow la la-angle-right"></i></a>
 								<div class="m-menu__submenu "><span class="m-menu__arrow"></span>
