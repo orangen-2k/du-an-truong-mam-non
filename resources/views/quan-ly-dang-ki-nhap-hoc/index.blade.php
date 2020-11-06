@@ -2,10 +2,11 @@
 @section('title', "Quản lý đang kí nhập học")
 @section('content')
 <div class="m-content">
-    <div class="row">
-        <div class="col-xl-12">
+    <div class="m-portlet">
+        <div class="row">
+        <div class="col-12">
             <!--begin::Portlet-->
-            <div class="m-portlet m-portlet--tab">
+            
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
@@ -61,12 +62,14 @@
                     <!--end::Section-->
                 </form>
 
-                </div>
+                
             </div>
 
             <!--end::Portlet-->
         </div>
     </div>
+    </div>
+    
     <div class="m-portlet">
         <div class="m-portlet__body table-responsive">
 
