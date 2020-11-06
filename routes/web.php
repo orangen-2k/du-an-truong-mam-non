@@ -165,3 +165,10 @@ Route::prefix('quan-ly-feed-back')->group(function () {
     Route::post('/da-xem-tat-ca', 'ThongKeFeedBackController@FeedBackChuaXemCuaLop')->name('quan-ly-feed-back-da-xem-tat-ca');
     Route::post('/get-giao-vien-feed-back', 'ThongKeFeedBackController@GetGiaoVienFeedBack')->name('quan-ly-feed-back-get-giao-vien');
 });
+
+Route::prefix('quan-ly-suc-khoe')->group(function(){
+    Route::get('/{id}', 'QuanlySucKhoeController@index')->name('quan-ly-suc-khoe-index');
+    Route::post('/show-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showQuanLySucKhoe')->name('quan-ly-suc-khoe-show-sk-hs');
+    Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
+    Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
+});
