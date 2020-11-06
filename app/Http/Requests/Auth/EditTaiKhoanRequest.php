@@ -26,7 +26,7 @@ class EditTaiKhoanRequest extends FormRequest
         return [      
             'name'=>'required',
             'email' => 'required|email|unique:users,id,email',
-            'anh'=>'required|mimes:jpeg,jpg,png,gif|max:10000',
+            'avatar'=>'required|mimes:jpeg,jpg,png,gif|max:10000',
     ];
     }
 
@@ -38,9 +38,9 @@ class EditTaiKhoanRequest extends FormRequest
             'email.required' => 'Vui lòng điền Email!',
             'email.email' => 'Email không hợp lệ!',
             'email.unique' => 'Email đã được đăng ký!',
-            'anh.required'=>'Bạn chưa chọn ảnh!',
-            'anh.mimes'=>'Nhập sai định dạng ảnh!',
-            'anh.max'=>'Kích thước ảnh tối đa 10000kb',
+            'avatar.required'=>'Bạn chưa chọn ảnh!',
+            'avatar.mimes'=>'Nhập sai định dạng ảnh!',
+            'avatar.max'=>'Kích thước ảnh tối đa 10000kb',
         ];
     }
 
