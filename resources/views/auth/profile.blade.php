@@ -163,11 +163,11 @@
 														@error('avatar')
 															<small style="color:red">{{$message}}</small>
 															@enderror
-															<input class="form-control m-input " type="file" name="avatar" id="avatar"  accept="image/png, image/jpeg,image/jpg,image/jpeg,image/gif" value="{{Auth::user()->avatar }}">
+															<input value="{{Auth::user()->avatar }}" class="form-control m-input " type="file" name="avatar" id="avatar"  accept="image/png, image/jpeg,image/jpg,image/jpeg,image/gif" >
 															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%">
 														</div>
 													</div>
-													
+												
 
 												</div>
 												<div class="m-portlet__foot m-portlet__foot--fit">

@@ -26,7 +26,7 @@ class EditTaiKhoanRequest extends FormRequest
         return [      
             'name'=>'required',
             'email' => 'required|email|unique:users,id,email',
-            'avatar'=>'required|mimes:jpeg,jpg,png,gif|max:10000',
+            'avatar'=>'mimes:jpeg,jpg,png,gif|max:10000',
     ];
     }
 

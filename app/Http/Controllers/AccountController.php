@@ -170,33 +170,33 @@ class AccountController extends Controller
          $user = Auth::user();
          $user->name   = $request->name;
          $user->email   = $request->email;        
-      //   $get_image = $request->file('anh');
+         $get_image = $request->file('avatar');
          
          $file = $request->file('avatar');
         //$file_allow_upload = config('app.file_allow_upload');
        
-        $file_info = new \stdClass();
-        $file_info->name = $file->getClientOriginalName();
-        $file_info->extension = $file->getClientOriginalExtension();
-        $file_info->path = $file->getRealPath();
-        $file_info->size = $file->getSize();
-        $file_info->mime = $file->getMimeType();
+        // $file_info = new \stdClass();
+        // $file_info->name = $file->getClientOriginalName();
+        // $file_info->extension = $file->getClientOriginalExtension();
+        // $file_info->path = $file->getRealPath();
+        // $file_info->size = $file->getSize();
+        // $file_info->mime = $file->getMimeType();
 
-        $destinationPath = 'update';
-        $file->move($destinationPath,$file->getClientOriginalName());
-        $file_info->link_img = ''.$file->getClientOriginalName();
-        $user['avatar']=$file_info->link_img;
-        var_dump($request->file('avatar'));
+        // $destinationPath = 'update';
+        // $file->move($destinationPath,$file->getClientOriginalName());
+        // $file_info->link_img = ''.$file->getClientOriginalName();
+        // $user['avatar']=$file_info->link_img;
+        // var_dump($request->file('avatar'));
 
-        //  if ($get_image) {
-        //      $get_name_image = $get_image->getClientOriginalName();
-        //      $name_image = current(explode('.',$get_name_image));
-        //      $new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-        //      $get_image->move('upload',$new_image);
-        //      $user->avatar = $new_image;
-        //  }else{
-        //      $user->avatar = '';
-        //  }
+         if ($get_image) {
+             $get_name_image = $get_image->getClientOriginalName();
+             $name_image = current(explode('.',$get_name_image));
+             $new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
+             $get_image->move('upload',$new_image);
+             $user->avatar = $new_image;
+         }else{
+             $user->avatar = '';
+         }
          
          $user->update();
          return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
