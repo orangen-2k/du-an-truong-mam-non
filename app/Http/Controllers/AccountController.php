@@ -71,7 +71,10 @@ class AccountController extends Controller
 
         $data = $this->AccountRepository->getAllSchool($params);
         $data->appends($request->all())->links();
-        return view($rederView, compact('data', 'params', 'route_name'));
+
+        $all_account = $this->AccountRepository->getAccountHocSinh();
+
+        return view($rederView, compact('data', 'params', 'route_name','all_account'));
     }
 
     public function editStatus(Request $request)
@@ -309,4 +312,22 @@ class AccountController extends Controller
           return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
   }
 
+  public function gopTaiKhoan(Request $request){
+    $array_id_tk = $request->array_account;
+    $id_chinh = $request->id_tk_chinh;
+    $arr = [];
+    $arr2 = [];
+    foreach($array_id_tk as $val){
+        if($val !== $id_chinh){
+            array_push($arr,$val);
+            $hs_tk_gop =  $this->HocSinh->getHocSinhByIdTk($val);
+            foreach($hs_tk_gop as $hs){
+            array_push($arr2,$hs->id);
+               $this->HocSinh->updateHocSinh($hs->id,['user_id' => $id_chinh]);
+            }
+              $this->AccountRepository->update($val,['active' => 0]);
+        }
+    }
+    return 'ok';
+}
 }
