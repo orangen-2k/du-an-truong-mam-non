@@ -158,16 +158,16 @@
 														</div>
 													</div>
 													<div class="form-group m-form__group row" >
-														<label for="example-text-input" class="col-2 col-form-label" name="anh">Ảnh đại diện</label>
+														<label for="example-text-input" class="col-2 col-form-label" name="avatar">Ảnh đại diện</label>
 														<div class="col-7">
-														@error('anh')
+														@error('avatar')
 															<small style="color:red">{{$message}}</small>
 															@enderror
-															<input class="form-control m-input " type="file" name="anh"  value="{{Auth::user()->avatar }}">
+															<input value="{{Auth::user()->avatar }}" class="form-control m-input " type="file" name="avatar" id="avatar"  accept="image/png, image/jpeg,image/jpg,image/jpeg,image/gif" >
 															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%">
 														</div>
 													</div>
-													
+												
 
 												</div>
 												<div class="m-portlet__foot m-portlet__foot--fit">
