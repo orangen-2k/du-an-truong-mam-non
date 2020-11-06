@@ -284,35 +284,29 @@
       </div>
     </div>
       <div class="col-md-9 table-responsive scoll-table">
-        <div class="m-portlet">
-        <div class="m-portlet__body row">
-          <div class="col-md-12">
-            <div class="row">
-              <div class="col-md-8 ">
-                <input type="number" id="lop_id_hien_tai" hidden class="ml-3">
-              <select class="form-control m-input select2" name="option" id="dot-kham-suc-khoe">
-                @foreach($getAllDotKhamSucKhoe as $item)
-                <option value={{$item->id}} disabled
-                {{($item->id == $dot_id_gan_nhat) ? 'selected' : ''}}
-                  >{{$item->ten_dot}} - {{date("d/m/Y", strtotime($item->thoi_gian))}}</option>
-                @endforeach
-                @if(count($getAllDotKhamSucKhoe) == 0)
-                  <option value="0" disabled selected>Không có dữ liệu</option>
-                @endif
-              </select>
-            </div>
-            <div class="col-md-4">
-              <button type="submit" class="btn btn-outline-brand" data-toggle="modal"
-              data-target="#modal-them-dot-kham-suc-khoe">Thêm đợt khám sức khỏe mới</button>
-            </div>
-            </div>
-            
-          </div>
+        <div class="row mb-3">
+          <div class="col-md-8 ">
+            <input type="number" id="lop_id_hien_tai" hidden class="ml-3">
+          <select class="form-control m-input select2" name="option" id="dot-kham-suc-khoe">
+            @foreach($getAllDotKhamSucKhoe as $item)
+            <option value={{$item->id}} disabled
+            {{($item->id == $dot_id_gan_nhat) ? 'selected' : ''}}
+              >{{$item->ten_dot}} - {{date("d/m/Y", strtotime($item->thoi_gian))}}</option>
+            @endforeach
+            @if(count($getAllDotKhamSucKhoe) == 0)
+              <option value="0" disabled selected>Không có dữ liệu</option>
+            @endif
+          </select>
         </div>
-      </div>
-        <div class="m-portlet chuc-nang-lop">
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-outline-brand" data-toggle="modal"
+          data-target="#modal-them-dot-kham-suc-khoe">Thêm đợt khám sức khỏe mới</button>
+        </div>
+        </div>  
+        
+        
           
-          <table id="table-hoc-sinh" class="table table-striped table-bordered m-table thong-tin-hoc-sinh-cua-lop">
+          <table id="table-hoc-sinh" class="table table-striped table-bordered m-table thong-tin-hoc-sinh-cua-lop   ">
             <thead>
               <tr align="center">
                 
@@ -333,8 +327,8 @@
                 <td scope="row"><input class="form-control search m-input search-mahs" type="text"></td>
                 <td scope="row"><input class="form-control search m-input search-ten" type="text"></td>
                 <td scope="row"><input class="form-control search m-input search-ngaysinh" type="text"></td>
-                <td scope="row">
-                  <select class="form-control search m-input search-gioitinh m-input--square" id="exampleSelect1">
+                <td scope="row" style="width:100px">
+                  <select  class="form-control search m-input search-gioitinh m-input--square" id="exampleSelect1">
                     <option value="">Chọn</option>
                     <option>Nam</option>
                     <option>Nữ</option>
@@ -349,7 +343,7 @@
             <tbody id="show-data-hoc-sinh" align="center">
             </tbody>
           </table>
-        </div>
+        
 
       </div>
     </div>
@@ -472,7 +466,7 @@
               <td>${element.gioi_tinh}</td>
               <td>${element.chieu_cao}</td>
               <td>${element.can_nang}</td>
-              <td><button type="button" onclick="ShowChiTietSucKhoe(${element.hoc_sinh_id})" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#ShowChiTietSucKhoe">Chi tiết</button></td>  
+              <td><i style="cursor: pointer" class="la la-eye" onclick="ShowChiTietSucKhoe(${element.hoc_sinh_id})" data-toggle="modal" data-target="#ShowChiTietSucKhoe"></i></td>  
             </tr>
             `
           })
