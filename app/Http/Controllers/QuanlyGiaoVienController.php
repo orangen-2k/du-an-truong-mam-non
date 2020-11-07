@@ -13,6 +13,7 @@ use App\Repositories\XaPhuongThiTranRepository;
 use App\Http\Requests\ValidateCreateQuanLiGV;
 use App\Repositories\AccountRepository;
 use Storage;
+use App\Http\Requests\GiaoVien\StoreGiaoVien;
 
 class QuanlyGiaoVienController extends Controller
 {
@@ -73,14 +74,14 @@ class QuanlyGiaoVienController extends Controller
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         return view('quan-ly-giao-vien.create', compact('khoi', 'lop', 'thanhpho'));
     }
-    public function store(ValidateCreateQuanLiGV $request)
-    {   $request['role'] = 2;
+    public function store(StoreGiaoVien $request)
+    {   
+        $request['role'] = 2;
         $request['name'] = $request['ten'];
         $user = $this->AccountRepository->storeAcount($request->all());
         $anh = $request->file("anh");
         $dataRequest = $request->all();
         $dataRequest['user_id'] = $user->id;
-        unset($dataRequest['email']);
         unset($dataRequest['role']);
         unset($dataRequest['name']);
         if ($anh) {
