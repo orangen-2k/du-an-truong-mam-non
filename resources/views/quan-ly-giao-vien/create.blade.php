@@ -43,7 +43,7 @@
                                             <select class="form-control select2" name="khoi" id="khoi">
                                                 <option value="" selected>Chọn</option>
                                                 @foreach ($khoi as $item)
-                                                <option value={{$item->id}}>{{$item->ten_khoi}}</option>
+                                                <option value={{$item->id}} {{ old('khoi') == $item->id ? 'selected' : ''}}>{{$item->ten_khoi}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -100,7 +100,7 @@
                                                             class="text-danger">*</span> Họ và tên: </label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="ten" class="form-control m-input name-field"
-                                                            placeholder="Điền họ và tên">
+                                                            placeholder="Điền họ và tên" value="{{ old('ten') }}">
                                                             @error('ten')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
@@ -111,7 +111,7 @@
                                                             class="text-danger">*</span> Email: </label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="email" class="form-control m-input name-field"
-                                                            placeholder="Email">
+                                                         placeholder="Email" value="{{ old('email') }}">
                                                             @error('email')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
@@ -122,7 +122,7 @@
                                                             class="text-danger">*</span>Ngày sinh:</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="date" name="ngay_sinh" class="form-control m-input name-field"
-                                                            placeholder="Điền ngày sinh">
+                                                            placeholder="Điền ngày sinh"  value="{{ old('ngay_sinh') }}">
                                                             @error('ngay_sinh')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
@@ -133,14 +133,12 @@
                                                             class="text-danger">*</span>Giới tính</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <div class="m-radio-inline">
+                                                            @foreach (config('common.gioi_tinh') as $key => $value)
                                                             <label class="m-radio">
-                                                                <input type="radio" name="gioi_tinh" value="1"> Nam
-                                                                <span></span>
-                                                            </label>
-                                                            <label class="m-radio">
-                                                                <input type="radio" name="gioi_tinh" value="2" checked> Nữ
-                                                                <span></span>
-                                                            </label>
+                                                                <input type="radio" @if(old('gioi_tinh') == $key) checked @endif name="gioi_tinh" value="{{ $key }}"> {{ $value }}
+                                                                    <span></span>
+                                                                </label>
+                                                            @endforeach
                                                         </div>
 
                                                     </div>
@@ -149,8 +147,12 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Dân tộc</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="dan_toc" class="form-control m-input name-field"
-                                                            placeholder="Điền dân tộc">
+                                                   
+                                                            <select name="dan_toc" class="form-control m-input name-field select2" placeholder="Điền dân tộc">
+                                                                @foreach (config('common.dan_toc') as $key => $value)
+                                                                    <option value="{{ $key }}" {{ old('dan_toc') == $key ? 'selected' : ''}}>{{ $value }}</option>
+                                                                @endforeach
+                                                            </select>
                                                             @error('dan_toc')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
@@ -164,7 +166,7 @@
                                                             <div class="input-group-prepend"><span
                                                                     class="input-group-text"><i
                                                                         class="la la-phone"></i></span></div>
-                                                            <input type="text" name="dien_thoai"
+                                                            <input type="text" name="dien_thoai" value="{{ old('dien_thoai') }}"
                                                                 class="form-control m-input name-field"
                                                                 placeholder="Điền số điện thoại">
                                                             
@@ -380,7 +382,7 @@
                                                             class="text-danger">*</span>Trình độ</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="trinh_do" class="form-control m-input name-field"
-                                                            placeholder="Điền trình độ">
+                                                            placeholder="Điền trình độ" value="{{ old('trinh_do') }}">
                                                             @error('trinh_do')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
@@ -391,7 +393,7 @@
                                                             class="text-danger">*</span>Chuyên môn</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="chuyen_mon" class="form-control m-input name-field"
-                                                            placeholder="Điền chuyên môn">
+                                                            placeholder="Điền chuyên môn" value="{{ old('chuyen_mon') }}">
                                                             @error('chuyen_mon')
                                                             <div class="alert alert-danger">{{ $message }}</div>
                                                             @enderror
@@ -406,7 +408,7 @@
                                                             class="text-danger">*</span>Nơi đào tạo</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="text" name="noi_dao_tao" class="form-control m-input name-field"
-                                                            placeholder="Điền nơi đào tạo">
+                                                            placeholder="Điền nơi đào tạo" value="{{ old('noi_dao_tao') }}">
                                                         @error('noi_dao_tao')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
@@ -417,7 +419,7 @@
                                                             class="text-danger">*</span>Năm tốt nghiệp </label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <input type="number" name="nam_tot_nghiep" class="form-control m-input name-field"
-                                                            placeholder="Điền năm tốt nghiệp">
+                                                    placeholder="Điền năm tốt nghiệp" value="{{ old('nam_tot_nghiep') }}">
                                                         @error('nam_tot_nghiep')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror

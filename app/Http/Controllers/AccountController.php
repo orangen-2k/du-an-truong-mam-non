@@ -6,7 +6,6 @@ use App\Repositories\AccountRepository;
 use App\User;
 use Auth;
 use Hash;
-use App\Models\Account;
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\TaiKhoan\AccountAdminRequest;
@@ -20,21 +19,16 @@ use App\Repositories\GiaoVienRepository;
 use App\Repositories\QuanHuyenRepository;
 use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\XaPhuongThiTranRepository; 
+use App\Http\Requests\Account\RegisterSchoolRequest;
 
 class AccountController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     protected $AccountRepository;
     protected $GiaoVienRepository;
     protected $TinhThanhPhoRepository;
     protected $QuanHuyenRepository;
     protected $XaPhuongThiTranRepository;
   
-
     public function __construct(
         AccountRepository $AccountRepository,
         GiaoVienRepository $GiaoVienRepository,
@@ -85,84 +79,25 @@ class AccountController extends Controller
         return response()->json($user, Response::HTTP_OK);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('quan-ly-tai-khoan/create');
-
-    }
-
     public function createTeacher()
     {
         return view('quan-ly-tai-khoan/create-teacher');
 
     }
 
-    public function createStudent()
+    public function createSchool()
     {
-        return 'đây là view tạo tk hs';
+        return view('quan-ly-tai-khoan/create-school');
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function storeSchool(RegisterSchoolRequest $request)
     {
-        //
+        $request['role'] = 1;
+        $data = $this->AccountRepository->storeAcount($request->all());
+        return redirect()->back()->with('mess','Đăng ký tài khoản thành công !');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id 
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-      
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
     public function editProfile()
     {
          return view('auth.profile');
@@ -312,22 +247,22 @@ class AccountController extends Controller
           return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
   }
 
-  public function gopTaiKhoan(Request $request){
-    $array_id_tk = $request->array_account;
-    $id_chinh = $request->id_tk_chinh;
-    $arr = [];
-    $arr2 = [];
-    foreach($array_id_tk as $val){
-        if($val !== $id_chinh){
-            array_push($arr,$val);
-            $hs_tk_gop =  $this->HocSinh->getHocSinhByIdTk($val);
-            foreach($hs_tk_gop as $hs){
-            array_push($arr2,$hs->id);
-               $this->HocSinh->updateHocSinh($hs->id,['user_id' => $id_chinh]);
+    public function gopTaiKhoan(Request $request){
+        $array_id_tk = $request->array_account;
+        $id_chinh = $request->id_tk_chinh;
+        $arr = [];
+        $arr2 = [];
+        foreach($array_id_tk as $val){
+            if($val !== $id_chinh){
+                array_push($arr,$val);
+                $hs_tk_gop =  $this->HocSinh->getHocSinhByIdTk($val);
+                foreach($hs_tk_gop as $hs){
+                array_push($arr2,$hs->id);
+                $this->HocSinh->updateHocSinh($hs->id,['user_id' => $id_chinh]);
+                }
+                $this->AccountRepository->update($val,['active' => 0]);
             }
-              $this->AccountRepository->update($val,['active' => 0]);
         }
+        return 'ok';
     }
-    return 'ok';
-}
 }

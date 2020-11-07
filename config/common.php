@@ -72,7 +72,8 @@ return [
         'Pu Péo',
         'Brâu',
         'Rơ Măm',
-        'Ơ Đu'
+        'Ơ Đu',
+        'Khác'
     ] 
 ]
 ?>
