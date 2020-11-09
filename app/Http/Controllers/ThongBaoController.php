@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\jobThongBaoToiGiaoVien;
 use App\Models\NoiDungThongBao;
 use App\Repositories\GiaoVienRepository;
 use App\Repositories\NamHocRepository;
@@ -150,6 +151,32 @@ class ThongBaoController extends Controller
         return response()->json([
             'data' => $data,
             'code' => 200,
+        ], 200);
+    }
+
+    public function postGiaoVien(Request $request)
+    {
+        $users_id = $request->user_id;
+        $dataCreate = [
+            'title'     => $request->title,
+            'content'   => $request->content,
+            'auth_id'   => Auth::id(),
+            'type'      => $request->type
+        ];
+        $thongbao_id = NoiDungThongBao::create($dataCreate)->id;
+
+        $link = [
+            'route_name' => 'thong-bao.show',
+            'params'     => ['id' => $thongbao_id],
+        ];
+        $route = json_encode($link);
+        $dataCreate['route'] = $route;
+        $dataCreate['thongbao_id'] = $thongbao_id;
+        jobThongBaoToiGiaoVien::dispatch($users_id, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository);
+
+        return response()->json([
+            'status'    => 'Gửi thông báo thành công',
+            'code'      => 200,
         ], 200);
     }
 }
