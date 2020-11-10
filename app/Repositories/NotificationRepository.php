@@ -20,18 +20,19 @@ class NotificationRepository extends BaseModelRepository
         return Notification::class;
     }
 
-    public function createNotifications($title = '', $content = '', $route = '', $user_id = '', $auth_id = '')
+    public function createNotifications($title = '', $content = '', $route = '', $user_id = '', $role = 1, $auth_id = '')
     {
         $data = Notification::create([
-            'title' => $title,
-            'content' => $content,
-            'route' => $route,
-            'user_id' => $user_id,
-            'auth_id' => $auth_id,
-            'type' => 1,
-            'bell' => 1,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'title'         => $title,
+            'content'       => $content,
+            'route'         => $route,
+            'user_id'       => $user_id,
+            'role'          => $role,
+            'auth_id'       => $auth_id,
+            'type'          => 1,
+            'bell'          => 1,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now()
         ]);
         return $data;
     }

@@ -20,7 +20,7 @@
                                 </button> 
                             </h3>
                                    
-                            <h2 class="m-portlet__head-label m-portlet__head-label--accent">
+                            <h2 class="m-portlet__head-label m-portlet__head-label--accent" style="cursor: pointer" onclick="toBack()">
                                 <span class="m-portlet__head-icon text-warning">
                                     <i class="flaticon-bell"></i>
                                 </span>
@@ -186,7 +186,7 @@
         } else {
             Swal.showLoading()
             $.post(
-            "{{ route('sendto') }}",
+            "{{ route('sendto_giaovien') }}",
             {
                 _token: "{{ csrf_token() }}",
                 title: $("[name='title']").val(),
@@ -207,6 +207,9 @@
             }
             );
         }
+    }
+    function toBack(){
+        window.location.href = route('thong-bao.index');
     }
 </script>
 @endsection

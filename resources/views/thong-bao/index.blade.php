@@ -82,7 +82,7 @@
                                     <div class="m-widget3__item">
                                         <div class="m-widget3__header">
                                             <div class="m-widget3__user-img">
-                                                <img class="m-widget3__img" src="../../assets/app/media/img/users/user1.jpg" alt="">
+                                                <img class="m-widget3__img" src="{{ $item->Auth->avatar ? asset('upload/' . $item->Auth->avatar) : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
                                             </div>
                                             <div class="m-widget3__info">
                                                 <span class="m-widget3__username">
@@ -135,14 +135,11 @@
                                         <div class="m-widget3__item">
                                             <div class="m-widget3__header">
                                                 <div class="m-widget3__user-img">
-                                                    <img class="m-widget3__img" src="../../assets/app/media/img/users/user1.jpg" alt="">
+                                                    <img class="m-widget3__img" src="{{ $item->Auth->avatar ? asset('upload/' . $item->Auth->avatar) : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
                                                 </div>
                                                 <div class="m-widget3__info">
                                                     <span class="m-widget3__username">
                                                         {{ $item->Auth->name}}
-                                                    </span><br>
-                                                    <span class="m-widget3__time">
-                                                        2 day ago
                                                     </span>
                                                 </div>
                                                 <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
@@ -186,14 +183,11 @@
                                     <div class="m-widget3__item">
                                         <div class="m-widget3__header">
                                             <div class="m-widget3__user-img">
-                                                <img class="m-widget3__img" src="../../assets/app/media/img/users/user1.jpg" alt="">
+                                                <img class="m-widget3__img" src="{{ $item->Auth->avatar ? asset('upload/' . $item->Auth->avatar) : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
                                             </div>
                                             <div class="m-widget3__info">
                                                 <span class="m-widget3__username">
                                                     {{ $item->Auth->name}}
-                                                </span><br>
-                                                <span class="m-widget3__time">
-                                                    2 day ago
                                                 </span>
                                             </div>
                                             <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
