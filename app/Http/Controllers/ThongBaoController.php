@@ -172,7 +172,7 @@ class ThongBaoController extends Controller
         $route = json_encode($link);
         $dataCreate['route'] = $route;
         $dataCreate['thongbao_id'] = $thongbao_id;
-        jobThongBaoToiGiaoVien::dispatch($users_id, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository);
+        jobThongBaoToiGiaoVien::dispatch($users_id, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository)->delay(now()->addMinutes(1));
 
         return response()->json([
             'status'    => 'Gửi thông báo thành công',
