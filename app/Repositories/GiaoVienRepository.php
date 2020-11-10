@@ -134,4 +134,13 @@ class GiaoVienRepository extends BaseModelRepository
         return $query;
     }
 
+    public function getAllUserIdGiaoVien()
+    {
+        $listId_Gv = $this->model->select('user_id')->where('type', 1)->get();
+        foreach ($listId_Gv as $key => $value) {
+            $listId_Gv[$key] = $value->user_id;
+        }
+        return $listId_Gv;
+    }
+
 }

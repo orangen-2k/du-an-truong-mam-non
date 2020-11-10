@@ -42,7 +42,7 @@ class jobThongBaoToiGiaoVien implements ShouldQueue
                                                                $this->dataCreate['content'],
                                                                $this->dataCreate['route'],
                                                                $user_id, 
-                                                               2,
+                                                               config('common.notification_role.giao_vien'),
                                                                $this->dataCreate['auth_id']);
 
             $this->ThongBaoRepository->create([

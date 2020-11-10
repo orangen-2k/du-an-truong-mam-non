@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Repositories\BaseModelRepository;
 use Illuminate\Support\Facades\DB;
 use App\Models\HocSinh;
+use App\Models\NamHoc;
 use Carbon\Carbon;
 
 class HocSinhRepository extends BaseModelRepository
@@ -121,6 +122,20 @@ class HocSinhRepository extends BaseModelRepository
     public function getTuoiHocSinh($id_hs)
     {
       return  $this->model->selectRaw('(YEAR(CURDATE()) - YEAR(ngay_sinh)) as tuoi')->where('id',$id_hs)->get();
+    }
+
+    public function getAllHocSinhTrongNamHocHienTai()
+    {
+        $data = [];
+        $listKhoi = NamHoc::where('type', 1)->first()->Khoi;
+        foreach($listKhoi as $khoi){
+            foreach($khoi->LopHoc as $lop_hoc){
+                foreach($lop_hoc->HocSinh as $hoc_sinh){
+                    array_push($data, $hoc_sinh);
+                }
+            }
+        }
+        return $data;
     }
     
 }

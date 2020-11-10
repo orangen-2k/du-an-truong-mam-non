@@ -77,7 +77,7 @@
 
                             <!--begin::m-widget3-->
                             @foreach ($data as $item )
-                                @if ($item->type == 1)
+                                @if ($item->type == config('common.noi_dung_thong_bao_type.toan_truong'))
                                 <div class="m-widget3">
                                     <div class="m-widget3__item">
                                         <div class="m-widget3__header">
@@ -130,7 +130,7 @@
 
                             <!--begin::m-widget5-->
                                 @foreach ($data as $item )
-                                    @if ($item->type == 2)
+                                    @if ($item->type == config('common.noi_dung_thong_bao_type.giao_vien'))
                                     <div class="m-widget3">
                                         <div class="m-widget3__item">
                                             <div class="m-widget3__header">
@@ -178,7 +178,7 @@
 
                                 <!--begin::m-widget5-->
                                 @foreach ($data as $item )
-                                @if ($item->type == 3)
+                                @if ($item->type == config('common.noi_dung_thong_bao_type.hoc_sinh'))
                                 <div class="m-widget3">
                                     <div class="m-widget3__item">
                                         <div class="m-widget3__header">
