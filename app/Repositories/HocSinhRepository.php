@@ -127,7 +127,11 @@ class HocSinhRepository extends BaseModelRepository
     public function getAllHocSinhTrongNamHocHienTai()
     {
         $data = [];
-        $listKhoi = NamHoc::where('type', 1)->first()->Khoi;
+        $listKhoi = NamHoc::where('type', 1)->first();
+        if(!$listKhoi){
+            return $data;
+        }
+        $listKhoi = $listKhoi->Khoi;
         foreach($listKhoi as $khoi){
             foreach($khoi->LopHoc as $lop_hoc){
                 foreach($lop_hoc->HocSinh as $hoc_sinh){

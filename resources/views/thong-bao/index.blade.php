@@ -87,14 +87,13 @@
                                             <div class="m-widget3__info">
                                                 <span class="m-widget3__username">
                                                     {{ 'Nhà trường' }}
-                                                </span><br>
-                                                <span class="m-widget3__time">
-                                                    2 day ago
                                                 </span>
                                             </div>
-                                        <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
-                                                Xem
-                                            </a>
+                                            <div class="m-widget4__ext">
+                                                <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
+                                                    Xem
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="m-widget3__body">
                                             <div class="m-widget5__section">
@@ -142,9 +141,11 @@
                                                         {{ $item->Auth->name}}
                                                     </span>
                                                 </div>
-                                                <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
-                                                    Xem
-                                                </a>
+                                                <div class="m-widget4__ext">
+                                                    <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
+                                                        Xem
+                                                    </a>
+                                                </div>
                                             </div>
                                             <div class="m-widget3__body">
                                                 <div class="m-widget5__section">
@@ -190,9 +191,11 @@
                                                     {{ $item->Auth->name}}
                                                 </span>
                                             </div>
-                                            <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
-                                                Xem
-                                            </a>
+                                            <div class="m-widget4__ext">
+                                                <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
+                                                    Xem
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="m-widget3__body">
                                             <div class="m-widget5__section">
