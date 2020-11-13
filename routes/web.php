@@ -62,6 +62,9 @@ Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::post('/destroy', 'QuanlyGiaoVienController@destroy')->name('quan-ly-giao-vien-destroy');
 
     Route::get('/get-giao-vien-chua-co-lop', 'QuanlyGiaoVienController@getGiaoVienChuaCoLop')->name('quan-ly-giao-vien-chua-co-lop');
+    Route::get('/phan-lop', 'QuanlyGiaoVienController@phanLopChoGiaoVien')->name('quan-ly-phan-lop-cho-giao-vien');
+    Route::post('/store-phan-lop', 'QuanlyGiaoVienController@storePhanLopChoGiaoVien')->name('store-phan-lop-cho-giao-vien');
+
 });
 Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::get('/thong-tin/{id}', 'QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
