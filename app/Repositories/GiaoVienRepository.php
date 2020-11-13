@@ -134,6 +134,15 @@ class GiaoVienRepository extends BaseModelRepository
         return $query;
     }
 
+    public function getAllGvTheoUser(){
+        $query = $this->model
+        ->join('users', 'users.id', '=', 'giao_vien.user_id')
+        ->select('giao_vien.*', 'users.active')
+        ->where('users.active', 1)
+        ->get();
+        return $query;
+        
+    }
     public function getAllUserIdGiaoVien()
     {
         $listId_Gv = $this->model->select('user_id')->where('type', 1)->get();

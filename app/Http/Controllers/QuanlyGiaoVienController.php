@@ -14,6 +14,7 @@ use App\Http\Requests\ValidateCreateQuanLiGV;
 use App\Repositories\AccountRepository;
 use Storage;
 use App\Http\Requests\GiaoVien\StoreGiaoVien;
+use App\Repositories\NamHocRepository;
 
 class QuanlyGiaoVienController extends Controller
 {
@@ -24,6 +25,8 @@ class QuanlyGiaoVienController extends Controller
     protected $QuanHuyenRepository;
     protected $XaPhuongThiTranRepository;
     protected $AccountRepository;
+    protected $NamHocRepository;
+
     public function __construct(
         GiaoVienRepository $GiaoVienRepository,
         KhoiRepository $KhoiRepository,
@@ -31,7 +34,8 @@ class QuanlyGiaoVienController extends Controller
         TinhThanhPhoRepository $TinhThanhPhoRepository,
         QuanHuyenRepository $QuanHuyenRepository,
         XaPhuongThiTranRepository $XaPhuongThiTranRepository,
-        AccountRepository $AccountRepository
+        AccountRepository $AccountRepository,
+        NamHocRepository $NamHocRepository
     ) {
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->KhoiRepository = $KhoiRepository;
@@ -40,6 +44,7 @@ class QuanlyGiaoVienController extends Controller
         $this->QuanHuyenRepository = $QuanHuyenRepository;
         $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
         $this->AccountRepository = $AccountRepository;
+        $this->NamHocRepository = $NamHocRepository;
     }
     public function index()
     {
@@ -168,5 +173,33 @@ class QuanlyGiaoVienController extends Controller
     public function getGiaoVienChuaCoLop()
     {   
        return $this->GiaoVienRepository->getGIaoVienChuaCoLop();
+    }
+
+    public function phanLopChoGiaoVien()
+    {
+        $id = $this->NamHocRepository->maxID();
+        $nam_hoc_moi = $this->NamHocRepository->find($id);
+        $khoi = $nam_hoc_moi->Khoi;
+        // dd($khoi);
+
+        $lop = [];
+        foreach ($khoi as $key => $value) {
+            array_push($lop, $value->LopHoc);
+        }
+        // dd($lop);
+        $collection = collect($lop);
+        $data_lop_hien_tai = $collection->collapse();
+        $data_lop_hien_tai->all();
+        $data_giao_vien = $this->GiaoVienRepository->getAllGvTheoUser();
+        return view('quan-ly-giao-vien.phan_lop',compact('data_lop_hien_tai','data_giao_vien'));
+    }
+
+    public function storePhanLopChoGiaoVien(Request $request)
+    {
+        $data_phan_lop = $request->all();
+        foreach ($data_phan_lop as $key => $value) {      
+            $this->GiaoVienRepository->update($value['id'],['lop_id' =>$value['lop_id'],'type' =>$value['type']]);
+        }
+        return 'thành công';
     }
 }

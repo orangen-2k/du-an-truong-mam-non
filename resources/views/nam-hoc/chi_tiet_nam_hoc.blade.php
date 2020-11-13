@@ -330,7 +330,7 @@
                             <label for="exampleInputEmail1">Giáo viên chủ nhiệm</label>
                             <select style="width: 100%" class="form-control" name="giao_vien_cn"
                               id="id_sua_giao_vien_cn">
-
+                              <option value="">Chọn giáo viên chủ nhiệm</option>
                             </select>
                           </div>
                         </div>
@@ -1263,7 +1263,7 @@ const getDataCapNhatLop = (id) =>{
       $('#sua_lop_id').val(response.data.lop.id)
       
       $('#id_sua_giao_vien_cn').append(htmlGiaoVien(1,response.data.giao_vien_phu,response.data.giao_vien_cn,response.data.giao_vien))
-      $('#id_sua_giao_vien_phu').append(htmlGiaoVien(2,response.data.giao_vien_phu,response.data.giao_vien_cn,response.data.giao_vien))
+      $('#id_sua_giao_vien_phu').html(htmlGiaoVien(2,response.data.giao_vien_phu,response.data.giao_vien_cn,response.data.giao_vien))
       
     })
     .catch(function (error) {
@@ -1295,8 +1295,13 @@ const htmlGiaoVien = (type,giao_vien_phu,giao_vien_cn,giao_vien) =>{
         <option value="${element.id}">${element.ten}</option>
         `
       });
+      if(giao_vien_cn == null){
+        html_giao_vien_cn_phu =+html_giao_vien_phu+html_giao_vien
+      }else{
+        html_giao_vien_cn_phu =`<option ${select_cn} value="${giao_vien_cn.id}">${giao_vien_cn.ten}</option>`+html_giao_vien_phu+html_giao_vien
 
-      html_giao_vien_cn_phu =`<option ${select_cn} value="${giao_vien_cn.id}">${giao_vien_cn.ten}</option>`+html_giao_vien_phu+html_giao_vien
+      }
+
 
       return html_giao_vien_cn_phu;
 };
