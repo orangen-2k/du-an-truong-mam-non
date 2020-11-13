@@ -152,10 +152,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/giao-vien', 'ThongBaoController@uiThongBaoGiaoVien')->name('thong-bao.ui-gv');
         Route::get('/hoc-sinh', 'ThongBaoController@uiThongBaoHocSinh')->name('thong-bao.ui-hs');
         Route::get('/{id}', 'ThongBaoController@showThongBao')->name('thong-bao.show')->where('id', '[0-9]+');;
-
-        Route::post('sendto', 'ThongBaoController@store')->name('sendto');
-        Route::post('sendto-toan-truong', 'ThongBaoController@postToanTruong')->name('sendto_toantruong');
-        Route::post('sendto-giao-vien', 'ThongBaoController@postGiaoVien')->name('sendto_giaovien');
+        Route::post('sendto-toan-truong', 'ThongBaoController@guiToanTruong')->name('sendto_toantruong');
+        Route::post('sendto-giao-vien', 'ThongBaoController@guiGiaoVien')->name('sendto_giaovien');
+        Route::post('sendto-hoc-sinh', 'ThongBaoController@guiHocSinh')->name('sendto_hocsinh');
     });
 
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
