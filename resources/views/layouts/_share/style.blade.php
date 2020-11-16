@@ -3,6 +3,26 @@
 <link href="{!! asset('assets/vendors/base/vendors.bundle.css') !!}" rel="stylesheet" type="text/css" />
 <link href="{!! asset('assets/demo/base/style.bundle.css') !!}" rel="stylesheet" type="text/css" /> 
 <style>
+        @media (max-width: 575px) {
+                .respon_logo {
+                width: 50%;
+                }
+        }
+        @media (min-width: 576px) and (max-width: 767.98px) {
+                .respon_logo {
+                width: 50%;
+                }
+        }
+        @media (min-width: 768px) and (max-width: 991.98px) {
+                .respon_logo {
+                width: 50%;
+                }
+        }
+        @media (min-width: 992px) {
+                .respon_logo {
+                width: 100%;
+                }
+        }    
         body{
                 font-family: Arial, Helvetica, sans-serif !important;
         }
