@@ -155,6 +155,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('sendto-toan-truong', 'ThongBaoController@guiToanTruong')->name('sendto_toantruong');
         Route::post('sendto-giao-vien', 'ThongBaoController@guiGiaoVien')->name('sendto_giaovien');
         Route::post('sendto-hoc-sinh', 'ThongBaoController@guiHocSinh')->name('sendto_hocsinh');
+        Route::get('soan-thong-bao', 'ThongBaoController@create')->name('thong-bao.create');
     });
 
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
