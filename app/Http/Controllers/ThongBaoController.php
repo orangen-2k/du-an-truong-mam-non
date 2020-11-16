@@ -251,4 +251,12 @@ class ThongBaoController extends Controller
         ], 200);
 
     }
+
+    public function create()
+    {
+        $listId_Gv = $this->GiaoVienRepository->getAllUserIdGiaoVien();
+        $gv = $this->GiaoVienRepository->getAll();
+        $data = $this->NamHocRepository->layNamHocHienTai();
+        return view('thong-bao.create', compact('listId_Gv', 'gv', 'data'));
+    }
 }
