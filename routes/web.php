@@ -181,3 +181,8 @@ Route::prefix('quan-ly-suc-khoe')->group(function(){
     Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
     Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
 });
+
+Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
+Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
+Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
+Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');
