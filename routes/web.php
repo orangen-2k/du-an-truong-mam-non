@@ -157,6 +157,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('sendto-toan-truong', 'ThongBaoController@guiToanTruong')->name('sendto_toantruong');
         Route::post('sendto-giao-vien', 'ThongBaoController@guiGiaoVien')->name('sendto_giaovien');
         Route::post('sendto-hoc-sinh', 'ThongBaoController@guiHocSinh')->name('sendto_hocsinh');
+        Route::get('soan-thong-bao', 'ThongBaoController@create')->name('thong-bao.create');
     });
 
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
@@ -183,3 +184,8 @@ Route::prefix('quan-ly-suc-khoe')->group(function(){
     Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
     Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
 });
+
+Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
+Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
+Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
+Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');

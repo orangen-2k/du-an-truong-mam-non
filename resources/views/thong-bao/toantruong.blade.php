@@ -92,6 +92,7 @@
             $.post("{{ route('sendto_toantruong') }}", {
                 '_token': "{{ csrf_token() }}",
                 'title': $("[name='title']").val(),
+                'listId_Gv': "{{ $listId_Gv }}",
                 'content': editor.getData()
             }, function (response) {
                 Swal.fire({

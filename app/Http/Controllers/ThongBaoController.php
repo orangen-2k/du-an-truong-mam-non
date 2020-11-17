@@ -58,7 +58,8 @@ class ThongBaoController extends Controller
 
     public function uiThongBaoToanTruong()
     {
-        return view('thong-bao.toantruong');
+        $listId_Gv = $this->GiaoVienRepository->getAllUserIdGiaoVien();
+        return view('thong-bao.toantruong', compact('listId_Gv'));
     }
 
     public function uiThongBaoGiaoVien()
@@ -79,7 +80,7 @@ class ThongBaoController extends Controller
      */
     public function guiToanTruong(Request $request)
     {
-        $listId_Gv = $this->GiaoVienRepository->getAllUserIdGiaoVien();
+        $listId_Gv = json_decode($request->listId_Gv);
         $listHocSinh = $this->HocSinhRepository->getAllHocSinhTrongNamHocHienTai();
 
         $list_id_hoc_sinh = [];
@@ -136,8 +137,8 @@ class ThongBaoController extends Controller
             array_push($list_id_hoc_sinh_save_thong_bao, $user_id);
         }
 
+        jobThongBaoToiGiaoVien::dispatch($listId_Gv, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository);
         jobThongBaoToiHocSinh::dispatch($list_id_hoc_sinh_save_noti, $list_id_hoc_sinh_save_thong_bao, $list_device, $content, $this->NotificationRepository);
-        jobThongBaoToiGiaoVien::dispatch($listId_Gv->toArray(), $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository);
         return response()->json([
             'status'    => 'Gửi thông báo thành công',
             'code'      => 200,
@@ -166,6 +167,7 @@ class ThongBaoController extends Controller
         $route = json_encode($link);
         $dataCreate['route'] = $route;
         $dataCreate['thongbao_id'] = $thongbao_id;
+
         jobThongBaoToiGiaoVien::dispatch($users_id, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository);
 
         return response()->json([
@@ -248,5 +250,13 @@ class ThongBaoController extends Controller
             'code'      => 200,
         ], 200);
 
+    }
+
+    public function create()
+    {
+        $listId_Gv = $this->GiaoVienRepository->getAllUserIdGiaoVien();
+        $gv = $this->GiaoVienRepository->getAll();
+        $data = $this->NamHocRepository->layNamHocHienTai();
+        return view('thong-bao.create', compact('listId_Gv', 'gv', 'data'));
     }
 }

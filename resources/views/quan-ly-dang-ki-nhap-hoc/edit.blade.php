@@ -162,7 +162,7 @@
                                                                     @if($hs_dk->hoc_sinh_khuyet_tat == '0') checked @endif
                                                                       name="hoc_sinh_khuyet_tat"
                                                                       value="0">
-                                                                    Khống
+                                                                    Không
                                                                     <span></span>
                                                                 </label>
                                                             </div>
@@ -613,27 +613,27 @@
                                             </div>
                                             
                                         </div>
-                                    </div>
-
-                                <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
-                                    <div class="m-form__actions">
-                                        <div class="row">
-                                            <div class="col-lg-10"></div>
-                                          
-                                            <div class="col-lg-2 m--align-right">
-                                    
-                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
-                                                    <span>
-                                                        <i class="la la-check"></i>&nbsp;&nbsp;
-                                                        <span>Phê Duyệt</span>
-                                                    </span>
-                                                </button>
-                                            </div>
+                                        <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
+                                            <div class="m-form__actions">
+                                                <div class="row">
+                                                    <div class="col-lg-10"></div>
+                                                  
+                                                    <div class="col-lg-2 m--align-right">
                                             
-                                            <div class="col-lg-2"></div>
+                                                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+                                                            <span>
+                                                                <i class="la la-check"></i>&nbsp;&nbsp;
+                                                                <span>Phê Duyệt</span>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    
+                                                    <div class="col-lg-2"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+
                             </form>
 
 

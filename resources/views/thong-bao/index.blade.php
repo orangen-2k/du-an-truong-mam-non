@@ -32,39 +32,9 @@
                             </li>
                             <li class="m-portlet__nav-item m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
                                
-                                <a href="#" class="btn btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                                <a href="{{ route('thong-bao.create') }}" class="btn btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
                                     <i class="la la-pencil-square text-black"></i>
                                 </a>
-                                <div class="m-dropdown__wrapper" style="z-index: 101;">
-                                    <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust" style="left: auto; right: 21px;"></span>
-                                    <div class="m-dropdown__inner">
-                                        <div class="m-dropdown__body">
-                                            <div class="m-dropdown__content">
-                                                <ul class="m-nav">
-                                                    <li class="m-nav__item">
-                                                    <a href="{{ route('thong-bao.ui-tt') }}" class="m-nav__link">
-                                                            <i class="m-nav__link-icon flaticon-share"></i>
-                                                            <span class="m-nav__link-text">Gửi toàn trường</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="{{ route('thong-bao.ui-gv') }}" class="m-nav__link">
-                                                            <i class="m-nav__link-icon flaticon-chat-1"></i>
-                                                            <span class="m-nav__link-text">Gửi giáo viên</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="{{ route('thong-bao.ui-hs') }}" class="m-nav__link">
-                                                            <i class="m-nav__link-icon flaticon-info"></i>
-                                                            <span class="m-nav__link-text">Gửi phụ huynh</span>
-                                                        </a>
-                                                    </li>
-                                                    
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </li>
                         </ul>
                     </div>
@@ -87,14 +57,13 @@
                                             <div class="m-widget3__info">
                                                 <span class="m-widget3__username">
                                                     {{ 'Nhà trường' }}
-                                                </span><br>
-                                                <span class="m-widget3__time">
-                                                    2 day ago
                                                 </span>
                                             </div>
-                                        <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
-                                                Xem
-                                            </a>
+                                            <div class="m-widget4__ext">
+                                                <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
+                                                    Xem
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="m-widget3__body">
                                             <div class="m-widget5__section">
@@ -142,9 +111,11 @@
                                                         {{ $item->Auth->name}}
                                                     </span>
                                                 </div>
-                                                <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
-                                                    Xem
-                                                </a>
+                                                <div class="m-widget4__ext">
+                                                    <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
+                                                        Xem
+                                                    </a>
+                                                </div>
                                             </div>
                                             <div class="m-widget3__body">
                                                 <div class="m-widget5__section">
@@ -190,9 +161,11 @@
                                                     {{ $item->Auth->name}}
                                                 </span>
                                             </div>
-                                            <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-widget3__status m--font-info">
-                                                Xem
-                                            </a>
+                                            <div class="m-widget4__ext">
+                                                <a href="{{ route('thong-bao.show',['id'=>$item->id]) }}" class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">
+                                                    Xem
+                                                </a>
+                                            </div>
                                         </div>
                                         <div class="m-widget3__body">
                                             <div class="m-widget5__section">
