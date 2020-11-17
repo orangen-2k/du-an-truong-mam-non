@@ -96,7 +96,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">
-                                    <input type="checkbox" onclick="checkAll(this)" />
+                                    <input type="checkbox" onclick="checkAll1(this)" />
                                 </th>
                                 <th>STT</th>
                                 <th>Mã định danh</th>
@@ -111,7 +111,7 @@
                             @forelse ($gv as $item)
                             <tr>
                                 <td class="text-center">
-                                    <input type="checkbox" class="checkbox checkbox_gv" data-id="{{ $item->user_id }}"/>
+                                    <input type="checkbox" class="checkbox checkbox1 checkbox_gv" data-id="{{ $item->user_id }}"/>
                                 </td>
                                 <td class="text-center">{{ $i++ }}</td>
                                 <td>{{ $item->ma_gv }}</td>
@@ -157,7 +157,7 @@
                         <table id="table_hs" style="with: 100%" class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="text-center"><input type="checkbox" onclick="checkAll(this)"></th>
+                                    <th class="text-center"><input type="checkbox" onclick="checkAll2(this)"></th>
                                     <th>STT</th>
                                     <th>Khối</th>
                                     <th>Lớp</th>
@@ -208,7 +208,7 @@
                                 @foreach ($itemKhoi->LopHoc as $itemLopHoc)
                                 @foreach ($itemLopHoc->HocSinh as $itemHocSinh)
                                 <tr>
-                                    <td class="text-center"><input type="checkbox" class="checkbox checkbox_hs"
+                                    <td class="text-center"><input type="checkbox" class="checkbox checkbox2 checkbox_hs"
                                             data-id="{{ $itemHocSinh->id }}"
                                             data-device="{{ $itemHocSinh->User->device }}"
                                             data-lop_id="{{ $itemHocSinh->lop_id }}"></td>
@@ -259,8 +259,11 @@
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-    const checkAll = (e) => {
-        $(e).parents('table').find('.checkbox').not(e).prop('checked', e.checked);
+    const checkAll1 = (e) => {
+        $('.checkbox1').not(e).prop('checked', e.checked);
+    };
+    const checkAll2 = (e) => {
+        $('.checkbox2').not(e).prop('checked', e.checked);
     };
     var editor = CKEDITOR.replace('content');
     CKEDITOR.config.height = 300;
