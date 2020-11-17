@@ -458,7 +458,7 @@
                     'type' : type
                 })
                 .then(function (response) {
-                    // window.location.href = url_redirect                              
+                    window.location.href = url_redirect                              
                 })
                 .catch(function (error) {
                 })
