@@ -8,6 +8,7 @@ use App\Models\HocSinh;
 use App\Models\Khoi;
 use App\Models\LichSuHoc;
 use App\Models\NamHoc;
+use App\Models\LichSuDay;
 
 class Lop extends Model
 {
@@ -50,6 +51,11 @@ class Lop extends Model
     public function LichSuHoc()
     {
         return $this->hasMany(LichSuHoc::class,'lop_id','id');    
+    }
+
+    public function LichSuDay()
+    {
+        return $this->hasMany(LichSuDay::class,'lop_id','id');    
     }
 
     public function getTongSoHocSinhLopCuAttribute()

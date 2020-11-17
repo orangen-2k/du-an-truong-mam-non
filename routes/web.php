@@ -144,6 +144,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('/kiem_tra_ton_tai_thong_tin_nam_hoc', 'QuanLyTrongNamController@kiemTraTonTaiDuLieuNamHoc')->name('kiem_tra_ton_tai_thong_tin_nam_hoc');
         Route::post('/xoa_toan_bo_du_lieu_nam_hoc_hien_tai', 'QuanLyTrongNamController@xoaToanBoDuLieuCuaNamHocHienTai')->name('xoa_toan_bo_du_lieu_nam_hoc_hien_tai');
         
+        Route::post('/thay_doi_session_nam_hoc', 'QuanLyTrongNamController@changeSessionNamHoc')->name('thay-doi-session-nam-hoc');
+
         
     });
     Route::prefix('thong-bao')->group(function () {
