@@ -5,7 +5,6 @@
     .paginate_button {
         /* background-color: red !important */
     }
-
     .select2-container--default .select2-results__option[aria-disabled=true] {
         display: none;
     }
@@ -36,7 +35,7 @@
 
                     <!--begin::Section-->
                     <div class="m-section m-section--last">
-                        <table class="table table-striped m-table">
+                        <table class="table  m-table">
                             <thead>
                                 <tr>
                                     <th>Stt </th>
@@ -50,21 +49,21 @@
                                 @php
                                 $i = 1;
                                 @endphp
-                                @foreach ($data_lop_hien_tai as $item)
+                                @foreach ($data_lop as $item)
                                 <tr>
                                     <th scope="row">{{$i++}}</th>
                                     <td>{{$item->ten_lop}}</td>
                                     <td class="chon_giao_vien" id_gv={{$item->id}}>
                                         <select onchange="updateLop(this)" lop_cn_id='{{$item->id}} '
-                
+                                            @if (Session::has('id_nam_hoc'))
+                                            {{ Session::get('id_nam_hoc') != $id_nam_hien_tai ?'disabled':''}}
+                                        @endif
                                             class="form-control giao_vien_chinh giao_vien{{$item->id}} "
                                             name="giao_vien_chu_nhiem">
                                             <option value="0">Chọn giáo viên</option>
                                             @foreach ($data_giao_vien as $giao_vien)
                                             <option @if ($item->id == $giao_vien->lop_id && $giao_vien->type == 1)
                                                 selected
-                                               
-                                        
                                                 @endif
                                                 value="{{$giao_vien->id}}" >{{$giao_vien->ma_gv}} - {{$giao_vien->ten}}
                                             </option>
@@ -76,15 +75,15 @@
                                     <td  class="chon_giao_vien" id_gv={{$item->id}}>
                                         <select lop_phu_id='{{$item->id}}'
                                              class="form-control giao_vien_phu giao_vien{{$item->id}} "
-                                         
+                                             @if (Session::has('id_nam_hoc'))
+                                             {{ Session::get('id_nam_hoc') != $id_nam_hien_tai ?'disabled':''}}
+                                         @endif
                                             name="giao_vien_phu[]" multiple="multiple">
                                             <option value="">Chọn giáo viên</option>
                                             @foreach ($data_giao_vien as $giao_vien)
 
                                             <option @if ($item->id == $giao_vien->lop_id && $giao_vien->type == 2)
                                                 selected
-                                               
-                                        
                                                 @endif
                                                 value="{{$giao_vien->id}}" >{{$giao_vien->ma_gv}} - {{$giao_vien->ten}}
                                             </option>
@@ -101,7 +100,13 @@
 
                     <!--end::Section-->
                     <div class="d-flex justify-content-end">
+                        @if (Session::has('id_nam_hoc'))
+                        @if (Session::get('id_nam_hoc') == $id_nam_hien_tai )
                         <button type="button" onclick="phanLop()" class="btn btn-success mr-4">Lưu</button>
+                        @endif
+                        
+                    @endif
+                      
                         <button type="button" class="btn btn-secondary">Hủy</button>
                     </div>
                 </div>
