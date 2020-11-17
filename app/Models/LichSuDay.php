@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HocSinh;
 use App\Models\Lop;
+use App\Models\GiaoVien;
+
 
 class LichSuDay extends Model
 {
@@ -13,14 +15,15 @@ class LichSuDay extends Model
     [
         "giao_vien_id",
         'lop_id',
+        'type'
     ];
     public function LopHoc()
     {
         return $this->belongsto(Lop::class,'lop_id','id');
     }
 
-    // public function HocSinh()
-    // {
-    //     return $this->belongsto(HocSinh::class,'hoc_sinh_id','id');
-    // }
+    public function GiaoVien()
+    {
+        return $this->belongsto(GiaoVien::class,'giao_vien_id','id');
+    }
 }
