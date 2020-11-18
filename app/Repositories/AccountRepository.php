@@ -54,7 +54,8 @@ class AccountRepository extends BaseModelRepository
             'password' => Hash::make($data['email']),
             'token' => $token,
             'role' => $data['role'],
-            'time_code' => Carbon::now()
+            'time_code' => Carbon::now(),
+            'phone_number' => $data['phone_number']
         ]);
     
         $email = $user->email;
