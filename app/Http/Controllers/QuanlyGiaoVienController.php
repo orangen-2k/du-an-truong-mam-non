@@ -13,7 +13,9 @@ use App\Repositories\XaPhuongThiTranRepository;
 use App\Http\Requests\ValidateCreateQuanLiGV;
 use App\Repositories\AccountRepository;
 use Storage;
+use App\Repositories\NamHocRepository;
 
+use App\Http\Requests\GiaoVien\ValidateUpdateGV;
 class QuanlyGiaoVienController extends Controller
 {
     protected $KhoiRepository;
@@ -23,6 +25,7 @@ class QuanlyGiaoVienController extends Controller
     protected $QuanHuyenRepository;
     protected $XaPhuongThiTranRepository;
     protected $AccountRepository;
+    protected $NamHocRepository;
     public function __construct(
         GiaoVienRepository $GiaoVienRepository,
         KhoiRepository $KhoiRepository,
@@ -30,7 +33,8 @@ class QuanlyGiaoVienController extends Controller
         TinhThanhPhoRepository $TinhThanhPhoRepository,
         QuanHuyenRepository $QuanHuyenRepository,
         XaPhuongThiTranRepository $XaPhuongThiTranRepository,
-        AccountRepository $AccountRepository
+        AccountRepository $AccountRepository,
+        NamHocRepository $NamHocRepository
     ) {
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->KhoiRepository = $KhoiRepository;
@@ -39,17 +43,19 @@ class QuanlyGiaoVienController extends Controller
         $this->QuanHuyenRepository = $QuanHuyenRepository;
         $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
         $this->AccountRepository = $AccountRepository;
+        $this->NamHocRepository = $NamHocRepository;
     }
     public function index()
     {
        
         $params = request()->all();
-        if (isset(request()->page_size)) {
-            $limit = request()->page_size;
-        } else {
-            $limit = 20;
-        }
-        $data = $this->GiaoVienRepository->getAllGV_limit($params, $limit);
+        
+        $data = $this->GiaoVienRepository->getAllGvTheoUser();
+        $countAllGV = count($data);
+        $data2 = $this->GiaoVienRepository->getAllGvTheoUserChuaCoLop();
+        $countAllGVChuaCoLop = count($data2);
+        $data3 = $this->GiaoVienRepository->getAllGvTheoUserThoiDay();
+        $countAllGvTheoUserThoiDay = count($data3);
         $khoi = $this->KhoiRepository->getAll();
         $lop = $this->LopHocRepository->getAll();
         foreach ($data as $key => $item) {
@@ -63,7 +69,8 @@ class QuanlyGiaoVienController extends Controller
                 $data[$key]->ten_khoi = "";
             }
         }
-        return view('quan-ly-giao-vien.index', compact('data', 'khoi', 'lop', 'limit'));
+        
+        return view('quan-ly-giao-vien.index', compact('data', 'khoi', 'lop', 'countAllGV', 'countAllGVChuaCoLop', 'countAllGvTheoUserThoiDay'));
     }
 
     public function create()
@@ -73,14 +80,16 @@ class QuanlyGiaoVienController extends Controller
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         return view('quan-ly-giao-vien.create', compact('khoi', 'lop', 'thanhpho'));
     }
-    public function store(ValidateCreateQuanLiGV $request)
-    {   $request['role'] = 2;
+    public function store(Request $request)
+    {
+        
+        $request['role'] = 2;
         $request['name'] = $request['ten'];
         $user = $this->AccountRepository->storeAcount($request->all());
         $anh = $request->file("anh");
         $dataRequest = $request->all();
         $dataRequest['user_id'] = $user->id;
-        unset($dataRequest['email']);
+        // unset($dataRequest['email']);
         unset($dataRequest['role']);
         unset($dataRequest['name']);
         if ($anh) {
@@ -110,31 +119,60 @@ class QuanlyGiaoVienController extends Controller
 
         return $data;
     }
-    public function edit($lop_id, $id)
+    public function edit($id)
     {   
-        $data = $this->GiaoVienRepository->getGV($id, $lop_id);
-        $khoi = $this->KhoiRepository->getAll();
-        $lop = $this->LopHocRepository->getAll();
+        $data = $this->GiaoVienRepository->getGV($id);
+        $khoi = $this->KhoiRepository->getAllKhoi();
+        $lop_hoc = $this->LopHocRepository->getAll();
+        $khoi_gv = $this->LopHocRepository->getOneKhoiTheoLop($data->lop_id);
+        if($khoi_gv){
+            $data->khoi_gv_id = $khoi_gv->id;
+        }
+        else{
+            $data->khoi_gv_id = 0;
+        }
+        
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         $maqh_gv_hktt = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->ho_khau_thuong_tru_matp);
         $xaid_gv_hktt = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->ho_khau_thuong_tru_maqh);
         $maqh_gv_noht = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->noi_o_hien_tai_matp);
         $xaid_gv_noht = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->noi_o_hien_tai_maqh);
-        //dd($xaid_gv_hktt);
+        //Lịch sử dạy
+        $LichSuDay = $this->GiaoVienRepository->LichSuDay($id);
+        $LichDayHienTaiGV = $this->GiaoVienRepository->LichDayHienTaiGV($id);
+        
+        if($LichDayHienTaiGV)
+        {
+            $nam_hoc_ht = $this->KhoiRepository->getNamHoc($LichDayHienTaiGV->khoi_id);
+            $LichDayHienTaiGV->ten_nam = $nam_hoc_ht->name;
+        } 
+        
+        if(count($LichSuDay) >0 || $LichSuDay){
+            foreach($LichSuDay as $key => $item){
+                $nam_hoc = $this->KhoiRepository->getNamHoc($item->khoi_id);
+                $LichSuDay[$key]->ten_nam = $nam_hoc->name;
+            }
+           
+        }
+        
         return view('quan-ly-giao-vien.edit', compact(
             'data',
             'khoi',
-            'lop',
+            'lop_hoc',
             'thanhpho',
             'maqh_gv_hktt', 
             'xaid_gv_hktt',
             'maqh_gv_noht', 
-            'xaid_gv_noht'  
+            'xaid_gv_noht',
+            'LichSuDay' ,
+            'LichDayHienTaiGV'
         ));
     }
-    public function update(ValidateCreateQuanLiGV $request, $id)
-    {
+    public function update(Request $request, $id)
+    {   
+        // ValidateCreateQuanLiGV
         $dataRequest = $request->all();
+        // dd($dataRequest);
         if(isset($dataRequest['anh'])){
             $anh = $request->file("anh");
             // dd($a)
@@ -143,7 +181,7 @@ class QuanlyGiaoVienController extends Controller
                 //     'public/uploads/anh_gv',
                 //     $anh
                 // );
-                $pathLoad = $anh->store('public/uploads/anh_gv');
+                $pathLoad = $anh->store('uploads/anh_gv');
                 $path =  $pathLoad;
                 // dd($path);
                 // $path = trim($path, 'public/');
@@ -152,7 +190,6 @@ class QuanlyGiaoVienController extends Controller
             }
         }
         unset($dataRequest['_token']);
-        unset($dataRequest['khoi']);
         $this->GiaoVienRepository->update_gv($id, $dataRequest);
         return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
     }
@@ -167,5 +204,61 @@ class QuanlyGiaoVienController extends Controller
     public function getGiaoVienChuaCoLop()
     {   
        return $this->GiaoVienRepository->getGIaoVienChuaCoLop();
+    }
+
+    public function getAllGiaoVienChuaCoLop(){
+        $data = $this->GiaoVienRepository->getAllGvTheoUserChuaCoLop();
+        foreach ($data as $key => $item) {
+            $data2 = $this->GiaoVienRepository->getLopHoc($item->lop_id);
+            $data[$key]->ngay_sinh = date("d/m/Y", strtotime($item->ngay_sinh));
+            if (isset($data2)) {
+                $data[$key]->ten_lop = $data2->ten_lop;
+                $data[$key]->ten_khoi = $data2->ten_khoi;
+            } else {
+                $data[$key]->ten_lop = "";
+                $data[$key]->ten_khoi = "";
+            }
+            if($item->anh == ""){
+                $data[$key]->anh = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+            }
+            else{
+                $data[$key]->anh = asset('storage/'.$item->anh);
+            }
+        }
+        
+        return $data;
+    }
+
+    public function getGiaoVienNghiDay(){
+        $data = $this->GiaoVienRepository->getAllGvTheoUserThoiDay();
+        foreach ($data as $key => $item) {
+            $data[$key]->ngay_sinh = date("d/m/Y", strtotime($item->ngay_sinh));
+            $data[$key]->thoi_gian = date("d/m/Y", strtotime($item->thoi_gian));
+            if($item->anh == ""){
+                $data[$key]->anh = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+            }
+            else{
+                $data[$key]->anh = asset('storage/'.$item->anh);
+            }
+        }
+        return $data;
+    }
+
+    public function ThoiDayGiaoVien(Request $request){
+        $request = $request->all();
+        $gv_id = $request['gv_id'];
+        $this->GiaoVienRepository->XoaBoLopGiaoVien($gv_id);
+        $giao_vien = $this->GiaoVienRepository->getOneGiaoVien($gv_id);
+        $user_id = $giao_vien->user_id;
+        $this->GiaoVienRepository->ThoiDayGiaoVien($user_id);
+    }
+    
+    public function KhoiPhucThoiDay(Request $request){
+        $request = $request->all();
+        $gv_id = $request['id'];
+        $giao_vien = $this->GiaoVienRepository->getOneGiaoVien($gv_id);
+        $user_id = $giao_vien->user_id;
+        $this->GiaoVienRepository->PhucHoiTrangThai($user_id);
+        
     }
 }

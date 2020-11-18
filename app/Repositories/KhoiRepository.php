@@ -67,5 +67,16 @@ class KhoiRepository extends BaseModelRepository
         ->select('nam_hoc.type')->where('khoi.id', $khoi_id)->first();
         return $data->type;
     }
+    public function getKhoiTheoNamHoc($nam_hoc_id){
+        $data = $this->model->where('nam_hoc_id', $nam_hoc_id)->get();
+        return $data;
+    }
+    public function getNamHoc($khoi_id){
+        $data = DB::table('nam_hoc')
+        ->join('khoi', 'khoi.nam_hoc_id', '=', 'nam_hoc.id')
+        ->select('nam_hoc.*')->where('khoi.id', $khoi_id)->first();
+        return $data;
+
+    }
 
 }

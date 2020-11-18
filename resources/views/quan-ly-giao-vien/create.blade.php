@@ -12,67 +12,7 @@
 <div class="m-content">
     <form method="post" id="validate-form-add" action="{{route('quan-ly-giao-vien-store')}}" enctype="multipart/form-data">
     @csrf
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="m-portlet m-portlet--tab">
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <span class="m-portlet__head-icon m--hide">
-                                <i class="la la-gear"></i>
-                            </span>
-                            <h3 class="m-portlet__head-text">
-                                Thêm mới giáo viên
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div id="preload" class="preload-container text-center" style="display: none">
-                    <img id="gif-load" src="{!! asset('images/loading2.gif') !!}" alt="">
-                </div>
-                
-                <div class="m-portlet__body">
-                    <div class="m-section">
-                        <div class="m-section__content">
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group m-form__group row">
-                                        <label class="col-lg-2 col-form-label">Khối</label>
-                                        <div class="col-lg-8">
-                                            <select class="form-control select2" name="khoi" id="khoi">
-                                                <option value="" selected>Chọn</option>
-                                                @foreach ($khoi as $item)
-                                                <option value={{$item->id}}>{{$item->ten_khoi}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 ">
-                                    <div class="form-group m-form__group row">
-                                        <label for="" class="col-lg-2 col-form-label">Lớp</label>
-                                        <div class="col-lg-8">
-                                            <select class="form-control select2" name="lop_id" id="lop">
-                                                <option value="" selected>Chọn</option>
-                                                @foreach ($lop as $item)
-                                                <option value="{{$item->id}}">{{$item->ten_lop}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <div class="row">
         <div class="col-xl-12">
             <div class="m-portlet m-portlet--full-height">
@@ -84,7 +24,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="m-form__heading">
-                                                <h3 class="m-form__heading-title">
+                                                <h3 class="m-form__heading-title" style="font-weight: bold">
                                                     Thông tin
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
@@ -99,7 +39,7 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span> Họ và tên: </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="ten" class="form-control m-input name-field"
+                                                        <input type="text" name="ten" required class="form-control m-input name-field"
                                                             placeholder="Điền họ và tên">
                                                             @error('ten')
                                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -110,7 +50,7 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span> Email: </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="email" class="form-control m-input name-field"
+                                                        <input type="text" name="email" required class="form-control m-input name-field"
                                                             placeholder="Email">
                                                             @error('email')
                                                             <div class="alert alert-danger">{{ $message }}</div>
@@ -134,11 +74,11 @@
                                                     <div class="col-xl-9 col-lg-9">
                                                         <div class="m-radio-inline">
                                                             <label class="m-radio">
-                                                                <input type="radio" name="gioi_tinh" value="1"> Nam
+                                                                <input type="radio" name="gioi_tinh" value="0"> Nam
                                                                 <span></span>
                                                             </label>
                                                             <label class="m-radio">
-                                                                <input type="radio" name="gioi_tinh" value="2" checked> Nữ
+                                                                <input type="radio" name="gioi_tinh" value="1" checked> Nữ
                                                                 <span></span>
                                                             </label>
                                                         </div>
@@ -208,9 +148,64 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mt-4">
                                             <div class="m-form__heading">
-                                                <h3 class="m-form__heading-title">
+                                                <h3 class="m-form__heading-title" style="font-weight: bold">
+                                                    CMND/Căn cước/Hộ chiếu
+                                                    <i data-toggle="m-tooltip" data-width="auto"
+                                                        class="m-form__heading-help-icon flaticon-info" title=""
+                                                        data-original-title="Some help text goes here"></i>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="m-form__section m-form__section--first">
+                                                <div class="form-group m-form__group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">
+                                                    <span class="text-danger">*</span>Số</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                        <div class="input-group">
+                                                            <input type="number" required name="so_cmtnd" class="form-control m-input" placeholder="Điền số chứng minh thư" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group m-form__group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">
+                                                    <span class="text-danger">*</span>Ngày cấp</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                        <div class="input-group">
+                                                        <input type="date" name="ngay_cap_cmtnd" class="form-control m-input">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="m-form__section m-form__section--first">
+                                                <div class="form-group m-form__group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">
+                                                    <span class="text-danger">*</span>Nơi cấp</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                        <select class="form-control select2"
+                                                            name="noi_cap_cmtnd_matp" id="noi_cap_cmtnd_matp">
+                                                            <option value="">Chọn</option>
+                                                            @foreach ($thanhpho as $item)
+                                                            <option>{{$item->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                       
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mt-5">
+                                            <div class="m-form__heading">
+                                                <h3 class="m-form__heading-title" style="font-weight: bold">
                                                     Hộ khẩu thường trú
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
@@ -285,9 +280,9 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 mt-2">
                                             <div class="m-form__heading">
-                                                <h3 class="m-form__heading-title">
+                                                <h3 class="m-form__heading-title" style="font-weight: bold">
                                                     Nơi ở hiện tại
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
@@ -364,7 +359,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="m-form__heading">
-                                                <h3 class="m-form__heading-title">
+                                                <h3 class="m-form__heading-title" style="font-weight: bold">
                                                     Trình độ
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
@@ -433,7 +428,6 @@
 
                                 <div class="col-md-12 d-flex justify-content-end">
                                     <div class="m-form__actions">
-                                        <a href="{{route('quan-ly-giao-vien-index')}}"><button type="button" class="btn btn-info">Hủy</button></a>
                                         <button type="submit" class="btn btn-success">Thêm mới</button>
                                     </div>
                                 </div>

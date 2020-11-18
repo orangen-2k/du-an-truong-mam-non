@@ -26,11 +26,11 @@ class GiaoVienRepository extends BaseModelRepository
             ->get();
         return $data;
     }
-    public function getAllGV_limit($params, $limit)
+    public function getAllGV_limit($params)
     {
         $data = $this->model;
 
-        return $data->paginate($limit);
+        return $data->get();
     }
     public function getLopHoc($lop_id)
     {
@@ -90,21 +90,15 @@ class GiaoVienRepository extends BaseModelRepository
             ->get();
     }
 
-    public function getGV($id, $lop_id)
+    public function getGV($id)
     {   
-        $data = $this->model;
-        if ($lop_id > 0) {
-            $data = $data
-                ->join('lop_hoc', 'lop_hoc.id', '=', 'giao_vien.lop_id')
-                ->select('lop_hoc.khoi_id', 'giao_vien.*');
-        }
-        $data = $data->where('giao_vien.id', $id)->first();
+        $data = $this->model->where('id', $id)->first();
         return $data;
     }
 
     public function update_gv($id, $data)
     {
-        return $this->table->where('id', $id)->update($data);
+        return $this->model->where('id', $id)->update($data);
     }
 
     public function destroy_gv($id)
@@ -131,6 +125,84 @@ class GiaoVienRepository extends BaseModelRepository
         ->select('giao_vien.*')
         ->where('lich_su_day.lop_id', $id)
         ->get();
+        return $query;
+    }
+
+    public function getAllGvTheoUser(){
+        $query = $this->model
+        ->join('users', 'users.id', '=', 'giao_vien.user_id')
+        ->select('giao_vien.*', 'users.active')
+        ->where('users.active', 1)
+        ->get();
+        return $query;
+    }
+    public function getAllGvTheoUserChuaCoLop(){
+        $query = $this->model
+        ->join('users', 'users.id', '=', 'giao_vien.user_id')
+        ->select('giao_vien.*', 'users.active')
+        ->where('users.active', 1)
+        ->where('giao_vien.lop_id', '<=', 0)
+        ->get();
+        return $query;
+    }
+    public function getAllGvTheoUserThoiDay(){
+        $query = $this->model
+        ->join('users', 'users.id', '=', 'giao_vien.user_id')
+        ->select('giao_vien.*', 'users.active')
+        ->where('users.active', 2)
+        ->get();
+       
+        return $query;
+    }
+
+    public function ThoiDayGiaoVien($id){
+        $query = DB::table('users')->where('id', $id)
+        ->update(['active' => 2]);
+    }
+    public function getOneGiaoVien($id){
+        $query = $this->model->where('id', $id)->first();
+        return $query;
+    }
+    public function XoaBoLopGiaoVien($id){
+        $this->model->where('id', $id)->update([
+            'lop_id' => 0,
+            'type' => 0
+        ]);
+    }
+    public function PhucHoiTrangThai($id){
+         DB::table('users')->where('id', $id)
+        ->update(['active' => 1]);
+    }
+
+    public function LichSuDay($id){
+        $query = DB::table('lop_hoc')
+        ->join('lich_su_day', 'lich_su_day.lop_id', '=', 'lop_hoc.id')
+        ->join('khoi', 'khoi.id', '=', 'lop_hoc.khoi_id')
+        ->select('lop_hoc.ten_lop', 'lop_hoc.id as lop_id', 'khoi.ten_khoi', 'khoi.id as khoi_id', 'lich_su_day.id', 'lich_su_day.giao_vien_id')
+        ->where('lich_su_day.giao_vien_id', $id)
+        ->get();
+        return $query;
+    }
+
+    public function LichDayHienTaiGV($id){
+        $query = DB::table('lop_hoc')
+        ->join('khoi', 'khoi.id', '=', 'lop_hoc.khoi_id')
+        ->join('giao_vien', 'giao_vien.lop_id', '=', 'lop_hoc.id')
+        ->select('lop_hoc.ten_lop', 'lop_hoc.id as lop_id', 'khoi.ten_khoi', 'khoi.id as khoi_id', 'giao_vien.id as giao_vien_id')
+        ->where('giao_vien.id', $id)
+        ->first();
+        return $query;
+    }
+    
+    public function getGVHienTai($lop_id){
+        $query = $this->model->where('lop_id', $lop_id)->get();
+        return $query;
+    }
+    public function getGVLichSuDay($lop_id){
+        $query = DB::table('lich_su_day')
+        ->join('giao_vien', 'giao_vien.id', '=', 'lich_su_day.giao_vien_id')
+        ->select('giao_vien.*', 'lich_su_day.id as lich_su_day_id')
+        ->where('lich_su_day.lop_id', $lop_id)->get();
         return $query;
     }
 

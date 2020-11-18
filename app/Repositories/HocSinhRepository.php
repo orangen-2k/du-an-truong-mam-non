@@ -122,5 +122,25 @@ class HocSinhRepository extends BaseModelRepository
     {
       return  $this->model->selectRaw('(YEAR(CURDATE()) - YEAR(ngay_sinh)) as tuoi')->where('id',$id_hs)->get();
     }
+
+    public function getHocSinhLichSuHoc($lop_id){
+        $query = $this->model
+        ->join('lich_su_hoc', 'lich_su_hoc.hoc_sinh_id', '=', 'hoc_sinh.id')
+        ->select('hoc_sinh.*')->where('lich_su_hoc.lop_id', $lop_id)->get();
+        return $query;
+    }
+
+    public function getHocSinhHienTai($lop_id){
+        $query = $this->model->where('lop_id', $lop_id)->get();
+        return $query;
+    }
     
+    public function getLichSuCuaHocSinh($hoc_sinh_id){
+        $query = $this->model
+        ->join('lich_su_hoc', 'lich_su_hoc.hoc_sinh_id', '=', 'hoc_sinh.id')
+        ->join('lop_hoc', 'lop_hoc.id', '=', 'hoc_sinh.lop_id')
+        ->select('hoc_sinh.*', 'lop_hoc.ten_lop', 'lich_su_hoc.lop_id as lich_su_lop_id')->where('lich_su_hoc.hoc_sinh_id', $hoc_sinh_id)
+        ->get();
+        return $query;
+    }
 }

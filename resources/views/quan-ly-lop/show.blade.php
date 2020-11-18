@@ -21,8 +21,9 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                Thông tin lớp {{$lop->ten_lop}}
+                                {{$lop->ten_lop}} (Năm học : {{$nam_hoc->name}})
                             </h3>
+                            
                         </div>
                     </div>
                 </div>
@@ -50,18 +51,19 @@
                                         <div class="m-widget4">
                                             <div class="m-widget4__item">
                                                 <div class="m-widget4__img m-widget4__img--pic">
-                                                    <img src="../../assets/app/media/img/users/100_4.jpg" alt="">
+                                                    <img src= {{($item->anh == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' :  asset('storage/'.$item->anh) }}
+                                                    class="rounded mx-auto d-block mb-2">
                                                 </div>
                                                 <div class="m-widget4__info">
                                                     <span class="m-widget4__title">
                                                         {{$item->ten}}
                                                     </span><br>
                                                     <span class="m-widget4__sub">
-                                                        {{ $item->type ==1 ?'Giáo viên chủ nhiêm':'Giáo viên phụ' }}
+                                                        {{ $item->type == 1 ?'Giáo viên chính':'Giáo viên phụ' }}
                                                     </span>
                                                 </div>
                                                 <div class="m-widget4__ext">
-                                                    <a href="#"
+                                                    <a href="{{route('quan-ly-giao-vien-edit', ['id' => $item->id])}}"
                                                         class="m-btn m-btn--pill m-btn--hover-brand btn btn-sm btn-secondary">Chi
                                                         tiết</a>
                                                 </div>
@@ -235,11 +237,11 @@
                         <td>{{$item->ma_hoc_sinh}}</td>
                         <td>{{$item->ten}}</td>
                         <td><img width="100px"
-                                src="https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" alt="">
+                                src={{($item->avatar == "") ? "https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" :  asset('storage/'.$item->avatar)}} alt="">
                         </td>
-                        <td>{{$item->ngay_sinh}}</td>
+                        <td>{{date("d/m/Y", strtotime($item->ngay_sinh))}}</td>
                         <td>{{ config('common.gioi_tinh')[$item->gioi_tinh] }}</td>
-                        <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => 1]) }}">Chi
+                        <td><a class="btn btn-success" href="{{ route('quan-ly-hoc-sinh-edit', ['id' => $item->id]) }}">Chi
                                 tiết</a>
                         </td>
                     </tr>

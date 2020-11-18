@@ -73,6 +73,11 @@ return [
         'Brâu',
         'Rơ Măm',
         'Ơ Đu'
-    ] 
+    ],
+    'chuc_vu' => [
+        'Không chức vụ',
+        'Chính',
+        'Phụ',
+    ],
 ]
 ?>

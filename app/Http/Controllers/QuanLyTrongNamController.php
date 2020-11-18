@@ -313,6 +313,7 @@ class QuanLyTrongNamController extends Controller
 
     public function xoaToanBoDuLieuCuaNamHocHienTai(Request $request)
     {
+        // dd(1);
         $type = $request->type;
         $nam_hoc_cu =  $this->NamHocRepository->getNamHocCu();
         $id_nam_hoc_moi =  $request->id_nam_hoc;
@@ -335,13 +336,17 @@ class QuanLyTrongNamController extends Controller
             foreach ($khoi_moi as $key => $value_khoi) {
                 $this->KhoiRepository->delete($value_khoi->id);
             }
+           
             foreach ($data_hoc_sinh as $key => $value_hs_update) {
                 $data_hs_update = [
                     'lop_id' => $value_hs_update->lop_id,
                     'type' => 1
                 ];
+              
                 $this->HocSinhRepository->update($value_hs_update->hoc_sinh_id, $data_hs_update);
+               
             }
+            dd($data_hs_update);
             LichSuHoc::destroy($list_id_delete);
             $this->NamHocRepository->update($id_nam_hoc_moi,['backup'=>0]);
           
