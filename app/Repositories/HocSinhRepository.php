@@ -85,24 +85,35 @@ class HocSinhRepository extends BaseModelRepository
     }
 
 
-    public function getDataHocSinhChuaCoLop($type){
-        return  $this->model->addSelect('*',DB::raw('(YEAR(CURDATE()) - YEAR(ngay_sinh)) as age'))->where('lop_id',0)->where('type',$type)->get();
+    public function getDataHocSinhChuaCoLop($type,$nam_hoc){
+   
+    // dd($nam_hoc->start_date);
+        return  $this->model->selectRaw('(YEAR(?) - YEAR(ngay_sinh)) as age',[$nam_hoc->start_date])->select('*')->where('lop_id',0)->where('type',$type)->get();
     }
 
-    public function xepLopTuDong($id_lop,$do_tuoi,$gioi_tinh,$sl_hs)
+    public function xepLopTuDong($id_lop,$do_tuoi,$gioi_tinh,$sl_hs,$nam_hoc)
     {
         return $this->model
-        ->whereRaw('(YEAR(CURDATE()) - YEAR(ngay_sinh))=?',[$do_tuoi])
+        ->whereRaw('(YEAR(?) - YEAR(ngay_sinh))= ? ',[$nam_hoc->start_date,$do_tuoi])
         ->where("lop_id",0)->where('gioi_tinh',$gioi_tinh)
         ->orderBy('created_at')
         ->limit($sl_hs)
         ->update(["lop_id" => $id_lop]);
     }
 
-    public function getHocSinhChuaCoLopTheoDoTuoi($tuoi,$gioi_tinh)
+    public function getHocSinhChuaCoLopTheoDoTuoi($tuoi,$gioi_tinh,$nam_hoc)
     {
+        // $startdate = new Carbon( $nam_hoc->start_date );
+        // // dd(Carbon::now()->year);
+        // if($startdate->year == Carbon::now()->year){
+        //     if(Carbon::parse($nam_hoc->start_date)->gt(Carbon::now())){
+        //         $tuoi = $tuoi - 1;
+        //     }
+        // }
+        // dd(Carbon::createFromFormat('Y-m-d H:i:s', $$nam_hoc->start_date)->year);
+       
         return $this->model
-        ->whereRaw('(YEAR(CURDATE()) - YEAR(ngay_sinh))= ? ',[$tuoi])
+        ->whereRaw('(YEAR(?) - YEAR(ngay_sinh))= ? ',[$nam_hoc->start_date,$tuoi])
         ->where('gioi_tinh',$gioi_tinh)
         ->where("lop_id",0)
         ->where("type",'<',2)
@@ -119,9 +130,9 @@ class HocSinhRepository extends BaseModelRepository
         return $this->model->where('lop_id',$id_lop)->update($data);
     }
 
-    public function getTuoiHocSinh($id_hs)
+    public function getTuoiHocSinh($id_hs,$nam_hoc)
     {
-      return  $this->model->selectRaw('(YEAR(CURDATE()) - YEAR(ngay_sinh)) as tuoi')->where('id',$id_hs)->get();
+        return $this->model->selectRaw('(YEAR(?) - YEAR(ngay_sinh)) as tuoi',[$nam_hoc->start_date])->where('id',$id_hs)->get();
     }
 
     public function getAllHocSinhTrongNamHocHienTai()

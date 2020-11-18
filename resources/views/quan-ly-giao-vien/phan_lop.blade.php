@@ -105,8 +105,10 @@
                         <button type="button" onclick="phanLop()" class="btn btn-success mr-4">Lưu</button>
                         @endif
                         
+                    @else
+                    <button type="button" onclick="phanLop()" class="btn btn-success mr-4">Lưu</button>
+
                     @endif
-                      
                         <button type="button" class="btn btn-secondary">Hủy</button>
                     </div>
                 </div>
