@@ -1204,7 +1204,7 @@ const addLop = () =>{
 
       var id_box_khoi_them_lop = 'tab'+$('#khoi_id').val()+'_item_1_body'
       $(`#${id_box_khoi_them_lop}`).find('ul').append(`
-      <li class="m-nav__item pl-4 lop_hoc row" onclick="addColor(this)" id='lop_${response.data.id}' style="cursor: pointer">
+      <li class="m-nav__item pl-4 lop_hoc" onclick="addColor(this)" id='lop_${response.data.id}' style="cursor: pointer">
         <span href="" class="m-nav__link">
           <span onclick="showHocSinhCuaLop(${response.data.id})" class="m-nav__link-text ten_lop">${response.data.ten_lop}
             <span class="sl_hs_cua_lop">(0)</span></span>

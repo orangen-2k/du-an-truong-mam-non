@@ -433,10 +433,13 @@ class QuanlyHocSinhController extends Controller
         $hoc_sinh_nu_chua_co_lop = $this->HocSinhRepository->getAllHocSinhChuaCoLop(1);
         $do_tuoi = config('common.do_tuoi');
         // dd($do_tuoi);
+        $id_nam_hoc = $this->NamHocRepository->maxID();
+        $nam_hoc = $this->NamHocRepository->find($id_nam_hoc);
+        // dd($id_nam_hoc);
         $data_hs_chua_co_lop = [];
         foreach ($do_tuoi as $key => $value) {
-            $data_nu = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value, 1);
-            $data_nam = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value, 0);
+            $data_nu = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value, 1,$nam_hoc);
+            $data_nam = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value, 0,$nam_hoc);
             $data_do_tuoi = [
                 'do_tuoi' => $value,
                 'nam' => $data_nam,
@@ -510,9 +513,8 @@ class QuanlyHocSinhController extends Controller
         $id_nam_hoc = $this->NamHocRepository->maxID();
         $hoc_sinh = $this->HocSinhRepository->find($id_hs);
         $ly_do_thoi_hoc = $hoc_sinh->ThoiHoc->ly_do_thoi_hoc;
-        $tuoi_hoc_sinh = $this->HocSinhRepository->getTuoiHocSinh($id_hs);
-
         $nam_hoc = $this->NamHocRepository->find($id_nam_hoc);
+        $tuoi_hoc_sinh = $this->HocSinhRepository->getTuoiHocSinh($id_hs,$nam_hoc);
         $khoiChoHocSinh = $nam_hoc->Khoi()->where('do_tuoi',$tuoi_hoc_sinh[0]->tuoi)->first();
         // dd($khoiChoHocSinh->LopHoc);
         return [
