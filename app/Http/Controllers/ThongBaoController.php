@@ -137,8 +137,8 @@ class ThongBaoController extends Controller
             array_push($list_id_hoc_sinh_save_thong_bao, $user_id);
         }
 
-        jobThongBaoToiGiaoVien::dispatch($listId_Gv, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository);
-        jobThongBaoToiHocSinh::dispatch($list_id_hoc_sinh_save_noti, $list_id_hoc_sinh_save_thong_bao, $list_device, $content, $this->NotificationRepository);
+        jobThongBaoToiGiaoVien::dispatch($listId_Gv, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository)->onQueue('nha_truong');
+        jobThongBaoToiHocSinh::dispatch($list_id_hoc_sinh_save_noti, $list_id_hoc_sinh_save_thong_bao, $list_device, $content, $this->NotificationRepository)->onQueue('nha_truong');
         return response()->json([
             'status'    => 'Gửi thông báo thành công',
             'code'      => 200,
@@ -168,7 +168,7 @@ class ThongBaoController extends Controller
         $dataCreate['route'] = $route;
         $dataCreate['thongbao_id'] = $thongbao_id;
 
-        jobThongBaoToiGiaoVien::dispatch($users_id, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository);
+        jobThongBaoToiGiaoVien::dispatch($users_id, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository)->onQueue('nha_truong');
 
         return response()->json([
             'status'    => 'Gửi thông báo thành công',
@@ -243,8 +243,8 @@ class ThongBaoController extends Controller
             array_push($list_id_hoc_sinh_save_thong_bao, $user_id);
         }
 
-        jobThongBaoToiHocSinh::dispatch($list_id_hoc_sinh_save_noti, $list_id_hoc_sinh_save_thong_bao, $list_device, $content, $this->NotificationRepository);
-        jobThongBaoToiGiaoVien::dispatch($listId_Gv, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository);
+        jobThongBaoToiHocSinh::dispatch($list_id_hoc_sinh_save_noti, $list_id_hoc_sinh_save_thong_bao, $list_device, $content, $this->NotificationRepository)->onQueue('nha_truong');
+        jobThongBaoToiGiaoVien::dispatch($listId_Gv, $dataCreate, $this->NotificationRepository, $this->ThongBaoRepository)->onQueue('nha_truong');
         return response()->json([
             'status'    => 'Gửi thông báo thành công',
             'code'      => 200,
