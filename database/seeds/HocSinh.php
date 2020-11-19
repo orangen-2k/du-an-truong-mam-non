@@ -57,7 +57,7 @@ class HocSinh extends Seeder
                         'name' => $json_ten[$rand]->full_name,
                         'username' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.rand(1,10),
                         'avatar' => "1",
-                        'email' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.rand(1000,9999999).'gmail.com',
+                        'email' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand.'gmail.com',
                         'password' => Hash::make('1234567890'),
                         'time_code' => Carbon::now(),
                         'role' => 3,

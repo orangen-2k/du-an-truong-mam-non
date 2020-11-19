@@ -56,12 +56,15 @@ Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::get('/', 'QuanlyGiaoVienController@index')->name('quan-ly-giao-vien-index');
     Route::get('/create', 'QuanlyGiaoVienController@create')->name('quan-ly-giao-vien-create');
     Route::post('/store', 'QuanlyGiaoVienController@store')->name('quan-ly-giao-vien-store');
-    Route::get('/edit/{lop_id}/{id}', 'QuanlyGiaoVienController@edit')->name('quan-ly-giao-vien-edit');
+    Route::get('/edit/{id}', 'QuanlyGiaoVienController@edit')->name('quan-ly-giao-vien-edit');
     Route::post('/update/{id}', 'QuanlyGiaoVienController@update')->name('quan-ly-giao-vien-update');
     Route::post('/lop-theo-khoi', 'QuanlyGiaoVienController@getLopTheoKhoi')->name('quan-ly-giao-vien-get-lop-theo-khoi');
     Route::post('/destroy', 'QuanlyGiaoVienController@destroy')->name('quan-ly-giao-vien-destroy');
-
+    Route::post('/giao-vien-chua-co-lop', 'QuanlyGiaoVienController@getAllGiaoVienChuaCoLop')->name('quan-ly-get-all-giao-vien-chua-lop');
     Route::get('/get-giao-vien-chua-co-lop', 'QuanlyGiaoVienController@getGiaoVienChuaCoLop')->name('quan-ly-giao-vien-chua-co-lop');
+    Route::post('/get-giao-vien-nghi-day', 'QuanlyGiaoVienController@getGiaoVienNghiDay')->name('quan-ly-giao-vien-nghi-day');
+    Route::post('/thoi-day-giao-vien', 'QuanlyGiaoVienController@ThoiDayGiaoVien')->name('quan-ly-giao-vien-thoi-day-cho-giao-vien');
+    Route::post('/khoi-phuc-thoi-day', 'QuanlyGiaoVienController@KhoiPhucThoiDay')->name('quan-ly-giao-vien-khoi-phuc-thoi-day');
     Route::get('/phan-lop', 'QuanlyGiaoVienController@phanLopChoGiaoVien')->name('quan-ly-phan-lop-cho-giao-vien');
     Route::post('/store-phan-lop', 'QuanlyGiaoVienController@storePhanLopChoGiaoVien')->name('store-phan-lop-cho-giao-vien');
 
@@ -86,7 +89,7 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::post('/get-thong-tin-hoc-sinh-thoi-hoc', 'QuanlyHocSinhController@getThongTinThoiHoc')->name('get-thong-tin-hoc-sinh-thoi-hoc');  
     Route::post('/xac-nhan-hoc-sinh-di-hoc-lai', 'QuanlyHocSinhController@xacNhanDiHocLai')->name('xac-nhan-hoc-sinh-di-hoc-lai');
     
-    
+    Route::post('/lich-su-cua-hoc-sinh', 'QuanlyHocSinhController@getLichSuHocSinh')->name('quan-li-lich-su-cua-hoc-sinh');
 
 });
 
