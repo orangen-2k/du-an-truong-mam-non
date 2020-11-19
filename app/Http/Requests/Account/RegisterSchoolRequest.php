@@ -30,7 +30,8 @@ class RegisterSchoolRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[\pL\s\-]+$/u',
-            'email' => 'required|email|unique:users'
+            'phone_number' => 'required|digits:10|unique:users,phone_number',
+            'email' => 'required|email|unique:users,email'
         ];
     }
 
@@ -38,6 +39,9 @@ class RegisterSchoolRequest extends FormRequest
         return [
             'name.required' => 'Vui lòng điền Họ và Tên',
             'name.regex' => 'Vui lòng điền Họ và Tên hợp lệ',
+            'phone_number.required' => 'Vui lòng nhập số điện thoại',
+            'phone_number.digits' => 'Vui lòng nhập số có độ dài 10 ký tự',  
+            'phone_number.unique' => 'Số điện thoại đã tồn tại',
             'email.required' => 'Vui lòng điền Email!',
             'email.email' => 'Email không hợp lệ!',
             'email.unique' => 'Email đã được đăng ký!'

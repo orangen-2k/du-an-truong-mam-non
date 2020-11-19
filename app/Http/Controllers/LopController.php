@@ -240,8 +240,10 @@ class LopController extends Controller
         $do_tuoi = $lop->Khoi->do_tuoi;
         $sl_hs_nam = $request->sl_hs_nam;
         $sl_hs_nu = $request->sl_hs_nu;
-        $sl_hs_nam_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,0);
-        $sl_hs_nu_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,1);
+        $id_nam_hoc = $this->NamHocRepository->maxID();
+        $nam_hoc = $this->NamHocRepository->find($id_nam_hoc);
+        $sl_hs_nam_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,0,$nam_hoc);
+        $sl_hs_nu_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,1,$nam_hoc);
         if($sl_hs_nam > $sl_hs_nam_con_lai){
             return response()->json([
                 'message' => 'so-luong-khong-du',
@@ -259,9 +261,9 @@ class LopController extends Controller
             ], 422);
         }
        
-        $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,0,$sl_hs_nam);
-        $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,1,$sl_hs_nu);
-        return [
+        $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,0,$sl_hs_nam,$nam_hoc);
+        $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,1,$sl_hs_nu,$nam_hoc);
+return [                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
             'hs_cua_lop' => $lop->HocSinh,
             'sl_hs_cua_lop' => count($lop->HocSinh)
         ];
@@ -271,7 +273,9 @@ class LopController extends Controller
 
     public function getDataHocSinhChuaCoLop($type)
     {
-       return $this->HocSinhRepository->getDataHocSinhChuaCoLop($type);
+        $id_nam_hoc = $this->NamHocRepository->maxID();
+        $nam_hoc = $this->NamHocRepository->find($id_nam_hoc);
+        return $this->HocSinhRepository->getDataHocSinhChuaCoLop($type,$nam_hoc);
     }
 
 }

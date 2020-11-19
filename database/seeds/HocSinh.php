@@ -40,7 +40,7 @@ class HocSinh extends Seeder
         ->select('lop_hoc.*', 'khoi.nam_hoc_id')
         ->where('khoi.nam_hoc_id', $nam_hoc_moi->id)->get();
         
-        $tuoi = 17;
+        $tuoi = 19;
         $length = 5;
         foreach ($lop_hoc_moi as $key) {
             
