@@ -46,6 +46,12 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
     Route::post('/submit-xac-nhan-ma-dang-ky', 'DangKiNhapHocController@XacNhanDangKy')->name('submit-xac-nhan-ma-dangki');
 });
 
+// HIEUPT-13/10/2020-QUAN_LY_GIAO_TRINH
+
+Route::prefix('/quan-ly-giao-trinh')->group(function(){
+    Route::get('/', 'QuanLyGiaoTrinhController@index')->name('quan-ly-giao-trinh-index');
+});
+
 Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::get('/', 'QuanlyGiaoVienController@index')->name('quan-ly-giao-vien-index');
     Route::get('/create', 'QuanlyGiaoVienController@create')->name('quan-ly-giao-vien-create');
@@ -59,6 +65,9 @@ Route::prefix('quan-ly-giao-vien')->group(function () {
     Route::post('/get-giao-vien-nghi-day', 'QuanlyGiaoVienController@getGiaoVienNghiDay')->name('quan-ly-giao-vien-nghi-day');
     Route::post('/thoi-day-giao-vien', 'QuanlyGiaoVienController@ThoiDayGiaoVien')->name('quan-ly-giao-vien-thoi-day-cho-giao-vien');
     Route::post('/khoi-phuc-thoi-day', 'QuanlyGiaoVienController@KhoiPhucThoiDay')->name('quan-ly-giao-vien-khoi-phuc-thoi-day');
+    Route::get('/phan-lop', 'QuanlyGiaoVienController@phanLopChoGiaoVien')->name('quan-ly-phan-lop-cho-giao-vien');
+    Route::post('/store-phan-lop', 'QuanlyGiaoVienController@storePhanLopChoGiaoVien')->name('store-phan-lop-cho-giao-vien');
+
 });
 Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::get('/thong-tin/{id}', 'QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
@@ -138,6 +147,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('/kiem_tra_ton_tai_thong_tin_nam_hoc', 'QuanLyTrongNamController@kiemTraTonTaiDuLieuNamHoc')->name('kiem_tra_ton_tai_thong_tin_nam_hoc');
         Route::post('/xoa_toan_bo_du_lieu_nam_hoc_hien_tai', 'QuanLyTrongNamController@xoaToanBoDuLieuCuaNamHocHienTai')->name('xoa_toan_bo_du_lieu_nam_hoc_hien_tai');
         
+        Route::post('/thay_doi_session_nam_hoc', 'QuanLyTrongNamController@changeSessionNamHoc')->name('thay-doi-session-nam-hoc');
+
         
     });
     Route::prefix('thong-bao')->group(function () {
@@ -146,9 +157,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/giao-vien', 'ThongBaoController@uiThongBaoGiaoVien')->name('thong-bao.ui-gv');
         Route::get('/hoc-sinh', 'ThongBaoController@uiThongBaoHocSinh')->name('thong-bao.ui-hs');
         Route::get('/{id}', 'ThongBaoController@showThongBao')->name('thong-bao.show')->where('id', '[0-9]+');;
-
-        Route::post('sendto', 'ThongBaoController@store')->name('sendto');
-        Route::post('sendto-toan-truong', 'ThongBaoController@postToanTruong')->name('sendto_toantruong');
+        Route::post('sendto-toan-truong', 'ThongBaoController@guiToanTruong')->name('sendto_toantruong');
+        Route::post('sendto-giao-vien', 'ThongBaoController@guiGiaoVien')->name('sendto_giaovien');
+        Route::post('sendto-hoc-sinh', 'ThongBaoController@guiHocSinh')->name('sendto_hocsinh');
+        Route::get('soan-thong-bao', 'ThongBaoController@create')->name('thong-bao.create');
     });
 
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
@@ -176,3 +188,7 @@ Route::prefix('quan-ly-suc-khoe')->group(function(){
     Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
 });
 
+Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
+Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
+Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
+Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');

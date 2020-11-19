@@ -129,7 +129,8 @@
                                 @foreach ($itemLopHoc->HocSinh as $itemHocSinh)
                                 <tr>
                                     <td class="text-center"><input type="checkbox" class="checkbox"
-                                            data-id="{{ $itemHocSinh->user_id }}"
+                                            data-id="{{ $itemHocSinh->id }}"
+                                            data-device="{{ $itemHocSinh->User->device }}"
                                             data-lop_id="{{ $itemHocSinh->lop_id }}"></td>
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{ $itemKhoi->ten_khoi }}</td>
@@ -174,7 +175,7 @@
 @section('script')
 <script src="https://cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     var dtable;
@@ -229,16 +230,19 @@
     CKEDITOR.config.height = 300;
 
     var toPeoples = [];
+    var listDevice = [];
     var lop_id = [];
     var isCheck = false;
 
     function sendToPeoples() {
         toPeoples = [];
+        listDevice = [];
         lop_id = [];
         var statusList = $('input[type=checkbox]:checked');
         for (i = 0; i < statusList.length; i++) {
             if (statusList[i].checked && statusList[i].hasAttribute("data-id")) {
                 toPeoples.push(parseInt(statusList[i].getAttribute('data-id')))
+                listDevice.push(statusList[i].getAttribute('data-device'))
 
                 if (!lop_id.includes(statusList[i].getAttribute('data-lop_id'))) {
                     lop_id.push(statusList[i].getAttribute('data-lop_id'))
@@ -286,14 +290,14 @@
             });
         } else {
             Swal.showLoading()
-            $.post("{{ route('sendto') }}", {
+            $.post("{{ route('sendto_hocsinh') }}", {
                 '_token': "{{ csrf_token() }}",
                 'title': $("[name='title']").val(),
                 'content': editor.getData(),
                 'user_id': toPeoples,
+                'device': listDevice,
                 'lop_id': lop_id,
-                'isCheck': isCheck,
-                'type': 3
+                'isCheck': isCheck
             }, function (response) {
                 Swal.fire({
                     position: 'center',

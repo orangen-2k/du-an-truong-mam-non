@@ -13,6 +13,7 @@ use App\Repositories\XaPhuongThiTranRepository;
 use App\Http\Requests\ValidateCreateQuanLiGV;
 use App\Repositories\AccountRepository;
 use Storage;
+use App\Http\Requests\GiaoVien\StoreGiaoVien;
 use App\Repositories\NamHocRepository;
 
 use App\Http\Requests\GiaoVien\ValidateUpdateGV;
@@ -47,7 +48,7 @@ class QuanlyGiaoVienController extends Controller
     }
     public function index()
     {
-       
+
         $params = request()->all();
         
         $data = $this->GiaoVienRepository->getAllGvTheoUser();
@@ -80,16 +81,16 @@ class QuanlyGiaoVienController extends Controller
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         return view('quan-ly-giao-vien.create', compact('khoi', 'lop', 'thanhpho'));
     }
-    public function store(Request $request)
+    public function store(StoreGiaoVien $request)
     {
-        
         $request['role'] = 2;
         $request['name'] = $request['ten'];
+        $request['phone_number'] = $request['dien_thoai'];
         $user = $this->AccountRepository->storeAcount($request->all());
         $anh = $request->file("anh");
         $dataRequest = $request->all();
         $dataRequest['user_id'] = $user->id;
-        // unset($dataRequest['email']);
+        unset($dataRequest['phone_number']);
         unset($dataRequest['role']);
         unset($dataRequest['name']);
         if ($anh) {
@@ -103,7 +104,7 @@ class QuanlyGiaoVienController extends Controller
         }
         unset($dataRequest['_token']);
         unset($dataRequest['khoi']);
-        $dataRequest['ma_gv'] = 'GV'. time();
+        $dataRequest['ma_gv'] = 'GV' . time();
         $this->GiaoVienRepository->store_gv($dataRequest);
         return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
     }
@@ -160,7 +161,7 @@ class QuanlyGiaoVienController extends Controller
             'khoi',
             'lop_hoc',
             'thanhpho',
-            'maqh_gv_hktt', 
+            'maqh_gv_hktt',
             'xaid_gv_hktt',
             'maqh_gv_noht', 
             'xaid_gv_noht',
@@ -195,15 +196,66 @@ class QuanlyGiaoVienController extends Controller
     }
 
     public function destroy(Request $request)
-    {   
+    {
         $data = $request->all();
         $this->GiaoVienRepository->destroy_gv($data['id']);
         return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
     }
 
     public function getGiaoVienChuaCoLop()
-    {   
-       return $this->GiaoVienRepository->getGIaoVienChuaCoLop();
+    {
+        return $this->GiaoVienRepository->getGIaoVienChuaCoLop();
+    }
+
+    public function phanLopChoGiaoVien(Request $request)
+    {
+        $id_nam_hien_tai = $this->NamHocRepository->maxID();
+        if ($request->session()->has('id_nam_hoc')) {
+            $id = $request->session()->get('id_nam_hoc');
+        } else {
+            $id = $this->NamHocRepository->maxID();
+        }
+        // dd($id);
+        $nam_hoc_moi = $this->NamHocRepository->find($id);
+        $khoi = $nam_hoc_moi->Khoi;
+
+        // dd($khoi);
+
+        $lop = [];
+        foreach ($khoi as $key => $value) {
+            array_push($lop, $value->LopHoc);
+        }
+        // dd($lop);
+        $collection = collect($lop);
+        $data_lop = $collection->collapse();
+        $data_lop->all();
+        if ($request->session()->has('id_nam_hoc') && $request->session()->get('id_nam_hoc') != $id_nam_hien_tai) {
+            $giao_vien = [];
+            foreach ($data_lop as $key => $value) {
+                array_push($giao_vien, $value->LichSuDay);
+            }
+            $collection = collect($giao_vien);
+            $data_giao_vien = $collection->collapse();
+            $data_giao_vien->all();
+            $data_giao_vien->map(function ($giaovien) {
+                $giaovien->ten = $giaovien->GiaoVien->ten;
+                $giaovien->ma_gv = $giaovien->GiaoVien->ma_gv;
+                return $giaovien;
+            });
+        } else {
+            $data_giao_vien = $this->GiaoVienRepository->getAllGvTheoUser();
+        }
+        // dd($data_lop,$data_giao_vien);
+        return view('quan-ly-giao-vien.phan_lop', compact('data_lop', 'data_giao_vien','id_nam_hien_tai'));
+    }
+
+    public function storePhanLopChoGiaoVien(Request $request)
+    {
+        $data_phan_lop = $request->all();
+        foreach ($data_phan_lop as $key => $value) {
+            $this->GiaoVienRepository->update($value['id'], ['lop_id' => $value['lop_id'], 'type' => $value['type']]);
+        }
+        return 'thành công';
     }
 
     public function getAllGiaoVienChuaCoLop(){

@@ -11,6 +11,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Auth\ResetForm;
+use Illuminate\Support\Str;
 class ResetPasswordController extends Controller
 {
     /*
@@ -60,9 +61,9 @@ class ResetPasswordController extends Controller
         $hethan = Carbon::parse($checkUser ? $checkUser->time_code : Carbon::now());
         $hientai = Carbon::now();
         if(!$checkUser || $hientai->diffInMinutes($hethan) >= 1440){
-         return redirect()->back()->with('thongbao','Lỗi xác thực không thành công');
+         return redirect()->back()->with('message','Lỗi xác thực không thành công');
         };
-        $token = bcrypt(md5(time().$email));
+        $token = Str::random(60).md5(time());
         $checkUser->token = $token;
         $checkUser->password = Hash::make($request->password);
         $checkUser->email_verified_at = Carbon::now();

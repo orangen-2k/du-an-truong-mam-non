@@ -176,6 +176,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         Tightenco\Ziggy\ZiggyServiceProvider::class,
 
+        // add view share
+        App\Providers\ViewServiceProvider::class,
+
     ],
 
     /*

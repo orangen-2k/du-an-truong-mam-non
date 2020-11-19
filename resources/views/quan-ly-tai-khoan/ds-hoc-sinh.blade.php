@@ -1,11 +1,28 @@
 @extends('layouts.main')
 @section('title', "Quản tài khoản")
+@section('style')
+<style>
+    @media (min-width: 768px) { 
+        .box-sreach{
+            height: 300px;
+            overflow: hidden;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .box-sreach{
+            height: 270px;
+            overflow: hidden;
+        }
+    }
+</style>
+@endsection
 @section('content')
 <div class="m-content">
     <div class="row">
         <div class="col-xl-12">
             <!--begin::Portlet-->
-            <div class="m-portlet m-portlet--tab">
+            <div class="m-portlet m-portlet--tab box-sreach">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">

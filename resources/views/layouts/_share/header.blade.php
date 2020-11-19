@@ -10,7 +10,7 @@
                             <img alt="CoolKids"
                                 src="{!! asset('images/coolkids.png') !!}" style="max-width: 100%;
                                 display: block;
-                                height: auto;" />
+                                height: auto;" class="respon_logo"/>
                         </a>
                     </div>
                     <div class="m-stack__item m-stack__item--middle m-brand__tools">
@@ -56,11 +56,27 @@
                 </div>
 
                 <!-- END: Horizontal Menu -->
-
                 <!-- BEGIN: Topbar -->
                 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general m-stack--fluid">
                     <div class="m-stack__item m-topbar__nav-wrapper">
                         <ul class="m-topbar__nav m-nav m-nav--inline">
+                            <li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" m-dropdown-toggle="click"
+                            m-dropdown-persistent="1">
+                       <div class="input-group mb-3 mt-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="chon_nam_hoc_all">Năm học</label>
+                            </div>
+                            <select class="custom-select" id="chon_nam_hoc_all">
+                                @foreach ($nam_hoc_share as $item)
+                                <option 
+                                @if (Session::has('id_nam_hoc'))
+                                    {{ Session::get('id_nam_hoc') == $item->id ?'selected':''}}
+                                @endif
+                                value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                            </div>
+                           </li>
                             <li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" m-dropdown-toggle="click"
                              m-dropdown-persistent="1">
                                 <a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
@@ -124,7 +140,7 @@
                                                 </div>
                                                 <div class="m-card-user__details">
                                                     <span class="m-card-user__name m--font-weight-500">{{ Auth::user()->name }}</span>
-                                                    <a href="" class="m-card-user__email m--font-weight-300 m-link">
+                                                    <a href="#" class="m-card-user__email m--font-weight-300 m-link">
                                                         {{ Auth::user()->email }}</a>
                                                 </div>
                                             </div>
@@ -141,30 +157,8 @@
                                                             <span class="m-nav__link-title">
                                                                 <span class="m-nav__link-wrap">
                                                                     <span class="m-nav__link-text">Trang cá nhân</span>
-                                                                    <span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
                                                                 </span>
                                                             </span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="header/profile.html" class="m-nav__link">
-                                                            <i class="m-nav__link-icon flaticon-share"></i>
-                                                            <span class="m-nav__link-text">Hoạt động</span>
-                                                        </a>
-                                                    </li>
-                                                   
-                                                    <li class="m-nav__separator m-nav__separator--fit">
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="header/profile.html" class="m-nav__link">
-                                                            <i class="m-nav__link-icon flaticon-info"></i>
-                                                            <span class="m-nav__link-text">FAQ</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="m-nav__item">
-                                                        <a href="header/profile.html" class="m-nav__link">
-                                                            <i class="m-nav__link-icon flaticon-lifebuoy"></i>
-                                                            <span class="m-nav__link-text">Support</span>
                                                         </a>
                                                     </li>
                                                     <li class="m-nav__item">
