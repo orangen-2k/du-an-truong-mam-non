@@ -83,10 +83,12 @@ class QuanlyGiaoVienController extends Controller
     {
         $request['role'] = 2;
         $request['name'] = $request['ten'];
+        $request['phone_number'] = $request['dien_thoai'];
         $user = $this->AccountRepository->storeAcount($request->all());
         $anh = $request->file("anh");
         $dataRequest = $request->all();
         $dataRequest['user_id'] = $user->id;
+        unset($dataRequest['phone_number']);
         unset($dataRequest['role']);
         unset($dataRequest['name']);
         if ($anh) {
