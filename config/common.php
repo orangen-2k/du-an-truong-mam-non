@@ -75,9 +75,14 @@ return [
         'Pu Péo',
         'Brâu',
         'Rơ Măm',
-        'Ơ Đu',
-        'Khác'
+        'Ơ Đu'
     ],
+    'chuc_vu' => [
+        'Không chức vụ',
+        'Chính',
+        'Phụ',
+    ],
+        
     'notification_role' => [
         'nha_truong'=> 1,
         'giao_vien'=> 2,
