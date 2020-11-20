@@ -33,6 +33,9 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/account/edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
     Route::post('/account/update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
 
+    //Chart
+    Route::get('/','ChartController@getAllHocSinh')->name('chart');
+
 });
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
 Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
@@ -189,3 +192,8 @@ Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
 Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
 Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
 Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');
+
+
+   
+   //  Route::get('/','LopController@getHocSinhTheoLop'); 
+
