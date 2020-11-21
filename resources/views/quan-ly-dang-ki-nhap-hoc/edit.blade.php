@@ -22,6 +22,13 @@
 @endsection
 @section('content')
     <div class="m-content">
+
+        		
+		<div id="preload" class="preload-container text-center" style="display: none">
+			<img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+          </div>
+          
+
         <div class="row">
             <div class="col-xl-12">
                 <div class="m-portlet m-portlet--full-height">
@@ -844,11 +851,13 @@
 		}
 
      let submitDuyet = () => {
+             $('#preload').css('display','block');
+         
 			let myForm = document.getElementById('m_form');
 			var formData = new FormData(myForm)
 			axios.post(url_submit_edit ,formData)
 			.then(function (response) {
-				console.log(response.data);
+			 console.log(response.data);
                Swal.fire({
                             position: 'center',
                             icon: 'success',
@@ -859,6 +868,7 @@
                 window.location.href = url_index_ql_dang_ki;
 			})
 			.catch(function (error) {
+                $('#preload').css('display','none');
 				$('.error').text(' ')
 				 for (const key in error.response.data.errors) {
                             $('#'+key+'_error').html(error.response.data.errors[key]);
@@ -867,8 +877,6 @@
 		}
 
         let submitGhepTaiKhoan = (id_tk) => {
-
-
             Swal.fire({
                 title: 'Bạn muốn dùng chung tài khoản với học sinh này ?',
                 text: "Hãy chắc chắn phụ huynh muốn dùng chung tài khoản với học sinh này!",
@@ -879,6 +887,7 @@
                 confirmButtonText: 'Dùng chung!',
                 }).then((result) => {
                 if (result.value) {
+                  $('#preload').css('display','block');
                     let myForm = document.getElementById('m_form');
 		            var formData = new FormData(myForm);
                     formData.append('user_id', id_tk);
@@ -895,6 +904,7 @@
                         window.location.href = url_index_ql_dang_ki;
                     })
                     .catch(function (error) {
+                        $('#preload').css('display','none');
                         console.log(error);
                     })
                 }
