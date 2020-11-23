@@ -43,29 +43,31 @@ class GiaoVien extends Seeder
         }
         for ($i=0; $i <40 ; $i++) { 
             $rand = rand(200,3000);
+            $rand1= rand(10000,99999);
             $id_gv = DB::table('users')->insertGetId([
                 'name' => $json_ten[$rand]->full_name,
                 'username' => CovertVn($json_ten[$rand]->full_name).'GV'.rand(1,10),
-                'avatar' => "1",
-                'email' => CovertVn($json_ten[$rand]->full_name).rand(1000,9999).'GV'.$rand.'gmail.com',
+                'avatar' => "",
+                'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'gmail.com',
                 'password' => Hash::make('1234567890'),
                 'time_code' => Carbon::now(),
                 'role' => 2,
-                'active' => 1
+                'active' => 1,
+                'phone_number' => '03766'.$rand1
                 
              ]);
             DB::table('giao_vien')->insert([
                 'ma_gv' => 'GV0'.$id_gv,
                 'ten' => $json_ten[$rand]->full_name,
                 'gioi_tinh' => rand(0,1),
-                'dien_thoai' => '0376671'.rand(100,999),
-                'ngay_sinh' => '1998-08-'.rand(1,30),
+                'dien_thoai' => '03766'.$rand1,
+                'ngay_sinh' => '199'.rand(1,9).'-08-'.rand(1,30),
                 'dan_toc' => 'Kinh',
                 'trinh_do' => 'Cao đằng mầm non',
-                'email' => CovertVn($json_ten[$rand]->full_name).rand(1000,9999).'GV'.$rand.'gmail.com',
+                'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'gmail.com',
                 'chuyen_mon' => 'Cao đằng',
                 'noi_dao_tao' => 'Hà Nội',
-                'nam_tot_nghiep' => '2015',
+                'nam_tot_nghiep' => '2010',
                 'so_cmtnd' => '026200006416',
                 'ngay_cap_cmtnd' => '2015-06-25',
                 'noi_cap_cmtnd_matp' => '01',

@@ -28,11 +28,12 @@ class QuanlySucKhoeController extends Controller
        $this->NamHocRepository = $NamHocRepository;
     }
 
-    public function index($id)
+    public function index(Request $request)
     {   
-        if ($id == 0) {
-            $nam_hoc_hien_tai = $this->NamHocRepository->layNamHocHienTai();
-            $id = $nam_hoc_hien_tai->id;
+        if ($request->session()->has('id_nam_hoc')) {
+            $id = $request->session()->get('id_nam_hoc');
+        } else {
+            $id = $this->NamHocRepository->maxID();
         }
         $dot_id_gan_nhat = 0;
         $getAllNamHoc = $this->NamHocRepository->getAllNamHoc();
@@ -71,12 +72,20 @@ class QuanlySucKhoeController extends Controller
         unset($request['_token']);
         $ten_dot = $request['ten_dot'];
         $thoi_gian = $request['thoi_gian'];
-        $array = [
-            'ten_dot' => $ten_dot,
-            'thoi_gian' => $thoi_gian
-        ];
-        $this->SucKhoeRepository->postThemDotKhamSucKhoe($array);
-        return redirect()->route('quan-ly-suc-khoe-index', ['id' => 0])->with('ThongBaoThemDot', 'Hoàn Thành');
+        $get_nam_hoc_hien_tai = $this->NamHocRepository->layNamHocHienTai();
+        $data = 0;
+        if($thoi_gian<= $get_nam_hoc_hien_tai->end_date && $thoi_gian>= $get_nam_hoc_hien_tai->start_date){
+            $array = [
+                'ten_dot' => $ten_dot,
+                'thoi_gian' => $thoi_gian
+            ];
+            $this->SucKhoeRepository->postThemDotKhamSucKhoe($array);
+            $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDot', 'Hoàn Thành');
+        }
+        else{
+            $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDotLoi', 'Lỗi thêm đợt');
+        }
+        return $data;
     } 
     
     public function showChiTietSucKhoe(Request $request){
