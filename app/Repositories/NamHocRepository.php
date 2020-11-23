@@ -90,4 +90,11 @@ class NamHocRepository extends BaseModelRepository
     {
         return  $this->model->where('id', $id_nam_hoc)->first();
     }
+
+    public function getNamHocTheoKhoi($khoi_id){
+        $data = $this->model
+        ->join('khoi', 'khoi.nam_hoc_id', '=', 'nam_hoc.id')
+        ->select('nam_hoc.*')->where('khoi.id', $khoi_id)->first();
+        return $data;
+    }
 }

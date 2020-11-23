@@ -21,6 +21,7 @@ class LopHocRepository extends BaseRepository
     }
 
     public function getAllLopHoc(){
+        dd($this->model->get());
   		return  $this->model->get();
     }
 
@@ -36,15 +37,22 @@ class LopHocRepository extends BaseRepository
     {
         $data = $this->table
         ->join('khoi', 'khoi.id', '=', 'lop_hoc.khoi_id')
-        ->select('khoi.ten_khoi',)
+        ->select('khoi.ten_khoi', 'khoi.id', 'lop_hoc.ten_lop')
         ->where('lop_hoc.id', $lop_id);
         return $data->first();
     }
     public function getKhoiTheoLop($lop_id)
     {
-        $data = $this->table->where('id', $lop_id)->first();
+        $data = $this->model
+        ->where('lop_hoc.id', $lop_id)->first();
         return $data;
     }
+    public function getLopHoc(){
+        $data = $this->table->get();
+        return $data;
+    }
+    
+    
 
 
     

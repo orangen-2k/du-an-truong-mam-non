@@ -5,200 +5,223 @@
     .paginate_button{
         /* background-color: red !important */
     }
+    
 </style>
+<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="m-content">
-    <div class="row">
-        <div class="col-xl-12">
-            <!--begin::Portlet-->
-            <div class="m-portlet m-portlet--tab">
-                <div id="preload" class="preload-container text-center" style="display: none">
-                    <img id="gif-load" src="{!! asset('image/icon-loading.gif') !!}" alt="">
-                </div>
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <span class="m-portlet__head-icon m--hide">
-                                <i class="la la-gear"></i>
-                            </span>
-                            <h3 class="m-portlet__head-text">
-                                Bộ lọc
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="m-portlet__body">
-
-                    <!--begin::Section-->
-                    <div class="m-section">
-                        <div class="m-section__content">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group m-form__group row">
-                                        <label class="col-lg-2 col-form-label">Khối</label>
-                                        <div class="col-lg-8">
-                                            <select class="form-control select2" name="khoi" id="khoi">
-                                                <option value="0" selected>Chọn khối</option>
-                                                @foreach ($khoi as $item)
-                                                <option value="{{$item->id}}">{{$item->ten_khoi}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 ">
-                                    <div class="form-group m-form__group row">
-                                        <label for="" class="col-lg-2 col-form-label">Lớp</label>
-                                        <div class="col-lg-8">
-                                            <select class="form-control select2" name="lop" id="lop">
-                                                <option value="0" selected>Chọn lớp</option>
-                                                @foreach ($lop as $item)
-                                                <option value="{{$item->id}}">{{$item->ten_lop}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-4">
-                                <div class="col-md-6">
-                                    <div class="form-group m-form__group row">
-                                        <label class="col-lg-2 col-form-label">Tên giáo viên</label>
-                                        <div class="col-lg-8">
-                                            <input type="text" class="form-control m-input m-input--square"
-                                                id="exampleInputPassword1" placeholder="Tên giáo viên">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-lg-2">
-                                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--end::Section-->
-                </div>
-            </div>
-
-            <!--end::Portlet-->
-        </div>
-    </div>
-    <section class="action-nav d-flex align-items-center justify-content-between mt-4 mb-4">
-
-        <div class="col-lg-2">
-            <a href="javascript:" data-toggle="modal" data-target="#exportBieuMauModal">
-                <i class="fa fa-download" aria-hidden="true"></i>
-                Tải xuống biểu mẫu
-            </a>
-        </div>
-        <div class="col-lg-2">
-            <a href="javascript:" data-toggle="modal" id="upImport-file" data-target="#moDalImport"><i
-                    class="fa fa-upload" aria-hidden="true"></i>
-                Tải lên file Excel</a>
-        </div>
-        <div class="col-lg-2">
-            <a href="javascript:" data-toggle="modal" data-target="#moDalExportData"><i class="fa fa-file-excel"
-                    aria-hidden="true"></i>
-                Xuất dữ liệu ra Excel</a>
-        </div>
-        <div class="col-lg-6 " style="text-align: right">
-
-            <a href="{{route('quan-ly-giao-vien-create')}}">
-                <button type="button" class="btn btn-info .bg-info">Thêm mới</button>
-            </a>
-        </div>
-
-    </section>
+    <div id="preload" class="preload-container text-center" style="display: none">
+        <img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+      </div>
     <div class="m-portlet">
-        <div class="m-portlet__body table-responsive">
+        
+        <div class="m-portlet__body">
             
-            <table id="myTable"  class="table m-table dataTable m-table--head-bg-success">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Mã giáo viên</th>
-                        <th>Họ và tên</th>
-                        <th>Ảnh</th>
-                        <th>Ngày sinh</th>
-                        <th>Giới tính</th>
-                        <th>Khối</th>
-                        <th>Lớp</th>
-                        <th>Chức năng</th>
-                    </tr>
-                </thead>
-                <thead>
-                    <tr>
-                        <td scope="row"><input class="search1" style="width: 70px;" type="text"></td>
-                        <td scope="row"><input class="search2" style="width: 70px;" type="text"></td>
-                        <td scope="row"><input class="search3" style="width: 70px;" type="text"></td>
-                        <td scope="row"><input class="search4" style="width: 70px;" type="text"></td>
-                        <td scope="row"><input class="search5" style="width: 70px;" type="text"></td>
-                        <td scope="row">
-                            <select name="" id="" class="search6">
-                                <option value="">Chọn</option>
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
-                        </td>
-                        <td scope="row"><input class="search7" style="width: 70px;" type="text"></td>
-                        <td scope="row"><input class="search8" style="width: 70px;" type="text"></td>
-                        <td scope="row"><input class="search9" style="width: 70px;" type="text"></td>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                    $i = !isset($_GET['page']) ? 1 : ($limit * ($_GET['page']-1) + 1)
-                    @endphp
+            <ul class="nav nav-pills" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active show" data-toggle="tab" href="#m_tabs_3_1"><i class="la la-users"></i>Tất cả giáo viên (<span id="countAllGV">{{$countAllGV}}</span>)</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link " data-toggle="tab" href="#m_tabs_3_2" onclick="GiaoVienChuaCoLop()"><i class="la la-user"></i>Giáo viên chưa có lớp ({{$countAllGVChuaCoLop}})</a>
+                </li>
+                <li class="nav-item">
                     
-                    @foreach ($data as $item)
-                    <tr>
-                        <th scope="row">{{$i++}}</th>
-                        <td>{{$item->ma_gv}}</td>
-                        <td>{{$item->ten}}</td>
-                        @if ($item->anh == "")
-                        <td><img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
-                                height="100px" width="85px" alt=""></td>
-                        @else
-                        <td><img src="{{ Storage::url($item->anh)}}" height="100px" width="75px" alt=""></td>
-                        @endif
-                        <td>{{date("d/m/Y", strtotime($item->ngay_sinh))}}</td>
-                        @if ($item->gioi_tinh == 1)
-                        <td>Nam</td>
-                        @else
-                        <td>Nữ</td>
-                        @endif
-                        <td>{{$item->ten_khoi}}</td>
-                        <td>{{$item->ten_lop}}</td>
-                        <td>
-                            <a href="{{route('quan-ly-giao-vien-edit', ['lop_id'=>$item->lop_id, 'id' => $item->id])}}"><button
-                                    type="button" class="btn btn-primary">Chi tiết</button></a>
-                            <button type="button" onclick="delete_gv({{$item->id}})" class="btn btn-danger">Xóa</button>
-                        </td>
+                    <a class="nav-link" data-toggle="tab" href="#m_tabs_3_3" onclick="GiaoVienNghiDay()"><i class="la la-user-times"></i>Giáo viên thôi dạy (<span id="countAllGvTheoUserThoiDay">{{$countAllGvTheoUserThoiDay}}</span>)</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active show" id="m_tabs_3_1" role="tabpanel">
+                    @if(SESSION('thong_bao'))
+                    <div class="m-alert m-alert--outline m-alert--square m-alert--outline-2x alert alert-success alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        </button>
+                        <strong>Thành công!</strong> Thêm giáo viên thành công
+                    </div>
+                    @endif
+                    <div class="m-portlet__body table-responsive">
+                        {{-- Thông báo --}}
+                        <div id="thongbaokhoiphuc">
+                       
+                        </div>
+                        <table id="myTable"  class="table m-table dataTable m-table--head-bg-success">
+                            <thead>
+                                <tr align="center">
+                                    
+                                    <th>STT</th>
+                                    <th>Mã giáo viên</th>
+                                    <th>Họ và tên</th>
+                                    <th>Ảnh</th>
+                                    <th>Khối</th>
+                                    <th>Lớp</th>
+                                    <th>Chức vụ</th>
+                                    <th style="width:100px">Thôi dạy</th>
+                                    <th style="width:100px">Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr align="center">
+                                    
+                                    <td scope="row"><input class="search1 form-control m-input" type="text" hidden></td>
+                                    <td scope="row"><input class="search2 form-control m-input" style="width: 100px;" type="text"></td>
+                                    <td scope="row"><input class="search3 form-control m-input" style="width: 100px;" type="text"></td>
+                                    <td scope="row"><input class="search4 form-control m-input" type="text" hidden></td>
+                                    <td scope="row"><input class="search5 form-control m-input" style="width: 100px;" type="text"></td>
+                                    <td scope="row"><input class="search6 form-control m-input" style="width: 100px;" type="text"></td>
+                                    <td scope="row">
+                                        <select name="" id="" class="search7 form-control m-input m-input--square" style="width: 120px">
+                                            <option  value="">Chọn</option>
+                                            <option  value="GV chính">GV chính</option>
+                                            <option  value="GV phụ">GV phụ</option>
+                                        </select>
+                                    </td>
+                                    <td scope="row"><input class=" form-control m-input" hidden style="width: 100px;"></td>
+                                    <td scope="row"><input class=" form-control m-input" hidden style="width: 100px;"></td>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody align="center">
+                                @php
+                                $i = !isset($_GET['page']) ? 1 : ($limit * ($_GET['page']-1) + 1)
+                                @endphp
+                                
+                                @foreach ($data as $item)
+                                <tr id="tr{{$item->id}}">
+                                    
+                                    <td scope="row">{{$i++}}</td>
+                                    <td>{{$item->ma_gv}}</td>
+                                    <td>{{$item->ten}}</td>
+                                    @if ($item->anh == "")
+                                    <td><img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                                            height="75px" width="60px" alt=""></td>
+                                    @else
+                                    <td><img src="{!! asset('storage/'.$item->anh) !!}" height="75px" width="60px" alt=""></td>
+                                    @endif
+                                    @if($item->ten_khoi == "")
+                                    <td><span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">không có</span></td>
+                                    @else
+                                    <td>{{$item->ten_khoi}}</td>
+                                    @endif
+                                    @if($item->ten_lop == "")
+                                    <td><span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">không có</span></td>
+                                    @else
+                                    <td>{{$item->ten_lop}}</td>
+                                    @endif
+                                    <td>
+                                        @if($item->type == 0)<span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">không có</span> @endif
+                                        @if($item->type == 1)GV chính @endif
+                                        @if($item->type == 2)GV phụ @endif
+                                        
+                                    </td>
+                                    <td>
+                                        <a href="#" onclick="ThoiDay({{$item->id}})" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                                            <i class="fa fa-lock"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{route('quan-ly-giao-vien-edit', ['id' => $item->id])}}" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                                            <i class="fa fa-location-arrow"></i>
+                                        </a>
+                                    </td>
+                                    
 
-                    </tr>
-                    @endforeach
+                                </tr>
+                                @endforeach
 
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-end  mt-3">{{$data->links()}}</div>
-
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="m_tabs_3_2" role="tabpanel">
+                    <div class="m-portlet__body table-responsive alert_gv_chua_xep_lop">
+                        <table id="myTable2"  class="table m-table dataTable m-table--head-bg-success table_chua_xep_lop">
+                            <thead>
+                                <tr align="center">
+                                    
+                                    <th>STT</th>
+                                    <th>Mã giáo viên</th>
+                                    <th>Họ và tên</th>
+                                    <th>Ảnh</th>
+                                    
+                                    <th>Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr align="center">
+                                    
+                                    <td scope="row"><input class="search_1 form-control m-input" type="text" hidden></td>
+                                    <td scope="row"><input class="search_2 form-control m-input" style="width: 100px;" type="text"></td>
+                                    <td scope="row"><input class="search_3 form-control m-input" style="width: 100px;" type="text"></td>
+                                    <td scope="row"><input class="search_4 form-control m-input" type="text" hidden></td>
+                                    
+                                    
+                                   
+                                    <td scope="row"><input class=" form-control m-input" hidden></td>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="giao-vien-chua-co-lop" align="center">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
+                    <div class="m-portlet__body table-responsive alert_thongbao">
+                        
+                        <table id="myTable2"  class="table m-table dataTable m-table--head-bg-success table_nghi_day">
+                            <thead>
+                                <tr align="center">
+                                   
+                                    <th>STT</th>
+                                    <th>Mã giáo viên</th>
+                                    <th>Họ và tên</th>
+                                    <th>Ảnh</th>
+                                    <th>Khôi phục</th>
+                                    <th>Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr align="center">
+                                   
+                                    <td scope="row"><input class="search_1 form-control m-input" type="text" hidden></td>
+                                    <td scope="row"><input class="search_2 form-control m-input" style="width: 100px;" type="text"></td>
+                                    <td scope="row"><input class="search_3 form-control m-input" style="width: 100px;" type="text"></td>
+                                    <td scope="row"><input class="search_4 form-control m-input" type="text" hidden></td>
+                                    <td scope="row"><input class=" form-control m-input" hidden></td>
+                                    <td scope="row"><input class=" form-control m-input" hidden></td>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="giao-vien-thoi-day" align="center">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
         </div>
+      
     </div>
 
 
 </div>
 @endsection
 @section('script')
+<script src="{!! asset('assets/demo/custom/crud/forms/widgets/bootstrap-switch.js') !!}" type="text/javascript"></script>
+
 <script>
     $(document).ready(function(){
         $('.select2').select2();
     });
-    var url_destroy_gv = "{{route('quan-ly-giao-vien-destroy')}}";
+    var url_chi_tiet_gv = "{{route('quan-ly-giao-vien-edit', ['id'])}}"
+    var url_get_all_giao_vien_chua_co_lop= "{{route('quan-ly-get-all-giao-vien-chua-lop')}}"
+    var url_destroy_gv = "{{route('quan-ly-giao-vien-destroy')}}"
     var url_get_lop_theo_khoi = "{{route('quan-ly-giao-vien-get-lop-theo-khoi')}}"
+    var url_get_all_giao_vien_nghi_day = "{{route('quan-ly-giao-vien-nghi-day')}}"
+    var url_thoi_day_cho_giao_vien = "{{route('quan-ly-giao-vien-thoi-day-cho-giao-vien')}}"
+    var url_khoi_phuc_giao_vien = "{{route('quan-ly-giao-vien-khoi-phuc-thoi-day')}}"
+    
     $("#khoi").change(function(){
         $('#preload').css('display','block')
         axios.post(url_get_lop_theo_khoi, {
@@ -214,33 +237,31 @@
             console.log(error);
         });
     })
-    function delete_gv(id_gv){
-        Swal.fire({
-            title: 'Bạn có chắc chắn xóa giáo viên ?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Thu hồi',
-            cancelButtonText: "Đóng"
-        }).then((result) => {
-            if (result.value) {
-                axios.post(url_destroy_gv,{
-                    id: id_gv
-            }).then(function(response){
-                    location.reload()
-                })
-            }
-        })
+    if(localStorage.getItem('thongbao')){
+        var thongbao = 
+        `<div class="m-alert m-alert--outline m-alert--outline-2x alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            </button>
+            <strong>Khôi phục thành công!</strong> Giáo viên đã được khôi phục lại và hiện tại chưa được xếp lớp
+        </div>`
+        $('#thongbaokhoiphuc').html(thongbao)
+        localStorage.removeItem('thongbao')
     }
 </script>
 <script>
 $(document).ready( function () {
-//     $('#myTable').DataTable({
-//     "pagingType": "full_numbers"
-//   });
-    var dtable = $('#myTable').DataTable();
-
+    var dtable = $('#myTable').DataTable(
+        {
+        "aoColumnDefs": [
+            { 
+                "bSortable": false,
+                // // "aTargets": [ 0, 7],
+                // "lengthChange": false
+                
+            }, 
+         ]
+         }
+    );
     $('.search1').on('keyup change', function() {
     dtable
     .column(0).search(this.value)
@@ -287,6 +308,50 @@ $(document).ready( function () {
     .column(7).search(this.value)
     .draw();
     });
+
+    //DataTable 2
+    var dtable2 = $('#myTable2').DataTable(
+        {
+        // 'paging': false,
+        "aoColumnDefs": [
+            { 
+                "bSortable": false,
+                "aTargets": [ 0, 5 ],
+                "lengthChange": false
+                
+            }, 
+         ]
+         }
+    );
+    $('.search_1').on('keyup change', function() {
+    dtable2
+    .column(1).search(this.value)
+    .draw();
+    });
+
+    $('.search_2').on('keyup change', function() {
+    dtable2
+    .column(2).search(this.value)
+    .draw();
+    });
+
+    $('.search_3').on('keyup change', function() {
+    dtable2
+    .column(3).search(this.value)
+    .draw();
+    });
+
+    $('.search_4').on('keyup change', function() {
+    dtable2
+    .column(4).search(this.value)
+    .draw();
+    });
+
+    $('.search_5').on('keyup change', function() {
+    dtable2
+    .column(5).search(this.value)
+    .draw();
+    });
 });
 $(".dataTable").on("draw.dt", function (e) {                    
     setCustomPagingSigns.call($(this));
@@ -316,21 +381,167 @@ function setCustomPagingSigns() {
     lastrow.find("li.previous>a").text("<");
     lastrow.find("li.next>a").text(">");    
 }
+const checkAll = (e) => {
+    $(e).parents('table').find('.checkbox').not(e).prop('checked', e.checked);
+  };
+function GiaoVienChuaCoLop(){
+    $('#preload').css('display', 'block');
+    axios.post(url_get_all_giao_vien_chua_co_lop).then(function(response){
+        var data = response.data
+        var html = ""
+        var i = 1
+        if(data.length > 0){
+            data.forEach(element => {
+                url_chi_tiet_gv_new = url_chi_tiet_gv.replace('id', element.id) 
+                if(element.type == 1){
+                    element.type = "GV chính"
+                }
+                else{
+                    element.type = "GV phụ"
+                }
+                html+=
+                `
+                <tr>
+            
+                <td>${i++}</td>
+                <td>${element.ma_gv}</td>
+                <td>${element.ten}</td>
+                <td><img src="${element.anh}" height="75px" width="60px" alt=""></td>
+            
+                <td>
+                <a href="${url_chi_tiet_gv_new}" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                <i class="fa fa-location-arrow"></i>
+                </a>
+                </td>
+                </tr>
+                
+                `
+            })
+            $('#giao-vien-chua-co-lop').html(html);
+        }
+        if(data.length == 0){
+            $('.table_chua_xep_lop').remove()
+            var alertTB = `
+            <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+                <div class="m-alert__icon">
+                <i class="flaticon-danger"></i>
+                </div>
+                <div class="m-alert__text">
+                    <strong>Trống!</strong> Chưa có dữ liệu nào cả.
+                </div>
+            </div>`
+            $('.alert_gv_chua_xep_lop').html(alertTB)
+        }
+        
+        $('#preload').css('display', 'none');
+    })
+}
+function GiaoVienNghiDay(){
+    $('#preload').css('display', 'block');
+    axios.post(url_get_all_giao_vien_nghi_day).then(function(response){
+        var data = response.data
+        var html = ""
+        var i = 1
+    if(data.length > 0){
+        data.forEach(element => {
+            url_chi_tiet_gv_new = url_chi_tiet_gv.replace('id', element.id)
+            if(element.type == 1){
+                element.type = "GV chính"
+            }
+            else{
+                element.type = "GV phụ"
+            }
+            
+            
+            html+=
+            `
+            <tr>
 
+            <td>${i++}</td>
+            <td>${element.ma_gv}</td>
+            <td>${element.ten}</td>
+            <td><img src="${element.anh}" height="75px" width="60px" alt=""></td>
+            <td>	
+                <a href="#" onclick="ThayDoiTrangThaiGV(${element.id})" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                    <i class="fa fa-lock-open"></i>
+                </a>
+            </td>
+            <td>
+                <a href="${url_chi_tiet_gv_new}" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                <i class="fa fa-location-arrow"></i>
+                </a>
+            </td>
+            </tr>
+            
+            `
+        })
+        $('#giao-vien-thoi-day').html(html);
+    }
+    if(data.length == 0){
+        $('.table_nghi_day').remove();
+        var alertTB = `
+        <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+            <div class="m-alert__icon">
+            <i class="flaticon-danger"></i>
+            </div>
+            <div class="m-alert__text">
+                <strong>Trống!</strong> Chưa có dữ liệu nào cả.
+            </div>
+        </div>`
+        $('.alert_thongbao').html(alertTB)
+    }
+        $('#preload').css('display', 'none')
+    })
+    
+}
+function ThoiDay(id){
+    Swal.fire({
+  title: 'Thôi dạy?',
+  text: "Bạn có chắc chắn thôi dạy giáo viên này ?",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Thôi dạy',
+  cancelButtonText: "Đóng"
+}).then((result) => {
+  if (result.value == true) {
+    axios.post(url_thoi_day_cho_giao_vien, {gv_id: id})
+    var countAllGV = Number($('#countAllGV').text()) - 1
+    var countAllGvTheoUserThoiDay = Number($('#countAllGvTheoUserThoiDay').text()) + 1
+    $('#countAllGV').html(countAllGV)
+    $('#countAllGvTheoUserThoiDay').html(countAllGvTheoUserThoiDay)
+    $('#tr'+id).remove();
+  }
+})
+}
+
+function ThayDoiTrangThaiGV(id){
+    Swal.fire({
+        title: 'Khôi phục lại ?',
+        text: "Bạn có chắc chắn khôi phục lại giáo viên này ?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Khôi phục',
+        cancelButtonText: "Đóng"
+    }).then((result) => {
+        if (result.value) {
+            $('#preload').css('display','block')
+                axios.post(url_khoi_phuc_giao_vien,{
+                    id: id
+            }).then(function(response){
+                localStorage.setItem('thongbao', '1')
+                location.reload()
+            })
+        }
+    })
+}
 </script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script> --}}
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> 
-@if (session('thong_bao'))
-	<script>
-		Swal.fire({
-			position: 'top-center',
-			icon: 'success',
-			title: 'Thêm giáo viên thành công !',
-			timer: 3000
-		})
-	</script>
-@endif
 @endsection

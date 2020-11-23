@@ -103,14 +103,24 @@ class LopController extends Controller
         $params = request()->all();
         $queryData['gioi_tinh'] = isset($params['gioi_tinh']) ? $params['gioi_tinh'] : null;
         $lop = $this->LopRepository->find($id);
-        $giao_vien = $this->GiaoVienRepository->getGiaoVienCuaLop($id);
-        $hoc_sinh = $this->HocSinhRepository->getHocSinhCuaLop($id,$queryData);
+        $nam_hoc =  $this->KhoiRepository->getNamHoc($lop->khoi_id);
+        $giao_vien = $this->GiaoVienRepository->getGVHienTai($id);
+        if(count($giao_vien) == 0){
+            $giao_vien = $this->GiaoVienRepository->getGVLichSuDay($id);
+            
+        }
+        $hoc_sinh = $this->HocSinhRepository->getHocSinhHienTai($id);
+        if(count($hoc_sinh) == 0){
+            $hoc_sinh = $this->HocSinhRepository->getHocSinhLichSuHoc($id);
+        }
+        
         return view(
             'quan-ly-lop.show',
             [
                 'giao_vien' => $giao_vien,
                 'hoc_sinh' => $hoc_sinh,
-                'lop' => $lop
+                'lop' => $lop,
+                'nam_hoc' => $nam_hoc
             ]
         );
     }

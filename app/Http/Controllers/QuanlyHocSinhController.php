@@ -26,6 +26,7 @@ use App\Repositories\NamHocRepository;
 use Carbon\Carbon;
 use App\Models\LichSuHoc;
 use App\Models\ThoiHoc;
+use App\Repositories\LopHocRepository;
 
 class QuanlyHocSinhController extends Controller
 {
@@ -39,6 +40,8 @@ class QuanlyHocSinhController extends Controller
     protected $DoiTuongChinhSachRepository;
     protected $NamHocRepository;
     protected $AccountRepository;
+    protected $KhoiRepository;
+    protected $LopHocRepository;
     public function __construct(
         LopRepository $LopRepository,
         KhoiRepository $Khoi,
@@ -49,7 +52,9 @@ class QuanlyHocSinhController extends Controller
         XaPhuongThiTranRepository  $XaPhuongThiTranRepository,
         DoiTuongChinhSachRepository $DoiTuongChinhSachRepository,
         NamHocRepository $NamHocRepository,
-        AccountRepository $AccountRepository
+        AccountRepository $AccountRepository,
+        KhoiRepository $KhoiRepository,
+        LopHocRepository $LopHocRepository
 
     ) {
         $this->LopRepository = $LopRepository;
@@ -62,6 +67,8 @@ class QuanlyHocSinhController extends Controller
         $this->DoiTuongChinhSachRepository = $DoiTuongChinhSachRepository;
         $this->NamHocRepository = $NamHocRepository;
         $this->AccountRepository = $AccountRepository;
+        $this->KhoiRepository = $KhoiRepository;
+        $this->LopHocRepository = $LopHocRepository;
     }
 
     /**
@@ -141,13 +148,25 @@ class QuanlyHocSinhController extends Controller
     {
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         $data = $this->HocSinhRepository->getOneHocSinh($id);
-
+        $khoi = $this->KhoiRepository->getAllKhoi();
+        $lop_hoc = $this->LopHocRepository->getAll();
+        $data->khoi_hs_id = 0;
+        if($data->lop_id > 0){
+            $khoi_hs = $this->LopHocRepository->getOneKhoiTheoLop($data->lop_id);
+        }
+        
+        
+        if(isset($khoi_hs)){
+            $data->khoi_hs_id = $khoi_hs->id;
+        }
+        
+        
         $doi_tuong_chinh_sach = $this->DoiTuongChinhSachRepository->getAllDoiTuongChinhSach();
         $maqh_hs_hktt = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->ho_khau_thuong_tru_matp);
         $xaid_hs_hktt = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->ho_khau_thuong_tru_maqh);
         $maqh_hs_noht = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->noi_o_hien_tai_matp);
         $xaid_hs_noht = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->noi_o_hien_tai_maqh);
-        // dd($data);
+        
         return view('quan-ly-hoc-sinh.edit', compact(
             'data',
             'thanhpho',
@@ -155,7 +174,10 @@ class QuanlyHocSinhController extends Controller
             'xaid_hs_hktt',
             'maqh_hs_noht',
             'xaid_hs_noht',
-            'doi_tuong_chinh_sach'
+            'doi_tuong_chinh_sach',
+            'id',
+            'khoi',
+            'lop_hoc'
         ));
     }
 
@@ -169,6 +191,7 @@ class QuanlyHocSinhController extends Controller
     public function update(Request $request, $id)
     {
         $dataRequest = $request->all();
+      
         if (isset($dataRequest['avatar'])) {
             $avatar = $request->file("avatar");
 
@@ -187,8 +210,8 @@ class QuanlyHocSinhController extends Controller
         }
         unset($dataRequest['_token']);
 
-        $this->HocSinh->updateHocSinh($id, $dataRequest);
-        return redirect()->route('quan-ly-hoc-sinh-index', ['id' => 1])->with('thong_bao', 'Hoàn thành');
+        $this->HocSinhRepository->updateHocSinh($id, $dataRequest);
+        return redirect()->route('quan-ly-hoc-sinh-edit', ['id' => $id])->with('thongbaocapnhat', 'Thành công');
     }
 
     /**
@@ -532,6 +555,32 @@ class QuanlyHocSinhController extends Controller
         $hoc_sinh = $this->HocSinhRepository->find($id_hs_nghi_hoc);
         $hoc_sinh->thoiHoc()->delete();
 
-        $this->HocSinhRepository->update($id_hs_nghi_hoc,['lop_id'=>$lop_chon_hoc_lai,'type'=>1]);
+        $this->HocSinhRepository->update($id_hs_nghi_hoc, ['lop_id'=>$lop_chon_hoc_lai,'type'=>1]);
+    }
+
+    public function getLichSuHocSinh(Request $request){
+        $request = $request->all();
+        $hoc_sinh_id = $request['hoc_sinh_id'];
+        $LopHocHienTai = $this->HocSinhRepository->getOneHocSinh($hoc_sinh_id);
+        if($LopHocHienTai->lop_id > 0){
+            $khoi_hs = $this->LopHocRepository->getOneKhoiTheoLop($LopHocHienTai->lop_id);
+            $nam_hoc_ht = $this->KhoiRepository->getNamHoc($khoi_hs->id);
+            $LopHocHienTai->ten_nam = $nam_hoc_ht->name;
+            $LopHocHienTai->ten_lop = $khoi_hs->ten_lop;
+        }
+        $LichSuHocSinh = $this->HocSinhRepository->getLichSuCuaHocSinh($hoc_sinh_id);
+        if(count($LichSuHocSinh)>0){
+            foreach($LichSuHocSinh as $key => $item){
+                
+                $khoi_hs_ls = $this->LopHocRepository->getKhoiTheoLop($item->lich_su_lop_id);
+                $nam_hoc_ht_ls = $this->NamHocRepository->getNamHocTheoKhoi($khoi_hs_ls->khoi_id);
+                $LichSuHocSinh[$key]->ten_nam = $nam_hoc_ht_ls->name;
+                $LichSuHocSinh[$key]->ten_lop_ls = $khoi_hs_ls->ten_lop;
+            }
+        }
+        return [
+            'LopHocHienTai' => $LopHocHienTai,
+            'LichSuHocSinh' => $LichSuHocSinh
+        ];
     }
 }
