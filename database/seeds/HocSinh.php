@@ -40,7 +40,7 @@ class HocSinh extends Seeder
         ->select('lop_hoc.*', 'khoi.nam_hoc_id')
         ->where('khoi.nam_hoc_id', $nam_hoc_moi->id)->get();
         
-        $tuoi = 19;
+        $tuoi = 18;
         $length = 5;
         foreach ($lop_hoc_moi as $key) {
             
@@ -52,16 +52,18 @@ class HocSinh extends Seeder
             // $username = CovertVn($ten_hs);
             
             for ($i=0; $i <$length ; $i++) { 
+                $rand1 = rand(10000,99999);
                 $rand = rand(1,1000);
                      $id_hoc_sinh = DB::table('users')->insertGetId([
                         'name' => $json_ten[$rand]->full_name,
-                        'username' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.rand(1,10),
-                        'avatar' => "1",
-                        'email' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand.'gmail.com',
+                        'username' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand1,
+                        'avatar' => "",
+                        'email' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand1.'gmail.com',
                         'password' => Hash::make('1234567890'),
                         'time_code' => Carbon::now(),
                         'role' => 3,
-                        'active' => 1
+                        'active' => 1,
+                        'phone_number' => '03766'.$rand1
                         
                 ]);
                     DB::table('hoc_sinh')->insert([
@@ -73,7 +75,7 @@ class HocSinh extends Seeder
                     'ten_thuong_goi' => $json_ten[$rand]->first_name,
                     'ngay_sinh' => '20'.$tuoi.'-0'.rand(1,9).'-'.rand(10,28),
                     'dan_toc' => 'Kinh',
-                    'ngay_vao_truong' => '2016-05-01',
+                    'ngay_vao_truong' => '20'.$tuoi.'-03-01',
                     'noi_sinh' => 'Hà Nội',
                     'ten_cha' => $json_ten[rand(1,100)]->full_name,
                     'ngay_sinh_cha' => '1982-05-'.rand(10,30),
@@ -83,8 +85,8 @@ class HocSinh extends Seeder
                     'ngay_sinh_me' => '1992-05-'.rand(10,30),
                     'cmtnd_me' => rand(10000, 99999),
                     'dien_thoai_me' => '0376671343',
-                    'dien_thoai_dang_ki' => '0376671'.rand(100,999),
-                    'email_dang_ky' => 'xuanntph07568@fpt.edu.vn',
+                    'dien_thoai_dang_ki' => '03766'.$rand1,
+                    'email_dang_ky' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand1.'gmail.com',
 
                 ]);
                 

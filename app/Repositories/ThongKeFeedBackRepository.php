@@ -25,16 +25,14 @@ class ThongKeFeedBackRepository extends BaseModelRepository{
     public function ShowFeedBackCuaLop($lop_id, $feedback_id)
     {
         $query = DB::table('danh_gia_phu_huynh')
-        ->join('hoc_sinh', 'hoc_sinh.user_id', '=', 'danh_gia_phu_huynh.user_id')
-        ->join('users', 'users.id', '=', 'danh_gia_phu_huynh.user_id')
+        ->join('hoc_sinh', 'hoc_sinh.id', '=', 'danh_gia_phu_huynh.hoc_sinh_id')
         ->join('lop_hoc', 'lop_hoc.id', '=', 'danh_gia_phu_huynh.lop_id')
         ->select(
             'danh_gia_phu_huynh.*',
             'hoc_sinh.ma_hoc_sinh', 
             'hoc_sinh.ten', 
             'hoc_sinh.dien_thoai_dang_ki',
-            'users.name',
-            'users.avatar',
+            'hoc_sinh.avatar',
             'lop_hoc.ten_lop'
             )
         ->where('danh_gia_phu_huynh.lop_id', $lop_id);
