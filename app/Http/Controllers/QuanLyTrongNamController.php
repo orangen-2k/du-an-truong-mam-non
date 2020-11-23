@@ -298,16 +298,17 @@ class QuanLyTrongNamController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         foreach ($khoi_cu as $key => $value) {
+            // dd($value);
             foreach ($value->LopHoc as $key => $lopHoc) {
                 if($type != 2 && count($lopHoc->LichSuHoc)>0){
-                    return response()->json(['error' => 'Unauthorized'], 401);
+                    return response()->json(['error' => 'Unauthorized'], 402);
                 }
             }
         }
 
         // khi người dùng chọn thủ công
         if($type==2 && $nam_hoc_moi->backup != 1){
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Unauthorized'], 403);
         }
         
     }
