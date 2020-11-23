@@ -57,7 +57,7 @@
                 </div>
                 <div class="m-portlet__body">
                     <div class="m-scrollable m-scrollable--track m-scroller ps ps--active-y" data-scrollable="true"
-                        style="height: 200px; overflow: hidden;">
+                        style="height: 100%; overflow: hidden;">
                         <div class="m-widget6">
                             <div class="m-widget6__body">
                                 <div id="m_calendar_external_events" class="fc-unthemed">
@@ -212,7 +212,7 @@
                 <span id="static_name" class="m--font-warning">{{ isset($data[0]) ? $data[0]->name : '' }}</span>
             </h3>
             <div class="m-portlet">
-                <div class="m-portlet__body">
+                <div class="m-portlet__body" style="height: 400px">
                     <div class="row">
                         <div class="col-6">
                             <label class="col-form-label">Ngày bắt đầu năm học</label>
@@ -248,14 +248,6 @@
                     <div class="modal-body">
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group">
-                                <label>Năm học</label>
-                                <input type="text" class="form-control m-input @error('name') is-invalid @enderror"
-                                    name="name" />
-                                @error('name')
-                                <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="form-group m-form__group">
                                 <label>Ngày bắt đầu năm học:</label>
                                 <input type="date"
                                     class="form-control m-input @error('start_date') is-invalid @enderror"
@@ -275,7 +267,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-success" onclick="dongNamHoc()">
                             Cất
                         </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -306,44 +298,23 @@
             Swal.fire({
                 icon: 'error',
                 title: 'Năm học hiện tại chưa đóng!',
-                footer: '<p class="text-danger">Nhà trường cần đóng năm học hiện tại mới có thể khởi tạo năm học mới.</p>',
+                footer: '<p class="text-danger"><i>Nhà trường cần đóng năm học hiện tại mới có thể khởi tạo năm học mới.</i></p>',
                 showCancelButton: true,
                 confirmButtonText: `Đóng luôn`
             }).then((result) => {
                 if(result.value){
-                    $('#loading').css('display','block');
-                    axios.post('{{ route("nam-hoc.lock") }}', {
-                        '_token': "{{ csrf_token() }}"
-                    }).then(res =>{
-                        $('#loading').css('display','none');
-                        if(res.data.code == 200){
-                            check_lock = 1;
-                            $('#m_modal_1').modal('show');
-                            $('.check_lock').removeClass('fa-lock-open').addClass('fa-lock');
-                            $('.change_type').attr('data-type',2);
-                        }else{
-                            check_lock = 0;
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Đóng thất bại',
-                                text: 'Vui lòng kiểm tra kết nối'
-                            })
-                        }
-                    }).catch(err => {
-                            $('#loading').css('display','none');
-                            check_lock = 0;
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Đóng thất bại',
-                                text: 'Vui lòng kiểm tra kết nối'
-                            })
-                            console.log(err);
-                    })
+                    $('#m_modal_1').modal('show');
                 }
             })
         }
     }
 
+    function dongNamHoc(){
+        axios.post('{{ route("nam-hoc.lock") }}', {
+                        '_token': "{{ csrf_token() }}"
+        })
+    }
+    
     function getData(element) { 
         let list_link = $('.item_link_nam').toArray();
         console.log(list_link);
@@ -361,7 +332,6 @@
         $("#day_du_lieu_nam_cu").attr('href',url_chuyen_du_lieu_nam_hoc_v1)
         $("#chi_tiet_nam_hoc").attr('href',url_chi_tiet_nam_hoc_v1)
         $("#quan_ly_nam_hoc").attr('href',url_chi_tiet_nam_hoc_v1)
-
         
         let name = $(element).attr("data-name");
         let start_date = $(element).attr("data-start_date");
@@ -372,7 +342,6 @@
         $("#static_name").html(name);
         $("#static_start_date").val(start_date);
         $("#static_end_date").val(end_date);
-
         if(type != 1){
             $("#btn_xep_lop_or_lich_su").addClass('d-none');
             $('#text-lich-su').text('Lịch Sử');
@@ -381,7 +350,6 @@
             $('#text-lich-su').text('Quản lý năm học');
         }
     }
-
     $(document).ready(function () {
         let lists = $('.item_link_nam');
         $(lists[0]).addClass('bg-primary item_link_nam_shadow');
@@ -393,13 +361,11 @@
             if (!/Invalid|NaN/.test(new Date(value))) {
                 return new Date(value) > new Date($(params).val());
             }
-
             return (
                 (isNaN(value) && isNaN($(params).val())) ||
                 Number(value) > Number($(params).val())
             );
         });
-
         $("#form-ceate").validate({
             rules: {
                 start_date: {
@@ -479,18 +445,17 @@
     Swal.fire({
         position: "center",
         icon: "success",
-        title: "Thêm khối thành công !",
+        title: "Thêm thành công !",
         showConfirmButton: false,
         timer: 2000
     });
-
 </script>
 @endif @if (session('error'))
 <script>
     Swal.fire({
         position: "center",
         icon: "error",
-        title: "Thêm khối thất bại !",
+        title: "Thêm thất bại !",
         showConfirmButton: false,
         timer: 2000
     });
