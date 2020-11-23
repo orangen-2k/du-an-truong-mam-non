@@ -192,3 +192,7 @@ Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
 Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
 Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
 Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');
+
+   // Route::get('/','ChartController@getAllHocSinh')->name('chart');
+    Route::get('/','LopController@getHocSinhTheoLop')->name('get-hoc-sinh');
+

@@ -11,6 +11,7 @@ use App\Repositories\NamHocRepository;
 use App\Http\Requests\Lop\Store;
 use App\Http\Requests\Lop\Update;
 
+
 class LopController extends Controller
 {
     protected $KhoiRepository;
@@ -271,11 +272,28 @@ return [
 
     }
 
-    public function getDataHocSinhChuaCoLop($type)
+    public function getDataHocSinhChuaCoLop($type) 
     {
         $id_nam_hoc = $this->NamHocRepository->maxID();
         $nam_hoc = $this->NamHocRepository->find($id_nam_hoc);
         return $this->HocSinhRepository->getDataHocSinhChuaCoLop($type,$nam_hoc);
+    }
+    public function getHocSinhTheoLop()
+    {
+        $khoi = $this->KhoiRepository->getAll();
+       // $namhoc = $this->NamHocRepository->find($id);
+       
+      //  $namhoc = $this->NamHocRepository->getAllNamHoc();
+       // $khoi = $namhoc->Khoi;
+        $sl_hs_type = [];
+        $sl_hs_type[0] = $this->HocSinhRepository->getSlHocSinhType(0);
+       //dd($khoi);
+        return view('index', [
+            'sl_hs_type' => $sl_hs_type,
+          //  'namhoc' => $namhoc,
+           // 'id_nam_hoc' => $id,
+            'khoi' => $khoi,
+        ]);
     }
 
 }

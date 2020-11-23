@@ -6,6 +6,8 @@ use App\Repositories\BaseModelRepository;
 use Illuminate\Support\Facades\DB;
 use App\Models\HocSinh;
 use App\Models\NamHoc;
+use App\Models\Lop;
+use App\Models\Khoi;
 use Carbon\Carbon;
 
 class HocSinhRepository extends BaseModelRepository
@@ -66,7 +68,7 @@ class HocSinhRepository extends BaseModelRepository
         return $queryBulder->OrderBy('created_at','desc')->get();
     }
 
-    public function getHocSinh()
+    public function getHocSinh() 
     {
         return  $this->model->select('ten','ma_hoc_sinh','gioi_tinh','avatar','tuoi','lop_id')->paginate(10);
     }
@@ -164,6 +166,7 @@ class HocSinhRepository extends BaseModelRepository
         }
         return $data;
     }
+  
     
     public function getLichSuCuaHocSinh($hoc_sinh_id){
         $query = $this->model

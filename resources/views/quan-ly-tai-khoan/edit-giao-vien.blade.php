@@ -19,7 +19,7 @@
 														Messages
 													</a>
 												</li>
-												<li class="nav-item m-tabs__item">
+			 									<li class="nav-item m-tabs__item">
 													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
 														Settings
 													</a>
