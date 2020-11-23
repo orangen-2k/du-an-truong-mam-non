@@ -403,15 +403,21 @@
             window.location.href = url_redirect
         })
         .catch(function (error) {
-            xoaDuLieuNamHoc(type,id_nam_hoc,url_redirect)
+            xoaDuLieuNamHoc(type,id_nam_hoc,url_redirect,error.response.status)
         })
         .then(function () {
         });
     };
-    const xoaDuLieuNamHoc = (type,id_nam_hoc,url_redirect) =>{
+    const xoaDuLieuNamHoc = (type,id_nam_hoc,url_redirect,error) =>{
+        var title = 'Dư liệu năm học đã có !'
+        var text = "Để thực hiện tiếp hệ thống sẽ xóa toàn bộ dữ liệu của năm học hiện tại và trở lại trang thái khi bạn khởi tạo năm học này."
+        if(error == 403){
+             title = 'Bạn chắc chắn chỉ khởi tạo năm học mới !'
+             text = ''
+        }
         Swal.fire({
-            title: 'Dư liệu năm học đã có !',
-            text: "Để thực hiện tiếp hệ thống sẽ xóa toàn bộ dữ liệu của năm học hiện tại và trở lại trang thái khi bạn khởi tạo năm học này.",
+            title: `${title}`,
+            text: `${text}`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
