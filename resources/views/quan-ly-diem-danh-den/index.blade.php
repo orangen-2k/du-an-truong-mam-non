@@ -135,8 +135,6 @@
                                     <h4 class="m-portlet__head-text col-md-10">
                                         Năm học: {{$namhoc->name}}
                                     </h4>
-                                    <i style="cursor: pointer" class="la la-refresh" data-toggle="modal"
-                                        data-target="#modal-nam-hoc"></i>
                                 </div>
                             </div>
                         </div>
@@ -312,7 +310,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group" id="content-modal">
-
+                                    Đang lấy dữ liệu
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm"
@@ -378,6 +376,7 @@
     var s = c = n = nh = a = 0;
     var url_getDiemDanhDenTheoLop = "{{route('quan-ly-diem-danh-den-theo-lop')}}";
     var url_ThongKeDiemDanh = "{{route('quan-ly-thong-ke-diem-danh')}}";
+    var url_ChiTietHocSinh = "{{route('quan-ly-hoc-sinh-edit', ['id'])}}"
     function showDiemDanhCuaLop(id, time) {
         $('#select_display').css('display', 'block');
         $('#preload').css('display', 'block');
@@ -428,7 +427,7 @@
                 
                 html_hs +=
                 `
-                    <tr>
+                    <tr data-toggle="modal" data-target="#thongke" onclick="ThongKeDiemDanh(${id}, ${time}, ${element.id})">
                     <th scope="row">${j++}</th>
                     <td>${element.ma_hoc_sinh}</td>
                     <td>${element.ten}</td>
@@ -437,7 +436,7 @@
                 + data_ngay_hs +
                     
                     `<td> 
-                        <button type="button" onclick="ThongKeDiemDanh(${id}, ${time}, ${element.id})" class="btn m-btn--square  btn-outline-success btn-sm" data-toggle="modal" data-target="#thongke">Thống kê</button>
+                        <button type="button" onclick="ThongKeDiemDanh(${id}, ${time}, ${element.id})" class="btn m-btn--square  btn-outline-success btn-sm" >Thống kê</button>
                     </td>
                     </tr>
                     `
@@ -465,6 +464,8 @@
     });
     function ThongKeDiemDanh(lop_id, thang, hoc_sinh_id){
         $('#preload').css('display', 'block');
+        $("#content-modal").html(`Đang lấy dữ liệu`);
+        var url_ChiTietHocSinh_new = url_ChiTietHocSinh.replace('id', hoc_sinh_id)
         if(thang == 0){
             var today = new Date()
             thang = today.getMonth()+1;
@@ -482,7 +483,7 @@
                         <label for="validationTooltip01"><b>Mã: ${data.ma_hoc_sinh}</b></label>
                     </div>
                     <div class="col-md-12 mb-3">
-                        <label for="validationTooltip01"><b>Học sinh: ${data.ten}</b></label>
+                        <label for="validationTooltip01"><b>Học sinh: <a target="_blank" href ="${url_ChiTietHocSinh_new}">${data.ten}</a></b></label>
                     </div>
                     <div class="col-md-12 mb-3">
                         <label for="validationTooltip01"><b style="color:#149018">Đi học cả ngày (N): ${data.ca_ngay}</b></label>

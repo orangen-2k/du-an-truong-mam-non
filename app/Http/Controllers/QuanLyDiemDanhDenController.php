@@ -29,11 +29,12 @@ class QuanLyDiemDanhDenController extends Controller
        $this->NamHocRepository = $NamHocRepository;
     }
 
-    public function index($id)
+    public function index(Request $request)
     {   
-        if ($id == 0) {
-            $nam_hoc_hien_tai = $this->NamHocRepository->layNamHocHienTai();
-            $id = $nam_hoc_hien_tai->id;
+        if ($request->session()->has('id_nam_hoc')) {
+            $id = $request->session()->get('id_nam_hoc');
+        } else {
+            $id = $this->NamHocRepository->maxID();
         }
         $getAllNamHoc = $this->NamHocRepository->getAllNamHoc();
         $khoi = $this->KhoiRepository->getAll();
