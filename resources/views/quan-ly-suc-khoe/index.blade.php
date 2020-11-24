@@ -135,8 +135,7 @@
                   <h4 class="m-portlet__head-text col-md-10">
                     Năm học: {{$namhoc->name}} <input type="hidden" name="" id="nam_hoc" value="{{$namhoc->id}}">
                   </h4>
-                  <i style="cursor: pointer" class="la la-refresh" data-toggle="modal"
-                  data-target="#modal-nam-hoc"></i>
+                  
                 </div>
               </div>
             </div>
@@ -263,14 +262,14 @@
                 <div class="form-group m-form__group row">
                   <label for="example-date-input" class="col-2 col-form-label">Tên đợt</label>
                   <div class="col-10">
-                    <input class="form-control m-input" name="ten_dot" type="text" placeholder="Điền đợt khám sức khỏe">
+                    <input class="form-control m-input" name="ten_dot" required type="text" placeholder="Điền đợt khám sức khỏe">
                   </div>
                 </div>
 
                 <div class="form-group m-form__group row">
                   <label for="example-date-input" class="col-2 col-form-label">Thời gian</label>
                   <div class="col-10">
-                    <input class="form-control m-input" name="thoi_gian" type="date" id="example-date-input">
+                    <input class="form-control m-input" name="thoi_gian" required type="date" id="example-date-input">
                   </div>
                 </div>
               </div>
@@ -356,6 +355,12 @@
   swal({title:"Thêm thành công",html:$("<div>")
                 .addClass("some-class")
                 .text("Đã thêm đợt mới thành công"),animation:!1,customClass:"animated tada"})
+                
+</script>
+@endif
+@if(SESSION('ThongBaoThemDotLoi'))
+<script>
+  swal("Thêm đợt thất bại!","Thời gian đợt phải nằm trong phạm vi thời gian của năm học hiện tại","error")
                 
 </script>
 @endif

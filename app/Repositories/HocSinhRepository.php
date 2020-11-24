@@ -114,7 +114,7 @@ class HocSinhRepository extends BaseModelRepository
         // }
         // dd(Carbon::createFromFormat('Y-m-d H:i:s', $$nam_hoc->start_date)->year);
        
-        return $this->model
+        return $this->models
         ->whereRaw('(YEAR(?) - YEAR(ngay_sinh))= ? ',[$nam_hoc->start_date,$tuoi])
         ->where('gioi_tinh',$gioi_tinh)
         ->where("lop_id",0)

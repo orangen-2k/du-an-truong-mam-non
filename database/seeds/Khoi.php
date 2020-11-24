@@ -12,7 +12,6 @@ class Khoi extends Seeder
     public function run()
     {
         $nam_hoc = DB::table('nam_hoc')->get();
-
         foreach ($nam_hoc as $key) {
             DB::table('khoi')->insert([
                 'ten_khoi' => 'Khối 2',
