@@ -9,6 +9,7 @@ use \App\Repositories\KhoiRepository;
 use \App\Repositories\GiaoVienRepository;
 use App\Repositories\NamHocRepository;
 use Carbon\Carbon;
+use  App\Repositories\HocSinhRepository;
 
 class QuanlySucKhoeController extends Controller
 {
@@ -18,7 +19,8 @@ class QuanlySucKhoeController extends Controller
         LopHocRepository $LopHocRepository,
         KhoiRepository $KhoiRepository,
         GiaoVienRepository $GiaoVienRepository,
-        NamHocRepository $NamHocRepository
+        NamHocRepository $NamHocRepository,
+        HocSinhRepository $HocSinhRepository
 
     ) {
        $this->SucKhoeRepository = $SucKhoeRepository;
@@ -26,6 +28,7 @@ class QuanlySucKhoeController extends Controller
        $this->KhoiRepository = $KhoiRepository;
        $this->GiaoVienRepository = $GiaoVienRepository;
        $this->NamHocRepository = $NamHocRepository;
+       $this->HocSinhRepository = $HocSinhRepository;
     }
 
     public function index(Request $request)
@@ -35,6 +38,8 @@ class QuanlySucKhoeController extends Controller
         } else {
             $id = $this->NamHocRepository->maxID();
         }
+        $nam_hoc_moi_nhat = $this->NamHocRepository->maxID();
+        $nam_hoc_hien_tai = $id;
         $dot_id_gan_nhat = 0;
         $getAllNamHoc = $this->NamHocRepository->getAllNamHoc();
         $khoi = $this->KhoiRepository->getAll();
@@ -54,7 +59,9 @@ class QuanlySucKhoeController extends Controller
             'id_nam_hoc', 
             'getAllNamHoc', 
             'dot_id_gan_nhat',
-            'getAllDotKhamSucKhoe'
+            'getAllDotKhamSucKhoe',
+            'nam_hoc_moi_nhat',
+            'nam_hoc_hien_tai'
         ));
     }
 
@@ -74,11 +81,50 @@ class QuanlySucKhoeController extends Controller
         $thoi_gian = $request['thoi_gian'];
         $get_nam_hoc_hien_tai = $this->NamHocRepository->layNamHocHienTai();
         $data = 0;
-        if($thoi_gian<= $get_nam_hoc_hien_tai->end_date && $thoi_gian>= $get_nam_hoc_hien_tai->start_date){
+        if($thoi_gian< $get_nam_hoc_hien_tai->end_date && $thoi_gian> $get_nam_hoc_hien_tai->start_date){
             $array = [
                 'ten_dot' => $ten_dot,
                 'thoi_gian' => $thoi_gian
             ];
+            
+
+            //Thêm sức khỏe các lớp giáo viên chưa thêm
+            $dot_moi_nhat = $this->SucKhoeRepository->getDotSucKhoeMoiNhat();
+            
+        if($dot_moi_nhat){
+            $data1 = [];
+            $data2 = [];
+            $id = $this->NamHocRepository->maxID();
+            $dot_id = $dot_moi_nhat->id;
+            
+            $suc_khoe_theo_dot = $this->SucKhoeRepository->GetSucKhoeTheoDot($dot_id);
+            foreach($suc_khoe_theo_dot as $value){
+                array_push($data1, $value->lop_id);
+            }
+            $namhoc = $this->NamHocRepository->find($id);
+            foreach($namhoc->khoi as $item){
+                foreach($item->LopHoc as $item2){
+                    if(in_array($item2->id, $data1) == false){
+                        array_push($data2, $item2);
+                    }
+                }
+            }
+            //Endd
+            foreach($data2 as $value2){
+                $hoc_sinh_theo_lop = $this->HocSinhRepository->getHocSinhHienTai($value2->id);
+                foreach($hoc_sinh_theo_lop as $hoc_sinh_theo_lop_value){
+                    $array_sk = [
+                        'dot_id' => $dot_id,
+                        'lop_id' => $value2->id,
+                        'hoc_sinh_id' => $hoc_sinh_theo_lop_value->id,
+                        'chieu_cao' => 0,
+                        'can_nang' => 0
+                    ];
+                    $this->SucKhoeRepository->InsertSucKhoeHocSinh($array_sk);
+                }
+            }
+            
+        }
             $this->SucKhoeRepository->postThemDotKhamSucKhoe($array);
             $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDot', 'Hoàn Thành');
         }
@@ -93,5 +139,31 @@ class QuanlySucKhoeController extends Controller
         $hoc_sinh_id = $request['hoc_sinh_id'];
         $data = $this->SucKhoeRepository->getChiTietSucKhoe($hoc_sinh_id);
         return $data;
+    }
+    public function kiemtraDotMoiNhat(){
+        $data = [];
+        $data2 = [];
+        $dot_moi_nhat = $this->SucKhoeRepository->getDotSucKhoeMoiNhat();
+        if($dot_moi_nhat){
+            $id = $this->NamHocRepository->maxID();
+            $dot_id = $dot_moi_nhat->id;
+            $suc_khoe_theo_dot = $this->SucKhoeRepository->GetSucKhoeTheoDot($dot_id);
+            foreach($suc_khoe_theo_dot as $value){
+                array_push($data, $value->lop_id);
+            }
+            $namhoc = $this->NamHocRepository->find($id);
+            foreach($namhoc->khoi as $item){
+                foreach($item->LopHoc as $item2){
+                    if(in_array($item2->id, $data) == false){
+                        array_push($data2, $item2);
+                    }
+                }
+            }
+           
+            
+        }
+        return compact('data', 'data2');
+        
+        
     }
 }
