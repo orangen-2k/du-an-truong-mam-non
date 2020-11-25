@@ -37,7 +37,7 @@ class CreateNhapHoc extends FormRequest
             'cmtnd_me' => 'required|numeric',
             'dien_thoai_me' => 'required|min:11|numeric',
             'dien_thoai_dang_ki' => 'required|min:11|numeric',
-            'email_dang_ky' => 'required|email:rfc,dns',
+            'email_dang_ky' => 'required|email:rfc,dns|unique:users,email',
             'ho_khau_thuong_tru_matp' => 'required',
             'ho_khau_thuong_tru_maqh' => 'required',
             'ho_khau_thuong_tru_xaid' => 'required',
@@ -57,6 +57,7 @@ class CreateNhapHoc extends FormRequest
             'integer' => ' :attribute phải là số nguyên',
             'min' => ' :attribute ít nhất 11 số',
             'numeric' => ' :attribute phải là số',
+            'unique' => ' :attribute đã tồn tại',
         ];
     }
 

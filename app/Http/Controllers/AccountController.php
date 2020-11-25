@@ -19,11 +19,13 @@ use App\Repositories\GiaoVienRepository;
 use App\Repositories\QuanHuyenRepository;
 use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\XaPhuongThiTranRepository; 
+use App\Repositories\HocSinhRepository; 
 use App\Http\Requests\Account\RegisterSchoolRequest;
 
 class AccountController extends Controller
 {
     protected $AccountRepository;
+    protected $HocSinhRepository;
     protected $GiaoVienRepository;
     protected $TinhThanhPhoRepository;
     protected $QuanHuyenRepository;
@@ -34,12 +36,14 @@ class AccountController extends Controller
         GiaoVienRepository $GiaoVienRepository,
         TinhThanhPhoRepository $TinhThanhPhoRepository,
         QuanHuyenRepository $QuanHuyenRepository,
+        HocSinhRepository $HocSinhRepository,
         XaPhuongThiTranRepository $XaPhuongThiTranRepository
     ) {
         $this->AccountRepository = $AccountRepository;
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->TinhThanhPhoRepository = $TinhThanhPhoRepository;
         $this->QuanHuyenRepository = $QuanHuyenRepository;
+        $this->HocSinhRepository = $HocSinhRepository;
         $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
     }
 
@@ -255,10 +259,10 @@ class AccountController extends Controller
         foreach($array_id_tk as $val){
             if($val !== $id_chinh){
                 array_push($arr,$val);
-                $hs_tk_gop =  $this->HocSinh->getHocSinhByIdTk($val);
+                $hs_tk_gop =  $this->HocSinhRepository->getHocSinhByIdTk($val);
                 foreach($hs_tk_gop as $hs){
                 array_push($arr2,$hs->id);
-                $this->HocSinh->updateHocSinh($hs->id,['user_id' => $id_chinh]);
+                $this->HocSinhRepository->updateHocSinh($hs->id,['user_id' => $id_chinh]);
                 }
                 $this->AccountRepository->update($val,['active' => 0]);
             }

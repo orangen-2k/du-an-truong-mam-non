@@ -77,7 +77,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											</div>
 										</div>
 									</div>
-									<button id="foo" hidden type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  data-backdrop='static' data-keyboard='false'>
+									<button id="foo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" hidden data-backdrop='static' data-keyboard='false'>
 									</button>
 
 									<button  id="foo2"  hidden type="button" class="btn btn-warning" data-toggle="modal" data-target="#m_modal_4" data-backdrop='static' data-keyboard='false' >Thank You</button>
@@ -149,8 +149,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 <label class="col-lg-2 col-form-label">Ngày sinh:</label>
                                                     <div class="col-lg-5">
                                                             <div class="input-group date">
-															<input type="text" class="form-control m-input"  name="ngay_sinh"  readonly placeholder="Chọn ngày" id="m_datepicker_2" />
-														
+															<input type="text" class="form-control m-input"   name="ngay_sinh"  readonly placeholder="Chọn ngày" id="m_datepicker_2" />
+															{{-- <input type="date" class="form-control m-input "   name="ngay_sinh"  readonly placeholder="Chọn ngày" id="m_datepicker_2" /> --}}
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text">
                                                                     <i class="la la-calendar-check-o"></i>
@@ -198,7 +198,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 <label class="col-lg-3">Học sinh khuyết tật:</label>
 												<div class="col-lg-3">
                                                                  <label class="m-radio">
-																		<input type="radio" name="hoc_sinh_khuyet_tat" value="1">
+																		<input type="checkbox" name="hoc_sinh_khuyet_tat" value="1">
 																		<span></span>
 																	</label>
 												</div>
@@ -395,12 +395,13 @@ License: You must have a valid license purchased only from themeforest(the above
 												<div class="col-lg-4">
 													<label>Họ tên (Cha) : </label>
 													<div class="input-group m-input-group m-input-group--square">
-														<div class="input-group-prepend"><span class="input-group-text"><i class="la la-user"></i></span></div>
+														<div class="input-group-prepend">
+															<span class="input-group-text"><i class="la la-user"></i></span>
+														</div>
 														<input type="text" name="ten_cha" class="form-control m-input" placeholder="">
-														
-													<p class="text-danger text-small error" id="ten_cha_error"></p>
-														   
 													</div>
+													<p class="text-danger text-small error" id="ten_cha_error"></p>
+
 												</div>
 												<div class="col-lg-4">
 													<label class="">Số điện thoại (Cha) : </label>
@@ -424,7 +425,9 @@ License: You must have a valid license purchased only from themeforest(the above
 												<div class="col-lg-4">
 													<label>Họ tên (Mẹ) : </label>
 													<div class="input-group m-input-group m-input-group--square">
-														<div class="input-group-prepend"><span class="input-group-text"><i class="la la-user"></i></span></div>
+														<div class="input-group-prepend">
+															<span class="input-group-text"><i class="la la-user"></i></span>
+														</div>
 														<input type="text" name="ten_me" class="form-control m-input" placeholder="">
 													</div>
 													<p class="text-danger text-small error" id="ten_me_error"></p>
@@ -511,10 +514,13 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title" id="exampleModalLabel">Nhập mã xác thực</h5>
+
 										<button type="button" hidden id="closeModel" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
+											<span aria-hidden="true">&times;</span>
 										</button>
 									</div>
+									<p class="ml-3 mt-2">  Hệ thống đã gửi mã xác thực vào email của bạn !</p>
+
 									<div class="modal-body">
 									<form action="" id="formMaXacNhan">
 										<div class="row">
@@ -539,6 +545,7 @@ License: You must have a valid license purchased only from themeforest(the above
 										</div>
 									</div>
 									<div class="modal-footer">
+
 										<p class="text-danger text-small" id="sai_ma"></p>
 										<button type="button"  onclick="submitMaXacNhan()" class="btn btn-primary">Xác nhận</button>
 									</div>
@@ -575,6 +582,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script>
+
+			
 			  var url_quan_huyen_theo_thanh_pho= "{{route('get_quan_huyen_theo_thanh_pho')}}";
 			  var url_phuong_xa_theo_quan_huyen= "{{route('get_xa_phuong_theo_thi_tran')}}";
 			  var url_submit_dangki= "{{ route('submit-dang-ki-nhap-hoc') }}";
@@ -684,6 +693,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				$( "#foo" ).trigger( "click" );
 			})
 			.catch(function (error) {
+				$('#preload').css('display','none');
 				$('.error').text(' ')
 				 for (const key in error.response.data.errors) {
                             $('#'+key+'_error').html(error.response.data.errors[key]);
@@ -692,14 +702,17 @@ License: You must have a valid license purchased only from themeforest(the above
 		}
 
 		function submitMaXacNhan(){
+			$('#preload').css('display','block');
 			let myForm = document.getElementById('formMaXacNhan');
 			var formData = new FormData(myForm)
 			axios.post(url_xac_nhan_ma_dangki ,formData)
 			.then(function (response) {
 				if(response.data == 'no'){
+					$('#preload').css('display','none');
 					console.log(response.data);
 					$('#sai_ma').html('Mã xác thực không đúng')
 				}else{
+				$('#preload').css('display','none');
 				$( "#closeModel" ).trigger( "click" );
 					$( "#foo2" ).trigger( "click" );
 				}
