@@ -73,5 +73,21 @@ class SucKhoeRepository extends BaseRepository {
         ->orderBy('suc_khoe.id', 'desc')->get();
         return $query;
     }
-    
+
+    public function getDotSucKhoeMoiNhat(){
+        $query = DB::table('dot_kham_suc_khoe')
+        ->orderBy('dot_kham_suc_khoe.id', 'desc')
+        ->limit(1)->first();
+        return $query;
+    }
+
+    public function GetSucKhoeTheoDot($id){
+        $query = $this->table->select('suc_khoe.lop_id')->where('suc_khoe.dot_id', $id);
+        // ->groupBy('suc_khoe.lop_id');
+        return $query->groupBy('lop_id')->get();
+    }
+
+    public function InsertSucKhoeHocSinh($array){
+        $this->table->insert($array);
+    }    
 }

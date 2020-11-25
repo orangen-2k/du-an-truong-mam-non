@@ -167,8 +167,7 @@
                                     <h4 class="m-portlet__head-text col-md-10">
                                         Năm học: {{$namhoc->name}}
                                     </h4>
-                                    <i style="cursor: pointer" class="la la-refresh" data-toggle="modal"
-                                        data-target="#modal-nam-hoc"></i>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -360,11 +359,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="{!! asset('js/paginathing.js') !!}"></script>
 <script>
-    const url_ThongKeFeedBackIndex = "{{route('quan-ly-feed-back-index',['id'])}}";
+    const url_ThongKeFeedBackIndex = "{{route('quan-ly-feed-back-index')}}";
     var url_ShowFeedBackCuaLop = "{{route('quan-ly-feed-back-show-feedback-cua-lop')}}"
     var url_ThayDoiTrangThaiFeedBack = "{{route('quan-ly-feed-back-thay-doi-trang-thai')}}"
     var url_DaXemTatCa = "{{route('quan-ly-feed-back-da-xem-tat-ca')}}"
     var url_GetGiaoVienFeedBack = "{{route('quan-ly-feed-back-get-giao-vien')}}"
+    var url_ChiTietGiaoVien = "{{route('quan-ly-giao-vien-edit', ['id'])}}"
+    var url_ChiTietHocSinh = "{{route('quan-ly-hoc-sinh-edit', ['id'])}}"
     const addColor = (e) => {
         var list_element_lop = document.querySelectorAll('.lop_hoc')
         list_element_lop.forEach(element => {
@@ -390,7 +391,7 @@
             response.data.dataFeedBack.forEach(element => {
                 var thoigian = moment(element.created_at).fromNow(); 
                 var trangthai = "";
-                var avatar = "";
+                var anh = "";
                 if(element.trang_thai == 1){
                     trang_thai = 
                     `
@@ -404,10 +405,10 @@
                     `
                 }
                 if(element.avatar == "" || element.avatar == null){
-                    avatar = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                    anh = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
                 }
                 else{
-                    avatar = element.avatar
+                    anh = element.avatar
                 }
                 if(element.noi_dung.length > 155){
                    element.noi_dung = element.noi_dung.slice(0, 155)+' ...'
@@ -420,7 +421,7 @@
                     
                         <div class="m-widget3__header">
                             <div class="m-widget3__user-img">
-                                <img class="m-widget3__img" src=${avatar} alt="">
+                                <img class="m-widget3__img" src=${anh} alt="">
                             </div>
                             <div class="m-widget3__info" style="cursor: pointer !important;" onclick="showChiTiet(${element.id}, ${element.lop_id})" data-toggle="modal" data-target="#ShowChiTietFeedBack">
                                 <span class="m-widget3__username" style="cursor: pointer !important;" onclick="showChiTiet(${element.id}, ${element.lop_id})" data-toggle="modal" data-target="#ShowChiTietFeedBack">
@@ -450,17 +451,24 @@
             })
             });
             }
-            response.data.dataGiaoVien.forEach(element => {
+            if(response.data.dataGiaoVien.length > 0){
+                
+                response.data.dataGiaoVien.forEach(element => {
+                var url_ChiTietGiaoVien_new = url_ChiTietGiaoVien.replace('id',element.id)
                 htmGiaoVien+=
                 `
                 <li class="m-nav__item">
-                    <a href="" class="m-nav__link">
+                    <a href="${url_ChiTietGiaoVien_new}" class="m-nav__link">
                         <i class="m-nav__link-icon flaticon-avatar"></i>
                         <span class="m-nav__link-text">${element.ten} - ${element.ma_gv}</span>
                     </a>
                 </li>
                 `
             })
+            }
+            else{
+                htmGiaoVien = 'Chưa có giáo viên !'
+            }
             $('#showGiaoVienCuaLop').html(htmGiaoVien);
             $('#preload').css('display', 'none');
         })
@@ -469,7 +477,7 @@
     $("#select-nam").change(function(){
        $('#select_display').css('display', 'block')
        var id = $("#select-nam").val();
-       var url_moi = url_ThongKeFeedBackIndex.replace('id',id)
+       var url_moi = url_ThongKeFeedBackIndex
        window.location.href = url_moi;
        
     });
@@ -482,16 +490,14 @@
             lop_id: lop_id
         }).then(function(response){
             var data = response.data.dataFeedBack.find(element => element.id == id)
-            var thoigian = moment(data.created_at).fromNow(); 
+            var thoigian = moment(data.created_at).fromNow();
+            var url_ChiTietHocSinh_new = url_ChiTietHocSinh.replace('id',data.id) 
             var contentHTML = 
             `
             <div class="form-row">
-                <div class="col-md-12 mb-3">
-                    <label for="validationTooltip01"><b>Phụ huynh:</b> ${data.name}</label>
-                </div>
 
                 <div class="col-md-12 mb-3">
-                    <label for="validationTooltip01"><b>Bé:</b> ${data.ten} - ${data.ma_hoc_sinh}</label>
+                    <label for="validationTooltip01"><b> Phụ huynh Bé: <a href="${url_ChiTietHocSinh_new}"> ${data.ten} - ${data.ma_hoc_sinh} </a></b></label>
                 </div>
 
                 <div class="col-md-12 mb-3">

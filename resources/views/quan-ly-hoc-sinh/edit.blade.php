@@ -768,7 +768,8 @@
 
 @endsection
 @section('script')
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="path/to/chartjs/dist/Chart.js"></script>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src="{!!  asset('assets/demo/custom/crud/forms/widgets/bootstrap-datepicker.js') !!}"></script>
     <script>
@@ -807,7 +808,56 @@ $(document).ready(function() {
           <label for="validationTooltip01"><b>Mã học sinh:</b> ${response.data[0].ma_hoc_sinh}</label>
         </div>
         <div class="col-md-12 mb-3">
-          <label for="validationTooltip01"><b>Biểu đồ</b></label>
+          <div class="row">
+							<div class="col-lg-6">
+
+								<!--begin::Portlet-->
+								<div class="m-portlet m-portlet--tab">
+									<div class="m-portlet__head">
+										<div class="m-portlet__head-caption">
+											<div class="m-portlet__head-title">
+												<span class="m-portlet__head-icon m--hide">
+													<i class="la la-gear"></i>
+												</span>
+												<h3 class="m-portlet__head-text">
+													Biểu đồ chiều cao (cm)
+												</h3>
+											</div>
+										</div>
+									</div>
+									<div class="m-portlet__body">
+										<canvas id="myChart" width="200" height="200"></canvas>
+									</div>
+								</div>
+
+								<!--end::Portlet-->
+							</div>
+							<div class="col-lg-6">
+
+								<!--begin::Portlet-->
+								<div class="m-portlet m-portlet--tab">
+									<div class="m-portlet__head">
+										<div class="m-portlet__head-caption">
+											<div class="m-portlet__head-title">
+												<span class="m-portlet__head-icon m--hide">
+													<i class="la la-gear"></i>
+												</span>
+												<h3 class="m-portlet__head-text">
+													Biểu đồ cân nặng (kg)
+												</h3>
+											</div>
+										</div>
+									</div>
+									<div class="m-portlet__body">
+                    <canvas id="myChart2" width="200" height="200"></canvas>
+										
+									</div>
+								</div>
+
+								<!--end::Portlet-->
+							</div>
+						</div>
+        
         </div>
         <div class="col-md-12 mb-3">
           <table class="table m-table m-table--head-bg-success table-bordered">
@@ -823,6 +873,9 @@ $(document).ready(function() {
           </thead>
           <tbody align="center">
         `
+        var labels_chart = []
+        var data_chart = []
+        var data_chart2 = []
         response.data.forEach(element => {
           var date = new Date(element.thoi_gian),
             yr = date.getFullYear(),
@@ -843,24 +896,88 @@ $(document).ready(function() {
                <th scope="row">${i++}</th>
                <td>${element.ten_dot}</td>
                <td>${newDate}</td>
-               <td><a href="${url_show_lop_new}">${element.ten_lop}</a></td>
+               <td><a target="_blank" href="${url_show_lop_new}"><b>${element.ten_lop}</b></a></td>
                <td>${element.chieu_cao}</td>
                <td>${element.can_nang}</td>
           </tr>
            
            
           `
+          //Chart
+          labels_chart.unshift(element.ten_dot)
+          data_chart.unshift(element.chieu_cao)
+          data_chart2.unshift(element.can_nang)
         })
         html_modal += 
         `
         </tbody></table></div>
         `
         $('#showChiTietSucKhoeCuaHocSinh').html(html_modal);
+        var ctx = document.getElementById('myChart');
+        var ctx2 = document.getElementById('myChart2');
+        //Chiều cao
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels_chart,
+                datasets: [{
+                    label: 'Chiều cao',
+                    data: data_chart,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 1
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        //Cân nặng
+        var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: labels_chart,
+                datasets: [{
+                    label: 'Chiều cao',
+                    data: data_chart2,
+                    backgroundColor: [
+                       
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
         $('#preload').css('display', 'none');
         $('#modal_suc_khoe').modal('show');
     }
     else{
-        var html_modal = `Không có dữ liệu`
+        var html_modal = `<i><b style="color:red">Không tìm thấy dữ liệu nào của học sinh này</b></i>`
         $('#showChiTietSucKhoeCuaHocSinh').html(html_modal);
         $('#preload').css('display', 'none');
         $('#modal_suc_khoe').modal('show');

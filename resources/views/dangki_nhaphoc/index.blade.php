@@ -77,7 +77,7 @@ License: You must have a valid license purchased only from themeforest(the above
 											</div>
 										</div>
 									</div>
-									<button id="foo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  data-backdrop='static' data-keyboard='false'>
+									<button id="foo" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" hidden data-backdrop='static' data-keyboard='false'>
 									</button>
 
 									<button  id="foo2"  hidden type="button" class="btn btn-warning" data-toggle="modal" data-target="#m_modal_4" data-backdrop='static' data-keyboard='false' >Thank You</button>
