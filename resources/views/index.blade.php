@@ -178,7 +178,7 @@
         <a class="" href="">Xem tất cả</a>
         </div>
       
-          <div class="row mt-2"> 
+          <div class="row mt-3"> 
     @foreach ($khoi as $item)
         <div class="col-xl-3">
 
@@ -191,7 +191,7 @@
                                 <img src="assets/app/media/img/client-logos/logo3.png" alt="">
                             </div>
                             <h3 class="m-portlet__head-text font-italic">
-                            {{$item->ten_khoi}} ({{$item->do_tuoi}} tuổi)
+                            {{$item->ten_khoi}} ({{$item->do_tuoi}} tuổi )
                             </h3>
                         </div>
                     </div>
@@ -584,7 +584,6 @@
 
 <script>
 var ctx = document.getElementById('BieuDoSoLuongHocSinh');
-
 var BieuDoSoLuongHocSinh = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -592,8 +591,8 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
         datasets: [{
             label: 'Nam',
             data: [
-                "{{ $data['nam2']}}",
                 "{{ $data['nam1']}}",
+                "{{ $data['nam2']}}",
                 "{{ $data['nam3']}}",
                 "{{ $data['nam4']}}",
                 "{{ $data['nam5']}}",
@@ -605,6 +604,7 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
                 "{{ $data['nam11']}}",
                 "{{ $data['nam12']}}",
                  ],
+                
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(255, 99, 132, 0.2)',
@@ -640,8 +640,8 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
         {
             label: 'Nữ ',
             data: [
-                "{{ $data['nu2']}}",
                 "{{ $data['nu1']}}",
+                "{{ $data['nu2']}}",
                 "{{ $data['nu3']}}",
                 "{{ $data['nu4']}}",
                 "{{ $data['nu5']}}",
@@ -652,6 +652,7 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
                 "{{ $data['nu10']}}",
                 "{{ $data['nu11']}}",
                 "{{ $data['nu12']}}",
+               
                ],
             backgroundColor: [
                 'rgba(54, 162, 235, 0.2)',

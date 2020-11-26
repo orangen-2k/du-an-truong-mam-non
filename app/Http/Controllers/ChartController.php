@@ -33,20 +33,21 @@ class ChartController extends Controller
     }
     public function getAllHocSinh(Request $request)
     {
-       // $hoc_sinh=HocSinh::all();
         $data=$this->ChartRepository->getTongSoLuongHocsinh();  
-
+       // $data_so_luong_hs_nu=$this->ChartRepository->getTongSoLuongHocsinh();  
+           // dd($data_so_luong_hs);
+      
         if($request->session()->has('id_nam_hoc')){
             $id_nam_hien_tai = $request->session()->get('id_nam_hoc');
         }else{
             $id_nam_hien_tai = $this->NamHocRepository->maxID();
         }
-        $nam_hoc_share = $this->NamHocRepository->find($id_nam_hien_tai);
+            $nam_hoc_share = $this->NamHocRepository->find($id_nam_hien_tai);
 
-        $khoi = $nam_hoc_share->Khoi;
-        $sl_hs_type = [];
-        $sl_hs_type[0] = $this->HocSinhRepository->getSlHocSinhType(0);
-      // dd($khoi);
+            $khoi = $nam_hoc_share->Khoi;
+            $sl_hs_type = [];
+            $sl_hs_type[0] = $this->HocSinhRepository->getSlHocSinhType(0);
+
         return view('index', [
             'sl_hs_type' => $sl_hs_type,
             'nam_hoc_share' => $nam_hoc_share,

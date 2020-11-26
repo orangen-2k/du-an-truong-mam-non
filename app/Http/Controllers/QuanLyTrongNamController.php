@@ -273,7 +273,7 @@ class QuanLyTrongNamController extends Controller
         foreach ($data_lop_moi as $key => $value) {
             $value->tong_hoc_sinh = $value->TongSoHocSinh;
         }
-
+ 
         return $data_lop_moi;
     }
 

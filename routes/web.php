@@ -192,11 +192,11 @@ Route::prefix('quan-ly-suc-khoe')->group(function(){
 });
 
 Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
-Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
+ Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
 Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
 Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');
 
 
-   
+    
    //  Route::get('/','LopController@getHocSinhTheoLop'); 
 
