@@ -117,6 +117,7 @@ class QuanLyDangKyNhapHocController extends Controller
             $username =    $boVietHoa . $data['ma_hoc_sinh'] ;
             $user_id  = $this->Account->create([
                 'name' => $data['ten'],
+                'role' => 3,
                 'username' => $username,
                 'password' => password_hash('12345',PASSWORD_DEFAULT),
                 'email' => $data['email_dang_ky'],

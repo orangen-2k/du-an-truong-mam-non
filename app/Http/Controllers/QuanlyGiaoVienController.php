@@ -192,7 +192,7 @@ class QuanlyGiaoVienController extends Controller
         }
         unset($dataRequest['_token']);
         $this->GiaoVienRepository->update_gv($id, $dataRequest);
-        return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
+        return redirect()->route('quan-ly-giao-vien-edit', ['id' => $id])->with('thong_bao', 'Hoàn thành');
     }
 
     public function destroy(Request $request)

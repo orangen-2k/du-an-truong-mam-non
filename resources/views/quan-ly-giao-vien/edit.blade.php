@@ -7,6 +7,13 @@
 <div class="m-content">
     <form method="post" action="{{route('quan-ly-giao-vien-update', ['id' => $data->id])}}" enctype="multipart/form-data">
     @csrf
+    @if(SESSION('thong_bao'))
+        <div class="m-alert m-alert--outline m-alert--square m-alert--outline-2x alert alert-success alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            </button>
+            <strong>Thành công!</strong> Cập nhật giáo viên thành công
+        </div>
+    @endif
     <div class="row">
         <div class="col-xl-12">
             <div class="m-portlet m-portlet--tab">
