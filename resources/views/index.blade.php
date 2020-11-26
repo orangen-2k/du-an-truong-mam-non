@@ -201,7 +201,7 @@
                 </div>
                 <div class="m-portlet__body">
 
-                  
+                    <!--begin::Widget5-->
                     @foreach ($item->LopHoc as $lop_hoc)
                     <div class="m-widget4">
                        
@@ -582,7 +582,7 @@
   </div>
 
 
-<script>
+<script> 
 var ctx = document.getElementById('BieuDoSoLuongHocSinh');
 var BieuDoSoLuongHocSinh = new Chart(ctx, {
     type: 'bar',

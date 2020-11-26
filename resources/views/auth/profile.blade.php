@@ -167,6 +167,37 @@
 															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%">
 														</div>
 													</div>
+
+													<!-- aaaa -->
+													<!-- <div class="col-xl-6">
+                                                      <div class="m-form__section m-form__section--first">
+                                                       </div>
+													<div class="form-group m-form__group row">
+                                                        <label class="col-xl-3 col-lg-3 col-form-label"><span
+                                                                class="text-danger"></span> Ảnh:</label>
+                                                                <img onClick="showModal()"
+                                                        src= "{{  Auth::user()->avatar  ? asset('upload/' . Auth::user()->avatar ) : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'}}"
+                                                        class="rounded mx-auto d-block mb-2" width="40%"
+                                                       id="show_img">
+                                                                <p>Click vào ảnh để lựa chọn ảnh khác!</p>
+
+                                                     <div class="col-xl-9 col-lg-9 mt-4">
+                                                        <div class="input-group ml-5 ">
+
+                                                            <div class="custom-file ml-5 col-12">
+                                                            @error('avatar')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+                                                                <input type="file"  name="avatar"
+                                                                id="avatar" onClick="showModal()"onchange="showimages(this)"
+                                                                    style="display:none" />
+                                                                 <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"> 
+
+                                                            </div>
+                                                        </div>
+													</div>
+                                                    </div> 
+                                                </div> -->
 												
 
 												</div>
@@ -197,3 +228,19 @@
 				</div>
 			</div>
 @endsection
+
+@section('script')
+<script>
+function showimages(element) {
+           		 var file = element.files[0];
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    $('#show_img').attr('src', reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+			$(document).ready(function() {
+    $('.select2').select2();
+});
+		</script>
+@endsection				

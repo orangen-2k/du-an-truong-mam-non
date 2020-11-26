@@ -11,6 +11,7 @@ use App\Repositories\NamHocRepository;
 use App\Http\Requests\Lop\Store;
 use App\Http\Requests\Lop\Update;
 
+
 class LopController extends Controller
 {
     protected $KhoiRepository;
@@ -271,7 +272,7 @@ return [
 
     }
 
-    public function getDataHocSinhChuaCoLop($type)
+    public function getDataHocSinhChuaCoLop($type) 
     {
         $id_nam_hoc = $this->NamHocRepository->maxID();
         $nam_hoc = $this->NamHocRepository->find($id_nam_hoc);

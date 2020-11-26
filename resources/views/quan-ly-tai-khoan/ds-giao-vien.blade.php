@@ -146,7 +146,7 @@
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{  $item->avatar ? asset('upload/' . $item->avatar) : 'https://ui-avatars.com/api/?name=' . $item->name . '&background=random '}}' width="50" class="img-thumbnail"></td>
+                                        <td><img src='{{  $item->avatar ? asset('../upload/' . $item->avatar) : 'https://ui-avatars.com/api/?name=' . $item->name . '&background=random '}}' width="50" class="img-thumbnail"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
