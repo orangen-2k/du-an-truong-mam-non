@@ -189,6 +189,19 @@ Route::prefix('quan-ly-suc-khoe')->group(function(){
     Route::post('/kiem-tra-dot-moi-nhat', 'QuanlySucKhoeController@kiemtraDotMoiNhat')->name('quan-ly-suc-khoe-kiem-tra-dot-moi-nhat');
 });
 
+Route::prefix('quan-ly-khoan-thu')->group(function(){
+    Route::get('/', 'QuanLyKhoanThuController@index')->name('quan-ly-khoan-thu-index');
+    Route::get('get-data-khoan-thu', 'QuanLyKhoanThuController@getDataKhoanThu')->name('quan-ly-khoan-thu-get-data');
+    Route::post('tao_khoan_thu', 'QuanLyKhoanThuController@store')->name('quan-ly-khoan-thu-store');
+    Route::post('update_khoan_thu', 'QuanLyKhoanThuController@update')->name('quan-ly-khoan-thu-update');
+    Route::post('copy_khoan_thu', 'QuanLyKhoanThuController@copy')->name('quan-ly-khoan-thu-copy');
+    Route::get('delete_khoan_thu/{id}', 'QuanLyKhoanThuController@delete')->name('quan-ly-khoan-thu-delete'); 
+    Route::post('delete-list-khoan-thu', 'QuanLyKhoanThuController@deleteList')->name('quan-ly-khoan-thu-delete-list');
+
+    
+
+});
+
 Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
 Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
 Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');

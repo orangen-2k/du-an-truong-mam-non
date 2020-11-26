@@ -69,4 +69,9 @@ abstract class BaseModelRepository
     {
 
     }
+
+    public function insert($attributes = [])
+    {
+        return $this->model->insert($attributes);
+    }
 }
