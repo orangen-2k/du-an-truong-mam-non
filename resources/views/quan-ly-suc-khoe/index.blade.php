@@ -142,24 +142,19 @@
           </div>
           {{-- <div class="m-portlet__body"> --}}
             {{-- Modal năm học --}}
-            <div class="modal fade show" id="modal-nam-hoc" tabindex="-1" role="dialog"
+            <div class="modal fade show" id="modal-kiem-tra" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Năm Học</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Kết quả kiểm tra đợt mới nhất</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <select class="form-control form-control-sm" id="select-nam">
-                            <option value="0">Chọn</option>
-                            @foreach ($getAllNamHoc as $item)
-                            <option value="{{$item->id}}">{{$item->name}} @if($item->type == 1)<span>(hiện tại)</span>@endif</option>
-                            @endforeach
-                            
-                        </select>
+                    <div class="modal-body" id="noi-dung-ket-qua-kiem-tra">
+                         Đang kiểm tra ... 
+                         
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-sm"
@@ -251,11 +246,12 @@
           <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Thêm mới đợt khám sức khỏe</h5>
+                  
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                     </button>
               </div>
-
+              
             <form method="POST" action="{{route('quan-ly-suc-khoe-them-dot-kham')}}">
               @csrf
               <div class="modal-body">
@@ -275,7 +271,8 @@
               </div>
           <div class="modal-footer">
             <button type="button" class="btn m-btn--square  btn-danger"
-              data-dismiss="modal">Đóng</button>
+              data-dismiss="modal" onclick="kiemtrasuckhoe()" data-toggle="modal"
+              data-target="#modal-kiem-tra">Kiểm tra</button>
             <button type="submit" class="btn m-btn--square  btn-primary">Thêm mới</button>
           </div>
         </form>
@@ -290,21 +287,20 @@
             @foreach($getAllDotKhamSucKhoe as $item)
             <option value={{$item->id}} disabled
             {{($item->id == $dot_id_gan_nhat) ? 'selected' : ''}}
-              >{{$item->ten_dot}} - {{date("d/m/Y", strtotime($item->thoi_gian))}}</option>
+              >{{$item->ten_dot}} - {{date("d/m/Y", strtotime($item->thoi_gian))}} {{($item->id == $dot_id_gan_nhat) ? '(mới nhất)' : ''}}</option>
             @endforeach
             @if(count($getAllDotKhamSucKhoe) == 0)
               <option value="0" disabled selected>Không có dữ liệu</option>
             @endif
           </select>
         </div>
+        @if($nam_hoc_moi_nhat == $nam_hoc_hien_tai)
         <div class="col-md-4">
           <button type="submit" class="btn btn-outline-brand" data-toggle="modal"
           data-target="#modal-them-dot-kham-suc-khoe">Thêm đợt khám sức khỏe mới</button>
         </div>
+        @endif
         </div>  
-        
-        
-          
           <table id="table-hoc-sinh" class="table table-striped table-bordered m-table thong-tin-hoc-sinh-cua-lop   ">
             <thead>
               <tr align="center">
@@ -365,6 +361,7 @@
 </script>
 @endif
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="path/to/chartjs/dist/Chart.js"></script>
 <script>
   const html_danh_sach_lop = $('#id_lop_chuyen').html();
   var dtable;
@@ -413,6 +410,8 @@
   var url_SucKhoeTheoNam = "{{route('quan-ly-suc-khoe-index', ['id'])}}"
   var url_ShowSucKhoeHocSinh = "{{route('quan-ly-suc-khoe-show-sk-hs')}}"
   var url_ShowChiTietSucKhoe = "{{route('quan-ly-suc-khoe-show-chi-tiet')}}"
+  var url_KiemTraDotMoiNhat = "{{route('quan-ly-suc-khoe-kiem-tra-dot-moi-nhat')}}"
+  var url_showChiTietLop = "{{route('quan-ly-lop-show', ['id'])}}"
   $(document).ready(function(){
         $('.select2').select2();
     })
@@ -426,6 +425,7 @@
     }
     var check = false;
     function showHocSinhCuaLop(lop_id, dot_id_gan_nhat){
+      
       if(check){
         dtable.destroy();
       
@@ -443,8 +443,8 @@
         }
       }
       $("#dot-kham-suc-khoe").select2(); 
-   
-        axios.post(url_ShowSucKhoeHocSinh, {lop_id:lop_id, dot_id_gan_nhat:dot_id_gan_nhat})
+        var dot_suc_khoe_hien_tai = $('#dot-kham-suc-khoe').val()
+        axios.post(url_ShowSucKhoeHocSinh, {lop_id:lop_id, dot_id_gan_nhat:dot_suc_khoe_hien_tai})
         .then(function(response){
           
           $('#table-hoc-sinh').css('display', 'block');
@@ -497,7 +497,56 @@
           <label for="validationTooltip01"><b>Mã học sinh:</b> ${response.data[0].ma_hoc_sinh}</label>
         </div>
         <div class="col-md-12 mb-3">
-          <label for="validationTooltip01"><b>Biểu đồ</b></label>
+          <div class="row">
+							<div class="col-lg-6">
+
+								<!--begin::Portlet-->
+								<div class="m-portlet m-portlet--tab">
+									<div class="m-portlet__head">
+										<div class="m-portlet__head-caption">
+											<div class="m-portlet__head-title">
+												<span class="m-portlet__head-icon m--hide">
+													<i class="la la-gear"></i>
+												</span>
+												<h3 class="m-portlet__head-text">
+													Biểu đồ chiều cao (cm)
+												</h3>
+											</div>
+										</div>
+									</div>
+									<div class="m-portlet__body">
+										<canvas id="myChart" width="200" height="200"></canvas>
+									</div>
+								</div>
+
+								<!--end::Portlet-->
+							</div>
+							<div class="col-lg-6">
+
+								<!--begin::Portlet-->
+								<div class="m-portlet m-portlet--tab">
+									<div class="m-portlet__head">
+										<div class="m-portlet__head-caption">
+											<div class="m-portlet__head-title">
+												<span class="m-portlet__head-icon m--hide">
+													<i class="la la-gear"></i>
+												</span>
+												<h3 class="m-portlet__head-text">
+													Biểu đồ cân nặng (kg)
+												</h3>
+											</div>
+										</div>
+									</div>
+									<div class="m-portlet__body">
+                    <canvas id="myChart2" width="200" height="200"></canvas>
+										
+									</div>
+								</div>
+
+								<!--end::Portlet-->
+							</div>
+						</div>
+        
         </div>
         <div class="col-md-12 mb-3">
           <table class="table m-table m-table--head-bg-success table-bordered">
@@ -513,7 +562,11 @@
           </thead>
           <tbody>
         `
+        var labels_chart = []
+        var data_chart = []
+        var data_chart2 = []
         response.data.forEach(element => {
+
           var date = new Date(element.thoi_gian),
             yr = date.getFullYear(),
             month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
@@ -539,12 +592,79 @@
            
            
           `
+
+          //Chart
+          labels_chart.unshift(element.ten_dot)
+          data_chart.unshift(element.chieu_cao)
+          data_chart2.unshift(element.can_nang)
         })
         html_modal += 
         `
         </tbody></table></div>
         `
         $('#showChiTietSucKhoeCuaHocSinh').html(html_modal);
+        //Biểu đồ
+       
+        var ctx = document.getElementById('myChart');
+        var ctx2 = document.getElementById('myChart2');
+        //Chiều cao
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels_chart,
+                datasets: [{
+                    label: 'Chiều cao',
+                    data: data_chart,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 1
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        //Cân nặng
+        var myChart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: labels_chart,
+                datasets: [{
+                    label: 'Chiều cao',
+                    data: data_chart2,
+                    backgroundColor: [
+                       
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
         $('#preload').css('display', 'none');
         $('#ShowChiTietSucKhoe').modal('show');
         
@@ -565,6 +685,41 @@
        window.location.href = url_moi;
        
     })
+    function kiemtrasuckhoe(){
+     axios.post(url_KiemTraDotMoiNhat)
+     .then(function(response){
+       var html = ""
+       
+      if(response.data.data2.length == 0){
+        var html = 
+        `<div class="col-md-12">
+          <label><b style="color:green">Tất cả các lớp đã được nhập dữ liệu</b></label>
+        </div>`
+      }
+      else{
+        html+= 
+        `
+        <div class="col-md-12">
+          <label><b>Danh sách các lớp chưa nhập dữ liệu</b></label>
+        </div>
+        
+        `
+        
+        response.data.data2.forEach(element =>{
+          var url_showChiTietLop_new = url_showChiTietLop.replace('id', element.id)
+          html += 
+          `<div class="col-lg-3">
+          <label><b>
+          <a target="_blank" href="${url_showChiTietLop_new}">${element.ten_lop}</a>
+          </b></label>
+          </div> `
+        })
+      }
+      $('#noi-dung-ket-qua-kiem-tra').html(html)
+     })
+      
+    }
+    
 </script>
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
