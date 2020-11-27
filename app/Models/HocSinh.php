@@ -7,6 +7,7 @@ use App\User;
 use App\Models\ThoiHoc;
 use App\Models\Lop;
 use App\Models\LichSuHoc;
+use App\Models\DonNghiHoc;
 
 class HocSinh extends Model
 {
@@ -66,5 +67,9 @@ class HocSinh extends Model
     public function LichSuHoc()
     {
         return $this->hasMany(LichSuHoc::class,'hoc_sinh_id','id');
+    }
+    public function DonNghiHoc()
+    {
+        return $this->belongsTo(DonNghiHoc::class,'hoc_sinh_id','id');
     }
 }

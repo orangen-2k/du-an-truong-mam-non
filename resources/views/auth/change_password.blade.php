@@ -163,6 +163,9 @@
 														<div class="form-group m-form__group row">
 															<label for="example-text-input" class="col-2 col-form-label">Mật khẩu cũ</label>
 															<div class="col-7">
+															@error('current_password')
+																<small style="color:red">{{$message}}</small>
+																@enderror
 																<input class="form-control m-input" type="password" name="current_password"  value="">
 															</div>
 														</div>

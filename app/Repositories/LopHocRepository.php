@@ -21,7 +21,7 @@ class LopHocRepository extends BaseRepository
     }
 
     public function getAllLopHoc(){
-        dd($this->model->get());
+        $this->model->get();
   		return  $this->model->get();
     }
 

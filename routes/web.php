@@ -210,3 +210,6 @@ Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');
    // Route::get('/','ChartController@getAllHocSinh')->name('chart');
     Route::get('/','LopController@getHocSinhTheoLop')->name('get-hoc-sinh');
 
+Route::prefix('quan-li-don-nghi-hoc')->group(function(){
+    Route::get('/',"QuanLyDonNghiHocController@index")->name('don-nghi-hoc');
+});

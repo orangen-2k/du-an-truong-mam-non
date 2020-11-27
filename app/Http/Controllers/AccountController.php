@@ -153,7 +153,7 @@ class AccountController extends Controller
   {
     if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
         return redirect()->back()
-            ->with("error","Mật khẩu cũ bạn vừa nhập không chính xác!Vui lòng kiểm tra lại."); 
+            ->with("error","Mật khẩu cũ không đúng.Vui lòng kiểm tra lại!"); 
     }
 
     if(strcmp($request->get('current_password'), $request->get('new_password')) == 0){
@@ -165,9 +165,9 @@ class AccountController extends Controller
         'current_password' => ['required'],
         'new_password' => ['required','regex:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/','min:8'],
         'password_confirmation' => ['same:new_password'],
-    ],
+    ], 
      [
-        'current_password.required'=>'Bạn chưa nhập mật khẩu cũ',
+        'current_password.required'=>'Bạn chưa nhập mật khẩu cũ!',
         'new_password.required'=>'Bạn chưa nhập mật khẩu mới.',
         'password_confirmation.same'=>'Mật khẩu không khớp.',
         'new_password.regex'=>'Mật khẩu phải bao gồm các kí tự a-Z, 0-9 và kí tự đặc biệt!'  , 
