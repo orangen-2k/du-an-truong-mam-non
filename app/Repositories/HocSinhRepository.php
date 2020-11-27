@@ -173,4 +173,11 @@ class HocSinhRepository extends BaseModelRepository
         ->get();
         return $query;
     }
+
+    public function getHocSinhTheoNgayVaoTruong($start_date, $end_date){
+        $query = $this->model
+        ->where('hoc_sinh.ngay_vao_truong', '<=', $end_date)
+        ->where('hoc_sinh.ngay_vao_truong', '>=', $start_date);
+        return $query->get();
+    }
 }
