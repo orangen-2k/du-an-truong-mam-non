@@ -950,7 +950,7 @@ $(document).ready(function() {
             data: {
                 labels: labels_chart,
                 datasets: [{
-                    label: 'Chiều cao',
+                    label: 'Cân nặng',
                     data: data_chart2,
                     backgroundColor: [
                        

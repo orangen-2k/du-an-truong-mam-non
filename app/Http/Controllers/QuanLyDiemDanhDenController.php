@@ -168,6 +168,7 @@ class QuanLyDiemDanhDenController extends Controller
                 }
                
             }
+            // dd($array_diemdanh);
             $hocsinh[$key]->trang_thai_diem_danh = $array_diemdanh;
             $hocsinh[$key]->sang = $S;
             $hocsinh[$key]->chieu = $C;
