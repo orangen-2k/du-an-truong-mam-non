@@ -92,6 +92,12 @@ return [
         'toan_truong'=> 1,
         'giao_vien'=> 2,
         'hoc_sinh'=> 3
+    ],
+
+    'pham_vi_thu' => [
+        'toan_truong'=> 1,
+        'khoi'=> 2,
+        'lop'=> 3
     ]
 ]
 ?>

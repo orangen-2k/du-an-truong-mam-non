@@ -1,5 +1,7 @@
 @extends('layouts.main')
 @section('title', "Quản tài khoản")
+<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
+
 @section('style')
 <style>
     @media (min-width: 768px) { 
@@ -19,6 +21,13 @@
 @endsection
 @section('content')
 <div class="m-content">
+
+       		
+		<div id="preload" class="preload-container text-center" style="display: none">
+			<img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+          </div>
+
+
     <div class="row">
         <div class="col-xl-12">
             <!--begin::Portlet-->
@@ -150,7 +159,7 @@
             
                                                 <span class="m-switch m-switch--outline m-switch--icon m-switch--success">
                                                     <label>
-                                                        <input type="checkbox" onclick="editstatus(this)" user-id="{{ $item->id }}"
+                                                        <input type="checkbox"  onclick="editstatus(this)" user-id="{{ $item->id }}"
                                                          @if ($item->active == 1) checked @endif>
                                                         <span></span>
                                                     </label>
@@ -264,11 +273,13 @@ function chooseOptionAccount (){
 
 
     function submitGop(){
+        $('#preload').css('display','block');
         axios.post(url_accountGopTk, {
               id_tk_chinh: $('#id_tk_chinh').val(),
               array_account:  $("#array_account").val(),
             })
             .then(function (response) {
+                $('#preload').css('display','none');
                 console.log('Thay đổi status THÀNH CÔNG');
                     Swal.fire({
                         position: 'center',
@@ -281,6 +292,7 @@ function chooseOptionAccount (){
                 })
             })
             .catch(function (error) {
+                $('#preload').css('display','none');
                 console.log(error);
             });
     }
@@ -289,17 +301,38 @@ function chooseOptionAccount (){
     function editstatus(element) {
         console.log('Đang thay đổi status');
         // console.log($id);
-        let userId = $(element).attr('user-id')
-        axios.post("{{route('account.editStatus') }}", {
-                id: userId
-            })
-            .then(function (response) {
-                console.log('Thay đổi status THÀNH CÔNG');
-            })
-            .catch(function (error) {
-                // console.log(error);
-            });
-    }
+        let userId = $(element).attr('user-id');
+        // console.log(element);
+        Swal.fire({
+                title: 'Bạn muốn thay đổi trạng thái tài khoản này ?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                ButtonColor: '#d33',
+                confirmButtonText: 'Thay đổi',
+                }).then((result) => {
+                    if (result.value) {
+                            axios.post("{{route('account.editStatus') }}", {
+                                    id: userId
+                                })
+                                .then(function (response) {
+                                    Swal.fire({
+                                                position: 'center',
+                                                icon: 'success',
+                                                title: 'Thay đổi trạng thái thành công',
+                                                showConfirmButton: false,
+                                                timer: 1500
+                                            })
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+                    }else{
+                        location.reload();
+                    }
+                })
+                }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection
