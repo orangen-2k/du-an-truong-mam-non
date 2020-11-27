@@ -361,7 +361,7 @@
 </script>
 @endif
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="path/to/chartjs/dist/Chart.js"></script>
+{{-- <script src="path/to/chartjs/dist/Chart.js"></script> --}}
 <script>
   const html_danh_sach_lop = $('#id_lop_chuyen').html();
   var dtable;
@@ -642,7 +642,7 @@
             data: {
                 labels: labels_chart,
                 datasets: [{
-                    label: 'Chiều cao',
+                    label: 'Cân nặng',
                     data: data_chart2,
                     backgroundColor: [
                        
@@ -699,10 +699,11 @@
       else{
         html+= 
         `
-        <div class="col-md-12">
+        
+        <div class="row">
+          <div class="col-lg-12">
           <label><b>Danh sách các lớp chưa nhập dữ liệu</b></label>
         </div>
-        
         `
         
         response.data.data2.forEach(element =>{
@@ -715,6 +716,7 @@
           </div> `
         })
       }
+      html+=`</div>`
       $('#noi-dung-ket-qua-kiem-tra').html(html)
      })
       
