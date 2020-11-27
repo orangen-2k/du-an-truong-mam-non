@@ -179,7 +179,7 @@
 									<input class="form-control m-input" type="text" placeholder="Email" name="email" id="m_email" autocomplete="off">
 									<div class="col m--align-right m-login__form-right">
                                                 <a  href="{{ route('otp.forget_password') }}" class="m-link">
-                                                    {{ __('Thử cách khác') }}
+													<i>{{ __('Thử cách khác') }}</i>
                                                 </a>
 									</div>
 								</div>
