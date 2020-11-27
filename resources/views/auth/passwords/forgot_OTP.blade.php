@@ -75,7 +75,10 @@
 								</div>
 								<center>
 									<span class="m-form__help">Mã xác nhận sẽ dc gửi tới số điện thoại của bạn</span>
-                                </center>
+								</center>
+								<div class="m-login__form-action">
+									<a href="{{ route('get.logout') }}" class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom m-login__btn">Cancel</a>
+								</div>
 							</form>
 						</div>
 						<div class="m-login__forget-password">

@@ -164,6 +164,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     });
 
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
+    Route::get('nhan-xet/{id}', 'NhanXetController@show')->name('nhanxet.show');
+    Route::post('find', 'NhanXetController@find')->name('nhanxet.find');
 
 });
 
