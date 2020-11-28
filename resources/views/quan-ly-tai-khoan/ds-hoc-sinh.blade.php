@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Quản tài khoản")
+@section('title', "Quản lí tài khoản")
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 
 @section('style')
@@ -132,6 +132,7 @@
                                         <th>Tên đăng nhập</th>
                                         <th>Email</th>
                                         <th>Trạng thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -168,6 +169,7 @@
                                             </form>
                                             @endif
                                         </td>
+                                        <td><a href="{{route('edit-hoc-sinh', ['id' =>$item->id])}}" class="flaticon-edit"></a></td>
                                     </tr>
                                     @empty
                                     <td>
