@@ -10,15 +10,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\TaiKhoan\AccountAdminRequest;
 use App\Http\Requests\TaiKhoan\AccountTeacherRequest;
+use App\Http\Requests\TaiKhoan\AccountStudentRequest;
 use App\Http\Requests\DangKiNhapHoc\CreateNhapHoc;
 use App\Http\Requests\Auth\EditTaiKhoanRequest;
 use App\Models\GiaoVien;
+use App\Models\HocSinh;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use App\Repositories\GiaoVienRepository;
 use App\Repositories\QuanHuyenRepository;
 use App\Repositories\TinhThanhPhoRepository;
-use App\Repositories\XaPhuongThiTranRepository; 
+use App\Repositories\XaPhuongThiTranRepository;
 use App\Repositories\HocSinhRepository; 
 use App\Http\Requests\Account\RegisterSchoolRequest;
 
@@ -36,15 +38,17 @@ class AccountController extends Controller
         GiaoVienRepository $GiaoVienRepository,
         TinhThanhPhoRepository $TinhThanhPhoRepository,
         QuanHuyenRepository $QuanHuyenRepository,
-        HocSinhRepository $HocSinhRepository,
-        XaPhuongThiTranRepository $XaPhuongThiTranRepository
+        XaPhuongThiTranRepository $XaPhuongThiTranRepository,
+        HocSinhRepository $HocSinhRepository
+      
     ) {
         $this->AccountRepository = $AccountRepository;
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->TinhThanhPhoRepository = $TinhThanhPhoRepository;
         $this->QuanHuyenRepository = $QuanHuyenRepository;
-        $this->HocSinhRepository = $HocSinhRepository;
         $this->XaPhuongThiTranRepository = $XaPhuongThiTranRepository;
+        $this->HocSinhRepository = $HocSinhRepository;
+
     }
 
     public function index(Request $request)
@@ -111,24 +115,10 @@ class AccountController extends Controller
     {
          $user = Auth::user();
          $user->name   = $request->name;
-         $user->email   = $request->email;        
+         $user->email   = $request->email; 
          $get_image = $request->file('avatar');
          
          $file = $request->file('avatar');
-        //$file_allow_upload = config('app.file_allow_upload');
-       
-        // $file_info = new \stdClass();
-        // $file_info->name = $file->getClientOriginalName();
-        // $file_info->extension = $file->getClientOriginalExtension();
-        // $file_info->path = $file->getRealPath();
-        // $file_info->size = $file->getSize();
-        // $file_info->mime = $file->getMimeType();
-
-        // $destinationPath = 'update';
-        // $file->move($destinationPath,$file->getClientOriginalName());
-        // $file_info->link_img = ''.$file->getClientOriginalName();
-        // $user['avatar']=$file_info->link_img;
-        // var_dump($request->file('avatar'));
 
          if ($get_image) {
              $get_name_image = $get_image->getClientOriginalName();
@@ -189,9 +179,26 @@ class AccountController extends Controller
   }
   public function editAdmin(AccountAdminRequest $request,$id){
     $user = User::find($id);
-    $params = $request->all();
-    $user->update($params);
-    return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
+         $user->username = $request->username;
+         $user->phone_number = $request->phone_number;
+         $user->name   = $request->name;
+         $user->email   = $request->email;        
+         $get_image = $request->file('avatar');
+         
+         $file = $request->file('avatar');
+
+         if ($file) {
+             $get_name_image = $file->getClientOriginalName();
+             $name_image = current(explode('.',$get_name_image));
+             $new_image = $name_image.rand(0,99).'.'.$file->getClientOriginalExtension();
+             $file->move('upload',$new_image);
+             $user->avatar = $new_image;
+         }else{
+             $user->avatar = '';
+         }
+         
+         $user->update();
+         return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
   }
 //sửa tk giáo viên
   public function getEditTeacher($id)
@@ -250,7 +257,71 @@ class AccountController extends Controller
          //dd($giao_vien);
           return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
   }
+  public function getEditHocSinh($id)
+  { 
+      // $user= User::find($id);
+      $hoc_sinh=HocSinh::find($id);
+      $thanh_pho = $this->TinhThanhPhoRepository->getAllThanhPho();
+      $maqh_gv_hktt = $this->QuanHuyenRepository->getAllQuanHuyen();
+      $xaid_gv_hktt = $this->XaPhuongThiTranRepository->getAllXaPhuongThiTran();
+      $maqh_gv_noht = $this->QuanHuyenRepository->getQuanHuyenByMaTp($hoc_sinh->noi_o_hien_tai_matp);
+      $xaid_gv_noht = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($hoc_sinh->noi_o_hien_tai_maqh);
 
+
+    return view('quan-ly-tai-khoan.edit-hoc-sinh',compact('hoc_sinh' ,
+                                                            'thanh_pho',
+                                                            'maqh_gv_hktt', 
+                                                            'xaid_gv_hktt',
+                                                            'maqh_gv_noht', 
+                                                            'xaid_gv_noht' ));
+  }
+  public function editHocSinh(AccountStudentRequest $request,$id)
+  {
+         $hoc_sinh=HocSinh::find($id);
+            $hoc_sinh->ma_hoc_sinh = $request->ma_hoc_sinh;
+            $hoc_sinh->ten = $request->ten;
+            $hoc_sinh->gioi_tinh = $request->gioi_tinh;
+            $hoc_sinh->ten_thuong_goi = $request->ten_thuong_goi;
+            $hoc_sinh->noi_sinh = $request->noi_sinh;
+            $hoc_sinh->email_dang_ky = $request->email_dang_ky;
+            $hoc_sinh->dien_thoai_dang_ki = $request->dien_thoai_dang_ki;
+            $hoc_sinh->ngay_sinh = $request->ngay_sinh;
+            $hoc_sinh->ngay_vao_truong = $request->ngay_vao_truong;
+            $hoc_sinh->doi_tuong_chinh_sach_id = $request->doi_tuong_chinh_sach_id;
+            $hoc_sinh->hoc_sinh_khuyet_tat = $request->hoc_sinh_khuyet_tat;
+            $hoc_sinh->ten_cha = $request->ten_cha;
+            $hoc_sinh->ngay_sinh_cha = $request->ngay_sinh_cha;
+            $hoc_sinh->cmtnd_cha = $request->cmtnd_cha;
+            $hoc_sinh->dien_thoai_cha = $request->dien_thoai_cha;
+            $hoc_sinh->ten_me = $request->ten_me;
+            $hoc_sinh->ngay_sinh_me = $request->ngay_sinh_me;
+            $hoc_sinh->cmtnd_me = $request->cmtnd_me;
+            $hoc_sinh->dien_thoai_me = $request->dien_thoai_me;
+            $hoc_sinh->ho_khau_thuong_tru_matp = $request->ho_khau_thuong_tru_matp;
+            $hoc_sinh->ho_khau_thuong_tru_maqh = $request->ho_khau_thuong_tru_maqh;
+            $hoc_sinh->ho_khau_thuong_tru_xaid = $request->ho_khau_thuong_tru_xaid;
+            $hoc_sinh->ho_khau_thuong_tru_so_nha = $request->ho_khau_thuong_tru_so_nha;
+            $hoc_sinh->noi_o_hien_tai_matp = $request->noi_o_hien_tai_matp;
+            $hoc_sinh->noi_o_hien_tai_maqh = $request->noi_o_hien_tai_maqh;
+            $hoc_sinh->noi_o_hien_tai_xaid = $request->noi_o_hien_tai_xaid;
+            $hoc_sinh->noi_o_hien_tai_so_nha = $request->noi_o_hien_tai_so_nha;
+    // $params = $request->all();
+    
+         $get_image = $request->file('avatar');
+         if ($get_image) {
+             $get_name_image = $get_image->getClientOriginalName();
+             $name_image = current(explode('.',$get_name_image));
+             $new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
+             $get_image->move('upload/',$new_image);
+             $hoc_sinh->avatar = $new_image;
+         }else{
+             $hoc_sinh->avatar = '';
+         }
+  
+         $hoc_sinh->update();
+        // dd($hoc_sinh);
+          return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
+  }
     public function gopTaiKhoan(Request $request){
         $array_id_tk = $request->array_account;
         $id_chinh = $request->id_tk_chinh;
