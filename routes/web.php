@@ -30,6 +30,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/account/update-admin/{id}','AccountController@editAdmin')->name('update-admin');
     Route::get('/account/edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
     Route::post('/account/update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
+    Route::get('/account/edit-hoc-sinh/{id}','AccountController@getEditHocSinh')->name('edit-hoc-sinh');
+    Route::post('/account/update-hoc-sinh/{id}','AccountController@editHocSinh')->name('update-hoc-sinh');
 
 });
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
@@ -162,7 +164,13 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     });
 
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
+    Route::get('nhan-xet/{id}', 'NhanXetController@show')->name('nhanxet.show');
+    Route::post('find', 'NhanXetController@find')->name('nhanxet.find');
 
+    Route::get('quan-ly-don-nghi-hoc', 'QuanLyDonNghiHocController@index')->name('quan-ly-don-nghi-hoc.index');
+    Route::post('show-hs-theo-lop', 'QuanLyDonNghiHocController@showHsTheoLop')->name('show-hs-theo-lop');
+    Route::post('don-nghi-hoc-theo-thang', 'QuanLyDonNghiHocController@donNghiHocCuaHsTheoThang')->name('don-nghi-hoc-theo-thang');
+    Route::get('chi-tiet-don-nghi-hoc/{id}', 'QuanLyDonNghiHocController@show')->name('don-nghi-hoc.show');
 });
 
 Route::prefix('quan-ly-diem-danh-den')->group(function () {

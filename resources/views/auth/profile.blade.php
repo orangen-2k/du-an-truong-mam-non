@@ -157,14 +157,16 @@
 															<input class="form-control m-input " type="text" name="email"  value="{{Auth::user()->email }}">
 														</div>
 													</div>
+										
 													<div class="form-group m-form__group row" >
 														<label for="example-text-input" class="col-2 col-form-label" name="avatar">Ảnh đại diện</label>
 														<div class="col-7">
 														@error('avatar')
 															<small style="color:red">{{$message}}</small>
 															@enderror
-															<input value="{{Auth::user()->avatar }}" class="form-control m-input " type="file" name="avatar" id="avatar"  accept="image/png, image/jpeg,image/jpg,image/jpeg,image/gif" >
-															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%">
+													
+															<input value="{{Auth::user()->avatar }}" class="form-control m-input "onchange="showimages(this)" type="file" name="avatar" id="avatar"  accept="image/png, image/jpeg,image/jpg,image/jpeg,image/gif" >
+															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%"  id="show_img">
 														</div>
 													</div>
 												
@@ -196,4 +198,16 @@
 					</div>
 				</div>
 			</div>
+@endsection
+@section('script')
+<script>
+function showimages(element) {
+           		 var file = element.files[0];
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    $('#show_img').attr('src', reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+</script>
 @endsection

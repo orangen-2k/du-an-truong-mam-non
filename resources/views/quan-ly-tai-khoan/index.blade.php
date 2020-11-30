@@ -166,9 +166,9 @@
                                             </form>
                                             @endif
                                         </td>
-                                        <td> @if ($item->id != Auth::id())
+                                        <td>
                                              <a href="{{ route('edit-admin', ['id' =>$item->id]) }}" class="flaticon-edit"></a>
-                                             @endif
+                                           
                                             </td>
                                     </tr>
                                     @empty

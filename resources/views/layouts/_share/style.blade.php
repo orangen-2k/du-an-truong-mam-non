@@ -38,9 +38,8 @@
         .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__item .m-menu__submenu .m-menu__item:not(.m-menu__item--parent):not(.m-menu__item--open):not(.m-menu__item--expanded):not(.m-menu__item--active):hover{
                 background-color: #f6f7fd
         }
-        /* .m-portlet__body{
-                min-height: 400px;
-        } */
-      
+        .dataTables_info{
+                display: none;
+        }
        
 </style>
