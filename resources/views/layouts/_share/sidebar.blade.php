@@ -45,7 +45,7 @@
 										</ul>
 									</div>
 								</li>
-								<li class="m-menu__item " aria-haspopup="true"><a href="../../components/buttons/group.html" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Đơn nghỉ học</span></a></li>
+								<li class="m-menu__item " aria-haspopup="true"><a href="{{ route('quan-ly-don-nghi-hoc.index') }}" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Đơn nghỉ học</span></a></li>
 								<li class="m-menu__item " aria-haspopup="true"><a href="../../components/buttons/dropdown.html" class="m-menu__link "><i class="m-menu__link-bullet m-menu__link-bullet--dot"><span></span></i><span class="m-menu__link-text">Đơn dặn thuốc</span></a></li>
 								
 							</ul>
