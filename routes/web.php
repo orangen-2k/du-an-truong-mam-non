@@ -212,3 +212,13 @@ Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
 Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
 Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
 Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');
+
+Route::prefix('quan-ly-dien-uu-tien')->group(function(){
+    Route::get('/', 'DienUuTienController@index')->name('quan-ly-dien-uu-tien-index');
+    Route::post('/store', 'DienUuTienController@store')->name('quan-ly-dien-uu-tien-store');
+    Route::post('/edit/{id}', 'DienUuTienController@EditDienUuTien')->name('quan-ly-dien-uu-tien-edit');
+    Route::post('/delete-dien-uu-tien', 'DienUuTienController@XoaDienUuTien')->name('quan-ly-dien-uu-tien-delete');
+    Route::post('/get-mot-dien-uu-tien', 'DienUuTienController@GetMotDienUuTien')->name('quan-ly-dien-uu-tien-get-mot');
+    Route::post('/delete-list-dien-uu-tien', 'DienUuTienController@XoaListDienUuTien')->name('quan-ly-dien-uu-tien-delete-list');
+    
+});
