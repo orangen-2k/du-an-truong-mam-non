@@ -30,6 +30,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/account/update-admin/{id}','AccountController@editAdmin')->name('update-admin');
     Route::get('/account/edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
     Route::post('/account/update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
+    Route::get('/account/edit-hoc-sinh/{id}','AccountController@getEditHocSinh')->name('edit-hoc-sinh');
+    Route::post('/account/update-hoc-sinh/{id}','AccountController@editHocSinh')->name('update-hoc-sinh');
 
 });
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
