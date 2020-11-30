@@ -165,6 +165,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('nhan-xet/{id}', 'NhanXetController@show')->name('nhanxet.show');
     Route::post('find', 'NhanXetController@find')->name('nhanxet.find');
 
+    Route::get('quan-ly-don-nghi-hoc', 'QuanLyDonNghiHocController@index')->name('quan-ly-don-nghi-hoc.index');
+    Route::post('show-hs-theo-lop', 'QuanLyDonNghiHocController@showHsTheoLop')->name('show-hs-theo-lop');
+    Route::post('don-nghi-hoc-theo-thang', 'QuanLyDonNghiHocController@donNghiHocCuaHsTheoThang')->name('don-nghi-hoc-theo-thang');
+    Route::get('chi-tiet-don-nghi-hoc/{id}', 'QuanLyDonNghiHocController@show')->name('don-nghi-hoc.show');
 });
 
 Route::prefix('quan-ly-diem-danh-den')->group(function () {

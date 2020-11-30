@@ -6,6 +6,9 @@ use App\Models\LichSuHoc;
 use App\Models\NamHoc;
 use App\Repositories\BaseModelRepository;
 use Carbon\Carbon;
+use DateTime;
+use DatePeriod;
+use DateInterval;
 
 class NamHocRepository extends BaseModelRepository
 {
@@ -96,5 +99,21 @@ class NamHocRepository extends BaseModelRepository
         ->join('khoi', 'khoi.nam_hoc_id', '=', 'nam_hoc.id')
         ->select('nam_hoc.*')->where('khoi.id', $khoi_id)->first();
         return $data;
+    }
+
+    public function getThangNamHoc($params = [])
+    {
+        $start    = new DateTime($params['start_date']);
+        $start->modify('first day of this month');
+        $end      = new DateTime($params['end_date']);
+        $end->modify('first day of next month');
+        $interval = DateInterval::createFromDateString('1 month');
+        $period   = new DatePeriod($start, $interval, $end);
+
+        $array_months = [];
+        foreach ($period as $dt) {
+            array_push($array_months, $dt->format("m-Y"));
+        }
+        return $array_months;
     }
 }
