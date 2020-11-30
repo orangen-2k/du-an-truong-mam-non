@@ -10,6 +10,7 @@ class DoiTuongChinhSach extends Model
     protected $fillable = 
     [
         "id",
-        "ten_chinh_sach"
+        "ten_chinh_sach",
+        "muc_mien_giam"
     ];
 }
