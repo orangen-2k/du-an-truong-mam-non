@@ -40,6 +40,8 @@ class QuanLyDiemDanhDenController extends Controller
         $khoi = $this->KhoiRepository->getAll();
         $giao_vien = $this->GiaoVienRepository->getGIaoVienChuaCoLop();
         $namhoc = $this->NamHocRepository->find($id);
+        $thang_trong_nam = $this->NamHocRepository->getThangNamHoc(['start_date' => $namhoc->start_date, 'end_date' => $namhoc->end_date]);
+        // dd($thang_trong_nam);
         $id_nam_hoc = $id;
         return view('quan-ly-diem-danh-den.index', compact('khoi', 'giao_vien', 'namhoc', 'id_nam_hoc', 'getAllNamHoc'));
     }
@@ -118,7 +120,7 @@ class QuanLyDiemDanhDenController extends Controller
                                     $trang_thai = "S";
                                     $S++;
                                 }
-                                if($diemdanh[0]->phieu_an == 1){
+                                if($diemdanh[0]->phieu_an == 1 && $diemdanh[0]->trang_thai == 1){
                                     $an_com = "A";
                                     $A++;
                                 }
@@ -141,7 +143,7 @@ class QuanLyDiemDanhDenController extends Controller
                                     $trang_thai = "S";
                                     $S++;
                                 }
-                                if($diemdanh[1]->phieu_an == 1){
+                                if($diemdanh[1]->phieu_an == 1 && $diemdanh[1]->trang_thai == 1){
                                     $an_com = "A";
                                     $A++;
                                 }
