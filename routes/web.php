@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
-Route::get('/', 'HomeController@index')->middleware('auth', 'web')->name('app');
+Route::get('/', 'HomeController@index')->middleware('auth', 'web', 'checkNamHoc')->name('app');
 Auth::routes();
 Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('auth.profile');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'web', 'checkNamHoc');
 Route::get('/logout','Auth\AuthController@getLogout')->name('get.logout');
 
 Route::group(['middleware' => ['web','auth']], function () {
@@ -130,8 +130,7 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::post('/xep-lop-tu-dong', 'LopController@xepLopTuDong')->name('quan-ly-lop-xep-lop-tu-dong');
 
 });
-
-Route::group(['middleware' => ['web', 'auth']], function () {
+Route::group(['middleware' => ['web', 'auth', 'checkNamHoc']], function () {
     Route::prefix('nam-hoc')->group(function () {
         Route::get('/', 'NamHocController@index')->name('nam-hoc.index');
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
@@ -148,6 +147,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('/xoa_toan_bo_du_lieu_nam_hoc_hien_tai', 'QuanLyTrongNamController@xoaToanBoDuLieuCuaNamHocHienTai')->name('xoa_toan_bo_du_lieu_nam_hoc_hien_tai');
         
         Route::post('/thay_doi_session_nam_hoc', 'QuanLyTrongNamController@changeSessionNamHoc')->name('thay-doi-session-nam-hoc');
+        
 
         
     });
@@ -171,6 +171,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::post('show-hs-theo-lop', 'QuanLyDonNghiHocController@showHsTheoLop')->name('show-hs-theo-lop');
     Route::post('don-nghi-hoc-theo-thang', 'QuanLyDonNghiHocController@donNghiHocCuaHsTheoThang')->name('don-nghi-hoc-theo-thang');
     Route::get('chi-tiet-don-nghi-hoc/{id}', 'QuanLyDonNghiHocController@show')->name('don-nghi-hoc.show');
+
+    Route::get('quan-ly-don-dan-thuoc', 'QuanLyDonDanThuocController@index')->name('quan-ly-don-dan-thuoc.index');
+    Route::post('don-dan-thuoc-theo-thang', 'QuanLyDonDanThuocController@donDanThuocCuaHsTheoThang')->name('don-dan-thuoc-theo-thang');
+    Route::get('chi-tiet-don-dan-thuoc/{id}', 'QuanLyDonDanThuocController@show')->name('don-dan-thuoc.show');
 });
 
 Route::prefix('quan-ly-diem-danh-den')->group(function () {
@@ -212,6 +216,8 @@ Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
 Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
 Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
 Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');
+Route::get('khoi-tao-nam-hoc', 'NamHocController@khoiTaoNamHoc')->name('nam-hoc.khoi-tao')->middleware('auth', 'web');
+Route::post('khoi-tao-nam-hoc', 'NamHocController@storekhoiTaoNamHoc')->name('nam-hoc.khoi-tao-dau-tien')->middleware('auth', 'web');
 
 Route::prefix('quan-ly-dien-uu-tien')->group(function(){
     Route::get('/', 'DienUuTienController@index')->name('quan-ly-dien-uu-tien-index');

@@ -6,6 +6,7 @@ use App\Repositories\NamHocRepository;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\NamHoc;
 
 class NamHocController extends Controller
 {
@@ -51,5 +52,38 @@ class NamHocController extends Controller
     public function lock(){
        $result =  $this->NamHocRepository->lock();
        return ['mess' => 'success','code' => 200];
+    }
+
+    public function khoiTaoNamHoc()
+    {
+        $count_nam_hoc = NamHoc::count();
+        if ($count_nam_hoc) {
+            return redirect()->route('home');
+        }
+
+        return view('nam-hoc.khoi-tao-nam-hoc');
+    }
+
+    public function storekhoiTaoNamHoc(Request $request)
+    {
+        unset($request['_token']);
+        $validator = $request->validate([
+            'start_date' => 'required|date|before:end_date',
+            'end_date' => 'required|date|after:start_date',
+        ], [
+            'required' => 'Hãy nhập thời gian',
+            'start_date.before' => 'Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc',
+            'end_date.after' => 'Thời gian kết thúc phải lớn hơn thời gian bắt đầu',
+        ]);
+        $array_input = [
+            'name' => Carbon::parse($request->start_date)->year . ' - ' . Carbon::parse($request->end_date)->year,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ];
+        $data = $this->NamHocRepository->create($array_input);
+        if(!$data){
+            return redirect()->back()->withInput()->with(['error' => 'Thêm thất bại']);
+        }
+        return redirect()->route('nam-hoc.index')->withInput()->with(['success' => 'Thêm thành công']);
     }
 }
