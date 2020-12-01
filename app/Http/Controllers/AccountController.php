@@ -334,7 +334,7 @@ class AccountController extends Controller
                 foreach($hs_tk_gop as $hs){
                 array_push($arr2,$hs->id);
                 $this->HocSinhRepository->updateHocSinh($hs->id,['user_id' => $id_chinh]);
-                }
+                    }
                 $this->AccountRepository->update($val,['active' => 0]);
             }
         }

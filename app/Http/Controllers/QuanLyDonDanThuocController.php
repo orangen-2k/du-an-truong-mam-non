@@ -13,6 +13,9 @@ use App\Repositories\HocSinhRepository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\DonDanThuoc;
+use App\Models\ChiTietDonThuoc;
+use App\Models\DonNghiHoc;
+use App\Models\HocSinh;
 
 class QuanLyDonDanThuocController extends Controller
 {
@@ -79,6 +82,6 @@ class QuanLyDonDanThuocController extends Controller
         if(!$data){
             return redirect()->route('quan-ly-don-dan-thuoc.index');
         }
-        return view('quan-ly-don-dan-thuoc.show', compact('data'));
+        return view('quan-ly-don-dan-thuoc.show',compact('data'));
     }
 }

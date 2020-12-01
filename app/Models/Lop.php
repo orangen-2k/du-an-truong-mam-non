@@ -76,7 +76,10 @@ class Lop extends Model
         
         return $khoi_tiep_theo->LopHoc;  
     }
-
+    public function DonDanThuoc()
+    {
+        return $this->hasMany(DonDanThuoc::class,'lop_id','id');    
+    }
 
     
 }
