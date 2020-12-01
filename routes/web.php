@@ -148,6 +148,7 @@ Route::group(['middleware' => ['web', 'auth', 'checkNamHoc']], function () {
         Route::post('/xoa_toan_bo_du_lieu_nam_hoc_hien_tai', 'QuanLyTrongNamController@xoaToanBoDuLieuCuaNamHocHienTai')->name('xoa_toan_bo_du_lieu_nam_hoc_hien_tai');
         
         Route::post('/thay_doi_session_nam_hoc', 'QuanLyTrongNamController@changeSessionNamHoc')->name('thay-doi-session-nam-hoc');
+        Route::post('/check-date-tao-nam-hoc', 'NamHocController@checkDateTaoNamHoc')->name('check-date-tao-nam-hoc');
         
 
         
