@@ -21,6 +21,7 @@ Route::get('/logout','Auth\AuthController@getLogout')->name('get.logout');
 
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/trang-ca-nhan', 'AccountController@editProfile')->name('profile');
+    Route::post('/upload-avatar','Auth\AuthController@uploadAvatar')->name('upload-avatar');
     Route::post('/chinh-sua-trang-ca-nhan', 'AccountController@updateProfile')->name('updateProfile');
     Route::get('/trang-ca-nhan/doi-mat-khau','AccountController@changePasswordForm')->name('doi-mat-khau');
     Route::post('/trang-ca-nhan/update-mat-khau','AccountController@changePassword')->name('update-mat-khau');
@@ -147,6 +148,7 @@ Route::group(['middleware' => ['web', 'auth', 'checkNamHoc']], function () {
         Route::post('/xoa_toan_bo_du_lieu_nam_hoc_hien_tai', 'QuanLyTrongNamController@xoaToanBoDuLieuCuaNamHocHienTai')->name('xoa_toan_bo_du_lieu_nam_hoc_hien_tai');
         
         Route::post('/thay_doi_session_nam_hoc', 'QuanLyTrongNamController@changeSessionNamHoc')->name('thay-doi-session-nam-hoc');
+        Route::post('/check-date-tao-nam-hoc', 'NamHocController@checkDateTaoNamHoc')->name('check-date-tao-nam-hoc');
         
 
         

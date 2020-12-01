@@ -116,20 +116,6 @@ class AccountController extends Controller
          $user = Auth::user();
          $user->name   = $request->name;
          $user->email   = $request->email; 
-         $get_image = $request->file('avatar');
-         
-         $file = $request->file('avatar');
-
-         if ($get_image) {
-             $get_name_image = $get_image->getClientOriginalName();
-             $name_image = current(explode('.',$get_name_image));
-             $new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-             $get_image->move('upload',$new_image);
-             $user->avatar = $new_image;
-         }else{
-             $user->avatar = '';
-         }
-         
          $user->update();
          return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
     }

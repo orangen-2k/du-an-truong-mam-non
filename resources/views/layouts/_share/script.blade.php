@@ -34,3 +34,4 @@
 					});
 			});
 </script>
+<script src="{{ asset('sweetalert2/sweetalert2@10.js')}}"></script>
