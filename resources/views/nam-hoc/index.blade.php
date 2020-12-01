@@ -249,9 +249,8 @@
                         <div class="m-portlet__body">
                             <div class="form-group m-form__group">
                                 <label>Ngày bắt đầu năm học:</label>
-                                <input type="date"
-                                    class="form-control m-input @error('start_date') is-invalid @enderror"
-                                    name="start_date" id="StartDate" />
+                                <input type="date" class="form-control m-input @error('start_date') is-invalid @enderror"
+                                    name="start_date" id="StartDate"  value="{{ old('start_date')}}"/>
                                 @error('start_date')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -259,7 +258,7 @@
                             <div class="form-group m-form__group">
                                 <label>Ngày kết thúc năm học:</label>
                                 <input type="date" class="form-control m-input @error('end_date') is-invalid @enderror"
-                                    name="end_date" id="EndDate" />
+                                    name="end_date" id="EndDate" value="{{ old('end_date')}}"/>
                                 @error('end_date')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -267,7 +266,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" onclick="dongNamHoc()">
+                        <button type="submit" class="btn btn-success">
                             Cất
                         </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -309,11 +308,7 @@
         }
     }
 
-    function dongNamHoc(){
-        axios.post('{{ route("nam-hoc.lock") }}', {
-                        '_token': "{{ csrf_token() }}"
-        })
-    }
+
     
     function getData(element) { 
         let list_link = $('.item_link_nam').toArray();
@@ -351,6 +346,10 @@
         }
     }
     $(document).ready(function () {
+        function monthDiff(dateFrom, dateTo) {
+            return dateTo.getMonth() - dateFrom.getMonth() + 
+            (12 * (dateTo.getFullYear() - dateFrom.getFullYear()))
+        }
         let lists = $('.item_link_nam');
         $(lists[0]).addClass('bg-primary item_link_nam_shadow');
         jQuery.validator.addMethod("greaterThan", function (
@@ -358,31 +357,77 @@
             element,
             params
         ) {
-            if (!/Invalid|NaN/.test(new Date(value))) {
-                return new Date(value) > new Date($(params).val());
+            let d_start = new Date( $(params).val() );
+            let d_end = new Date( value );
+            if(isNaN(d_start.valueOf())){
+                return false;
             }
-            return (
-                (isNaN(value) && isNaN($(params).val())) ||
-                Number(value) > Number($(params).val())
-            );
+            if(isNaN(d_end.valueOf())){
+                return false;
+            }
+
+            if ( !!d_start.valueOf() ) {
+                year_start = d_start.getFullYear();
+                month_start = d_start.getMonth()+1;
+            }
+
+            if ( !!d_end.valueOf() ) {
+                year_end = d_end.getFullYear();
+                month_end = d_end.getMonth()+1;
+            }   
+
+            let count = monthDiff(new Date(year_start, month_start), new Date(year_end, month_end))
+            if( count == 9 || count == 10){
+                return true;
+            }
+            return false;
         });
+
+        jQuery.validator.addMethod("checkDate", function (
+            value,
+            element,
+            params
+        ) {
+            let d_start = new Date( value );
+            if(isNaN(d_start.valueOf())){
+                return false;
+            }
+            return params;
+        });
+
         $("#form-ceate").validate({
             rules: {
                 start_date: {
-                    required: true
+                    required: true,
+                    date: true,
+                    checkDate: true,
+                    remote: {
+				        url: "{{ route('check-date-tao-nam-hoc') }}",
+				        type: "post",
+				        data: {
+				        	_token: '{{ csrf_token() }}',
+				            name: $( "input[name='start_date']" ).val()
+				        }
+				    }
                 },
                 end_date: {
                     required: true,
+                    date: true,
                     greaterThan: "#StartDate"
                 }
             },
             messages: {
                 start_date: {
-                    required: "Vui lòng nhập thời gian bắt đầu năm học"
+                    required: "Hãy nhập thời gian bắt đầu năm học",
+                    date: "Hãy nhập thời gian bắt đầu năm học hợp lệ",
+                    checkDate: "Hãy nhập thời gian bắt đầu năm học hợp lệ",
+                    remote: "Thời gian bắt đầu năm học phải lớn hơn thời gian kết thúc năm học trước"
                 },
                 end_date: {
-                    required: "Vui lòng nhập thời gian kết thúc năm học",
-                    greaterThan: "Vui lòng nhập thời gian kết thúc lớn hơn thời gian bắt đầu"
+                    required: "Hãy nhập thời gian kết thúc năm học",
+                    date: "Hãy nhập thời gian kết thúc năm học hợp lệ",
+                    checkDate: "Hãy nhập thời gian kết thúc năm học hợp lệ",
+                    greaterThan: "Hãy nhập thời gian kết thúc năm học theo đúng quy định"
                 }
             }
         });
