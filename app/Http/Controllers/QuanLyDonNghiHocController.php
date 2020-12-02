@@ -16,6 +16,7 @@ use DatePeriod;
 use DateInterval;
 use Illuminate\Support\Facades\DB;
 use App\Models\DonNghiHoc;
+use App\Models\HocSinh;
 
 class QuanLyDonNghiHocController extends Controller
 {
@@ -72,7 +73,7 @@ class QuanLyDonNghiHocController extends Controller
             'nam_hoc_hien_tai',
             'array_thang'
         ));
-    }
+    } 
 
     public function showHsTheoLop(Request $request)
     {
@@ -99,7 +100,7 @@ class QuanLyDonNghiHocController extends Controller
         dd($hoc_sinh->DonNghiHoc->whereBetween('ngay_bat_dau', [$date_from, $date_to]));
     }
 
-    public function donNghiHocCuaHsTheoThang(Request $request)
+    public function donNghiHocCuaHsTheoThang(Request $request) 
     {
         $hoc_sinh_id = $request->hoc_sinh_id;
         $month = Carbon::createFromFormat('d-m-Y', "01-". $request->thang)->month;
