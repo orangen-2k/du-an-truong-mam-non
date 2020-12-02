@@ -43,28 +43,45 @@ class QuanLyDiemDanhDenController extends Controller
         $thang_trong_nam = $this->NamHocRepository->getThangNamHoc(['start_date' => $namhoc->start_date, 'end_date' => $namhoc->end_date]);
         // dd($thang_trong_nam);
         $id_nam_hoc = $id;
-        return view('quan-ly-diem-danh-den.index', compact('khoi', 'giao_vien', 'namhoc', 'id_nam_hoc', 'getAllNamHoc'));
+        return view('quan-ly-diem-danh-den.index', compact('khoi', 'giao_vien', 'namhoc', 'id_nam_hoc', 'getAllNamHoc' , 'thang_trong_nam'));
     }
     public function getDiemDanhDen(Request $request)
-    {
+    {   
+        $check = 0;
+        if ($request->session()->has('id_nam_hoc')) {
+            $id_nam = $request->session()->get('id_nam_hoc');
+            $id_nam_nhat = $this->NamHocRepository->maxID();
+            if($id_nam == $id_nam_nhat){
+                $check = 1;
+            }
+             
+            
+        } else {
+            $id_nam = $this->NamHocRepository->maxID();
+            
+            $check = 1;
+        }
+        
+        $namhoc = $this->NamHocRepository->find($id_nam);
+        
         $request = $request->all();
         $id = $request['id'];
         $time = $request['time'];
        
-        if($time == 0){
+        if($time == 0 && $check > 0){
             $TimeNow = Carbon::now();
             $time =  $TimeNow->month;
-          
+    
+        }
+        if($time == 0 && $check == 0){
+            $thang_trong_nam = $this->NamHocRepository->getThangNamHoc(['start_date' => $namhoc->start_date, 'end_date' => $namhoc->end_date]);
+            $time = intval(substr($thang_trong_nam[0], 0, 2));
         }
         
         $hocsinh = $this->DiemDanhDenRepository->getHocSinhTheoLop($id);
         foreach($hocsinh as $key => $item){
             $N = $S = $C = $NH = $A = 0;
-            $NgayDiemDanh = $this->DiemDanhDenRepository->getNgayDiemDanhTheoThang($id, $time, $item->id);
-            // foreach($data as $key2 => $item2){
-            //     $day = new Carbon($item2->ngay_diem_danh_den);
-            //     $hocsinh[$key]->diemdanh[$day->day][$key2] = $item2;
-            // }
+            $NgayDiemDanh = $this->DiemDanhDenRepository->getNgayDiemDanhTheoThang($id, $time, $item->id, $namhoc->start_date, $namhoc->end_date);
             $array_diemdanh = [];
             foreach($NgayDiemDanh as $item2){
                 $diemdanh = $this->DiemDanhDenRepository->getDiemDanh($id,$item2->ngay_diem_danh_den, $item->id);
@@ -186,15 +203,4 @@ class QuanLyDiemDanhDenController extends Controller
         
     }
     
-    public function ThongKeDiemDanh(Request $request){
-        $request = $request->all();
-        $lop_id = $request['lop_id'];
-        $thang = $request['thang'];
-        $hoc_sinh_id = $request['hoc_sinh_id'];
-        $NgayDiemDanh = $this->DiemDanhDenRepository->getNgayDiemDanhTheoThang($lop_id, $thang, $hoc_sinh_id);
-        foreach($NgayDiemDanh as $item){
-            $data_diemdanh = $this->DiemDanhDenRepository->getDataDiemDanh($item->ngay_diem_danh_den, $hoc_sinh_id, $lop_id);
-            dd($data_diemdanh);
-        }
-    }
 }
