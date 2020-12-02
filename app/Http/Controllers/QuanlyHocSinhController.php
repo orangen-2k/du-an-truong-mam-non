@@ -27,6 +27,7 @@ use Carbon\Carbon;
 use App\Models\LichSuHoc;
 use App\Models\ThoiHoc;
 use App\Repositories\LopHocRepository;
+use App\Repositories\ChinhSachCuaHocSinhRepository;
 
 class QuanlyHocSinhController extends Controller
 {
@@ -42,6 +43,7 @@ class QuanlyHocSinhController extends Controller
     protected $AccountRepository;
     protected $KhoiRepository;
     protected $LopHocRepository;
+    protected $ChinhSachCuaHocSinh;
     public function __construct(
         LopRepository $LopRepository,
         KhoiRepository $Khoi,
@@ -54,7 +56,8 @@ class QuanlyHocSinhController extends Controller
         NamHocRepository $NamHocRepository,
         AccountRepository $AccountRepository,
         KhoiRepository $KhoiRepository,
-        LopHocRepository $LopHocRepository
+        LopHocRepository $LopHocRepository,
+        ChinhSachCuaHocSinhRepository $ChinhSachCuaHocSinhRepository
 
     ) {
         $this->LopRepository = $LopRepository;
@@ -69,6 +72,7 @@ class QuanlyHocSinhController extends Controller
         $this->AccountRepository = $AccountRepository;
         $this->KhoiRepository = $KhoiRepository;
         $this->LopHocRepository = $LopHocRepository;
+        $this->ChinhSachCuaHocSinhRepository = $ChinhSachCuaHocSinhRepository;
     }
 
     /**
@@ -162,6 +166,7 @@ class QuanlyHocSinhController extends Controller
         
         
         $doi_tuong_chinh_sach = $this->DoiTuongChinhSachRepository->getAllDoiTuongChinhSach();
+        $chinh_sach_hoc_sinh = $this->ChinhSachCuaHocSinhRepository->getChinhSachCuaHocSinh($id);
         $maqh_hs_hktt = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->ho_khau_thuong_tru_matp);
         $xaid_hs_hktt = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($data->ho_khau_thuong_tru_maqh);
         $maqh_hs_noht = $this->QuanHuyenRepository->getQuanHuyenByMaTp($data->noi_o_hien_tai_matp);
@@ -177,7 +182,8 @@ class QuanlyHocSinhController extends Controller
             'doi_tuong_chinh_sach',
             'id',
             'khoi',
-            'lop_hoc'
+            'lop_hoc',
+            'chinh_sach_hoc_sinh'
         ));
     }
 
@@ -191,7 +197,16 @@ class QuanlyHocSinhController extends Controller
     public function update(Request $request, $id)
     {
         $dataRequest = $request->all();
-      
+        $this->ChinhSachCuaHocSinhRepository->getDeleteChinhSachHocSinh($id);
+        if($dataRequest['dien_uu_tien']){
+            foreach($dataRequest['dien_uu_tien'] as $item){
+                $arr = [
+                    'id_chinh_sach' => $item,
+                    'id_hoc_sinh' => $id
+                ];
+                $this->ChinhSachCuaHocSinhRepository->getInsertChiTietChinhSachHocSinh($arr);
+            }
+        }
         if (isset($dataRequest['avatar'])) {
             $avatar = $request->file("avatar");
 
@@ -209,6 +224,7 @@ class QuanlyHocSinhController extends Controller
             }
         }
         unset($dataRequest['_token']);
+        unset($dataRequest['dien_uu_tien']);
 
         $this->HocSinhRepository->updateHocSinh($id, $dataRequest);
         return redirect()->route('quan-ly-hoc-sinh-edit', ['id' => $id])->with('thongbaocapnhat', 'Thành công');
