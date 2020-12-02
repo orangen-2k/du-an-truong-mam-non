@@ -97,7 +97,7 @@
   </div>
   {{-- End Modal sửa --}}
     <div class="row">
-      <div class="col-sm-10">
+      <div class="col-sm-9">
         <div class="m-alert m-alert--outline m-alert--square m-alert--outline-2x alert alert-success alert-dismissible fade show" role="alert" id="ThongBaoXoaDienUuTien" style="display: none">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           </button>
@@ -118,9 +118,9 @@
         </div>
         @endif
       </div>
-      <div class="col-sm-2">
-        <button class="btn btn-success" data-toggle="modal" data-target="#modal-them-dien-uu-tien">Thêm mới</button>
-        <button onclick="XoaListDienUuTien()" class="btn btn-success">Xóa</button>
+      <div class="col-sm-3 d-flex justify-content-end ">
+        <button class="btn btn-success ml-2" data-toggle="modal" data-target="#modal-them-dien-uu-tien">Thêm mới</button>
+        <button onclick="XoaListDienUuTien()" class="btn btn-success ml-3">Xóa</button>
       </div>
     </div>
     
