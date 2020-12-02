@@ -274,11 +274,19 @@
                                                                 class="text-danger">*</span>Đối tượng chính sách</label>
                                                         <div class="col-xl-9 col-lg-9">
 
-                                                        <select class="form-control select2"  name="doi_tuong_chinh_sach_id" id="doi_tuong_chinh_sach_id">
-                                                            <option value="">Chọn</option>
+                                                        <select class="form-control select2" multiple="multiple" name="dien_uu_tien[]" id="doi_tuong_chinh_sach_id">
+                                                            
                                                             @foreach ($doi_tuong_chinh_sach as $item)
-                                                            <option {{($item->id == $data->doi_tuong_chinh_sach_id)? "selected" : ""}}
-                                                                 value="{{ $item->id }}">{{ $item->ten_chinh_sach }}</option>
+                                                            <option 
+                                                            @if($chinh_sach_hoc_sinh)
+                                                            @foreach ($chinh_sach_hoc_sinh as $item2)
+                                                                @if ($item2->id_chinh_sach == $item->id)
+                                                                    {{"selected"}}
+                                                                @endif 
+                                                            @endforeach
+                                                            @endif
+                                                            value="{{ $item->id }}">{{ $item->ten_chinh_sach }}
+                                                            </option>
 															@endforeach
 														</select>
                                                         
