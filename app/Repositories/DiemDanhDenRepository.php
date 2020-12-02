@@ -36,16 +36,19 @@ class DiemDanhDenRepository extends BaseRepository {
         return $data;
     }
 
-    public function getNgayDiemDanhTheoThang($id, $time, $hoc_sinh_id)
+    public function getNgayDiemDanhTheoThang($id, $time, $hoc_sinh_id, $start_date, $end_date)
     {
         $data = DB::select(
         "SELECT ngay_diem_danh_den 
         FROM diem_danh_den 
         WHERE MONTH(diem_danh_den.ngay_diem_danh_den) = ?
+        AND diem_danh_den.ngay_diem_danh_den >= ?
+        AND diem_danh_den.ngay_diem_danh_den <= ?
         AND diem_danh_den.lop_id = ?
-        AND diem_danh_den.hoc_sinh_id = ? 
+        AND diem_danh_den.hoc_sinh_id = ?
+         
         GROUP BY diem_danh_den.ngay_diem_danh_den",
-        [$time, $id, $hoc_sinh_id]);
+        [$time, $start_date, $end_date, $id, $hoc_sinh_id]);
         return $data;
     }
 
