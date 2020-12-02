@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Quản lý đơn nhập học")
+@section('title', "Quản lý đơn dặn thuốc")
 @section('style')
 <style>
     .thong-tin-hoc-sinh-cua-lop {
@@ -166,7 +166,7 @@
                                                 <div class="m-dropdown__body">
                                                     <div class="m-dropdown__content">
                                                         <ul class="m-nav">
-                                                            @foreach ($item->LopHoc as $lop_hoc)
+                                                             @foreach ($item->LopHoc as $lop_hoc)
                                                             <li class="m-nav__item pl-4 lop_hoc" onclick=""
                                                                 id='lop_{{$lop_hoc->id}}' style="cursor: pointer">
                                                                 <span href="" class="m-nav__link"
