@@ -230,3 +230,6 @@ Route::prefix('quan-ly-dien-uu-tien')->group(function(){
     Route::post('/delete-list-dien-uu-tien', 'DienUuTienController@XoaListDienUuTien')->name('quan-ly-dien-uu-tien-delete-list');
     
 });
+
+Route::get('mat-khau-reset', "Auth\QuenMatKhauController@showResetForm")->name('mat-khau.reset');
+Route::post('mat-khau-update', "Auth\QuenMatKhauController@reset")->name('mat-khau.update');
