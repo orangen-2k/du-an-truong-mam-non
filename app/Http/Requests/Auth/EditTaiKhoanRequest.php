@@ -24,7 +24,7 @@ class EditTaiKhoanRequest extends FormRequest
     public function rules()
     {
         return [      
-            'name'=>'required',
+            'name'=>'required|regex:/^[\pL\s\-]+$/u|min:6|max:40',
             'email' => 'required|email|unique:users,id,email',
             'avatar'=>'mimes:jpeg,jpg,png,gif|max:10000',
            
@@ -36,6 +36,9 @@ class EditTaiKhoanRequest extends FormRequest
     {
         return [
             'name.required'=>'Vui lòng điền họ tên!',
+            'name.regex'=>'Tên không chứa số và ký tự đặc biệt',
+            'name.min' => 'Họ tên ít nhất 6 ký tự',  
+            'name.max' => 'Họ tên không được vượt quá 40 ký tự',
             'email.required' => 'Vui lòng điền Email!',
             'email.email' => 'Email không hợp lệ!',
             'email.unique' => 'Email đã được đăng ký!',

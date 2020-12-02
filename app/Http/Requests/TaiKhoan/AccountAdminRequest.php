@@ -25,26 +25,31 @@ class AccountAdminRequest extends FormRequest
     {
         return [
 
-            'name'=>'required',
+            'name'=>'required|regex:/^[\pL\s\-]+$/u|min:6|max:40',
             'username'=>'required|unique:users,id,username',
             'email' => 'required|email|unique:users,id,email',
-            'phone_number'=>'required|min:11|numeric',
+            'phone_number'=>'required|digits:10|unique:users,id,phone_number',
             //'avatar'=>'required|max:10000',
            
         ];
+
+      
     }
 
     public function messages(){
         return [
             'name.required'=>'Vui lòng điền họ tên!',
+            'name.regex'=>'Tên không chứa số và ký tự đặc biệt',
+            'name.min' => 'Họ tên ít nhất 6 ký tự',  
+            'name.max' => 'Họ tên không được vượt quá 40 ký tự', 
             'email.required' => 'Vui lòng điền Email!',
             'email.email' => 'Email không hợp lệ!',
             'email.unique' => 'Email đã được đăng ký!',
             'username.required'=>'Vui lòng điền UserName! ',
             'username.unique'=>'UserName đã tồn tại !',
             'phone_number.required'=>'Vui lòng điền số điện thoại!',
-            'phone_number.max'=>'Số điện thoại tối đa 11 số!',
-            'phone_number.numberic'=>'Số điện thoại phải là số',
+            'phone_number.digits'=>'Vui lòng nhập số điện thoại có độ dài 10 ký tự !',
+            'phone_number.unique'=>'Số điện thoại đã tồn tại',
             // 'avatar.required'=>'Vui lòng lựa chọn ảnh!',
             // 'avatar.max'=>'Kích thước ảnh tối đa 10000kb!',
             

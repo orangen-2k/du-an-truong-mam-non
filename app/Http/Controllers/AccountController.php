@@ -129,7 +129,7 @@ class AccountController extends Controller
   {
     if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
         return redirect()->back()
-            ->with("error","Mật khẩu cũ bạn vừa nhập không chính xác!Vui lòng kiểm tra lại."); 
+            ->with("error","Mật khẩu cũ không chính xác!Vui lòng kiểm tra lại."); 
     }
 
     if(strcmp($request->get('current_password'), $request->get('new_password')) == 0){

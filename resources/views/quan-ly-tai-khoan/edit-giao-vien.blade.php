@@ -14,71 +14,10 @@
 														Cập nhật hồ sơ
 													</a>
 												</li>
-												<!-- <li class="nav-item m-tabs__item">
-													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
-														Messages
-													</a>
-												</li>
-												<li class="nav-item m-tabs__item">
-													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
-														Settings
-													</a>
-												</li> -->
+											
 											</ul>
 										</div>
-										<div class="m-portlet__head-tools">
-											<ul class="m-portlet__nav">
-												<li class="m-portlet__nav-item m-portlet__nav-item--last">
-													<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
-														<a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-															<i class="la la-gear"></i>
-														</a>
-														<div class="m-dropdown__wrapper">
-															<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-															<div class="m-dropdown__inner">
-																<div class="m-dropdown__body">
-																	<div class="m-dropdown__content">
-																		<ul class="m-nav">
-																			<li class="m-nav__section m-nav__section--first">
-																				<span class="m-nav__section-text">Quick Actions</span>
-																			</li>
-																			<!-- <li class="m-nav__item">
-																				<a href="{{route('doi-mat-khau', ['id' =>Auth::user()->id])}}" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-share"></i>
-																					<span class="m-nav__link-text">Đổi Mật khẩu</span>
-																				</a>
-																			</li> -->
-																			
-																			
-																			<li class="m-nav__section">
-																				<span class="m-nav__section-text">Useful Links</span>
-																			</li>
-																			<li class="m-nav__item">
-																				<a href="" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-info"></i>
-																					<span class="m-nav__link-text">FAQ</span>
-																				</a>
-																			</li>
-																			<li class="m-nav__item">
-																				<a href="" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-																					<span class="m-nav__link-text">Trợ giúp</span>
-																				</a>
-																			</li>
-																			<li class="m-nav__separator m-nav__separator--fit m--hide">
-																			</li>
-																			<li class="m-nav__item m--hide">
-																				<a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">Submit</a>
-																			</li>
-																		</ul>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</li>
-											</ul>
-										</div>
+										
 									</div>
 									
 										
@@ -117,11 +56,8 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Mã Giáo viên: </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        @error('ma_gv')
-															<small style="color:red">{{$message}}</small>
-															@enderror
                                                             <input type="text" name="ma_gv" class="form-control m-input"
-                                                                placeholder="" value="{{$giao_vien->ma_gv}}">
+                                                                placeholder="" value="{{$giao_vien->ma_gv}}" readonly>
                                                         </div>
                                                     </div>
 													<div class="form-group m-form__group row">
@@ -156,7 +92,7 @@
 															@enderror
                                                             <div class="input-group">
                                                            
-                                                                <input type="text" name="dien_thoai"
+                                                                <input type="text" name="dien_thoai" onkeypress="return isNumber(event)"
                                                                     class="form-control m-input" placeholder="" value="{{$giao_vien->dien_thoai}}">
                                                             </div>
                                                         </div>
@@ -196,15 +132,20 @@
                                                     </div>
 											
 
-													<div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label"><span
-                                                                class="text-danger"></span>Dân tộc</label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                        
-                                                            <input type="text" name="dan_toc" class="form-control m-input"
-                                                                placeholder="" value="{{$giao_vien->dan_toc}}">
-                                                        </div>
+                                                    <div class="form-group m-form__group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Dân tộc</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                   
+                                                            <select name="dan_toc" class="form-control m-input name-field select2" placeholder="Điền dân tộc">
+                                                                @foreach (config('common.dan_toc') as $key => $value)
+                                                                    <option {{ ($giao_vien->dan_toc == $key )? 'selected' : ''}} value="{{ $key}}" >{{ $value }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('dan_toc')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
                                                     </div>
+                                                </div>
                                                    
 													<div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
@@ -518,6 +459,14 @@ function showimages(element) {
                 }
                 reader.readAsDataURL(file);
             }
+function isNumber(evt)
+  {
+     var charCode = (evt.which) ? evt.which : event.keyCode
+     if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+
+     return true;
+  }	            
 $(document).ready(function() {
     $('.select2').select2();
 });
