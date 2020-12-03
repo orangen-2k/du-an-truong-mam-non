@@ -477,19 +477,19 @@ function GiaoVienNghiDay(){
         })
         $('#giao-vien-thoi-day').html(html);
     }
-    if(data.length == 0){
-        $('.table_nghi_day').remove();
-        var alertTB = `
-        <div class="m-alert m-alert--icon alert alert-danger" role="alert">
-            <div class="m-alert__icon">
-            <i class="flaticon-danger"></i>
-            </div>
-            <div class="m-alert__text">
-                <strong>Trống!</strong> Chưa có dữ liệu nào cả.
-            </div>
-        </div>`
-        $('.alert_thongbao').html(alertTB)
-    }
+    // if(data.length == 0){
+    //     $('.table_nghi_day').remove();
+    //     var alertTB = `
+    //     <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+    //         <div class="m-alert__icon">
+    //         <i class="flaticon-danger"></i>
+    //         </div>
+    //         <div class="m-alert__text">
+    //             <strong>Trống!</strong> Chưa có dữ liệu nào cả.
+    //         </div>
+    //     </div>`
+    //     $('.alert_thongbao').html(alertTB)
+    // }
         $('#preload').css('display', 'none')
     })
     
