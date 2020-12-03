@@ -19,7 +19,8 @@ class SendOTPController extends Controller
         if($checkUser){
             $ma_otp = random_int(0,9).random_int(0,9).random_int(0,9).
             random_int(0,9).random_int(0,9).random_int(0,9);
-            $checkUser->time_code   = Carbon::now();
+            $now  = Carbon::now();
+            $checkUser->time_code = $now->addMinutes(30);
             $checkUser->ma_otp      = $ma_otp;
             $checkUser->token       = Str::random(60).md5(time());
             $checkUser->save();
