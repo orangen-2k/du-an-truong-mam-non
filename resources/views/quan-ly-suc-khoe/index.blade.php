@@ -348,16 +348,33 @@
 @section('script')
 @if(SESSION('ThongBaoThemDot'))
 <script>
-  swal({title:"Thêm thành công",html:$("<div>")
-                .addClass("some-class")
-                .text("Đã thêm đợt mới thành công"),animation:!1,customClass:"animated tada"})
+  const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'success',
+  title: 'Thêm đợt mới thành công'
+})
                 
 </script>
 @endif
 @if(SESSION('ThongBaoThemDotLoi'))
 <script>
-  swal("Thêm đợt thất bại!","Thời gian đợt phải nằm trong phạm vi thời gian của năm học hiện tại","error")
-                
+  //swal("Thêm đợt thất bại!","Thời gian đợt phải nằm trong phạm vi thời gian của năm học hiện tại","error")
+  Swal.fire({
+  icon: 'error',
+  title: 'Thất bại',
+  text: 'Thời gian đợt phải nằm trong phạm vi thời gian của năm học hiện tại'
+})  
 </script>
 @endif
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

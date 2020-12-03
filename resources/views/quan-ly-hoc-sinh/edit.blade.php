@@ -233,8 +233,13 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger">*</span>Dân tộc</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <input type="text" required name="dan_toc" class="form-control m-input"
-                                                        placeholder="Điền dân tộc" value="{{$data->dan_toc}}">
+                                                            {{-- <input type="text" required name="dan_toc" class="form-control m-input"
+                                                        placeholder="Điền dân tộc" value="{{$data->dan_toc}}"> --}}
+                                                        <select name="dan_toc" class="form-control m-input name-field select2" placeholder="Điền dân tộc">
+                                                            @foreach (config('common.dan_toc') as $key => $value)
+                                                                <option value="{{ $key }}" {{ $data->dan_toc == $key ? 'selected' : ''}}>{{ $value }}</option>
+                                                            @endforeach
+                                                        </select>
                                                         </div>
 
                                                         @error('dan_toc')
@@ -368,7 +373,7 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger">*</span>Tỉnh/Thành phố</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        <select class="form-control select2" name="ho_khau_thuong_tru_matp" id="ho_khau_thuong_tru_matp">
+                                                        <select class="form-control select2" required name="ho_khau_thuong_tru_matp" id="ho_khau_thuong_tru_matp">
                                                             <option value="">Chọn</option>
                                                             @foreach ($thanhpho as $item)
                                                             <option {{($data->ho_khau_thuong_tru_matp == $item->matp) ? "selected" : ""}}
@@ -387,7 +392,7 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger">*</span>Quận/Huyện</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        <select class="form-control select2" name="ho_khau_thuong_tru_maqh" id="ho_khau_thuong_tru_maqh">
+                                                        <select class="form-control select2" required name="ho_khau_thuong_tru_maqh" id="ho_khau_thuong_tru_maqh">
 															<option value="">Chọn</option>
                                                             @foreach ($maqh_hs_hktt as $item)
                                                             <option {{($data->ho_khau_thuong_tru_maqh == $item->maqh) ? "selected" : ""}}
@@ -411,7 +416,7 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger">*</span>Phường/Xã/Thị trấn</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <select class="form-control select2" name="ho_khau_thuong_tru_xaid" id="ho_khau_thuong_tru_xaid">
+                                                            <select class="form-control select2" required name="ho_khau_thuong_tru_xaid" id="ho_khau_thuong_tru_xaid">
                                                                 <option value="">Chọn</option>
                                                                 @foreach ($xaid_hs_hktt as $item)
                                                                 <option {{($data->ho_khau_thuong_tru_xaid == $item->xaid) ? "selected" : ""}}
@@ -432,7 +437,7 @@
                                                         <div class="col-xl-9 col-lg-9">
                                                             <input type="text"
                                                              name="ho_khau_thuong_tru_so_nha"
-                                                                class="form-control m-input" placeholder="Điền số nhà, đường" value="{{$data->ho_khau_thuong_tru_so_nha}}">
+                                                                class="form-control m-input" required placeholder="Điền số nhà, đường" value="{{$data->ho_khau_thuong_tru_so_nha}}">
 
 
                                                                 @error('ho_khau_thuong_tru_so_nha')
@@ -466,7 +471,7 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger">*</span>Tỉnh/Thành phố</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <select class="form-control select2" name="noi_o_hien_tai_matp"
+                                                            <select class="form-control select2" required name="noi_o_hien_tai_matp"
                                                             id="noi_o_hien_tai_matp">
                                                             <option value="" selected>Chọn</option>
                                                             @foreach ($thanhpho as $item)
@@ -487,7 +492,7 @@
                                                                 class="text-danger">*</span>Quận/Huyện</label>
                                                         <div class="col-xl-9 col-lg-9">
                                                             <select class="form-control select2"
-                                                            name="noi_o_hien_tai_maqh" id="noi_o_hien_tai_maqh">
+                                                            name="noi_o_hien_tai_maqh" required id="noi_o_hien_tai_maqh">
                                                             <option value="" selected>Chọn</option>
                                                             @foreach ($maqh_hs_noht as $item)
                                                             <option {{($data->noi_o_hien_tai_maqh == $item->maqh) ? "selected" : ""}}
@@ -515,7 +520,7 @@
                                                                 class="text-danger">*</span>Phường/Xã/Thị trấn</label>
                                                         <div class="col-xl-9 col-lg-9">
                                                             <select class="form-control select2"
-                                                            name="noi_o_hien_tai_xaid" id="noi_o_hien_tai_xaid">
+                                                            name="noi_o_hien_tai_xaid" required id="noi_o_hien_tai_xaid">
                                                             <option value="" selected>Chọn</option>
                                                             @foreach ($xaid_hs_noht as $item)
                                                             <option {{($data->noi_o_hien_tai_xaid == $item->xaid) ? "selected" : ""}}
@@ -539,7 +544,7 @@
                                                         <div class="col-xl-9 col-lg-9">
                                                             <input type="text"
                                                              name="noi_o_hien_tai_so_nha"
-                                                                class="form-control m-input" placeholder="Điền số nhà, đường" value="{{$data->noi_o_hien_tai_so_nha}}">
+                                                                class="form-control m-input" required placeholder="Điền số nhà, đường" value="{{$data->noi_o_hien_tai_so_nha}}">
 
 
                                                                 @error('noi_o_hien_tai_so_nha')
@@ -574,7 +579,7 @@
 													<label>Họ tên (Cha)  </label>
 													<div class="input-group m-input-group m-input-group--square">
 														<div class="input-group-prepend"><span class="input-group-text"><i class="la la-user"></i></span></div>
-														<input type="text" name="ten_cha" 
+														<input type="text" required name="ten_cha" 
                                                         value="{{$data->ten_cha}}"
                                                         class="form-control m-input" required placeholder="Điền họ tên cha">
 

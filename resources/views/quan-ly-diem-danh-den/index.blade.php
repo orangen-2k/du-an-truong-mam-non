@@ -176,14 +176,9 @@
                                                                         class="m-nav__link-text ">
                                                                         <span class="ten_lop"> {{$lop_hoc->ten_lop}}
                                                                         </span>
-                                                                        <span
-                                                                            class="sl_hs_cua_lop">({{ $lop_hoc->tong_so_hoc_sinh }})</span></span>
+                                                                        
                                                                     <div class="dropdown">
-                                                                        <i style="cursor: pointer;font-size: 25px;"
-                                                                            class="la la-ellipsis-v"
-                                                                            id="dropdownMenuButton"
-                                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                                            aria-expanded="false"></i>
+                                                                        
                                                                         <div class="dropdown-menu"
                                                                             aria-labelledby="dropdownMenuButton">
                                                                         </div>
