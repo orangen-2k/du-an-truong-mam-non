@@ -198,14 +198,17 @@ class QuanlyHocSinhController extends Controller
     {
         $dataRequest = $request->all();
         $this->ChinhSachCuaHocSinhRepository->getDeleteChinhSachHocSinh($id);
-        if($dataRequest['dien_uu_tien']){
+        // dd($dataRequest);
+        if(isset($dataRequest['dien_uu_tien'])){
             foreach($dataRequest['dien_uu_tien'] as $item){
                 $arr = [
                     'id_chinh_sach' => $item,
                     'id_hoc_sinh' => $id
                 ];
                 $this->ChinhSachCuaHocSinhRepository->getInsertChiTietChinhSachHocSinh($arr);
+                
             }
+            unset($dataRequest['dien_uu_tien']);
         }
         if (isset($dataRequest['avatar'])) {
             $avatar = $request->file("avatar");
@@ -224,7 +227,7 @@ class QuanlyHocSinhController extends Controller
             }
         }
         unset($dataRequest['_token']);
-        unset($dataRequest['dien_uu_tien']);
+        
 
         $this->HocSinhRepository->updateHocSinh($id, $dataRequest);
         return redirect()->route('quan-ly-hoc-sinh-edit', ['id' => $id])->with('thongbaocapnhat', 'Thành công');

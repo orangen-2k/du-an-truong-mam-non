@@ -226,8 +226,13 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Dân tộc</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" required name="dan_toc" class="form-control m-input"
-                                                        placeholder="Điền dân tộc" value="{{$data->dan_toc}}">
+                                                        {{-- <input type="text" required name="dan_toc" class="form-control m-input"
+                                                        placeholder="Điền dân tộc" value="{{$data->dan_toc}}"> --}}
+                                                        <select name="dan_toc" class="form-control m-input name-field select2" placeholder="Điền dân tộc">
+                                                            @foreach (config('common.dan_toc') as $key => $value)
+                                                                <option value="{{ $key }}" {{ $data->dan_toc == $key ? 'selected' : ''}}>{{ $value }}</option>
+                                                            @endforeach
+                                                        </select>
                                                         @error('dan_toc')
                                                         <div class="alert alert-danger">{{ $message }}</div>
                                                         @enderror
