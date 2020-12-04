@@ -5,15 +5,6 @@
 @endsection
 @section('content')
 <div class="m-content">
-    <form method="post" action="{{route('quan-ly-giao-vien-update', ['id' => $data->id])}}" enctype="multipart/form-data">
-    @csrf
-    @if(SESSION('thong_bao'))
-        <div class="m-alert m-alert--outline m-alert--square m-alert--outline-2x alert alert-success alert-dismissible fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            </button>
-            <strong>Thành công!</strong> Cập nhật giáo viên thành công
-        </div>
-    @endif
     <div class="row">
         <div class="col-xl-12">
             <div class="m-portlet m-portlet--tab">
@@ -151,7 +142,8 @@
                         <div class="m-form m-form--label-align-left- m-form--state-" id="m_form"
                             >
 
-
+                            <form method="post" action="{{route('quan-ly-giao-vien-update', ['id' => $data->id])}}" enctype="multipart/form-data">
+                                @csrf
                             <div class="m-portlet__body">
 
 
@@ -174,7 +166,7 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger"></span> Mã giáo viên: </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text"  id="disabledInput" class="form-control m-input"
+                                                        <input type="text"  class="form-control m-input"
                                                          value="{{$data->ma_gv}}" disabled>
                                                         
                                                     </div>
@@ -183,26 +175,39 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger"></span> Họ và tên: </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" id="disabledInput" required class="form-control m-input"
-                                                        placeholder="Điền họ và tên" value="{{$data->ten}}" >
-                                                        
+                                                        <input type="text" class="form-control m-input" name="ten"
+                                                        placeholder="Điền họ và tên" value="{{ old('ten') ? old('ten') : $data->ten}}">
+                                                        @error('ten')
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span> Email: </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="email" required class="form-control m-input name-field"
-                                                            placeholder="Email" value="{{$data->email}}">
+                                                        <input type="text" name="email" class="form-control m-input name-field"
+                                                            placeholder="Email" value="{{ old('email') ? old('email') : $data->email}}">
+                                                        @error('email')
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
+                                                        @enderror   
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger"></span>Ngày sinh:</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="date" id="disabledInput" class="form-control m-input"
-                                                        placeholder="Điền ngày sinh" value="{{$data->ngay_sinh}}">
-                                                       
+                                                        <input type="date" class="form-control m-input" name="ngay_sinh"
+                                                        placeholder="Điền ngày sinh" value="{{ old('ngay_sinh') ? old('ngay_sinh') : $data->ngay_sinh}}">
+                                                        @error('date')
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
+                                                        @enderror              
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
@@ -210,31 +215,40 @@
                                                             class="text-danger">*</span>Giới tính</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <div class="m-radio-inline">
+                                                            @foreach (config('common.gioi_tinh') as $key => $value)
                                                             <label class="m-radio">
-                                                                <input type="radio" {{($data->gioi_tinh == 0  ) ? 'checked' : ''}} name="gioi_tinh" value="0"> Nam
+                                                            <input type="radio" {{($data->gioi_tinh == $key  ) ? 'checked' : ''}} 
+                                                                name="gioi_tinh" value="{{ $key }}"> {{ $value }}
                                                                 <span></span>
-                                                            </label>
-                                                            <label class="m-radio">
-                                                                <input type="radio" {{($data->gioi_tinh == 1  ) ? 'checked' : ''}} name="gioi_tinh" value="1"> Nữ
-                                                                <span></span>
-                                                            </label>
+                                                            </label>   
+                                                            @endforeach
                                                         </div>
-
+                                                        @error('gioi_tinh')
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
+                                                        @enderror  
                                                     </div>
                                                 </div>
                                                 <div class="form-group m-form__group row">
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Dân tộc</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        {{-- <input type="text" required name="dan_toc" class="form-control m-input"
+                                                        {{-- <input type="text" name="dan_toc" class="form-control m-input"
                                                         placeholder="Điền dân tộc" value="{{$data->dan_toc}}"> --}}
                                                         <select name="dan_toc" class="form-control m-input name-field select2" placeholder="Điền dân tộc">
                                                             @foreach (config('common.dan_toc') as $key => $value)
-                                                                <option value="{{ $key }}" {{ $data->dan_toc == $key ? 'selected' : ''}}>{{ $value }}</option>
+                                                                <option value="{{ $key }}"
+                                                                        {{ old('dan_toc') ? 
+                                                                        (old('dan_toc') == $key ? 'selected' : '') : 
+                                                                        ($data->dan_toc == $key ? 'selected' : '')}}
+                                                                >{{ $value }}</option>
                                                             @endforeach
                                                         </select>
                                                         @error('dan_toc')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -246,12 +260,14 @@
                                                             <div class="input-group-prepend"><span
                                                                     class="input-group-text"><i
                                                                         class="la la-phone"></i></span></div>
-                                                            <input type="text" required name="dien_thoai"
+                                                            <input type="text" name="dien_thoai" onkeypress="return isNumberKey(event)"
                                                                 class="form-control m-input"
-                                                                placeholder="Điền số điện thoại" value="{{$data->dien_thoai}}">
+                                                                placeholder="Điền số điện thoại" value="{{ old('dien_thoai') ? old('dien_thoai') : $data->dien_thoai}}">
                                                         </div>
                                                         @error('dien_thoai')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -264,18 +280,18 @@
 
 
                                                 <div class="form-group m-form__group row">
-                                                    <img onClick="showModal()"
-                                                        src= {{($data->anh == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' :  asset('storage/'.$data->anh) }}
-                                                        class="rounded mx-auto d-block mb-2" width="250px"
+                                                    <img onClick="showModal()" style="cursor: pointer"
+                                                        src= {{ $data->anh == "" ? 'https://ui-avatars.com/api/?name=' . $data->ten . '&background=random' : $data->anh}}
+                                                        class="rounded mx-auto d-block mb-2 img-thumbnail" width="250px"
                                                         height="255px" id="show_img">
                                                     <div class="col-xl-9 col-lg-9 mt-4">
                                                         <div class="input-group ml-5 ">
 
                                                             <div class="custom-file ml-5 col-12">
-                                                                <input type="file" accept="images/*" name="anh"
-                                                                id="anh_gv" onClick="showModal()"onchange="showimages(this)"
+                                                                <input type="file" accept="images/*" 
+                                                                id="anh_gv" onClick="showModal()"onchange="changeAvatar(this)"
                                                                     style="display:none" />
-                                                                {{-- <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"> --}}
+                                                                <input type="hidden" name="anh">
 
                                                             </div>
                                                         </div>
@@ -307,8 +323,15 @@
                                                     <span class="text-danger">*</span>Số</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <div class="input-group">
-                                                            <input type="number" required name="so_cmtnd" class="form-control m-input" placeholder="Điền số chứng minh thư" value="{{$data->so_cmtnd}}">
+                                                            <input type="text" name="so_cmtnd" onkeypress="return isNumberKey(event)"
+                                                            class="form-control m-input" placeholder="Điền số chứng minh thư" 
+                                                            value="{{ old('so_cmtnd') ? old('so_cmtnd') : $data->so_cmtnd}}">
                                                         </div>
+                                                        @error('so_cmtnd')
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
 
@@ -317,8 +340,14 @@
                                                     <span class="text-danger">*</span>Ngày cấp</label>
                                                     <div class="col-xl-9 col-lg-9">
                                                         <div class="input-group">
-                                                        <input type="date" name="ngay_cap_cmtnd" class="form-control m-input" value="{{$data->ngay_cap_cmtnd}}">
+                                                        <input type="date" name="ngay_cap_cmtnd" class="form-control m-input" 
+                                                        value="{{ old('ngay_cap_cmtnd') ? old('ngay_cap_cmtnd') : $data->ngay_cap_cmtnd}}">
                                                         </div>
+                                                        @error('ngay_cap_cmtnd')
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
 
@@ -335,10 +364,18 @@
                                                             name="noi_cap_cmtnd_matp" id="noi_cap_cmtnd_matp">
                                                             <option value="">Chọn</option>
                                                             @foreach ($thanhpho as $item)
-                                                            <option {{($data->noi_cap_cmtnd_matp == $item->matp) ? "selected" : ""}}
-                                                             value="{{$item->matp}}">{{$item->name}}</option>
+                                                            <option
+                                                                {{ old('noi_cap_cmtnd_matp') ? 
+                                                                (old('noi_cap_cmtnd_matp') == $item->matp ? 'selected' : '') : 
+                                                                ($data->noi_cap_cmtnd_matp == $item->matp ? 'selected' : '')}}
+                                                            value="{{$item->matp}}">{{$item->name}}</option>
                                                             @endforeach
                                                         </select>
+                                                        @error('noi_cap_cmtnd_matp')
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
+                                                        @enderror
                                                        
                                                     </div>
                                                 </div>
@@ -372,7 +409,9 @@
                                                             @endforeach
                                                         </select>
                                                         @error('ho_khau_thuong_tru_matp')
-                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -389,7 +428,9 @@
                                                             @endforeach
                                                         </select>
                                                         @error('ho_khau_thuong_tru_maqh')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -411,7 +452,9 @@
                                                             @endforeach
                                                         </select>
                                                         @error('ho_khau_thuong_tru_xaid')
-                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -419,10 +462,12 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Số nhà, đường </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" required name="ho_khau_thuong_tru_so_nha" class="form-control m-input"
+                                                        <input type="text" name="ho_khau_thuong_tru_so_nha" class="form-control m-input"
                                                         placeholder="Điền số nhà, đường" value="{{$data->ho_khau_thuong_tru_so_nha}}">
                                                         @error('ho_khau_thuong_tru_so_nha')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -458,7 +503,9 @@
                                                             @endforeach
                                                         </select>
                                                         @error('noi_o_hien_tai_matp')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -475,7 +522,9 @@
                                                             @endforeach
                                                         </select>
                                                         @error('noi_o_hien_tai_maqh')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -497,7 +546,9 @@
                                                             @endforeach
                                                         </select>
                                                         @error('noi_o_hien_tai_xaid')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -505,10 +556,12 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Số nhà, đường </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" required name="noi_o_hien_tai_so_nha" class="form-control m-input"
+                                                        <input type="text" name="noi_o_hien_tai_so_nha" class="form-control m-input"
                                                             placeholder="Điền số nhà, đường" value="{{$data->noi_o_hien_tai_so_nha}}">
                                                         @error('noi_o_hien_tai_so_nha')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -535,10 +588,13 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Trình độ</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" required name="trinh_do"  class="form-control m-input"
-                                                        placeholder="Điền trình độ" value="{{$data->trinh_do}}">
+                                                        <input type="text" name="trinh_do"  class="form-control m-input"
+                                                        value="{{ old('trinh_do') ? old('trinh_do') : $data->trinh_do}}"
+                                                        placeholder="Điền trình độ">
                                                         @error('trinh_do')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -546,10 +602,13 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Chuyên môn</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="chuyen_mon"  required class="form-control m-input"
-                                                        placeholder="Điền chuyên môn" value="{{$data->chuyen_mon}}">
+                                                        <input type="text" name="chuyen_mon"  class="form-control m-input"
+                                                        value="{{ old('chuyen_mon') ? old('chuyen_mon') : $data->chuyen_mon}}"
+                                                        placeholder="Điền chuyên môn">
                                                         @error('chuyen_mon')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -561,10 +620,13 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Nơi đào tạo</label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="text" name="noi_dao_tao" required class="form-control m-input"
-                                                        placeholder="Điền nơi đào tạo" value="{{$data->noi_dao_tao}}">
+                                                        <input type="text" name="noi_dao_tao" class="form-control m-input"
+                                                        value="{{ old('noi_dao_tao') ? old('noi_dao_tao') : $data->noi_dao_tao}}"
+                                                        placeholder="Điền nơi đào tạo">
                                                         @error('noi_dao_tao')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -572,10 +634,13 @@
                                                     <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                             class="text-danger">*</span>Năm tốt nghiệp </label>
                                                     <div class="col-xl-9 col-lg-9">
-                                                        <input type="number" required name="nam_tot_nghiep" class="form-control m-input"
-                                                        placeholder="Điền năm tốt nghiệp" value="{{$data->nam_tot_nghiep}}">
+                                                        <input type="text" onkeypress="return isNumberKey(event)" name="nam_tot_nghiep" class="form-control m-input" maxlength="4" minlength="4"
+                                                        value="{{ old('nam_tot_nghiep') ? old('nam_tot_nghiep') : $data->nam_tot_nghiep}}"
+                                                        placeholder="Điền năm tốt nghiệp">
                                                         @error('nam_tot_nghiep')
-                                                        <div class="alert alert-danger">{{ $message }}</div>
+                                                            <div class="has-danger">
+                                                                <div class="form-control-feedback">{{ $message }}</div>
+                                                            </div>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -597,6 +662,7 @@
 
 
                             </div>
+                        </form>
 
 
                             
@@ -610,26 +676,66 @@
         </div>
         
     </div>
-</form>
 </div>
 
 @endsection
 @section('script')
 <script>
-function showimages(element) {
-           		 var file = element.files[0];
-                var reader = new FileReader();
-                reader.onloadend = function() {
-                    $('#show_img').attr('src', reader.result);
-                }
-                reader.readAsDataURL(file);
-            }
-$(document).ready(function() {
-    $('.select2').select2();
-});
-var url_get_lop_theo_khoi = "{{route('quan-ly-giao-vien-get-lop-theo-khoi')}}";
-var url_get_maqh_by_matp = "{{route('get_quan_huyen_theo_thanh_pho')}}";
-var url_get_xaid_by_maqh = "{{route('get_xa_phuong_theo_thi_tran')}}";
+    function showimages(element) {
+        var file = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            $('#show_img').attr('src', reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
+
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+
+    var url_get_lop_theo_khoi = "{{route('quan-ly-giao-vien-get-lop-theo-khoi')}}";
+    var url_get_maqh_by_matp = "{{route('get_quan_huyen_theo_thanh_pho')}}";
+    var url_get_xaid_by_maqh = "{{route('get_xa_phuong_theo_thi_tran')}}";
+
+    function changeAvatar(file){
+        let srcAvatar = URL.createObjectURL(file.files[0]);
+		$("#show_img").attr("src", srcAvatar);
+		var form = new FormData();
+            form.append("image", file.files[0]);
+            $.ajax({
+                "url": "https://api.imgbb.com/1/upload?key=87b235f7be4c2a2271db6c21bbf93bda",
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+            }).done(function (response) {
+                let rs = JSON.parse(response);
+                let url = '';
+                url = rs.data.display_url;
+				$('[name="anh"]').val(url);
+            });
+    }
+
+    function isNumberKey(evt){
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+                return true;
+    } 
 </script>
 <script src="{!! asset('js/get_quan_huyen_xa.js') !!}"></script>
+@if(SESSION('thong_bao'))
+<script>
+    Swal.fire({
+    position: 'top-center',
+    icon: 'success',
+    title: 'Cập nhật thành công',
+    showConfirmButton: false,
+    timer: 1500
+    })
+</script>
+@endif
 @endsection

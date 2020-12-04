@@ -102,7 +102,7 @@ class CreateNhapHoc extends FormRequest
             'digits_between' => ' :attribute 10 hoặc 12 số',
             'boolean' => ' :attribute chưa hợp lệ',
             'date' => ' :attribute chưa đúng định dạng',
-            'email' => ' :attribute nhập đúng định dạng email',
+            'email' => ' :attribute hãy nhập đúng định dạng email',
             'numeric' => ' :attribute phải là số',
             'unique' => ' :attribute đã tồn tại',
             'regex' => ' :attribute dữ liệu chưa hợp lệ',
