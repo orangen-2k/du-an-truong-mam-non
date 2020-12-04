@@ -45,6 +45,7 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
     Route::get('/', 'DangKiNhapHocController@index')->name('dangki-nhap-hoc');
     Route::post('/submit-dang-ki-nhap-hoc', 'DangKiNhapHocController@store')->name('submit-dang-ki-nhap-hoc');
     Route::post('/submit-xac-nhan-ma-dang-ky', 'DangKiNhapHocController@XacNhanDangKy')->name('submit-xac-nhan-ma-dangki');
+    Route::post('/validation-dang-ki-nhap-hoc', 'DangKiNhapHocController@validation')->name('validation-dang-ki-nhap-hoc');
 });
 
 // HIEUPT-13/10/2020-QUAN_LY_GIAO_TRINH
