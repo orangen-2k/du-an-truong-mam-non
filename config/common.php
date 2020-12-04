@@ -4,6 +4,7 @@ return [
     'key_servesms' => 'fcb73f2e5223742deac6eff10997c8a58755e956',
     'devices_servesms' => '2063|0',
     'DB_HOST_STORAGE' => "http://127.0.0.1:8000",
+    'SERVE_HOST_GV' => "http://34.122.241.19:2000",
     'paginate_size' => [
         'default' => 10,
         'list' => [10, 20, 50, 100],

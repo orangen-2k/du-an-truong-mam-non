@@ -4,7 +4,7 @@ namespace App\Http\Requests\GiaoVien;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreGiaoVien extends FormRequest
+class UpdateGiaoVien extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,18 +23,13 @@ class StoreGiaoVien extends FormRequest
      */
     public function rules()
     {
-        $data = $this->all();
-        unset($data['_token']);
-        unset($data['lop_id']);
-        unset($data['khoi']);
-  
         return [
             'ten'   => 'required|regex:/^[\pL\s\-]+$/u',
-            'email' => 'required|unique:users,email|email',
+            'email' => 'required|email|unique:giao_vien,email,' . $this->id,
             'ngay_sinh'  => 'required|date',
             'gioi_tinh'  => 'required|boolean',
             'dan_toc'    => 'required|numeric',
-            'dien_thoai' => 'required|regex:/^0[0-9]{9}$/|not_regex:/[a-z]/|unique:giao_vien,dien_thoai',
+            'dien_thoai' => 'required|regex:/^0[0-9]{9}$/|not_regex:/[a-z]/|unique:giao_vien,dien_thoai,' . $this->id,
 
             'ho_khau_thuong_tru_matp'  => 'required|numeric',
             'ho_khau_thuong_tru_maqh'  => 'required|numeric',
