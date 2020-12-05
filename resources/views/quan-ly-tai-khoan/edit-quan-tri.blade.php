@@ -80,20 +80,29 @@
 															<input class="form-control m-input" onkeypress="return isNumber(event)" type="text" name="phone_number" value="{{$user->phone_number }}"> 
 														</div>
 													</div>
-													<div class="form-group m-form__group row" >
-														<label for="example-text-input" class="col-2 col-form-label" name="avatar">Ảnh đại diện</label>
-														<div class="col-7">
-														@error('avatar')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-													
-															<input value="{{$user->avatar }}" class="form-control m-input "onchange="showimages(this)" type="file" name="avatar" id="avatar"  accept="image/png, image/jpeg,image/jpg,image/jpeg,image/gif" >
-															<img src="{{  $user->avatar ? asset('upload/' . $user->avatar) : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' }}" alt="" width="50%"  id="show_img">
-														</div>
-													</div>
+												
+													<div class="form-group m-form__group row">
+													<label for="example-text-input" class="col-2 col-form-label"> Ảnh:  </label>
+													<div class="col-7">
+                                                                <input type="file"  accept="image/*"
+                                                                id="anh_gv" onClick="showModal()" onchange="changeAvatar(this)"
+                                                                    style="" class="form-control m-input"/>
+																	<input type="hidden" name="avatar">
+																
+																	
+																	
+                                                                <img onClick="showModal()"
+                                                                    src= "{{  $user->avatar == '' ? 'https://ui-avatars.com/api/?name=' . $user->name . '&background=random' : $user->avatar }}"
+                                                                    class="rounded mx-auto d-block mb-2" width="40%" style="padding-top: 30px;"
+																id="show_img">
+																</div>
+															
+                                                    
+                                                    </div>
+                                            
 													
 												
-												</div>
+											
 												<div class="m-portlet__foot m-portlet__foot--fit">
 													<div class="m-form__actions">
 														<div class="row">
@@ -120,8 +129,8 @@
 					</div>
 				</div>
 			</div>
-			@endsection			
-			@section('script')
+@endsection			
+@section('script')
 <script>
 function showimages(element) {
            		 var file = element.files[0];
@@ -131,6 +140,9 @@ function showimages(element) {
                 }
                 reader.readAsDataURL(file);
             }
+$(document).ready(function() {
+    $('.select2').select2();
+});
 function isNumber(evt)
   {
      var charCode = (evt.which) ? evt.which : event.keyCode
@@ -138,8 +150,33 @@ function isNumber(evt)
         return false;
 
      return true;
-  }			
+  }	
 
+function changeAvatar(file){
+    var fileShow = file.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function() {
+        $('#show_img').attr('src', reader.result);
+    }
+    reader.readAsDataURL(fileShow);
+
+		var form = new FormData();
+            form.append("image", file.files[0]);
+            $.ajax({
+                "url": "https://api.imgbb.com/1/upload?key=87b235f7be4c2a2271db6c21bbf93bda",
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+            }).done(function (response) {
+                let rs = JSON.parse(response);
+                let url;
+                url = rs.data.display_url;
+				$('[name="avatar"]').val(url);
+            });
+	}
 </script>
 
 @endsection

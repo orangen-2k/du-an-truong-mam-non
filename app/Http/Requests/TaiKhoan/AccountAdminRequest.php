@@ -29,11 +29,8 @@ class AccountAdminRequest extends FormRequest
             'username'=>'required|unique:users,id,username',
             'email' => 'required|email|unique:users,id,email',
             'phone_number'=>'required|digits:10|unique:users,id,phone_number',
-            //'avatar'=>'required|max:10000',
-           
         ];
 
-      
     }
 
     public function messages(){
@@ -50,9 +47,6 @@ class AccountAdminRequest extends FormRequest
             'phone_number.required'=>'Vui lòng điền số điện thoại!',
             'phone_number.digits'=>'Vui lòng nhập số điện thoại có độ dài 10 ký tự !',
             'phone_number.unique'=>'Số điện thoại đã tồn tại',
-            // 'avatar.required'=>'Vui lòng lựa chọn ảnh!',
-            // 'avatar.max'=>'Kích thước ảnh tối đa 10000kb!',
-            
             
         ];
     }

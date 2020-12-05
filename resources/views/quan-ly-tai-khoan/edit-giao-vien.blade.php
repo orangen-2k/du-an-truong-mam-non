@@ -223,30 +223,25 @@
                                                 </div>
                                                  <div class="m-separator m-separator--dashed m-separator--lg"></div>
                                             </div> 
-													 <div class="col-xl-6">
+                                            <div class="col-xl-6">
                                                       <div class="m-form__section m-form__section--first">
                                                        </div>
 													<div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Ảnh:</label>
                                                                 <img onClick="showModal()"
-                                                        src= "{{  $giao_vien->anh ? asset('upload/' . $giao_vien->anh) : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'}}"
-                                                        class="rounded mx-auto d-block mb-2" width="40%"
-                                                       id="show_img">
-                                                                <p>Click vào ảnh để lựa chọn ảnh khác!</p>
+                                                                    src= "{{$giao_vien->anh == '' ? 'https://ui-avatars.com/api/?name=' . $giao_vien->ten . '&background=random' : $giao_vien->anh }}"
+                                                                    class="rounded mx-auto d-block mb-2" width="40%"
+                                                                id="show_img">
 
                                                     <div class="col-xl-9 col-lg-9 mt-4">
                                                         <div class="input-group ml-5 ">
 
                                                             <div class="custom-file ml-5 col-12">
-                                                            @error('anh')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-                                                                <input type="file"  name="anh"
-                                                                id="anh_gv" onClick="showModal()"onchange="showimages(this)"
+                                                                <input type="file"  accept="image/*"
+                                                                id="anh_gv" onClick="showModal()" onchange="changeAvatar(this)"
                                                                     style="display:none" />
-                                                                {{-- <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"> --}}
-
+                                                                <input type="hidden"   name="anh">
                                                             </div>
                                                         </div>
 
@@ -459,6 +454,9 @@ function showimages(element) {
                 }
                 reader.readAsDataURL(file);
             }
+$(document).ready(function() {
+    $('.select2').select2();
+});
 function isNumber(evt)
   {
      var charCode = (evt.which) ? evt.which : event.keyCode
@@ -466,13 +464,34 @@ function isNumber(evt)
         return false;
 
      return true;
-  }	            
-$(document).ready(function() {
-    $('.select2').select2();
-});
-
+  }	
 var url_get_maqh_by_matp = "{{route('get_quan_huyen_theo_thanh_pho')}}";
 var url_get_xaid_by_maqh = "{{route('get_xa_phuong_theo_thi_tran')}}";
+function changeAvatar(file){
+    var fileShow = file.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function() {
+        $('#show_img').attr('src', reader.result);
+    }
+    reader.readAsDataURL(fileShow);
+
+		var form = new FormData();
+            form.append("image", file.files[0]);
+            $.ajax({
+                "url": "https://api.imgbb.com/1/upload?key=87b235f7be4c2a2271db6c21bbf93bda",
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+            }).done(function (response) {
+                let rs = JSON.parse(response);
+                let url;
+                url = rs.data.display_url;
+				$('[name="anh"]').val(url);
+            });
+	}
 </script>
 <script src="{!! asset('js/get_quan_huyen_xa.js') !!}"></script>
 @endsection

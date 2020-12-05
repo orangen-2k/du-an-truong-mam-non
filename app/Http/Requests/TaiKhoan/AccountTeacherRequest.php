@@ -24,7 +24,6 @@ class AccountTeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            
             'email' => 'required|email|unique:users,id,email',
             'ten' => 'required|regex:/^[\pL\s\-]+$/u|min:6|max:40',
             'ngay_sinh' => 'required',
@@ -34,9 +33,7 @@ class AccountTeacherRequest extends FormRequest
             'trinh_do'=>'required|regex:/^[\pL\s\-]+$/u',
             'noi_dao_tao'=>'required|regex:/^[\pL\s\-]+$/u',
             'nam_tot_nghiep'=>'required|numeric',
-            'anh'=>'required|nullable|mimes:jpeg,jpg,png,gif|max:10000',
             'so_nha'=>'requied',
-
         ];
     }
 
@@ -51,8 +48,6 @@ class AccountTeacherRequest extends FormRequest
             'integer' => ' :attribute phải là số nguyên',
             'min' => ' :attribute ít nhất 11 số',
             'numeric' => ' :attribute phải là số',
-            'anh.mimes'=>'Nhập sai định dạng ảnh!',
-            'anh.max'=>'Kích thước ảnh tối đa 10000kb',
             'dien_thoai.digit'=>'Vui lòng nhập số có độ dài 10 ký tự !',
             'dien_thoai.unique'=>'Số điện thoại đã tồn tại',
             
@@ -70,8 +65,6 @@ class AccountTeacherRequest extends FormRequest
             'chuyen_mon'=>'Chuyên môn',
             'noi_dao_tao'=>'Nơi đào tạo',
             'nam_tot_nghiep'=>'Năm tốt nghiệp',
-            'anh'=>'Ảnh',
-           
            
         ];
     }

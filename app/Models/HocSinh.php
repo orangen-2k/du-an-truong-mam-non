@@ -61,10 +61,10 @@ class HocSinh extends Model
         return $this->belongsTo(Lop::class,'lop_id','id');
     }
 
-    public function User()
-    {
-        return $this->belongsTo(User::class,'user_id','id');
-    }
+    // public function User()
+    // {
+    //     return $this->belongsTo(User::class,'user_id','id');
+    // }
 
     public function LichSuHoc()
     {
@@ -78,5 +78,9 @@ class HocSinh extends Model
     public function DonDanThuoc()
     {
         return $this->hasMany(DonDanThuoc::class,'hoc_sinh_id','id');
+    }
+    public function PhuHuynh()
+    {
+        return $this->hasOne(PhuHuynh::class,'hoc_sinh_id','id');
     }
 }
