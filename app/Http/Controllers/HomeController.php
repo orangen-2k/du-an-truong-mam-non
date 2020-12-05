@@ -48,7 +48,7 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(){
-       
+        
         $id = $this->NamHocRepository->maxID();
         $array_nam = [];
         $array_nu = [];
@@ -77,6 +77,6 @@ class HomeController extends Controller
                 
             }
         }
-        return view('index', compact('array_nam', 'array_nu', 'array_thang'));
+        return view('index', compact('array_nam', 'array_nu', 'array_thang', 'namhoc'));
     }
 }

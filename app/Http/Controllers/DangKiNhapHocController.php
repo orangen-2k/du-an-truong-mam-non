@@ -62,44 +62,41 @@ class DangKiNhapHocController extends Controller
         return $quan_huyen;
     }
 
+    public function validation(CreateNhapHoc $request)
+    {
+        return "ok";
+    }
+
     public function store(CreateNhapHoc $request){
         $data = $request->all();
+
         $date_ngay_sinh = $request->ngay_sinh;  
         $data['ngay_sinh'] = date("Y-m-d", strtotime($date_ngay_sinh));  
+        unset($data['_token']);
+        $data['ma_xac_nhan'] = rand(10000, 90000);
 
-        if(isset($data['avatar'])){
-            $avatar = $request->file("avatar");
-            
-            if ($avatar) {
-                $pathLoad = $avatar->store('uploads/avatar');
-                $path =  $pathLoad;
-                $data['avatar'] = $path;
-            }
-            unset($data['_token']);
-            $data['ma_xac_nhan'] = rand(10000, 90000);
-            
-            $emailNguoiGui = $data['email_dang_ky'];
-            $data_email = array('name'=> 'Hhihi','content'=> 'Mã xác thực của bạn là : '.$data['ma_xac_nhan'].', sau 1 phút mã sẽ hết hiệu lực');
-            Mail::send('mail', $data_email, function($message) use ($emailNguoiGui) {
-                $message->to($emailNguoiGui, 'Tutorials Point')->subject('Nhận mã xác nhận đăng ký');
-                $message->from('giacmonghoanmyy@gmail.com','KidsGraden');
-            });
+        $data['doi_tuong_chinh_sach_id'] = json_encode($data['doi_tuong_chinh_sach_id']);
+        $emailNguoiGui = $data['email_dang_ky'];
+        $data_email = array('name'=> 'Hhihi','content'=> 'Mã xác thực của bạn là : '.$data['ma_xac_nhan'].', sau 1 phút mã sẽ hết hiệu lực');
+        Mail::send('mail', $data_email, function($message) use ($emailNguoiGui) {
+            $message->to($emailNguoiGui, 'Tutorials Point')->subject('Nhận mã xác nhận đăng ký');
+            $message->from('giacmonghoanmyy@gmail.com','KidsGraden');
+        });
 
-            $id_create = $this->DangKiNhapHoc->createHocSinhDangKy($data);
-            $ma_don_1 = $id_create.generateRandomString();
+        $id_create = $this->DangKiNhapHoc->createHocSinhDangKy($data);
+        $ma_don_1 = $id_create.generateRandomString();
         
-            while (true) {
-                if($this->checkMaDon($ma_don_1)){
-                    $ma_don =  $ma_don_1;
-                    break;
-                }else{
-                $ma_don_1 = $id_create.generateRandomString();
-                }
+        while (true) {
+            if($this->checkMaDon($ma_don_1)){
+                $ma_don =  $ma_don_1;
+                break;
+            }else{
+            $ma_don_1 = $id_create.generateRandomString();
             }
-            $this->DangKiNhapHoc->update($id_create,['ma_don' => $ma_don ]);
+        }
+        $this->DangKiNhapHoc->update($id_create,['ma_don' => $ma_don ]);
 
-            return $id_create;
-      }
+        return $id_create;
     }
 
     public function checkMaDon($madon){

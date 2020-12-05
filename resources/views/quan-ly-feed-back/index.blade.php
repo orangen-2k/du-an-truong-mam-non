@@ -241,8 +241,6 @@
                                                                         </span>
                                                                     <input type="text" id="KhoiCuaLop{{$lop_hoc->id}}" value="{{$item->id}}" hidden>
                                                                     
-                                                                        <span
-                                                                            class="sl_hs_cua_lop">({{ $lop_hoc->tong_so_hoc_sinh }} bé)</span></span>
                                                                     <div class="dropdown">
 
                                                                         @if ($lop_hoc->count > 0)
@@ -458,7 +456,7 @@
                 htmGiaoVien+=
                 `
                 <li class="m-nav__item">
-                    <a href="${url_ChiTietGiaoVien_new}" class="m-nav__link">
+                    <a href="${url_ChiTietGiaoVien_new}" target="_blank" class="m-nav__link">
                         <i class="m-nav__link-icon flaticon-avatar"></i>
                         <span class="m-nav__link-text">${element.ten} - ${element.ma_gv}</span>
                     </a>

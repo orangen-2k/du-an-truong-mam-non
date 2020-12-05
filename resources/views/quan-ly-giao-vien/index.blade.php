@@ -33,13 +33,6 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active show" id="m_tabs_3_1" role="tabpanel">
-                    @if(SESSION('thong_bao'))
-                    <div class="m-alert m-alert--outline m-alert--square m-alert--outline-2x alert alert-success alert-dismissible fade show" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        </button>
-                        <strong>Thành công!</strong> Thêm giáo viên thành công
-                    </div>
-                    @endif
                     <div class="m-portlet__body table-responsive">
                         {{-- Thông báo --}}
                         <div id="thongbaokhoiphuc">
@@ -169,7 +162,7 @@
                 <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
                     <div class="m-portlet__body table-responsive alert_thongbao">
                         
-                        <table id="myTable2"  class="table m-table dataTable m-table--head-bg-success table_nghi_day">
+                        <table id="myTable3"  class="table m-table dataTable m-table--head-bg-success table_nghi_day">
                             <thead>
                                 <tr align="center">
                                    
@@ -477,19 +470,19 @@ function GiaoVienNghiDay(){
         })
         $('#giao-vien-thoi-day').html(html);
     }
-    if(data.length == 0){
-        $('.table_nghi_day').remove();
-        var alertTB = `
-        <div class="m-alert m-alert--icon alert alert-danger" role="alert">
-            <div class="m-alert__icon">
-            <i class="flaticon-danger"></i>
-            </div>
-            <div class="m-alert__text">
-                <strong>Trống!</strong> Chưa có dữ liệu nào cả.
-            </div>
-        </div>`
-        $('.alert_thongbao').html(alertTB)
-    }
+    // if(data.length == 0){
+    //     $('.table_nghi_day').remove();
+    //     var alertTB = `
+    //     <div class="m-alert m-alert--icon alert alert-danger" role="alert">
+    //         <div class="m-alert__icon">
+    //         <i class="flaticon-danger"></i>
+    //         </div>
+    //         <div class="m-alert__text">
+    //             <strong>Trống!</strong> Chưa có dữ liệu nào cả.
+    //         </div>
+    //     </div>`
+    //     $('.alert_thongbao').html(alertTB)
+    // }
         $('#preload').css('display', 'none')
     })
     
@@ -539,6 +532,17 @@ function ThayDoiTrangThaiGV(id){
     })
 }
 </script>
+@if(SESSION('thong_bao'))
+<script>
+    Swal.fire({
+    position: 'top-center',
+    icon: 'success',
+    title: 'Thêm mới giáo viên và cấp tài khoản thành công!',
+    showConfirmButton: false,
+    timer: 1500
+    })
+</script>
+@endif
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
  {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>

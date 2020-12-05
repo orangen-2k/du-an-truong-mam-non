@@ -54,7 +54,7 @@
 							<div class="m-login__head">
 								<h3 class="m-login__title">Reset Password</h3>
 							</div>
-                            <form class="m-login__form m-form" method="POST" action="{{ route('password.update') }}">
+                            <form class="m-login__form m-form" method="POST" action="{{ route('mat-khau.update') }}">
                                 @csrf
 								<input type="hidden" name="token" value="{{ $token }}">
                                 @if (session('message'))
@@ -65,10 +65,10 @@
 						        @endif
 								<div class="form-group m-form__group">
 									<input class="form-control m-input" type="text" placeholder="Email" name="email" autocomplete="off" value="{{ $email ?? old('email') }}" readonly>
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
+									@error('email')
+                                    <span class="invalid-feedback pl-5" role="alert">
                                         <strong>{{ $message }}</strong>
-                                    </span>
+									</span>
                                      @enderror
                         
 								</div>
@@ -76,18 +76,18 @@
                                     <input id="password" type="password" class="form-control m-input m-login__form-input--last @error('password') is-invalid @enderror"
                                      name="password"  autocomplete="new-password" placeholder="Password">
                                
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
+									@error('password')
+                                        <span class="invalid-feedback pl-5" role="alert">
                                             <strong>{{ $message }}</strong>
-                                        </span>
+										</span>
                                     @enderror
 								</div>
                                 <div class="form-group m-form__group">
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password"  autocomplete="new-password">
-                                    @error('password_confirmation')
-                                        <span class="invalid-feedback" role="alert">
+									@error('password_confirmation')
+                                        <span class="invalid-feedback pl-5" role="alert">
                                             <strong>{{ $message }}</strong>
-                                        </span>
+										</span>
                                     @enderror
 								</div>
 				

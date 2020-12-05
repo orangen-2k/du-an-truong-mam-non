@@ -47,6 +47,8 @@ class AccountRepository extends BaseModelRepository
     }
     public function storeAcount( $data ){
         $token = Str::random(60).md5(time());
+        $now  = Carbon::now();
+        $time_code = $now->addMinutes(1440);
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -54,12 +56,41 @@ class AccountRepository extends BaseModelRepository
             'password' => Hash::make($data['email']),
             'token' => $token,
             'role' => $data['role'],
-            'time_code' => Carbon::now(),
+            'time_code' => $time_code,
             'phone_number' => $data['phone_number']
         ]);
     
         $email = $user->email;
         $url = route('password.reset',['token' => $token,'email' => $data['email']]);
+        $send_data=[
+            'route' => $url,
+            'title' => "Tài khoản được đăng ký thành công !"
+        ];
+        Mail::send('auth.email_dang_ky', $send_data, function($message) use ($email){
+	        $message->to($email, 'Reset password')->subject('New Account Susses!');
+        });
+
+        return $user;
+    }
+
+    public function storeAcountGV( $data ){
+        $token = Str::random(60).md5(time());
+        $now  = Carbon::now();
+        $time_code = $now->addMinutes(1440);
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'username' => $data['email'],
+            'avatar' => $data['anh'],
+            'password' => Hash::make($data['email']),
+            'token' => $token,
+            'role' => $data['role'],
+            'time_code' => $time_code,
+            'phone_number' => $data['phone_number']
+        ]);
+    
+        $email = $user->email;
+        $url = config('common.SERVE_HOST_GV') . '/mat-khau-reset?token=' . $token . '&email=' . $email;
         $send_data=[
             'route' => $url,
             'title' => "Tài khoản được đăng ký thành công !"

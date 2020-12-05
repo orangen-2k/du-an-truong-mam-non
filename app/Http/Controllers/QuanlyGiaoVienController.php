@@ -15,6 +15,7 @@ use App\Repositories\AccountRepository;
 use Storage;
 use App\Http\Requests\GiaoVien\StoreGiaoVien;
 use App\Repositories\NamHocRepository;
+use App\Http\Requests\GiaoVien\UpdateGiaoVien;
 
 use App\Http\Requests\GiaoVien\ValidateUpdateGV;
 class QuanlyGiaoVienController extends Controller
@@ -86,25 +87,17 @@ class QuanlyGiaoVienController extends Controller
         $request['role'] = 2;
         $request['name'] = $request['ten'];
         $request['phone_number'] = $request['dien_thoai'];
-        $user = $this->AccountRepository->storeAcount($request->all());
-        $anh = $request->file("anh");
+        $user = $this->AccountRepository->storeAcountGV($request->all());
         $dataRequest = $request->all();
         $dataRequest['user_id'] = $user->id;
         unset($dataRequest['phone_number']);
         unset($dataRequest['role']);
         unset($dataRequest['name']);
-        if ($anh) {
-            $pathLoad = Storage::putFile(
-                'public/uploads/anh_gv',
-                $anh
-            );
-            $path = str_replace("/", "\\", $pathLoad);
-            $path = trim($path, 'public/');
-            $dataRequest['anh'] = $path;
-        }
         unset($dataRequest['_token']);
         unset($dataRequest['khoi']);
-        $dataRequest['ma_gv'] = 'GV' . time();
+        $dataRequest['ma_gv'] = 'GV' . 
+        random_int(0,9).random_int(0,9).random_int(0,9).
+        random_int(0,9).random_int(0,9).random_int(0,9);
         $this->GiaoVienRepository->store_gv($dataRequest);
         return redirect()->route('quan-ly-giao-vien-index')->with('thong_bao', 'Hoàn thành');
     }
@@ -169,27 +162,9 @@ class QuanlyGiaoVienController extends Controller
             'LichDayHienTaiGV'
         ));
     }
-    public function update(Request $request, $id)
+    public function update(UpdateGiaoVien $request, $id)
     {   
-        // ValidateCreateQuanLiGV
         $dataRequest = $request->all();
-        // dd($dataRequest);
-        if(isset($dataRequest['anh'])){
-            $anh = $request->file("anh");
-            // dd($a)
-            if ($anh) {
-                // $pathLoad = Storage::putFile(
-                //     'public/uploads/anh_gv',
-                //     $anh
-                // );
-                $pathLoad = $anh->store('uploads/anh_gv');
-                $path =  $pathLoad;
-                // dd($path);
-                // $path = trim($path, 'public/');
-                $dataRequest['anh'] = $path;
-                // dd($dataRequest['anh']);
-            }
-        }
         unset($dataRequest['_token']);
         $this->GiaoVienRepository->update_gv($id, $dataRequest);
         return redirect()->route('quan-ly-giao-vien-edit', ['id' => $id])->with('thong_bao', 'Hoàn thành');
