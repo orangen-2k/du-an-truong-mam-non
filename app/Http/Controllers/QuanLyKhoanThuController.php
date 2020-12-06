@@ -26,9 +26,9 @@ class QuanLyKhoanThuController extends Controller
         $id = $this->NamHocRepository->maxID();
         $nam_hoc_moi = $this->NamHocRepository->find($id);
         $khoi = $nam_hoc_moi->Khoi;
-        $khoan_thu = $this->QuanLyKhoanThuRepository->getAll();
+        $khoan_thu = $this->QuanLyKhoanThuRepository->getAllKhoanThu();
         // dd($khoan_thu[0]->PhamViThu);
-        return  view('quan-ly-khoan-thu.index',compact('khoi','khoan_thu'));
+        return  view('quan-ly-hoc-phi.khoan_thu',compact('khoi','khoan_thu'));
     }
     
     public function store(Request $request)
@@ -37,8 +37,8 @@ class QuanLyKhoanThuController extends Controller
         $pham_vi_thu = $request->pham_vi_thu;
         $data_pham_vi_thu=[];
         $id = $this->QuanLyKhoanThuRepository->create($data)->id;
-        if($pham_vi_thu != 1){
-            $id_khoi_lop_thu = $pham_vi_thu==2?$request->id_khoi_thu:$request->id_lop_thu;
+        if($pham_vi_thu != 0){
+            $id_khoi_lop_thu = $pham_vi_thu==1?$request->id_khoi_thu:$request->id_lop_thu;
 
             foreach ($id_khoi_lop_thu as $value) {
                 array_push($data_pham_vi_thu,[
@@ -79,8 +79,8 @@ class QuanLyKhoanThuController extends Controller
         $this->QuanLyKhoanThuRepository->update($id_sua_khoan_thu,$data);
         $this->QuanLyPhamViThuRepository->deletePhamViThu($id_sua_khoan_thu);
 
-        if($pham_vi_thu != 1){
-            $id_khoi_lop_thu = $pham_vi_thu==2?$request->id_khoi_thu:$request->id_lop_thu;
+        if($pham_vi_thu != 0){
+            $id_khoi_lop_thu = $pham_vi_thu==1?$request->id_khoi_thu:$request->id_lop_thu;
 
             foreach ($id_khoi_lop_thu as $value) {
                 array_push($data_pham_vi_thu,[
