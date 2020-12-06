@@ -27,5 +27,20 @@ class DoiTuongChinhSachRepository extends BaseRepository
     public function getOne($id){
   		return  $this->model->where('id',$id)->get();
     }
+
+    public function ThemChinhSach($array){
+        return $this->model->insert($array);
+    }
+
+    public function XoaMotChinhSach($id){
+        return $this->model->where('id', $id)->delete();
+    }
+    
+    public function GetMotDienUuTien($id){
+        return $this->model->find($id);
+    }
+    public function ChinhSuaChinhSach($array, $id){
+        return $this->model->where('id', $id)->update($array);
+    }
   
 }

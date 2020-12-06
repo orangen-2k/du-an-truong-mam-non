@@ -13,7 +13,7 @@
                 <div class="m-portlet__head-caption">
                     <div class="m-portlet__head-title">
                         <h3 class="m-portlet__head-text">
-                            Số lượng học sinh qua từng năm
+                            Biểu đồ học sinh nhập học theo năm học
                         </h3>
                     </div>
                 </div>
@@ -170,16 +170,15 @@
         </div>
     </div>
     
-    <div class="mr-auto row">
+    {{-- <div class="mr-auto row">
         <div class="col-11">
         <h4 class="m-subheader__title m-subheader__title--separator font-weight-bold font-italic">Danh sách khối</h4>
         </div>
-        <div class="col-1 ">
-        <a class="" href="">Xem tất cả</a>
-        </div>
-    </div>
+        
+    </div> --}}
     <div class="row mt-2">
-        <div class="col-xl-4">
+        @foreach ($namhoc->Khoi as $item)
+        <div class="col-xl-3">
 
             <!--begin:: Widgets/Top Products-->
             <div class="m-portlet m-portlet--full-height ">
@@ -190,7 +189,7 @@
                                 <img src="assets/app/media/img/client-logos/logo3.png" alt="">
                             </div>
                             <h3 class="m-portlet__head-text font-italic">
-                                Khối Hoa Ly
+                                {{$item->ten_khoi}} ({{$item->do_tuoi}} tuổi)
                             </h3>
                         </div>
                     </div>
@@ -202,47 +201,22 @@
 
                     <!--begin::Widget5-->
                     <div class="m-widget4">
-                       
+                        @foreach ($item->LopHoc as $lop_hoc)
                         <div class="m-widget4__item">
                             
                             <div class="m-widget4__info">
                                 <span class="m-widget4__title">
-                                    Lớp Hoa Ly 1
-                                </span><br>
-                                
-                            </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">17</span>
-                            </span>
-                        </div>
-                        <div class="m-widget4__item">
-                            
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    Lớp Hoa Ly 2
-                                </span><br>
-                                <span class="m-widget4__sub">
-                                    
+                                <a target="_blank" href="{{route('quan-ly-lop-show', ['id' => $lop_hoc->id])}}">
+                                    {{$lop_hoc->ten_lop}}
+                                </a>
                                 </span>
+                                <br>
                             </div>
                             <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">30</span>
+                                <span class="m-widget4__number m--font-danger">{{$lop_hoc->tong_so_hoc_sinh}}</span>
                             </span>
                         </div>
-                        <div class="m-widget4__item">
-                           
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    Lớp Hoa Ly 3
-                                </span><br>
-                                <span class="m-widget4__sub">
-                                    
-                                </span>
-                            </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">30</span>
-                            </span>
-                        </div>
+                        @endforeach
                     </div>
 
                     <!--end::Widget 5-->
@@ -251,153 +225,7 @@
 
             <!--end:: Widgets/Top Products-->
         </div>
-        <div class="col-xl-4">
-
-            <!--begin:: Widgets/Activity-->
-            <div class="m-portlet m-portlet--full-height ">
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <div class="m-widget4__img m-widget4__img--logo">
-                                <img src="assets/app/media/img/client-logos/logo3.png" alt="">
-                            </div>
-                            <h3 class="m-portlet__head-text font-italic">
-                                Khối Hoa Mai
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="m-portlet__head-tools">
-                        <i class="fa fa-arrow-alt-circle-right"></i>
-                      
-                    </div>
-                </div>
-                <div class="m-portlet__body">
-
-                    <!--begin::Widget5-->
-                    <div class="m-widget4">
-                       
-                        <div class="m-widget4__item">
-                            
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    Lớp Hoa Mai 1
-                                </span><br>
-                                
-                            </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">17</span>
-                            </span>
-                        </div>
-                        <div class="m-widget4__item">
-                            
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    Lớp Hoa Mai 2
-                                </span><br>
-                                <span class="m-widget4__sub">
-                                    
-                                </span>
-                            </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">30</span>
-                            </span>
-                        </div>
-                        <div class="m-widget4__item">
-                           
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    Lớp Hoa Mai 3
-                                </span><br>
-                                <span class="m-widget4__sub">
-                                    
-                                </span>
-                            </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">30</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!--end::Widget 5-->
-                </div>
-            </div>
-
-            <!--end:: Widgets/Activity-->
-        </div>
-        <div class="col-xl-4">
-
-            <!--begin:: Widgets/Blog-->
-            <div class="m-portlet m-portlet--full-height ">
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <div class="m-widget4__img m-widget4__img--logo">
-                                <img src="assets/app/media/img/client-logos/logo3.png" alt="">
-                            </div>
-                            <h3 class="m-portlet__head-text font-italic">
-                                Khối Hoa Hồng
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="m-portlet__head-tools">
-                        <i class="fa fa-arrow-alt-circle-right"></i>
-                      
-                    </div>
-                </div>
-                <div class="m-portlet__body">
-
-                    <!--begin::Widget5-->
-                    <div class="m-widget4">
-                       
-                        <div class="m-widget4__item">
-                            
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    Lớp Hoa Hồng 1
-                                </span><br>
-                                
-                            </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">17</span>
-                            </span>
-                        </div>
-                        <div class="m-widget4__item">
-
-                        
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    Lớp Hoa Hồng 2
-                                </span><br>
-                                <span class="m-widget4__sub">
-                                    
-                                </span>
-                            </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">30</span>
-                            </span>
-                        </div>
-                        <div class="m-widget4__item">
-                            
-                            <div class="m-widget4__info">
-                                <span class="m-widget4__title">
-                                    Lớp Hoa Hồng 3
-                                </span><br>
-                                <span class="m-widget4__sub">
-                                    
-                                </span>
-                            </div>
-                            <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">30</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!--end::Widget 5-->
-                </div>
-            </div>
-
-            <!--end:: Widgets/Blog-->
-        </div>
+        @endforeach
     </div>
     <div class="row">
         <div class="col-4">
@@ -749,35 +577,75 @@
     </div>
 
   </div>
-
-
+@endsection  
+@section('script')
 <script>
 var ctx = document.getElementById('BieuDoSoLuongHocSinh');
 var BieuDoSoLuongHocSinh = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: [
+            @forEach($array_thang as $item)
+            "{{$item}}",
+            @endforeach
+        ],
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: 'Nữ',
+            data: [
+                @forEach($array_nu as $key => $item)
+                    @if($key > 0)
+                    {{$item}},
+                    @endif
+                @endforeach
+            ],
             backgroundColor: [
+                @forEach($array_nu as  $key => $item)
+                @if($key > 0)
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                @endif
+                @endforeach
+                
+                
             ],
             borderColor: [
+                @forEach($array_nu as  $key => $item)
+                @if($key > 0)
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                @endif
+                @endforeach
+                
+                
             ],
             borderWidth: 1
-        }]
+        },
+        {
+            label: 'Nam',
+            data: [
+                @forEach($array_nam as $key => $item)
+                @if($key > 0)
+                {{$item}},
+                @endif
+                @endforeach
+            ],
+            backgroundColor: [
+                @forEach($array_nam as $key => $item)
+                @if($key > 0)
+                'rgba(75, 192, 192, 0.2)',
+                @endif
+                @endforeach
+                
+            ],
+            borderColor: [
+                @forEach($array_nam as $key => $item)
+                @if($key > 0)
+                'rgba(75, 192, 192, 1)',
+                @endif
+                @endforeach
+                
+            ],
+            borderWidth: 1
+        }
+        ]
     },
     options: {
         scales: {

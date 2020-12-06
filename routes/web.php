@@ -13,16 +13,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
  */
-Route::get('/', function () {
-    return view('index');
-})->middleware('auth', 'web')->name('app');
+Route::get('/', 'HomeController@index')->middleware('auth', 'web', 'checkNamHoc')->name('app');
 Auth::routes();
 Route::get('profile', 'Auth\AuthController@profile')->middleware('auth', 'web')->name('auth.profile');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'web', 'checkNamHoc');
 Route::get('/logout','Auth\AuthController@getLogout')->name('get.logout');
 
 Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/trang-ca-nhan', 'AccountController@editProfile')->name('profile');
+    Route::post('/upload-avatar','Auth\AuthController@uploadAvatar')->name('upload-avatar');
     Route::post('/chinh-sua-trang-ca-nhan', 'AccountController@updateProfile')->name('updateProfile');
     Route::get('/trang-ca-nhan/doi-mat-khau','AccountController@changePasswordForm')->name('doi-mat-khau');
     Route::post('/trang-ca-nhan/update-mat-khau','AccountController@changePassword')->name('update-mat-khau');
@@ -32,6 +31,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/account/update-admin/{id}','AccountController@editAdmin')->name('update-admin');
     Route::get('/account/edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
     Route::post('/account/update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
+    Route::get('/account/edit-hoc-sinh/{id}','AccountController@getEditHocSinh')->name('edit-hoc-sinh');
+    Route::post('/account/update-hoc-sinh/{id}','AccountController@editHocSinh')->name('update-hoc-sinh');
 
 });
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
@@ -44,6 +45,7 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
     Route::get('/', 'DangKiNhapHocController@index')->name('dangki-nhap-hoc');
     Route::post('/submit-dang-ki-nhap-hoc', 'DangKiNhapHocController@store')->name('submit-dang-ki-nhap-hoc');
     Route::post('/submit-xac-nhan-ma-dang-ky', 'DangKiNhapHocController@XacNhanDangKy')->name('submit-xac-nhan-ma-dangki');
+    Route::post('/validation-dang-ki-nhap-hoc', 'DangKiNhapHocController@validation')->name('validation-dang-ki-nhap-hoc');
 });
 
 // HIEUPT-13/10/2020-QUAN_LY_GIAO_TRINH
@@ -130,8 +132,7 @@ Route::prefix('quan-ly-lop')->group(function () {
     Route::post('/xep-lop-tu-dong', 'LopController@xepLopTuDong')->name('quan-ly-lop-xep-lop-tu-dong');
 
 });
-
-Route::group(['middleware' => ['web', 'auth']], function () {
+Route::group(['middleware' => ['web', 'auth', 'checkNamHoc']], function () {
     Route::prefix('nam-hoc')->group(function () {
         Route::get('/', 'NamHocController@index')->name('nam-hoc.index');
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
@@ -148,6 +149,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('/xoa_toan_bo_du_lieu_nam_hoc_hien_tai', 'QuanLyTrongNamController@xoaToanBoDuLieuCuaNamHocHienTai')->name('xoa_toan_bo_du_lieu_nam_hoc_hien_tai');
         
         Route::post('/thay_doi_session_nam_hoc', 'QuanLyTrongNamController@changeSessionNamHoc')->name('thay-doi-session-nam-hoc');
+        Route::post('/check-date-tao-nam-hoc', 'NamHocController@checkDateTaoNamHoc')->name('check-date-tao-nam-hoc');
+        
 
         
     });
@@ -164,7 +167,17 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     });
 
     Route::post('changeType', 'NotificationController@changeType')->name('notification.changeType');
+    Route::get('nhan-xet/{id}', 'NhanXetController@show')->name('nhanxet.show');
+    Route::post('find', 'NhanXetController@find')->name('nhanxet.find');
 
+    Route::get('quan-ly-don-nghi-hoc', 'QuanLyDonNghiHocController@index')->name('quan-ly-don-nghi-hoc.index');
+    Route::post('show-hs-theo-lop', 'QuanLyDonNghiHocController@showHsTheoLop')->name('show-hs-theo-lop');
+    Route::post('don-nghi-hoc-theo-thang', 'QuanLyDonNghiHocController@donNghiHocCuaHsTheoThang')->name('don-nghi-hoc-theo-thang');
+    Route::get('chi-tiet-don-nghi-hoc/{id}', 'QuanLyDonNghiHocController@show')->name('don-nghi-hoc.show');
+
+    Route::get('quan-ly-don-dan-thuoc', 'QuanLyDonDanThuocController@index')->name('quan-ly-don-dan-thuoc.index');
+    Route::post('don-dan-thuoc-theo-thang', 'QuanLyDonDanThuocController@donDanThuocCuaHsTheoThang')->name('don-dan-thuoc-theo-thang');
+    Route::get('chi-tiet-don-dan-thuoc/{id}', 'QuanLyDonDanThuocController@show')->name('don-dan-thuoc.show');
 });
 
 Route::prefix('quan-ly-diem-danh-den')->group(function () {
@@ -221,3 +234,18 @@ Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
 Route::post('send-otp', "Auth\SendOTPController@send")->name('otp.send');
 Route::post('check-otp', "Auth\SendOTPController@checkOTP")->name('otp.check');
 Route::post('reset-otp', "Auth\SendOTPController@resetOTP")->name('otp.reset');
+Route::get('khoi-tao-nam-hoc', 'NamHocController@khoiTaoNamHoc')->name('nam-hoc.khoi-tao')->middleware('auth', 'web');
+Route::post('khoi-tao-nam-hoc', 'NamHocController@storekhoiTaoNamHoc')->name('nam-hoc.khoi-tao-dau-tien')->middleware('auth', 'web');
+
+Route::prefix('quan-ly-dien-uu-tien')->group(function(){
+    Route::get('/', 'DienUuTienController@index')->name('quan-ly-dien-uu-tien-index');
+    Route::post('/store', 'DienUuTienController@store')->name('quan-ly-dien-uu-tien-store');
+    Route::post('/edit/{id}', 'DienUuTienController@EditDienUuTien')->name('quan-ly-dien-uu-tien-edit');
+    Route::post('/delete-dien-uu-tien', 'DienUuTienController@XoaDienUuTien')->name('quan-ly-dien-uu-tien-delete');
+    Route::post('/get-mot-dien-uu-tien', 'DienUuTienController@GetMotDienUuTien')->name('quan-ly-dien-uu-tien-get-mot');
+    Route::post('/delete-list-dien-uu-tien', 'DienUuTienController@XoaListDienUuTien')->name('quan-ly-dien-uu-tien-delete-list');
+    
+});
+
+Route::get('mat-khau-reset', "Auth\QuenMatKhauController@showResetForm")->name('mat-khau.reset');
+Route::post('mat-khau-update', "Auth\QuenMatKhauController@reset")->name('mat-khau.update');

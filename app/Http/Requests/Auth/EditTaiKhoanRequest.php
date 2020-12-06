@@ -27,6 +27,7 @@ class EditTaiKhoanRequest extends FormRequest
             'name'=>'required',
             'email' => 'required|email|unique:users,id,email',
             'avatar'=>'mimes:jpeg,jpg,png,gif|max:10000',
+           
     ];
     }
 
@@ -41,6 +42,7 @@ class EditTaiKhoanRequest extends FormRequest
             'avatar.required'=>'Bạn chưa chọn ảnh!',
             'avatar.mimes'=>'Nhập sai định dạng ảnh!',
             'avatar.max'=>'Kích thước ảnh tối đa 10000kb',
+            
         ];
     }
 

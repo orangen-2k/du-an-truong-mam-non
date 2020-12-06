@@ -131,6 +131,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <script>
+                                        function onLoadAvatar(e){
+                                            let name = e.getAttribute('data-name');
+                                            e.setAttribute('src', "https://ui-avatars.com/api/?name=" + name + "&background=random");
+                                        }
+                                    </script>
                                     @php
                                         use Illuminate\Support\Facades\Auth;
                                         $i = 1;
@@ -146,7 +152,8 @@
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{  $item->avatar ? asset('upload/' . $item->avatar) : 'https://ui-avatars.com/api/?name=' . $item->name . '&background=random '}}' width="50" class="img-thumbnail"></td>
+                                        {{-- <td><img src='{{  $item->avatar ? asset('upload/' . $item->avatar) : 'https://ui-avatars.com/api/?name=' . $item->name . '&background=random '}}' width="50" class="img-thumbnail"></td> --}}
+                                        <td><img src='{{ $item->avatar }}' width="50" class="img-thumbnail" data-name="{{ $item->name }}" onerror="onLoadAvatar(this)"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
@@ -224,5 +231,4 @@
             });
     }
 </script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 @endsection

@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Quản tài khoản")
+@section('title', "Quản lí tài khoản")
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 
 @section('style')
@@ -132,9 +132,16 @@
                                         <th>Tên đăng nhập</th>
                                         <th>Email</th>
                                         <th>Trạng thái</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <script>
+                                        function onLoadAvatar(e){
+                                            let name = e.getAttribute('data-name');
+                                            e.setAttribute('src', "https://ui-avatars.com/api/?name=" + name + "&background=random");
+                                        }
+                                    </script>
                                     @php
                                         use Illuminate\Support\Facades\Auth;
                                         $i = 1;
@@ -149,7 +156,8 @@
                                     @forelse ($data as $item)
                                     <tr>
                                         <th scope="row">{{$i++}}</th>
-                                        <td><img src='{{ displayAvatar($item->avatar) }}' width="50" class="img-thumbnail"></td>
+                                        {{-- <td><img src='{{ displayAvatar($item->avatar) }}' width="50" class="img-thumbnail"></td> --}}
+                                        <td><img src='{{ $item->avatar }}' width="50" class="img-thumbnail" data-name="{{ $item->name }}" onerror="onLoadAvatar(this)"></td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
@@ -168,6 +176,7 @@
                                             </form>
                                             @endif
                                         </td>
+                                        <td><a href="{{route('edit-hoc-sinh', ['id' =>$item->id])}}" class="flaticon-edit"></a></td>
                                     </tr>
                                     @empty
                                     <td>

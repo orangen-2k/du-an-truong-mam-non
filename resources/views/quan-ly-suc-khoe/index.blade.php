@@ -278,7 +278,7 @@
         </form>
         </div>
       </div>
-    </div>
+      </div>
       <div class="col-md-9 table-responsive scoll-table">
         <div class="row mb-3">
           <div class="col-md-8 ">
@@ -348,20 +348,37 @@
 @section('script')
 @if(SESSION('ThongBaoThemDot'))
 <script>
-  swal({title:"Thêm thành công",html:$("<div>")
-                .addClass("some-class")
-                .text("Đã thêm đợt mới thành công"),animation:!1,customClass:"animated tada"})
+  const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+Toast.fire({
+  icon: 'success',
+  title: 'Thêm đợt mới thành công'
+})
                 
 </script>
 @endif
 @if(SESSION('ThongBaoThemDotLoi'))
 <script>
-  swal("Thêm đợt thất bại!","Thời gian đợt phải nằm trong phạm vi thời gian của năm học hiện tại","error")
-                
+  //swal("Thêm đợt thất bại!","Thời gian đợt phải nằm trong phạm vi thời gian của năm học hiện tại","error")
+  Swal.fire({
+  icon: 'error',
+  title: 'Thất bại',
+  text: 'Thời gian đợt phải nằm trong phạm vi thời gian của năm học hiện tại'
+})  
 </script>
 @endif
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="path/to/chartjs/dist/Chart.js"></script>
+{{-- <script src="path/to/chartjs/dist/Chart.js"></script> --}}
 <script>
   const html_danh_sach_lop = $('#id_lop_chuyen').html();
   var dtable;
@@ -642,7 +659,7 @@
             data: {
                 labels: labels_chart,
                 datasets: [{
-                    label: 'Chiều cao',
+                    label: 'Cân nặng',
                     data: data_chart2,
                     backgroundColor: [
                        
@@ -699,10 +716,11 @@
       else{
         html+= 
         `
-        <div class="col-md-12">
+        
+        <div class="row">
+          <div class="col-lg-12">
           <label><b>Danh sách các lớp chưa nhập dữ liệu</b></label>
         </div>
-        
         `
         
         response.data.data2.forEach(element =>{
@@ -715,6 +733,7 @@
           </div> `
         })
       }
+      html+=`</div>`
       $('#noi-dung-ket-qua-kiem-tra').html(html)
      })
       

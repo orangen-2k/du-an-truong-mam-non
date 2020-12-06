@@ -1,8 +1,11 @@
 @extends('layouts.main')
 @section('title', "Thông tin cá nhân")
+@section('style')
+<link rel="stylesheet" href="{{ asset('change_avatar/change_avatar.css')}}">
+@endsection
 @section('content')
 <div class="m-content">
-						<div class="row">
+						<div class="row" style="height: 550px">
 							<div class="col-xl-3 col-lg-4">
 								<div class="m-portlet m-portlet--full-height  ">
 									<div class="m-portlet__body">
@@ -11,10 +14,20 @@
 												Trang cá nhân
 											</div>
 											<div class="m-card-profile__pic">
-												<div class="m-card-profile__pic-wrapper">
-													<img src="../upload/{{Auth::user()->avatar}}" alt="" />
+												<div class="image-input image-input-outline image-input-circle" id="kt_image_3">
+													<div class="image-input-wrapper"
+														style="background-image: url('{{ Auth::user()->avatar}}'), url('https://ui-avatars.com/api/?name={{ Auth::user()->name }}&background=random')">
+													</div>
+													<label
+														class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+														data-action="change" data-toggle="tooltip" title=""
+														data-original-title="Change avatar">
+														<i class="la la-pencil text-muted"></i>
+														<input type="file" name="profile_avatar"
+															accept="image/*" onchange="changeAvatar(this)">
+														<input type="hidden" name="profile_avatar_remove">
+													</label>
 												</div>
-											
 											</div>
 											<div class="m-card-profile__details">
 												<span class="m-card-profile__name">@auth {{Auth::user()->name }} @endauth</span>
@@ -27,21 +40,13 @@
 												<span class="m-nav__section-text">Section</span>
 											</li>
 											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
+												<a href="#" class="m-nav__link">
 													<i class="m-nav__link-icon flaticon-profile-1"></i>
 													<span class="m-nav__link-title">
 														<span class="m-nav__link-wrap">
 															<span class="m-nav__link-text">Tài Khoản</span>
-															<span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
 														</span>
 													</span>
-												</a>
-											</li>
-										
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-													<span class="m-nav__link-text">Hỗ trợ</span>
 												</a>
 											</li>
 										</ul>
@@ -65,59 +70,6 @@
 											
 											</ul>
 										</div>
-										<div class="m-portlet__head-tools">
-											<ul class="m-portlet__nav">
-												<li class="m-portlet__nav-item m-portlet__nav-item--last">
-													<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
-														<a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-															<i class="la la-gear"></i>
-														</a>
-														<div class="m-dropdown__wrapper">
-															<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-															<div class="m-dropdown__inner">
-																<div class="m-dropdown__body">
-																	<div class="m-dropdown__content">
-																		<ul class="m-nav">
-																			<li class="m-nav__section m-nav__section--first">
-																				<span class="m-nav__section-text">Quick Actions</span>
-																			</li>
-																			<li class="m-nav__item">
-																				<a href="{{route('doi-mat-khau')}}" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-share"></i>
-																					<span class="m-nav__link-text">Đổi Mật khẩu</span>
-																				</a>
-																			</li>
-																			
-																			
-																			<li class="m-nav__section">
-																				<span class="m-nav__section-text">Useful Links</span>
-																			</li>
-																			<li class="m-nav__item">
-																				<a href="" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-info"></i>
-																					<span class="m-nav__link-text">FAQ</span>
-																				</a>
-																			</li>
-																			<li class="m-nav__item">
-																				<a href="" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-																					<span class="m-nav__link-text">Trợ giúp</span>
-																				</a>
-																			</li>
-																			<li class="m-nav__separator m-nav__separator--fit m--hide">
-																			</li>
-																			<li class="m-nav__item m--hide">
-																				<a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">Submit</a>
-																			</li>
-																		</ul>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</li>
-											</ul>
-										</div>
 									</div>
 									<div class="tab-content">
 										<div class="tab-pane active" id="m_user_profile_tab_1">
@@ -130,13 +82,6 @@
 														</div>
 														@auth
 													</div>
-													<?php 
-															$message = Session::get('message');
-															if ($message) {
-																echo '<div class="alert alert-success">'. $message .'</div>';
-																Session::put('message', null);
-															}
-														?>
 													<div class="form-group m-form__group row">
 														<div class="col-10 ml-auto">
 															<h3 class="m-form__section">Thông tin cá nhân</h3>
@@ -146,38 +91,28 @@
 														<label for="example-text-input"  class="col-2 col-form-label">Họ tên</label>
 														<div class="col-7">
 															<input class="form-control m-input" type="text" name="name"   value="{{Auth::user()->name }}">
+															@error('name')
+															<small style="color:red">{{$message}}</small>
+															@enderror
 														</div>
 													</div>
 													<div class="form-group m-form__group row" >
 														<label for="example-text-input" class="col-2 col-form-label" name="email">Email</label>
 														<div class="col-7">
-														@error('email')
-															<small style="color:red">{{$message}}</small>
-															@enderror
 															<input class="form-control m-input " type="text" name="email"  value="{{Auth::user()->email }}">
-														</div>
-													</div>
-													<div class="form-group m-form__group row" >
-														<label for="example-text-input" class="col-2 col-form-label" name="avatar">Ảnh đại diện</label>
-														<div class="col-7">
-														@error('avatar')
-															<small style="color:red">{{$message}}</small>
+															@error('email')
+																<small style="color:red">{{$message}}</small>
 															@enderror
-															<input value="{{Auth::user()->avatar }}" class="form-control m-input " type="file" name="avatar" id="avatar"  accept="image/png, image/jpeg,image/jpg,image/jpeg,image/gif" >
-															<img src="../upload/{{Auth::user()->avatar }}" alt="" width="50%">
 														</div>
 													</div>
-												
-
 												</div>
 												<div class="m-portlet__foot m-portlet__foot--fit">
 													<div class="m-form__actions">
 														<div class="row">
-															<div class="col-2">
+															<div class="col-4">
 															</div>
 															<div class="col-7">
-																<button type="submit" class="btn btn-accent m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
-																<button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">Hủy</button>
+																<button type="submit" class="btn btn-success m-btn m-btn--air m-btn--custom">Cập nhật</button>&nbsp;&nbsp;
 															</div>
 														</div>
 													</div>
@@ -196,4 +131,51 @@
 					</div>
 				</div>
 			</div>
+@endsection
+@section('script')
+<script src="{{ asset('change_avatar/scripts.bundle.js')}}"></script>
+<script src="{{ asset('change_avatar/image-input.js')}}"></script>
+<script>
+	function showimages(element){
+        var file = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+                $('#show_img').attr('src', reader.result);
+            }
+        reader.readAsDataURL(file);
+	}
+
+	function changeAvatar(file){
+        let srcAvatar = URL.createObjectURL(file.files[0]);
+		$(".error_avatar").attr("src", srcAvatar);
+		var form = new FormData();
+            form.append("image", file.files[0]);
+            $.ajax({
+                "url": "https://api.imgbb.com/1/upload?key=87b235f7be4c2a2271db6c21bbf93bda",
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+            }).done(function (response) {
+                let rs = JSON.parse(response);
+                let url = rs.data.display_url;
+				axios.post("{{ route('upload-avatar')}}",{"avatar": url})
+				.then(res => {
+				})
+            });
+	}		
+</script>
+@if (session('message'))
+<script>
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Cập nhật tài khoản thành công !",
+        showConfirmButton: false,
+        timer: 2000
+    });
+</script>
+@endif
 @endsection

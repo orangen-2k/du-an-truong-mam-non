@@ -113,7 +113,8 @@ mix.styles(
             "public/assets/snippets/custom/pages/user/login.js",
             "public/vendors/jquery-validation/dist/jquery.validate.min.js",
             "public/share/progressbar.js",
-            "public/share/nprogress.js"
+            "public/share/nprogress.js",
+            "public/assets/vendors/custom/jquery-ui/jquery-ui.bundle.js"
         ],
         "public/js/all.js"
     )

@@ -3,76 +3,6 @@
 @section('content')
 <div class="m-content">
 						<div class="row">
-							<!-- <div class="col-xl-3 col-lg-4">
-								<div class="m-portlet m-portlet--full-height  ">
-									<div class="m-portlet__body">
-										<div class="m-card-profile">
-											<div class="m-card-profile__title m--hide">
-												Trang cá nhân
-											</div>
-											<div class="m-card-profile__pic">
-												<div class="m-card-profile__pic-wrapper">
-													<img src="../assets/app/media/img/users/user4.jpg" alt="" />
-												</div>
-											
-											</div>
-											<div class="m-card-profile__details">
-												<span class="m-card-profile__name">Name </span>
-												<a href="" class="m-card-profile__email m-link">Email</a>
-											</div>
-										</div>
-										<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
-											<li class="m-nav__separator m-nav__separator--fit"></li>
-											<li class="m-nav__section m--hide">
-												<span class="m-nav__section-text">Section</span>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-profile-1"></i>
-													<span class="m-nav__link-title">
-														<span class="m-nav__link-wrap">
-															<span class="m-nav__link-text">My Profile</span>
-															<span class="m-nav__link-badge"><span class="m-badge m-badge--success">2</span></span>
-														</span>
-													</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-share"></i>
-													<span class="m-nav__link-text">Activity</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-chat-1"></i>
-													<span class="m-nav__link-text">Messages</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-graphic-2"></i>
-													<span class="m-nav__link-text">Sales</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-time-3"></i>
-													<span class="m-nav__link-text">Events</span>
-												</a>
-											</li>
-											<li class="m-nav__item">
-												<a href="../header/profile&amp;demo=default.html" class="m-nav__link">
-													<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-													<span class="m-nav__link-text">Support</span>
-												</a>
-											</li>
-										</ul>
-										<div class="m-portlet__body-separator"></div>
-										
-									</div>
-								</div>
-							</div> -->
 							<div class="col-xl-12 col-lg-9">
 								<div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
 									<div class="m-portlet__head">
@@ -173,6 +103,15 @@
 															<input class="form-control m-input" type="text" name="name"   value="{{$user->name }}">
 														</div>
 													</div>
+													<div class="form-group m-form__group row">
+														<label for="example-text-input"  class="col-2 col-form-label">User Name</label>
+														<div class="col-7">
+														@error('username')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="text" name="username"   value="{{$user->username }}">
+														</div>
+													</div>
 													<div class="form-group m-form__group row" >
 														<label for="example-text-input" class="col-2 col-form-label" name="email">Email</label>
 														<div class="col-7">
@@ -184,50 +123,27 @@
 													</div>
 													
 
-													<!-- <div class="form-group m-form__group row">
+													<div class="form-group m-form__group row">
 														<label for="example-text-input" class="col-2 col-form-label">Số điện thoại</label>
 														<div class="col-7">
-															<input class="form-control m-input" type="text" value="CTO">
-														</div>
-													</div> -->
-													<!-- <div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">Company Name</label>
-														<div class="col-7">
-															<input class="form-control m-input" type="text" value="Keenthemes">
-															<span class="m-form__help">If you want your invoices addressed to a company. Leave blank to use your full name.</span>
-														</div>
-													</div> -->
-												<!-- 	<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">Email</label>
-														<div class="col-7">
-															<input class="form-control m-input" type="text" value="{{Auth::user()->email }}">
+														@error('phone_number')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+															<input class="form-control m-input" type="text" name="phone_number" value="{{$user->phone_number }}"> 
 														</div>
 													</div>
-													<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div>
-													<div class="form-group m-form__group row">
-														<div class="col-10 ml-auto">
-															<h3 class="m-form__section">2. Address</h3>
-														</div>
-													</div>
-													<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">Address</label>
+													<div class="form-group m-form__group row" >
+														<label for="example-text-input" class="col-2 col-form-label" name="avatar">Ảnh đại diện</label>
 														<div class="col-7">
-															<input class="form-control m-input" type="text" value="L-12-20 Vertex, Cybersquare">
+														@error('avatar')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+													
+															<input value="{{$user->avatar }}" class="form-control m-input "onchange="showimages(this)" type="file" name="avatar" id="avatar"  accept="image/png, image/jpeg,image/jpg,image/jpeg,image/gif" >
+															<img src="{{  $user->avatar ? asset('upload/' . $user->avatar) : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' }}" alt="" width="50%"  id="show_img">
 														</div>
 													</div>
-													<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">City</label>
-														<div class="col-7">
-															<input class="form-control m-input" type="text" value="San Francisco">
-														</div>
-													</div>
-													<div class="form-group m-form__group row">
-														<label for="example-text-input" class="col-2 col-form-label">State</label>
-														<div class="col-7">
-															<input class="form-control m-input" type="text" value="California">
-														</div>
-													</div>
-													 -->
+													
 												
 												</div>
 												<div class="m-portlet__foot m-portlet__foot--fit">
@@ -256,4 +172,18 @@
 					</div>
 				</div>
 			</div>
+			@endsection			
+			@section('script')
+<script>
+function showimages(element) {
+           		 var file = element.files[0];
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    $('#show_img').attr('src', reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+
+</script>
+
 @endsection

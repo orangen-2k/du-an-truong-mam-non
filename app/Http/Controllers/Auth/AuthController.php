@@ -55,4 +55,12 @@ class AuthController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+
+    public function uploadAvatar(Request $request)
+    {
+        $user = Auth::user();
+        $user->avatar = $request->avatar;
+        $user->save();
+        return 'upload avatar thành công';
+    }
 }

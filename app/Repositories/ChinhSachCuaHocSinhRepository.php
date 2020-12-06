@@ -40,6 +40,19 @@ class ChinhSachCuaHocSinhRepository extends BaseModelRepository {
     //    return $this->model->where('nam_thu',$year)->where('thang_thu',$month)->first();
     // }
 
+    public function getChinhSachCuaHocSinh($hoc_sinh_id){
+        $data = $this->model->where('id_hoc_sinh', $hoc_sinh_id)->get();
+        return $data;
+    }
+    
+    public function getDeleteChinhSachHocSinh($id){
+        return $this->model->where('id_hoc_sinh', $id)->delete();
+    }
+
+    public function getInsertChiTietChinhSachHocSinh($array){
+        return $this->model->insert($array);
+    }
+
 
 
     

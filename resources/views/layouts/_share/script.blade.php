@@ -26,4 +26,12 @@
         })
         
     });
+
+    $( function() {
+					$('#ul-home').draggable({ opacity: 0.7, helper: "clone" });
+					$( "#sortable" ).sortable({
+					revert: true
+					});
+			});
 </script>
+<script src="{{ asset('sweetalert2/sweetalert2@10.js')}}"></script>

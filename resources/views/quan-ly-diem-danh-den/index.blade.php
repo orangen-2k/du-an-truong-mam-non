@@ -176,14 +176,9 @@
                                                                         class="m-nav__link-text ">
                                                                         <span class="ten_lop"> {{$lop_hoc->ten_lop}}
                                                                         </span>
-                                                                        <span
-                                                                            class="sl_hs_cua_lop">({{ $lop_hoc->tong_so_hoc_sinh }})</span></span>
+                                                                        
                                                                     <div class="dropdown">
-                                                                        <i style="cursor: pointer;font-size: 25px;"
-                                                                            class="la la-ellipsis-v"
-                                                                            id="dropdownMenuButton"
-                                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                                            aria-expanded="false"></i>
+                                                                        
                                                                         <div class="dropdown-menu"
                                                                             aria-labelledby="dropdownMenuButton">
                                                                         </div>
@@ -220,9 +215,9 @@
                         <label class="col-lg-2 col-form-label select2">Tháng: </label>
                         <div class="col-lg-11">
                             <select name="time" id="thang" class="form-control select2">
-
-                                @for($i = 1; $i < 13; $i++) <option value="{{$i}}">Tháng {{$i}}</option>
-                                    @endfor
+                                @foreach($thang_trong_nam as $item)
+                                <option value="{{intval(substr($item, 0, 2))}}">Tháng {{intval(substr($item, 0, 2))}} (năm {{substr($item, 3, 5)}})</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -260,37 +255,10 @@
                             <th scope="col 1" rowspan="2" style="text-align: center">Thao tác</th>
                         </tr>
                         <tr class="pt-3 row2">
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
-                            <th>9</th>
-                            <th>10</th>
-                            <th>11</th>
-                            <th>12</th>
-                            <th>13</th>
-                            <th>14</th>
-                            <th>15</th>
-                            <th>16</th>
-                            <th>17</th>
-                            <th>18</th>
-                            <th>19</th>
-                            <th>20</th>
-                            <th>21</th>
-                            <th>22</th>
-                            <th>23</th>
-                            <th>24</th>
-                            <th>25</th>
-                            <th>26</th>
-                            <th>27</th>
-                            <th>28</th>
-                            <th>29</th>
-                            <th>30</th>
-                            <th>31</th>
+                            @for($i = 1; $i < 32; $i++)
+                            <th>{{$i}}</th>
+                            @endfor
+                            
                         </tr>
                     </thead>
                     <tbody id="show-data">
