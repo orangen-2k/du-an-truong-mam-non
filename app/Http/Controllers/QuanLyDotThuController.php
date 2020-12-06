@@ -243,7 +243,7 @@ class QuanLyDotThuController extends Controller
                 // dd($hoc_sinh);
                 // miễn giảm học phí cao nhật
                 $max_mien_giam = 0;
-                if ($hoc_sinh->doi_tuong_chinh_sach_id == 1) {
+                if ($hoc_sinh->doi_tuong_chinh_sach== 1) {
                     $max_mien_giam = $this->ChinhSachCuaHocSinhRepository->maxMienGiam($hoc_sinh->id);
                 }
                 $thong_tin_dong_tien = [];
