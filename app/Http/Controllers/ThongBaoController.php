@@ -259,4 +259,5 @@ class ThongBaoController extends Controller
         $data = $this->NamHocRepository->layNamHocHienTai();
         return view('thong-bao.create', compact('listId_Gv', 'gv', 'data'));
     }
+
 }

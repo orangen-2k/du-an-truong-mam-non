@@ -197,9 +197,24 @@ Route::prefix('quan-ly-khoan-thu')->group(function(){
     Route::post('copy_khoan_thu', 'QuanLyKhoanThuController@copy')->name('quan-ly-khoan-thu-copy');
     Route::get('delete_khoan_thu/{id}', 'QuanLyKhoanThuController@delete')->name('quan-ly-khoan-thu-delete'); 
     Route::post('delete-list-khoan-thu', 'QuanLyKhoanThuController@deleteList')->name('quan-ly-khoan-thu-delete-list');
+});
 
-    
+Route::prefix('quan-ly-dot-thu')->group(function(){
+    Route::get('/{id}', 'QuanLyDotThuController@index')->name('quan-ly-dot-thu-index');
+    // Route::get('get-data-dot-thu', 'QuanLyDotThuController@getDataKhoanThu')->name('quan-ly-dot-thu-get-data');
+    Route::post('tao_dot_thu', 'QuanLyDotThuController@store')->name('quan-ly-dot-thu-store');
+    Route::post('get-tong-tien-thu-theo-khoi', 'QuanLyDotThuController@getKhoanThuTheoKhoi')->name('get-tong-tien-thu-theo-khoi');
+    Route::get('chi_tiet_dot_thu/{id}/{khoi}', 'QuanLyDotThuController@chiTietDotThu')->name('get-chi-tiet-dot-thu');
+    Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyDotThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');
+    Route::post('gui_thong_bao_theo_khoi', 'QuanLyDotThuController@guiThongBaoTheoKhoi')->name('gui-thong-bao-theo-khoi');
+    Route::post('gui_thong_bao_theo_lop', 'QuanLyDotThuController@guiThongBaoTheoLop')->name('gui-thong-bao-theo-lop');
 
+
+
+    // Route::post('update_dot_thu', 'QuanLyDotThuController@update')->name('quan-ly-dot-thu-update');
+    // Route::post('copy_dot_thu', 'QuanLyDotThuController@copy')->name('quan-ly-dot-thu-copy');
+    // Route::get('delete_dot_thu/{id}', 'QuanLyDotThuController@delete')->name('quan-ly-dot-thu-delete'); 
+    // Route::post('delete-list-dot-thu', 'QuanLyDotThuController@deleteList')->name('quan-ly-dot-thu-delete-list');
 });
 
 Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');

@@ -79,4 +79,10 @@ class KhoiRepository extends BaseModelRepository
 
     }
 
+    public function getArrayKhoi($khoi_id){
+        $data = $this->model->where('id',$khoi_id)->get();
+        return $data;
+
+    }
+
 }

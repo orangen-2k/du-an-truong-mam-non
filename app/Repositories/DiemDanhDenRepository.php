@@ -58,5 +58,27 @@ class DiemDanhDenRepository extends BaseRepository {
         ->get();
         return $data;
     }
+
+    public function soNgayAnCuaHocSinhTheoThang($hoc_sinh_id, $nam, $thang)
+    {
+        $data = $this->table
+        ->whereYear('ngay_diem_danh_den', $nam)
+        ->whereMonth('ngay_diem_danh_den', $thang)
+        ->where('hoc_sinh_id', $hoc_sinh_id)
+        ->where('phieu_an', 2)
+        ->count();
+        return $data;
+    }
+
+    public function soBuoiHocCuaHocSinhTheoThang($hoc_sinh_id, $nam, $thang)
+    {
+        $data = $this->table
+        ->whereYear('ngay_diem_danh_den', $nam)
+        ->whereMonth('ngay_diem_danh_den', $thang)
+        ->where('hoc_sinh_id', $hoc_sinh_id)
+        ->where('trang_thai', 1)
+        ->count();
+        return $data;
+    }
     
 }
