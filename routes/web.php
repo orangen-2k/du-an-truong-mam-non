@@ -92,7 +92,12 @@ Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
     Route::get('/edit/{id}', 'QuanLyDangKyNhapHocController@show')->name('edit-hs-dang-ky-nhap-hoc');
     Route::post('/cap-nhap-id-user', 'QuanLyDangKyNhapHocController@capNhapId')->name('cap-nhap-id-user-for-hs');
     Route::post('/edit', 'QuanLyDangKyNhapHocController@PheDuyet')->name('submit-edit-hs-dang-ky-nhap-hoc');
+    Route::post('/validation-edit-dang-ki-nhap-hoc', 'QuanLyDangKyNhapHocController@validation')->name('validation-edit-dang-ki-nhap-hoc');
+    Route::post('/remove-don-dang-ki', 'QuanLyDangKyNhapHocController@delete')->name('remove-don-dang-ki');
+    Route::get('/test-gui-sms', 'QuanLyDangKyNhapHocController@testAPI');
+
 });
+
 // thanhnv 9/16/2020
 
 Route::prefix('quan-ly-khoi')->group(function () {

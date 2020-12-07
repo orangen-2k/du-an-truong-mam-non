@@ -178,7 +178,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <label for="">Đối tượng chính sách:</label>
                                     <div class="m-input-icon m-input-icon--right">
-                                        <select class="form-control select2" multiple="multiple"
+                                        <select class="form-control form-control-sm  select2" multiple="multiple"
                                             name="doi_tuong_chinh_sach_id[]" id="doi_tuong_chinh_sach_id">
                                             @foreach ($doi_tuong_chinh_sach as $item)
                                             <option value="{{ $item->id }}" data-loai="L-{{ $item->id }}">
@@ -195,10 +195,13 @@ License: You must have a valid license purchased only from themeforest(the above
                                         <input type="file" accept=".jpg, .pepg, .png"
                                             class="custom-file-input form-control " onchange="showimages(this)"
                                             id="customFileAvatar">
-                                        <input type="hidden" name="avatar" value="">
+                                        <input type="text" hidden name="avatar">
+                                        <input type="text" hidden name="check_avatar">
                                         <label class="custom-file-label" for="customFileAvatar">Chọn ảnh bé</label>
 
                                     </div>
+                                    <p class="text-danger text-small error" id="check_avatar_error"></p>
+
                                 </div>
                                 <div class="col-sm-12 col-md-3 col-lg-3">
                                     <div class="anh-giay-phep img-thumbnail">
@@ -576,6 +579,8 @@ License: You must have a valid license purchased only from themeforest(the above
                     <p>Cảm ơn bạn đăng tin tưởng và đăng ký cho bé nhập học</p>
                     <p>Chúng tôi sẽ sớm liên lạc lại với bạn</p>
                     <p>Cảm ơn !</p>
+
+                    <p style=" font-size:16px "><span style="color:red">Lưu ý (*)</span> : Mã đơn đăng kí của bạn là: <span style="color:red" id="show_ma_don">  </span></p>
                 </div>
 
             </div>
@@ -758,6 +763,9 @@ License: You must have a valid license purchased only from themeforest(the above
                 $('#showimg').attr('src', reader.result);
             }
             reader.readAsDataURL(file);
+
+            $('[name="check_avatar"]').val('have');
+
         }
 
         $("#ho_khau_thuong_tru_matp").change(function () {
@@ -864,6 +872,7 @@ License: You must have a valid license purchased only from themeforest(the above
             var formData = new FormData(myForm)
             axios.post(url_xac_nhan_ma_dangki, formData)
                 .then(function (response) {
+                    let ketqua = response.data;
                     if (response.data == 'no') {
                         $('#preload').css('display', 'none');
                         console.log(response.data);
@@ -875,6 +884,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     } else {
                         $('#preload').css('display', 'none');
                         $("#closeModel").trigger("click");
+                        $("#show_ma_don").text(ketqua);
                         $("#foo2").trigger("click");
                     }
 
@@ -1047,7 +1057,7 @@ License: You must have a valid license purchased only from themeforest(the above
             }, 200)
         });
 
-        function uploadAvatar(file) {
+        function uploadAvatar() {
             var file = $("#customFileAvatar")[0].files[0];
             var form = new FormData();
             form.append("image", file);
@@ -1064,6 +1074,7 @@ License: You must have a valid license purchased only from themeforest(the above
                 let url = '';
                 url = rs.data.display_url;
                 $('[name="avatar"]').val(url);
+                console.log(url)
             });
         }
 
