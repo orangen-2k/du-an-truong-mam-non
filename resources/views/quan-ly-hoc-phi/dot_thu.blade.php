@@ -1,6 +1,8 @@
 @extends('layouts.main') @section('title', "Quản lý khoản thu")
 @section('style')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
+
 <style>
     .m-widget4__item {
         cursor: pointer;
@@ -40,7 +42,9 @@
     <!--Begin::Section-->
     <div class="row">
         <div class="col-xl-12">
-
+            <div id="preload" class="preload-container text-center" style="display: none">
+                <img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+              </div>
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
                 <div class="m-portlet__head">
@@ -501,6 +505,7 @@
     };
 
     const lapDotThu = () =>{
+        $('#preload').css('display', 'block');
         let element_add = document.querySelectorAll('.checkbox')
             let danh_sach_khoan_thu_cua_dot =  []
             element_add.forEach(element => {
@@ -514,6 +519,7 @@
             'danh_sach_khoan_thu_cua_dot' : danh_sach_khoan_thu_cua_dot
         })
             .then(function (response) {
+                $('#preload').css('display', 'none');
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
