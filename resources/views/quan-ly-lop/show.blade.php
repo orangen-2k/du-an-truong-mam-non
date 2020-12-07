@@ -51,7 +51,7 @@
                                         <div class="m-widget4">
                                             <div class="m-widget4__item">
                                                 <div class="m-widget4__img m-widget4__img--pic">
-                                                    <img src= {{($item->anh == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' :  asset('storage/'.$item->anh) }}
+                                                    <img src= {{($item->anh == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' : $item->anh}}
                                                     class="rounded mx-auto d-block mb-2">
                                                 </div>
                                                 <div class="m-widget4__info">
@@ -202,18 +202,7 @@
     <div class="m-portlet">
         <div class="m-portlet__body table-responsive">
             <table class="table m-table m-table--head-bg-success">
-                <div class="col-12 form-group m-form__group d-flex justify-content-end">
-                    <label class="col-lg-1 col-form-label">Giới tính:</label>
-                    <div class="col-lg-2">
-                        <select class="form-control" id="gioi_tinh">
-                            @foreach (config('common.gioi_tinh') as $key => $item)
-                            <option 
-                            @if(isset($params['gioi_tinh']) && $params['gioi_tinh']==$key) selected @endif
-                            value="{{$key}}"> {{$item}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                
                 <thead>
                     <tr>
                         <th>Stt</th>
@@ -237,7 +226,7 @@
                         <td>{{$item->ma_hoc_sinh}}</td>
                         <td>{{$item->ten}}</td>
                         <td><img width="100px"
-                                src={{($item->avatar == "") ? "https://znews-photo.zadn.vn/w660/Uploaded/neg_iflemly/2017_12_28/3_2_1.jpg" :  asset('storage/'.$item->avatar)}} alt="">
+                                src={{($item->avatar == "") ? "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" :  $item->avatar}} alt="">
                         </td>
                         <td>{{date("d/m/Y", strtotime($item->ngay_sinh))}}</td>
                         <td>{{ config('common.gioi_tinh')[$item->gioi_tinh] }}</td>
