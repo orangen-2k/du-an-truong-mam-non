@@ -213,6 +213,9 @@ Route::prefix('quan-ly-dot-thu')->group(function(){
     Route::get('/{id}', 'QuanLyDotThuController@index')->name('quan-ly-dot-thu-index');
     // Route::get('get-data-dot-thu', 'QuanLyDotThuController@getDataKhoanThu')->name('quan-ly-dot-thu-get-data');
     Route::post('tao_dot_thu', 'QuanLyDotThuController@store')->name('quan-ly-dot-thu-store');
+    Route::post('xoa_dot_thu', 'QuanLyDotThuController@delete')->name('quan-ly-dot-thu-delete');
+
+
     Route::post('get-tong-tien-thu-theo-khoi', 'QuanLyDotThuController@getKhoanThuTheoKhoi')->name('get-tong-tien-thu-theo-khoi');
     Route::get('chi_tiet_dot_thu/{id}/{khoi}', 'QuanLyDotThuController@chiTietDotThu')->name('get-chi-tiet-dot-thu');
     Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyDotThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');

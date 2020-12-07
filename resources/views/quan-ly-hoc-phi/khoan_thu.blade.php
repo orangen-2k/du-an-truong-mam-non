@@ -1,6 +1,7 @@
 @extends('layouts.main') @section('title', "Quản lý khoản thu")
 @section('style')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 <style>
     #table-khoan-thu tbody td,
     thead th {
@@ -33,7 +34,9 @@
     <!--Begin::Section-->
     <div class="row">
         <div class="col-xl-12">
-
+            <div id="preload" class="preload-container text-center" style="display: none">
+                <img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+              </div>
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
                 <div class="m-portlet__head">
@@ -106,9 +109,9 @@
                                     </td>
                                     <td class="chuc_nang">
                                         <i data-toggle="modal" data-target="#sua_khoan_thu{{$item->id}}"
-                                            onclick="capNhatorCopy(1)" class="flaticon-edit-1"></i>
+                                            onclick="capNhatorCopy(1,{{$item->mac_dinh}})" class="flaticon-edit-1"></i>
                                         <i data-toggle="modal" data-target="#sua_khoan_thu{{$item->id}}"
-                                            onclick="capNhatorCopy(2)" class="flaticon-add"></i>
+                                            onclick="capNhatorCopy(2,{{$item->mac_dinh}})" class="flaticon-add"></i>
 
                                         @if ($item->mac_dinh < 1)
                                         <i onclick="deleteKhoanThu({{$item->id}})" class="flaticon-delete"></i>
@@ -535,10 +538,12 @@
 
     
     const addKhoanThu = () =>{
+        $('#preload').css('display', 'block');
             let myForm = document.getElementById('form-add-khoan-thu');
             let formData = new FormData(myForm);
             axios.post(url_tao_khoan_thu,formData)
             .then(function (response) {
+                $('#preload').css('display', 'none');
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -546,6 +551,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 }).then(()=> location.reload())
+                
             })
             .catch(function (error) {
                 console.log(error);
@@ -596,11 +602,20 @@
             .then(function () {
                 // always executed
             });  
-        };
+            }
 
 
         const deleteKhoanThu = (id) =>{
             url_delete_khoan_thu_id = url_delete_khoan_thu.replace('id',id)
+            Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa !'
+            }).then((result) => {
+            if (result.value) {
             axios.get(url_delete_khoan_thu_id)
             .then(function (response) {
                 Swal.fire({
@@ -617,10 +632,12 @@
             .then(function () {
                 // always executed
             });  
+             }
+            })
         };
 
         const capNhatorCopy = (type) =>{
-            if(type==1){
+            if(type==1){ 
                 $('.copy_khoan_thu').hide()
                 $('.cap_nhat_khoan_thu').show()
             }else{
@@ -667,10 +684,12 @@
             })
         };
         const showHideNhapPhanTram = (element) =>{
-            console.log($(element).prop('checked'))
+            // console.log($(element).prop('checked'))
             if($(element).prop('checked')){
+                $(element).parents('.m-checkbox-list').find('.mien_giam input').val(0)
                 $(element).parents('.m-checkbox-list').find('.mien_giam').show()
             }else{
+                $(element).parents('.m-checkbox-list').find('.mien_giam input').val(0)
                 $(element).parents('.m-checkbox-list').find('.mien_giam').hide()  
             }
         };
