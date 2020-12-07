@@ -77,11 +77,11 @@ class QuanlySucKhoeController extends Controller
     public function themDotKhamSucKhoe(Request $request){
         $request = $request->all();
         unset($request['_token']);
-        $ten_dot = $request['ten_dot'];
         $thoi_gian = $request['thoi_gian'];
         $get_nam_hoc_hien_tai = $this->NamHocRepository->layNamHocHienTai();
         $data = 0;
-        if($thoi_gian< $get_nam_hoc_hien_tai->end_date && $thoi_gian> $get_nam_hoc_hien_tai->start_date){
+        if($thoi_gian < $get_nam_hoc_hien_tai->end_date && $thoi_gian > $get_nam_hoc_hien_tai->start_date && isset($request['ten_dot'])){
+            $ten_dot = $request['ten_dot'];
             $array = [
                 'ten_dot' => $ten_dot,
                 'thoi_gian' => $thoi_gian
@@ -123,13 +123,15 @@ class QuanlySucKhoeController extends Controller
                     $this->SucKhoeRepository->InsertSucKhoeHocSinh($array_sk);
                 }
             }
-            
+        
         }
             $this->SucKhoeRepository->postThemDotKhamSucKhoe($array);
-            $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDot', 'Hoàn Thành');
+            // $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDot', 'Hoàn Thành');
+            $data = "Hoàn Thành";
         }
         else{
-            $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDotLoi', 'Lỗi thêm đợt');
+           // $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDotLoi', 'Lỗi thêm đợt');
+           $data = "Lỗi";
         }
         return $data;
     } 

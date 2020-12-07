@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Lop;
-use App\Models\NamHoc;
+use App\Models\DanhSachThuTien;
+
 
 class Khoi extends Model 
 {
@@ -23,5 +24,10 @@ class Khoi extends Model
     public function NamHoc()
     {
         return $this->belongsTo(NamHoc::class,'nam_hoc_id','id');
+    }
+
+    public function DanhSachThuTien()
+    {
+        return $this->hasMany(DanhSachThuTien::class,'khoi_id','id');
     }
 }

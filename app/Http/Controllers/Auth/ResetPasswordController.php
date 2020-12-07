@@ -36,6 +36,7 @@ class ResetPasswordController extends Controller
 
     public function showResetForm(Request $request)
     {
+
         $token = $request->token;
         $email= $request->email;
       
@@ -54,15 +55,22 @@ class ResetPasswordController extends Controller
     {
         $token = $request->token;
         $email= $request->email;
+
         $checkUser = User::where([
             "token" => $token,
             "email" => $email
         ])->first();
-        $hethan = Carbon::parse($checkUser ? $checkUser->time_code : Carbon::now());
-        $hientai = Carbon::now();
-        if(!$checkUser || $hientai->diffInMinutes($hethan) >= 1440){
+
+        $now  = Carbon::now();
+        $time_code = Carbon::parse($checkUser ? $checkUser->time_code : Carbon::now());
+        $now = strtotime($now);
+        $time_code = strtotime($time_code);
+        $kq = $time_code - $now;
+
+        if(!$checkUser || $kq < 0){
          return redirect()->back()->with('message','Lỗi xác thực không thành công');
         };
+
         $token = Str::random(60).md5(time());
         $checkUser->token = $token;
         $checkUser->password = Hash::make($request->password);

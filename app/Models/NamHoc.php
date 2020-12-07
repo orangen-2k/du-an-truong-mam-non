@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Khoi;
+use App\Models\DotThuTien;
 
 class NamHoc extends Model
 {
@@ -13,5 +14,10 @@ class NamHoc extends Model
     public function Khoi()
     {
         return $this->hasMany(Khoi::class,'nam_hoc_id','id');
+    }
+
+    public function DotThuTien()
+    {
+        return $this->hasMany(DotThuTien::class,'id_nam_hoc','id');
     }
 }
