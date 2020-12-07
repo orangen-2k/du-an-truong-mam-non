@@ -26,14 +26,6 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/trang-ca-nhan/doi-mat-khau','AccountController@changePasswordForm')->name('doi-mat-khau');
     Route::post('/trang-ca-nhan/update-mat-khau','AccountController@changePassword')->name('update-mat-khau');
 
-    //Sua tk
-    Route::get('/account/edit-admin/{id}','AccountController@getEditAdmin')->name('edit-admin');
-    Route::post('/account/update-admin/{id}','AccountController@editAdmin')->name('update-admin');
-    Route::get('/account/edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
-    Route::post('/account/update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
-    Route::get('/account/edit-hoc-sinh/{id}','AccountController@getEditHocSinh')->name('edit-hoc-sinh');
-    Route::post('/account/update-hoc-sinh/{id}','AccountController@editHocSinh')->name('update-hoc-sinh');
-
 });
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
 Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
