@@ -25,13 +25,7 @@
 								@csrf
 					<div class="m-portlet__body">
 						@auth
-					<?php 
-						$message = Session::get('message');
-							if ($message) {
-							echo '<div class="alert alert-success">'. $message .'</div>';
-					        	Session::put('message', null);
-												}
-					                	?>
+				
 					   <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -661,4 +655,15 @@ function changeAvatar(file){
 	}
 </script>
 <script src="{!! asset('js/get_quan_huyen_xa.js') !!}"></script>
+@if(SESSION('message'))
+<script>
+    Swal.fire({
+    position: 'top-center',
+    icon: 'success',
+    title: 'Cập nhật tài khoản thành công!',
+    showConfirmButton: false,
+    timer: 1500
+    })
+</script>
+@endif
 @endsection

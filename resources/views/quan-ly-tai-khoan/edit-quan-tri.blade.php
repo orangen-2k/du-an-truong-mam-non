@@ -30,13 +30,7 @@
 														</div>
 														@auth
 													</div>
-													<?php 
-															$message = Session::get('message');
-															if ($message) {
-																echo '<div class="alert alert-success">'. $message .'</div>';
-																Session::put('message', null);
-															}
-														?>
+													
 													<div class="form-group m-form__group row">
 														<div class="col-10 ml-auto">
 															<h3 class="m-form__section">Thông tin cá nhân</h3>
@@ -178,5 +172,15 @@ function changeAvatar(file){
             });
 	}
 </script>
-
+@if(SESSION('message'))
+<script>
+    Swal.fire({
+    position: 'top-center',
+    icon: 'success',
+    title: 'Cập nhật tài khoản thành công',
+    showConfirmButton: false,
+    timer: 1500
+    })
+</script>
+@endif
 @endsection

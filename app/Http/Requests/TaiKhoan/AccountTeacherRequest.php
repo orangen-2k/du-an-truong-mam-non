@@ -33,7 +33,14 @@ class AccountTeacherRequest extends FormRequest
             'trinh_do'=>'required|regex:/^[\pL\s\-]+$/u',
             'noi_dao_tao'=>'required|regex:/^[\pL\s\-]+$/u',
             'nam_tot_nghiep'=>'required|numeric',
-            'so_nha'=>'requied',
+            'ho_khau_thuong_tru_matp'=>'required',
+            'ho_khau_thuong_tru_maqh'=>'required',
+            'ho_khau_thuong_tru_xaid'=>'required',
+            'noi_o_hien_tai_matp'=>'required',
+            'noi_o_hien_tai_maqh'=>'required',
+            'noi_o_hien_tai_xaid'=>'required',
+            'noi_o_hien_tai_so_nha'=>'required',
+            'ho_khau_thuong_tru_so_nha'=>'required',
         ];
     }
 
@@ -65,6 +72,14 @@ class AccountTeacherRequest extends FormRequest
             'chuyen_mon'=>'Chuyên môn',
             'noi_dao_tao'=>'Nơi đào tạo',
             'nam_tot_nghiep'=>'Năm tốt nghiệp',
+            'ho_khau_thuong_tru_matp'=>'Tỉnh/Thành phố',
+            'ho_khau_thuong_tru_maqh'=>'Quận/Huyện',
+            'ho_khau_thuong_tru_xaid'=>'Phường/Xã',
+            'ho_khau_thuong_tru_so_nha'=>'Số nhà/Thôn',
+            'noi_o_hien_tai_matp'=>'Tỉnh/Thành phố',
+            'noi_o_hien_tai_maqh'=>'Quận/Huyện',
+            'noi_o_hien_tai_xaid'=>'Phường/Xã',
+            'noi_o_hien_tai_so_nha'=>'Số nhà/Thôn',
            
         ];
     }

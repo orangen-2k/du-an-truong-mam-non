@@ -30,13 +30,6 @@
 								@csrf
 					<div class="m-portlet__body">
 						@auth
-					<?php 
-						$message = Session::get('message');
-							if ($message) {
-							echo '<div class="alert alert-success">'. $message .'</div>';
-						Session::put('message', null);
-												}
-						?>
 					   <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -151,10 +144,11 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Email:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                            <div class="input-group">
-                                                            @error('email')
+                                                        @error('email')
                                                             <small style="color:red">{{$message}}</small>
                                                                @enderror
+                                                            <div class="input-group">
+                                                          
                                                                 <input type="text" name="email"
                                                                     class="form-control m-input" placeholder="" value="{{$giao_vien->email}}">
                                                             </div>
@@ -269,7 +263,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Tỉnh/Thành phố</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                       
+                                                        @error('ho_khau_thuong_tru_matp')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_matp" id="ho_khau_thuong_tru_matp">
                                                             <option value="">Chọn</option>
@@ -284,6 +280,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Quận/Huyện</label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('ho_khau_thuong_tru_maqh')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_maqh" id="ho_khau_thuong_tru_maqh">
                                                             <option value="">Chọn</option>
@@ -302,7 +301,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Phường/Xã/Thị trấn:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        
+                                                        @error('ho_khau_thuong_tru_xaid')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_xaid" id="ho_khau_thuong_tru_xaid">
                                                             <option value="" selected>Chọn</option>
@@ -317,7 +318,7 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Số nhà, đường </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        @error('so_nha')
+                                                        @error('ho_khau_thuong_tru_so_nha')
 															<small style="color:red">{{$message}}</small>
 															@enderror
                                                             <input type="text" name="ho_khau_thuong_tru_so_nha"
@@ -348,6 +349,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Tỉnh/Thành phố</label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('noi_o_hien_tai_matp')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2" name="noi_o_hien_tai_matp"
                                                             id="noi_o_hien_tai_matp">
                                                             <option value="" selected>Chọn</option>
@@ -363,6 +367,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Quận/Huyện</label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('noi_o_hien_tai_maqh')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="noi_o_hien_tai_maqh" id="noi_o_hien_tai_maqh">
                                                             <option value="" selected>Chọn</option>
@@ -382,6 +389,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Phường/Xã/Thị trấn:</label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('noi_o_hien_tai_xaid')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="noi_o_hien_tai_xaid" id="noi_o_hien_tai_xaid">
                                                             <option value="" selected>Chọn</option>
@@ -396,7 +406,7 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Số nhà, đường </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        @error('so_nha')
+                                                        @error('noi_o_hien_tai_so_nha')
 															<small style="color:red">{{$message}}</small>
 															@enderror
                                                             <input type="text" name="noi_o_hien_tai_so_nha"
@@ -494,4 +504,15 @@ function changeAvatar(file){
 	}
 </script>
 <script src="{!! asset('js/get_quan_huyen_xa.js') !!}"></script>
+@if(SESSION('message'))
+<script>
+    Swal.fire({
+    position: 'top-center',
+    icon: 'success',
+    title: 'Cập nhật tài khoản thành công!',
+    showConfirmButton: false,
+    timer: 1500
+    })
+</script>
+@endif
 @endsection

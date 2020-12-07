@@ -92,7 +92,7 @@ class AccountStudentRequest extends FormRequest
             'ho_khau_thuong_tru_matp'=>'Tỉnh/Thành phố',
             'ho_khau_thuong_tru_maqh'=>'Quận/Huyện',
             'ho_khau_thuong_tru_xaid'=>'Phường/Xã',
-            'so_nha'=>'Số nhà/Thôn',
+            'ho_khau_thuong_tru_so_nha'=>'Số nhà/Thôn',
             'noi_o_hien_tai_matp'=>'Tỉnh/Thành phố',
             'noi_o_hien_tai_maqh'=>'Quận/Huyện',
             'noi_o_hien_tai_xaid'=>'Phường/Xã',
