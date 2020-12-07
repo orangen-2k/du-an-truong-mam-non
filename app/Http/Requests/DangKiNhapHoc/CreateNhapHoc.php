@@ -31,7 +31,7 @@ class CreateNhapHoc extends FormRequest
             'ngay_sinh' => 'required|date',
             'dan_toc' => 'required|numeric',
 
-            'dien_thoai_dang_ki' => 'required|numeric|digits_between:10,12',
+            'dien_thoai_dang_ki' => 'required|numeric|digits_between:10,12|unique:users,phone_number',
             'email_dang_ky' => 'required|email:rfc,dns|unique:users,email',
 
             'ho_khau_thuong_tru_matp' => 'required|numeric',
@@ -43,6 +43,7 @@ class CreateNhapHoc extends FormRequest
             'noi_o_hien_tai_maqh' => 'required|numeric',
             'noi_o_hien_tai_xaid' => 'required|numeric',
             'noi_o_hien_tai_so_nha' => 'required',
+            'check_avatar' => 'required'
         ];
 
         if(($fields['ten_cha'] == "" || $fields['ten_cha'] == null) &&
@@ -74,9 +75,9 @@ class CreateNhapHoc extends FormRequest
             $rules['dien_thoai_me'] = 'numeric|digits_between:10,12';
             $rules['dien_thoai_nguoi_giam_ho'] = 'numeric|digits_between:10,12';
 
-            $rules['cmtnd_cha'] = 'numeric';
-            $rules['cmtnd_me'] = 'numeric';
-            $rules['cmtnd_nguoi_giam_ho'] = 'numeric';
+            $rules['cmtnd_cha'] = 'required|numeric';
+            $rules['cmtnd_me'] = 'required|numeric';
+            $rules['cmtnd_nguoi_giam_ho'] = 'required|numeric';
         }
 
        return $rules;
@@ -135,6 +136,7 @@ class CreateNhapHoc extends FormRequest
             'ten_nguoi_giam_ho' => 'Họ tên người giám hộ',
             'cmtnd_nguoi_giam_ho' => 'Chứng minh thư',
             'dien_thoai_nguoi_giam_ho' => 'Điện thoại',
+            'check_avatar' => 'Ảnh',
         ];
     }
 }
