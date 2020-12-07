@@ -117,10 +117,10 @@ class QuanLyDangKyNhapHocController extends Controller
 
         $arr_chinh_sach =[];
         if(!isset($data['doi_tuong_chinh_sach_id'])){
-            $data['doi_tuong_chinh_sach_id'] = 0;
+            $data['doi_tuong_chinh_sach'] = 0;
         }else{
             $arr_chinh_sach = $data['doi_tuong_chinh_sach_id'];
-            $data['doi_tuong_chinh_sach_id'] = 1;
+            $data['doi_tuong_chinh_sach'] = 1;
         }
         // $avatar =$request->file("avatar");
         // if($avatar != null){

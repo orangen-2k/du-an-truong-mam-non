@@ -206,29 +206,14 @@ class QuanlyHocSinhController extends Controller
                     'id_hoc_sinh' => $id
                 ];
                 $this->ChinhSachCuaHocSinhRepository->getInsertChiTietChinhSachHocSinh($arr);
-                
+                $this->HocSinhRepository->ThayDoiChinhSachHocSinh($id, 1);
             }
             unset($dataRequest['dien_uu_tien']);
         }
-        if (isset($dataRequest['avatar'])) {
-            $avatar = $request->file("avatar");
-
-            if ($avatar) {
-                // $pathLoad = Storage::putFile(
-                //     'public/uploads/avatar_hs',
-                //     $avatar
-                // );
-                $pathLoad = $avatar->store('public/uploads/avatar_hs');
-                $path =  $pathLoad;
-                // dd($path);
-                // $path = trim($path, 'public/');
-                $dataRequest['avatar'] = $path;
-                // dd($dataRequest['avatar']);
-            }
+        else{
+            $this->HocSinhRepository->ThayDoiChinhSachHocSinh($id, 0);
         }
         unset($dataRequest['_token']);
-        
-
         $this->HocSinhRepository->updateHocSinh($id, $dataRequest);
         return redirect()->route('quan-ly-hoc-sinh-edit', ['id' => $id])->with('thongbaocapnhat', 'Thành công');
     }
