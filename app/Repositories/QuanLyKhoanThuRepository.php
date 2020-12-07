@@ -25,6 +25,21 @@ class QuanLyKhoanThuRepository extends BaseModelRepository {
         $this->model->destroy($array);
     }
 
+    public function getKhoanThuTheoDoi()
+    {
+       return $this->model->where('theo_doi',1)->where('id_dot_thu_tien',0)->get();
+    }
+
+    public function getAllKhoanThu()
+    {
+       return $this->model->where('id_dot_thu_tien',0)->orderBy('mac_dinh','desc')->get();
+    }
+
+    public function capNhatKhoanThuCuaDot($data,$id_dot_thu_tien)
+    {
+        return $this->model->whereIn('id',$data)->update(['id_dot_thu_tien'=>$id_dot_thu_tien]);
+    }
+
 
 
     

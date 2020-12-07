@@ -10,13 +10,15 @@ class KhoanThu extends Model
     protected $table = 'khoan_thu';
     protected $fillable = 
     [
-        "id",
         "ten_khoan_thu",
         "muc_thu",
         "pham_vi_thu",
         "mien_giam",
         "xuat_hoa_don",
-        "theo_doi"
+        "theo_doi",
+        "don_vi_tinh",
+        "id_dot_thu_tien",
+        "mac_dinh"
     ];
 
     public function PhamViThu()
