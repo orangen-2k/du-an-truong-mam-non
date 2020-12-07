@@ -2,8 +2,12 @@
 
 namespace App;
 
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\HocSinh;
+use App\Models\GiaoVien;
+
 
 class User extends Authenticatable
 {
@@ -35,4 +39,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function HocSinh()
+    {
+        return $this->hasMany(HocSinh::class,'user_id','id');
+    }
+    public function GiaoVien()
+    {
+        return $this->hasOne(GiaoVien::class,'user_id','id');
+    }
+
+
 }

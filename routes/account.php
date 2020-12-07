@@ -23,4 +23,12 @@ Route::group(['middleware' => ['auth', 'web']], function () {
     Route::get('them-tai-khoan-giao-vien', 'AccountController@createTeacher')->name('account.create-teacher');
     Route::get('them-tai-khoan-nha-truong', 'AccountController@createSchool')->name('account.create-school');
     Route::post('them-tai-khoan-nha-truong', 'AccountController@storeSchool')->name('account.store-school');
+
+    Route::get('edit-admin/{id}','AccountController@getEditAdmin')->name('edit-admin');
+    Route::post('update-admin/{id}','AccountController@editAdmin')->name('update-admin');
+    Route::get('edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
+    Route::post('update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
+    Route::get('edit-hoc-sinh/{id}','AccountController@getEditHocSinh')->name('edit-hoc-sinh');
+    Route::post('update-hoc-sinh/{id}','AccountController@editHocSinh')->name('update-hoc-sinh');
+    Route::get('danh-sach-hoc-sinh-gop-tai-khoan/{id}','AccountController@listHocSinh')->name('danh-sach-hoc-sinh-gop-tai-khoan');
 });

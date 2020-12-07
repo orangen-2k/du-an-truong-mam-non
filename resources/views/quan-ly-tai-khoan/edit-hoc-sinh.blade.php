@@ -14,90 +14,18 @@
 														Cập nhật hồ sơ
 													</a>
 												</li>
-												<!-- <li class="nav-item m-tabs__item">
-													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
-														Messages
-													</a>
-												</li>
-												<li class="nav-item m-tabs__item">
-													<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
-														Settings
-													</a>
-												</li> -->
-											</ul>
-										</div>
-										<div class="m-portlet__head-tools">
-											<ul class="m-portlet__nav">
-												<li class="m-portlet__nav-item m-portlet__nav-item--last">
-													<div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" m-dropdown-toggle="hover" aria-expanded="true">
-														<a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-															<i class="la la-gear"></i>
-														</a>
-														<div class="m-dropdown__wrapper">
-															<span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-															<div class="m-dropdown__inner">
-																<div class="m-dropdown__body">
-																	<div class="m-dropdown__content">
-																		<ul class="m-nav">
-																			<li class="m-nav__section m-nav__section--first">
-																				<span class="m-nav__section-text">Quick Actions</span>
-																			</li>
-																			<!-- <li class="m-nav__item">
-																				<a href="{{route('doi-mat-khau', ['id' =>Auth::user()->id])}}" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-share"></i>
-																					<span class="m-nav__link-text">Đổi Mật khẩu</span>
-																				</a>
-																			</li> -->
-																			
-																			
-																			<li class="m-nav__section">
-																				<span class="m-nav__section-text">Useful Links</span>
-																			</li>
-																			<li class="m-nav__item">
-																				<a href="" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-info"></i>
-																					<span class="m-nav__link-text">FAQ</span>
-																				</a>
-																			</li>
-																			<li class="m-nav__item">
-																				<a href="" class="m-nav__link">
-																					<i class="m-nav__link-icon flaticon-lifebuoy"></i>
-																					<span class="m-nav__link-text">Trợ giúp</span>
-																				</a>
-																			</li>
-																			<li class="m-nav__separator m-nav__separator--fit m--hide">
-																			</li>
-																			<li class="m-nav__item m--hide">
-																				<a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">Submit</a>
-																			</li>
-																		</ul>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</li>
 											</ul>
 										</div>
 									</div>
-									
-										
-
 	<div class="tab-content">
 	  <div class="tab-pane active" id="m_user_profile_tab_1">											
          <div class="col-md-12">
-			<form class="m-form m-form--fit m-form--label-align-right" method="POST"
+			<form class="m-form m-form--fit m-form--label-align-right" method="POST" id=""
              action="{{route('update-hoc-sinh', ['id' =>$hoc_sinh->id])}}" enctype="multipart/form-data" >
 								@csrf
 					<div class="m-portlet__body">
 						@auth
-					<?php 
-						$message = Session::get('message');
-							if ($message) {
-							echo '<div class="alert alert-success">'. $message .'</div>';
-						Session::put('message', null);
-												}
-						?>
+				
 					   <div class="m-wizard__form-step m-wizard__form-step--current" id="m_wizard_form_step_1">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -117,11 +45,8 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Mã Học Sinh: </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        @error('ma_hoc_sinh')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-                                                            <input type="text" name="ma_hoc_sinh" class="form-control m-input"
-                                                                placeholder="" value="{{$hoc_sinh->ma_hoc_sinh}}">
+                                                            <input type="text" name="" class="form-control m-input"
+                                                                placeholder="" value="{{$hoc_sinh->ma_hoc_sinh}}" readonly>
                                                         </div>
                                                     </div>
 													<div class="form-group m-form__group row">
@@ -221,19 +146,26 @@
                                                             <div class="input-group">
                                                            
                                                                 <input type="text" name="dien_thoai_dang_ki"
-                                                                    class="form-control m-input" placeholder="" value="{{$hoc_sinh->dien_thoai_dang_ki}}">
+                                                                    class="form-control m-input" placeholder="" value="{{$hoc_sinh->dien_thoai_dang_ki}}"  onkeypress="return isNumber(event)">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label"><span
-                                                                class="text-danger"></span>Dân tộc</label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                        
-                                                            <input type="text" name="dan_toc" class="form-control m-input"
-                                                                placeholder="" value="{{$hoc_sinh->dan_toc}}">
-                                                        </div>
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Dân tộc</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                    @error('dan_toc')
+															<small style="color:red">{{$message}}</small>
+															@enderror
+                                                            <select name="dan_toc" class="form-control m-input name-field select2" placeholder="Điền dân tộc">
+                                                                @foreach (config('common.dan_toc') as $key => $value)
+                                                                    <option {{ ($hoc_sinh->dan_toc == $key )? 'selected' : ''}} value="{{ $key}}" >{{ $value }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('dan_toc')
+                                                            <div class="alert alert-danger">{{ $message }}</div>
+                                                            @enderror
                                                     </div>
+                                                </div>
 													</div>
                                               
                                             </div>
@@ -274,20 +206,20 @@
                                                             @if($hoc_sinh->hoc_sinh_khuyet_tat === 1)
                                                             
                                                             <label class="m-radio">
-                                                                    <input type="radio"  name="hoc_sinh_khuyet_tat" value="1" checked> Không
+                                                                    <input type="radio"  name="hoc_sinh_khuyet_tat" value="1" checked> Có
                                                                     <span></span>
                                                                 </label>
                                                                 <label class="m-radio">
-                                                                    <input type="radio"  name="hoc_sinh_khuyet_tat" value="0" >Có
+                                                                    <input type="radio"  name="hoc_sinh_khuyet_tat" value="0" > Không
                                                                     <span></span>
                                                                 </label>
                                                             @else
                                                             <label class="m-radio">
-                                                                    <input type="radio"  name="hoc_sinh_khuyet_tat" value="1" > Không
+                                                                    <input type="radio"  name="hoc_sinh_khuyet_tat" value="1" > Có
                                                                     <span></span>
                                                                 </label>
                                                                 <label class="m-radio">
-                                                                    <input type="radio"  name="hoc_sinh_khuyet_tat" value="0" checked >Có
+                                                                    <input type="radio"  name="hoc_sinh_khuyet_tat" value="0" checked >Không
                                                                     <span></span>
                                                                 </label>
                                                             @endif
@@ -307,7 +239,7 @@
                                                                     class="form-control m-input" placeholder="" value="{{$hoc_sinh->ngay_vao_truong}}">
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>                                                          z
                                                 </div>
                                                  <div class="m-separator m-separator--dashed m-separator--lg"></div>
                                             </div> 
@@ -318,29 +250,20 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Ảnh:</label>
                                                                 <img onClick="showModal()"
-                                                        src= "{{  $hoc_sinh->avatar ? asset('upload/' . $hoc_sinh->avatar) : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'}}"
-                                                        class="rounded mx-auto d-block mb-2" width="40%"
-                                                       id="show_img">
-                                                                <p>Click vào ảnh để lựa chọn ảnh khác!</p>
-
+                                                                    src= "{{  $hoc_sinh->avatar == '' ? 'https://ui-avatars.com/api/?name=' . $hoc_sinh->ten . '&background=random' : $hoc_sinh->avatar }}"
+                                                                    class="rounded mx-auto d-block mb-2" width="40%"
+                                                                id="show_img">
                                                     <div class="col-xl-9 col-lg-9 mt-4">
                                                         <div class="input-group ml-5 ">
-
                                                             <div class="custom-file ml-5 col-12">
-                                                            @error('avatar')
-															<small style="color:red">{{$message}}</small>
-															@enderror
-                                                                <input type="file"  name="avatar"
-                                                                id="anh_gv" onClick="showModal()"onchange="showimages(this)"
+                                                                <input type="file"  accept="image/*"
+                                                                id="anh_gv" onClick="showModal()" onchange="changeAvatar(this)"
                                                                     style="display:none" />
-                                                                {{-- <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"> --}}
-
+                                                                <input type="hidden" name="avatar">
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                     </div>
-													
                                                 </div>
                                                 <div class="m-separator m-separator--dashed m-separator--lg"></div>
                                             </div>
@@ -364,6 +287,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Họ và tên cha: </label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('ten_cha')
+                                                            <small style="color:red">{{$message}}</small>
+                                                        @enderror
                                                             <input type="text" name="ten_cha" class="form-control m-input"
                                                                 placeholder="" value="{{$hoc_sinh->ten_cha}}">
                                                         </div>
@@ -380,21 +306,25 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Số CMND/CCCD: </label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('cmtnd_cha')
+                                                            <small style="color:red">{{$message}}</small>
+                                                        @enderror
                                                             <input type="text" name="cmtnd_cha" class="form-control m-input"
-                                                                placeholder="" value="{{$hoc_sinh->cmtnd_cha}}">
+                                                                placeholder="" value="{{$hoc_sinh->cmtnd_cha}}" onkeypress="return isNumber(event)">
                                                         </div>
                                                     </div>
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Điện thoại: </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                       
+                                                        @error('dien_thoai_cha')
+                                                            <small style="color:red">{{$message}}</small>
+                                                        @enderror
                                                             <input type="text" name="dien_thoai_cha" class="form-control m-input"
-                                                                placeholder="" value="{{$hoc_sinh->dien_thoai_cha}}">
+                                                                placeholder="" value="{{$hoc_sinh->dien_thoai_cha}}"  onkeypress="return isNumber(event)">
                                                         </div>
                                                     </div>
-                                                   
-                                                   
+                                                             
                                                    
                                                    
                                                 </div>
@@ -429,18 +359,22 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Số CMND/CCCD: </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                      
+                                                        @error('cmtnd_me')
+                                                            <small style="color:red">{{$message}}</small>
+                                                        @enderror
                                                             <input type="text" name="cmtnd_me" class="form-control m-input"
-                                                                placeholder="" value="{{$hoc_sinh->cmtnd_me}}">
+                                                                placeholder="" onkeypress="return isNumber(event)" value="{{$hoc_sinh->cmtnd_me}}">
                                                         </div>
                                                     </div>
                                                     <div class="form-group m-form__group row">
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span> Điện thoại: </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        
+                                                        @error('dien_thoai_me')
+                                                            <small style="color:red">{{$message}}</small>
+                                                        @enderror
                                                             <input type="text" name="dien_thoai_me" class="form-control m-input"
-                                                                placeholder="" value="{{$hoc_sinh->dien_thoai_me}}">
+                                                                placeholder="" value="{{$hoc_sinh->dien_thoai_me}}"  onkeypress="return isNumber(event)">
                                                         </div>
                                                     </div>
 													</div>
@@ -466,7 +400,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Tỉnh/Thành phố</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                       
+                                                        @error('ho_khau_thuong_tru_matp')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_matp" id="ho_khau_thuong_tru_matp">
                                                             <option value="">Chọn</option>
@@ -481,6 +417,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Quận/Huyện</label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('ho_khau_thuong_tru_maqh')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_maqh" id="ho_khau_thuong_tru_maqh">
                                                             <option value="">Chọn</option>
@@ -499,7 +438,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Phường/Xã/Thị trấn:</label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        
+                                                        @error('ho_khau_thuong_tru_xaid')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="ho_khau_thuong_tru_xaid" id="ho_khau_thuong_tru_xaid">
                                                             <option value="" selected>Chọn</option>
@@ -514,7 +455,7 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Số nhà, đường </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        @error('so_nha')
+                                                        @error('ho_khau_thuong_tru_so_nha')
 															<small style="color:red">{{$message}}</small>
 															@enderror
                                                             <input type="text" name="ho_khau_thuong_tru_so_nha"
@@ -545,6 +486,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Tỉnh/Thành phố</label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('noi_o_hien_tai_matp')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2" name="noi_o_hien_tai_matp"
                                                             id="noi_o_hien_tai_matp">
                                                             <option value="" selected>Chọn</option>
@@ -560,6 +504,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Quận/Huyện</label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('noi_o_hien_tai_maqh')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="noi_o_hien_tai_maqh" id="noi_o_hien_tai_maqh">
                                                             <option value="" selected>Chọn</option>
@@ -579,6 +526,9 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Phường/Xã/Thị trấn:</label>
                                                         <div class="col-xl-9 col-lg-9">
+                                                        @error('noi_o_hien_tai_xaid')
+															<small style="color:red">{{$message}}</small>
+															@enderror
                                                         <select class="form-control select2"
                                                             name="noi_o_hien_tai_xaid" id="noi_o_hien_tai_xaid">
                                                             <option value="" selected>Chọn</option>
@@ -593,7 +543,7 @@
                                                         <label class="col-xl-3 col-lg-3 col-form-label"><span
                                                                 class="text-danger"></span>Số nhà, đường </label>
                                                         <div class="col-xl-9 col-lg-9">
-                                                        @error('so_nha')
+                                                        @error('noi_o_hien_tai_so_nha')
 															<small style="color:red">{{$message}}</small>
 															@enderror
                                                             <input type="text" name="noi_o_hien_tai_so_nha"
@@ -642,6 +592,20 @@
 		
 @endsection
 @section('script')
+
+@if (session('message'))
+<script>
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Cập nhật tài khoản thành công !",
+        showConfirmButton: false,
+        timer: 2000
+    });
+</script>
+@endif
+
+
 <script>
 function showimages(element) {
            		 var file = element.files[0];
@@ -654,9 +618,52 @@ function showimages(element) {
 $(document).ready(function() {
     $('.select2').select2();
 });
+function isNumber(evt)
+  {
+     var charCode = (evt.which) ? evt.which : event.keyCode
+     if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
 
+     return true;
+  }	
 var url_get_maqh_by_matp = "{{route('get_quan_huyen_theo_thanh_pho')}}";
 var url_get_xaid_by_maqh = "{{route('get_xa_phuong_theo_thi_tran')}}";
+function changeAvatar(file){
+    var fileShow = file.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function() {
+        $('#show_img').attr('src', reader.result);
+    }
+    reader.readAsDataURL(fileShow);
+
+		var form = new FormData();
+            form.append("image", file.files[0]);
+            $.ajax({
+                "url": "https://api.imgbb.com/1/upload?key=87b235f7be4c2a2271db6c21bbf93bda",
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+            }).done(function (response) {
+                let rs = JSON.parse(response);
+                let url;
+                url = rs.data.display_url;
+				$('[name="avatar"]').val(url);
+            });
+	}
 </script>
 <script src="{!! asset('js/get_quan_huyen_xa.js') !!}"></script>
+@if(SESSION('message'))
+<script>
+    Swal.fire({
+    position: 'top-center',
+    icon: 'success',
+    title: 'Cập nhật tài khoản thành công!',
+    showConfirmButton: false,
+    timer: 1500
+    })
+</script>
+@endif
 @endsection

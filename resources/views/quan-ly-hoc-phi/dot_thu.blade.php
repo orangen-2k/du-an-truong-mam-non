@@ -1,6 +1,8 @@
 @extends('layouts.main') @section('title', "Quản lý khoản thu")
 @section('style')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
+
 <style>
     .m-widget4__item {
         cursor: pointer;
@@ -40,7 +42,9 @@
     <!--Begin::Section-->
     <div class="row">
         <div class="col-xl-12">
-
+            <div id="preload" class="preload-container text-center" style="display: none">
+                <img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+              </div>
             <!--begin::Portlet-->
             <div class="m-portlet m-portlet--tab">
                 <div class="m-portlet__head">
@@ -78,12 +82,15 @@
 
                                         <!--begin::m-widget4-->
                                         <div class="m-widget4">
+                                            @if (count($dot_thu)>0)
+
                                             @foreach ($dot_thu as $key => $item)
                                             <a href="{{route('quan-ly-dot-thu-index',['id'=>$item->id])}}">
                                                 <div class="m-widget4__item p-2"
-                                                 @if ($key==0)
+                                                 {{-- @if ($key==0)
+                                                    style="background-color: #d9edda" @endif> --}}
+                                                    @if ($data_dot_thu->id==$item->id)
                                                     style="background-color: #d9edda" @endif>
-
                                                     <div class="m-widget4__img m-widget4__img--icon">
                                                         <i class="flaticon-event-calendar-symbol"></i>
                                                     </div>
@@ -96,8 +103,8 @@
 
                                                 </div>
                                             </a>
-                                            @endforeach
-
+                                            @endforeach                 
+                                            @endif
                                         </div>
 
                                         <!--end::Widget 9-->
@@ -115,7 +122,7 @@
                                         <div class="m-portlet__head-caption">
                                             <div class="m-portlet__head-title ">
                                                 <div class="m-portlet__head-text">
-                                                    Tháng 03/2020
+                                                    Tháng {{$data_dot_thu->thang_thu}}/{{$data_dot_thu->nam_thu}}
                                                 </div>
                                             </div>
                                         </div>
@@ -130,8 +137,8 @@
                                                     <div type="button" id="xem-chi-tiet" data-toggle="modal"
                                                         data-target="#thong_bao_theo_khoi"
                                                         class="btn btn-success ml-2 ">Gửi thông báo khối</div>
-                                                    <button type="button" class="btn btn-light  "><i
-                                                            class="flaticon-delete"></i></button>
+                                                    <button data-toggle="modal" data-target="#xoa_dot_thu" type="button" class="btn btn-light  ">
+                                                        <i  class="flaticon-delete"></i></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -311,8 +318,8 @@
                                                                     </td>
                                                                 </tr>
                                                                 @endforeach
-                                                                <tr>
-                                                                    <th class="ten_khoi" scope="row">Tổng Số</th>
+                                                                <tr class="bg-danger tfooter " style="font-weight: bold; color: white">
+                                                                    <td scope="row">Tổng Số</td>
                                                                     <td>{{number_format($tong_tien_toan_bo['tong_tien_phai_dong'])}}
                                                                     </td>
                                                                     <td>{{number_format($tong_tien_toan_bo['so_da_thu'])}}
@@ -442,7 +449,37 @@
 {{-- end modal tạo đợt mới --}}
 
 
+ <!-- The Modal xóa đợt thu -->
+ @if (count($dot_thu)>0)
+ <div class="modal fade" id="xoa_dot_thu">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Tháng {{$data_dot_thu->thang_thu}}/{{$data_dot_thu->nam_thu}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group m-form__group">
+                    <label for="exampleSelect1">Chọn đợt cần xóa</label>
+                <input type="hidden" name="thang_thu" id="thang_thu" value="{{$data_dot_thu->id}}">
+                    <select class="form-control m-input m-input--square"  id="dot_thu_can_xoa">
+                       @foreach ($data_dot_thu->ChiTietDotThuTien as $item)
+                            <option value="{{$item->id}}">{{$item->ten_dot_thu}}</option>
+                       @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button"  onclick="xoaDotThu()" class="btn btn-primary">Xóa đợt thu</button>
+            </div>
+        </div>
+    </div>
+  </div>
 
+@endif
 
 @endsection
 @section('script')
@@ -455,7 +492,9 @@
     const url_tong_tien_thu_theo_khoi = "{{route('get-tong-tien-thu-theo-khoi')}}";
     var url_chi_tiet_dot_thu_theo_khoi_fake = "{{route('get-chi-tiet-dot-thu',['id','khoi'])}}";
     var url_gui_thong_bao_theo_khoi = "{{route('gui-thong-bao-theo-khoi')}}";
+    var url_delete_dot_thu = "{{route('quan-ly-dot-thu-delete')}}";
 
+    
     
     $(document).ready( function () {
 
@@ -466,6 +505,7 @@
     };
 
     const lapDotThu = () =>{
+        $('#preload').css('display', 'block');
         let element_add = document.querySelectorAll('.checkbox')
             let danh_sach_khoan_thu_cua_dot =  []
             element_add.forEach(element => {
@@ -479,6 +519,7 @@
             'danh_sach_khoan_thu_cua_dot' : danh_sach_khoan_thu_cua_dot
         })
             .then(function (response) {
+                $('#preload').css('display', 'none');
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -486,7 +527,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 }).then(
-                    ()=> location.reload()
+                    ()=> location.href = "{{route('quan-ly-dot-thu-index',['id'=>0])}}"
                     )
             })
             .catch(function (error) {
@@ -516,8 +557,8 @@
                     `
                 });
                 html_data_show+=`
-                <tr>
-                        <th class="ten_khoi" scope="row">Tổng số</th>
+                <tr  class="bg-danger" style="font-weight: bold; color: white">
+                        <td scope="row">Tổng số</td>
                         <td>${response.data.tong_quat.tong_tien_phai_dong.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</td>
                         <td>${response.data.tong_quat.so_da_thu.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</td>
                         <td>${response.data.tong_quat.con_phai_thu.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</td>
@@ -528,8 +569,6 @@
                 $('.danh_sach_tien_theo_khoi').html(html_data_show)
                 var url_chi_tiet_dot_thu_theo_khoi = url_chi_tiet_dot_thu_theo_khoi_fake.replace('id',{{$id}}).replace('khoi',id);
                 $('#xem-chi-tiet').attr('href',url_chi_tiet_dot_thu_theo_khoi)
-                
-
             })
             .catch(function (error) {
                 console.log(error);
@@ -551,7 +590,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 }).then(
-                    ()=> location.reload()
+                    ()=> location.href = "{{route('quan-ly-dot-thu-index',['id'=>0])}}"
                     )
             })
             .catch(function (error) {
@@ -560,6 +599,42 @@
             .then(function () {
                 // always executed
             });  
+    };
+
+    const xoaDotThu = () =>{
+        Swal.fire({
+            title: 'Bạn có chắc chắn muốn xóa đợt thu này?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa !'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    axios.post(url_delete_dot_thu,{
+                    'id_chi_tiet_dot_thu' : $('#dot_thu_can_xoa').val(),
+                    'id_dot_thu' : $('#thang_thu').val(),
+                })
+                .then(function (response) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Xóa đợt thu thành công!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(
+                        ()=> location.href = "{{route('quan-ly-dot-thu-index',['id'=>0])}}"
+                        )
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });  
+                }
+              
+            })
     };
        
 </script>

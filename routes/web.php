@@ -26,14 +26,6 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/trang-ca-nhan/doi-mat-khau','AccountController@changePasswordForm')->name('doi-mat-khau');
     Route::post('/trang-ca-nhan/update-mat-khau','AccountController@changePassword')->name('update-mat-khau');
 
-    //Sua tk
-    Route::get('/account/edit-admin/{id}','AccountController@getEditAdmin')->name('edit-admin');
-    Route::post('/account/update-admin/{id}','AccountController@editAdmin')->name('update-admin');
-    Route::get('/account/edit-giao-vien/{id}','AccountController@getEditTeacher')->name('edit-giao-vien');
-    Route::post('/account/update-giao-vien/{id}','AccountController@editTeacher')->name('update-giao-vien');
-    Route::get('/account/edit-hoc-sinh/{id}','AccountController@getEditHocSinh')->name('edit-hoc-sinh');
-    Route::post('/account/update-hoc-sinh/{id}','AccountController@editHocSinh')->name('update-hoc-sinh');
-
 });
 Route::post('/get_quan_huyen_theo_thanh_pho', 'QuanHuyenController@getQuanHuyenByMaTp')->name('get_quan_huyen_theo_thanh_pho');
 Route::post('/get_xa_phuong_theo_thanh_pho', 'XaPhuongThiTranController@getXaPhuongThiTranByMaPh')->name('get_xa_phuong_theo_thi_tran');
@@ -100,7 +92,12 @@ Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
     Route::get('/edit/{id}', 'QuanLyDangKyNhapHocController@show')->name('edit-hs-dang-ky-nhap-hoc');
     Route::post('/cap-nhap-id-user', 'QuanLyDangKyNhapHocController@capNhapId')->name('cap-nhap-id-user-for-hs');
     Route::post('/edit', 'QuanLyDangKyNhapHocController@PheDuyet')->name('submit-edit-hs-dang-ky-nhap-hoc');
+    Route::post('/validation-edit-dang-ki-nhap-hoc', 'QuanLyDangKyNhapHocController@validation')->name('validation-edit-dang-ki-nhap-hoc');
+    Route::post('/remove-don-dang-ki', 'QuanLyDangKyNhapHocController@delete')->name('remove-don-dang-ki');
+    Route::get('/test-gui-sms', 'QuanLyDangKyNhapHocController@testAPI');
+
 });
+
 // thanhnv 9/16/2020
 
 Route::prefix('quan-ly-khoi')->group(function () {
@@ -216,6 +213,9 @@ Route::prefix('quan-ly-dot-thu')->group(function(){
     Route::get('/{id}', 'QuanLyDotThuController@index')->name('quan-ly-dot-thu-index');
     // Route::get('get-data-dot-thu', 'QuanLyDotThuController@getDataKhoanThu')->name('quan-ly-dot-thu-get-data');
     Route::post('tao_dot_thu', 'QuanLyDotThuController@store')->name('quan-ly-dot-thu-store');
+    Route::post('xoa_dot_thu', 'QuanLyDotThuController@delete')->name('quan-ly-dot-thu-delete');
+
+
     Route::post('get-tong-tien-thu-theo-khoi', 'QuanLyDotThuController@getKhoanThuTheoKhoi')->name('get-tong-tien-thu-theo-khoi');
     Route::get('chi_tiet_dot_thu/{id}/{khoi}', 'QuanLyDotThuController@chiTietDotThu')->name('get-chi-tiet-dot-thu');
     Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyDotThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');

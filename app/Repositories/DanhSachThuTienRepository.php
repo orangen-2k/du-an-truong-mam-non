@@ -98,4 +98,19 @@ class DanhSachThuTienRepository extends BaseModelRepository
                 ]);
         }
     }
+
+    public function getIdDanhSachThuTien($id_dot)
+    {
+        return  $this->model->where('id_dot_thu_tien',$id_dot)->select('id')->get();
+    }
+
+    public function deleteTheoIdDot($id_dot)
+    {
+        return  $this->model->where('id_dot_thu_tien',$id_dot)->delete();
+    }
+
+    public function deleteDanhSachThuTien($danh_sach)
+    {
+        return  $this->model->whereIn('id_danh_sach_thu_tien',$danh_sach)->delete();
+    }
 }

@@ -143,7 +143,6 @@ class QuanLyDotThuController extends Controller
             }
             $danh_sach_thu_tien_theo_khoi = $nam_hoc_moi->Khoi;
         }
-
         return view('quan-ly-hoc-phi.dot_thu', compact('khoan_thu', 'thang_trong_nam', 'dot_thu', 'nam_hoc_moi', 'data_dot_thu', 'danh_sach_thu_tien_theo_khoi', 'id', 'tong_tien_toan_bo'));
     }
 
@@ -232,7 +231,7 @@ class QuanLyDotThuController extends Controller
 
             $hoc_sinh = [];
             foreach ($data_lop->all() as $key => $value) {
-                array_push($hoc_sinh, $value->HocSinh()->select('id', 'doi_tuong_chinh_sach_id', 'lop_id')->get());
+                array_push($hoc_sinh, $value->HocSinh()->select('id', 'doi_tuong_chinh_sach', 'lop_id')->get());
             }
             $collection = collect($hoc_sinh);
             $data_hoc_sinh = $collection->collapse();
@@ -245,7 +244,7 @@ class QuanLyDotThuController extends Controller
                 $max_mien_giam = 0;
                 if ($hoc_sinh->doi_tuong_chinh_sach== 1) {
                     $max_mien_giam = $this->ChinhSachCuaHocSinhRepository->maxMienGiam($hoc_sinh->id);
-                }
+                }   
                 $thong_tin_dong_tien = [];
                 $this->danh_sach_chi_tiet_khoan_thu = [];
                 // tinh tiền ăn
@@ -427,12 +426,20 @@ class QuanLyDotThuController extends Controller
 
     public function guiThongBaoTheoKhoi(Request $request)
     {
+
         $hoc_sinh_theo_khoi_dot = $this->DanhSachThuTienRepository->danhSachHocSinhKhoiDot($request->dot_thu, $request->id_khoi);
         // dd($hoc_sinh_theo_khoi_dot);
         $thong_tin_dot = $this->QuanLyChiTietDotThuRepository->find($request->dot_thu);
         // dd($thong_tin_dot);
+        if($request->trang_thai_thong_bao==1){
+            $title_thong_bao = 'Thông báo đóng tiền học ' . $thong_tin_dot->DotThuTien->thang_thu . '/' . $thong_tin_dot->DotThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu;
+        }else{
+            $title_thong_bao = 'Hủy thông báo đóng tiền học ' . $thong_tin_dot->DotThuTien->thang_thu . '/' . $thong_tin_dot->DotThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu;
+            
+        }
+     
         $content = [
-            "title"   => 'Thông báo đóng tiền học ' . $thong_tin_dot->DotThuTien->thang_thu . '/' . $thong_tin_dot->DotThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu,
+            "title"   => $title_thong_bao,
             "content" => 'Đóng tiền học',
             "auth_id" => Auth::id(),
             "type"    => 1,
@@ -440,8 +447,8 @@ class QuanLyDotThuController extends Controller
         ];
 
         $dataCreate = [
-            'title'     => 'Thông báo đóng tiền học ' . $thong_tin_dot->DotThuTien->thang_thu . '/' . $thong_tin_dot->DotThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu,
-            'content'   => 'Đóng tiền',
+            'title'     => $title_thong_bao,
+            'content'   => 'Đóng tiền học',
             'auth_id'   => Auth::id(),
             'type'      => config('common.noi_dung_thong_bao_type.hoc_sinh')
         ];
@@ -563,5 +570,25 @@ class QuanLyDotThuController extends Controller
             // dd(1);
             jobThongBaoToiHocSinh::dispatch($list_id_hoc_sinh_save_noti, $list_id_hoc_sinh_save_thong_bao, $list_device, $content, $this->NotificationRepository);
         });
+    }
+
+    public function delete(Request $request)
+    {
+        $id_chi_tiet_dot_thu = $request->id_chi_tiet_dot_thu;
+        $id_dot_thu = $request->id_dot_thu;
+        $so_luong_dot = $this->QuanLyDotThuRepository->find($id_dot_thu)->ChiTietDotThuTien()->count();
+       
+        DB::transaction(function () use ($id_chi_tiet_dot_thu,$id_dot_thu,$so_luong_dot) {
+            if($so_luong_dot == 1){
+                $this->QuanLyDotThuRepository->delete($id_dot_thu);
+            };
+            $this->QuanLyChiTietDotThuRepository->delete($id_chi_tiet_dot_thu);
+            $id_danh_sach_thu_tien = $this->DanhSachThuTienRepository->getIdDanhSachThuTien($id_chi_tiet_dot_thu);
+            $this->DanhSachThuTienRepository->deleteTheoIdDot($id_chi_tiet_dot_thu);
+            ChiTietDongTienHocSinh::whereIn('id_danh_sach_thu_tien',$id_danh_sach_thu_tien->toArray())->delete();
+        });
+
+
+        
     }
 }
