@@ -7,6 +7,7 @@ use App\User;
 use App\Models\ThoiHoc;
 use App\Models\Lop;
 use App\Models\LichSuHoc;
+use App\Models\DiemDanhDen;
 use App\Models\DonNghiHoc;
 use App\Models\DonDanThuoc;
 
@@ -71,6 +72,11 @@ class HocSinh extends Model
         return $this->hasMany(LichSuHoc::class,'hoc_sinh_id','id');
     }
 
+    public function DiemDanhDen()
+    {
+        return $this->hasMany(DiemDanhDen::class,'hoc_sinh_id','id');
+    }
+    
     public function DonNghiHoc()
     {
         return $this->hasMany(DonNghiHoc::class,'hoc_sinh_id','id');
