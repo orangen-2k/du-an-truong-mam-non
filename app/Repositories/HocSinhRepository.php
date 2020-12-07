@@ -86,9 +86,8 @@ class HocSinhRepository extends BaseModelRepository
 
 
     public function getDataHocSinhChuaCoLop($type,$nam_hoc){
-   
-    // dd($nam_hoc->start_date);
-        return  $this->model->selectRaw('(YEAR(?) - YEAR(ngay_sinh)) as age',[$nam_hoc->start_date])->select('*')->where('lop_id',0)->where('type',$type)->get();
+
+        return  $this->model->select('*')->selectRaw('(YEAR(?) - YEAR(ngay_sinh)) as age',[$nam_hoc->start_date])->where('lop_id',0)->where('type',$type)->get();
     }
 
     public function xepLopTuDong($id_lop,$do_tuoi,$gioi_tinh,$sl_hs,$nam_hoc)
