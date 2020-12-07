@@ -132,7 +132,7 @@
                     <tr>
                         <th scope="row">1</th>
                         <td>{{$hs->ten}}</td>
-                        <td><img width="100px"  src="{!! asset('storage'.$hs->avatar) !!}"  alt=""></td>
+                        <td><img width="100px" height="100px"  src="{{$hs->avatar}}"  alt=""></td>
                         <td>{{$hs->ngay_sinh}}</td>
                         <td>{{$hs->dien_thoai_dang_ki}}</td>
                         <td>{{$hs->ten_cha}}</td>

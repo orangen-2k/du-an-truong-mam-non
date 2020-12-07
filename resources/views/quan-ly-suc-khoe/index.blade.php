@@ -252,13 +252,13 @@
                     </button>
               </div>
               
-            <form method="POST" action="{{route('quan-ly-suc-khoe-them-dot-kham')}}">
+            <form method="POST" id="FormThemDotKhamSucKhoe" action="#">
               @csrf
               <div class="modal-body">
                 <div class="form-group m-form__group row">
                   <label for="example-date-input" class="col-2 col-form-label">Tên đợt</label>
                   <div class="col-10">
-                    <input class="form-control m-input" name="ten_dot" required type="text" placeholder="Điền đợt khám sức khỏe">
+                    <input class="form-control m-input name-field" name="ten_dot" required type="text" placeholder="Điền đợt khám sức khỏe">
                   </div>
                 </div>
 
@@ -273,7 +273,7 @@
             <button type="button" class="btn m-btn--square  btn-danger"
               data-dismiss="modal" onclick="kiemtrasuckhoe()" data-toggle="modal"
               data-target="#modal-kiem-tra">Kiểm tra</button>
-            <button type="submit" class="btn m-btn--square  btn-primary">Thêm mới</button>
+            <button type="submit" id="add_sk" class="btn m-btn--square  btn-primary">Thêm mới</button>
           </div>
         </form>
         </div>
@@ -738,7 +738,75 @@ Toast.fire({
      })
       
     }
-    
+
+    //thêm sức khỏe
+    var url_ThemDotKhamSucKhoe = "{{route('quan-ly-suc-khoe-them-dot-kham')}}"
+    $(document).ready(function(){
+            $('#add_sk').on('click', function(){
+              
+                Swal.fire({
+                    title: 'Có chắc chắn thêm mới đợt sức khỏe ?',
+                    text: "Bạn sẽ không thể sửa hay xóa lại đợt sức khỏe bạn vừa thêm mới",
+                    footer: '<i style="color:red">Các lớp chưa được thêm từ đợt trước sẽ tự động là 0</i>',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: "Đóng"
+                }).then((result) => {
+                    if (result.value) {
+                      $('#preload').css('display', 'block');
+                      var formElement = document.getElementById('FormThemDotKhamSucKhoe')
+                      // var request = new XMLHttpRequest();
+                      // request.open("POST", url_ThemDotKhamSucKhoe);
+                      // request.send(new FormData(formElement))
+                      // request.onload = function () {
+                      // var data = request.response[0];
+                      // };
+                      var formData = new FormData(formElement)
+                      axios.post(url_ThemDotKhamSucKhoe, formData)
+                      .then(function(response){
+                        
+
+                        //Lỗi
+                        $('#preload').css('display', 'none');
+                        if(response.data == "Lỗi"){
+                          
+                          Swal.fire({
+                          icon: 'error',
+                          title: 'Thất bại',
+                          text: 'Thời gian đợt phải nằm trong phạm vi thời gian của năm học hiện tại'
+                          })
+                          
+                        }
+                        //Hoàn thành
+                        if(response.data == "Hoàn Thành"){
+                            const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                              toast.addEventListener('mouseenter', Swal.stopTimer)
+                              toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                          })
+                          Toast.fire({
+                            icon: 'success',
+                            title: 'Thêm đợt mới thành công'
+                          })
+                          location.reload()
+                        }
+
+                      })
+                      
+                    }
+                })
+                return false;
+            });
+        });
 </script>
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>

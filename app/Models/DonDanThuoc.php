@@ -33,4 +33,9 @@ class DonDanThuoc extends Model
     {
         return $this->belongsTo(Lop::class, 'lop_id','id');
     }
+    public function PhuHuynh()
+    {
+        return $this->belongsTo(PhuHuynh::class,'user_id','id');
+    }
+
 }
