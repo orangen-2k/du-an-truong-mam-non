@@ -89,7 +89,7 @@
                                     <td><img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
                                             height="75px" width="60px" alt=""></td>
                                     @else
-                                    <td><img src="{!! asset('storage/'.$item->anh) !!}" height="75px" width="60px" alt=""></td>
+                                    <td><img src="{{$item->anh}}" height="75px" width="60px" alt=""></td>
                                     @endif
                                     @if($item->ten_khoi == "")
                                     <td><span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">không có</span></td>
