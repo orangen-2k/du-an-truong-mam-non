@@ -3,7 +3,8 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 <style>
     thead th,td {
-        text-align: center
+        text-align: center;
+        font-size: 12px
     }
      thead tr th{
         font-weight: bold !important
@@ -78,10 +79,13 @@
                                                     @foreach ($khoi_thu->LopHoc as $chi_tiet_lop)
                                                     <div onclick="getThongTinDongTienLop({{$item->id}},{{$chi_tiet_lop->id}})"
                                                         class="m-list-search__result-item">
-                                                        <span class="m-list-search__result-item-icon"><i
-                                                                class="flaticon-interface-3 m--font-warning"></i></span>
-                                                        <span
-                                                            class="m-list-search__result-item-text">{{$chi_tiet_lop->ten_lop}}</span>
+                                                        <span class="m-list-search__result-item-icon">
+                                                            <label class="m-radio m-radio--state-success">
+                                                                <input type="radio" name="example_2" value="1">{{$chi_tiet_lop->ten_lop}}
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
+                                                     
                                                     </div>
                                                     @endforeach
 
@@ -117,7 +121,7 @@
                                     <div class="table-responsive">
 
                                    
-                                    <table style="width: 1200px;" class="table table-striped m-table m-table--head-bg-success table-hover m-table--border-success">
+                                    <table style="width: 1300px;" class="table table-bordered table-striped">
                                         <thead class="thong_tin_tieu_de">
                                            
                                         </thead>

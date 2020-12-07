@@ -180,4 +180,8 @@ class HocSinhRepository extends BaseModelRepository
         ->where('hoc_sinh.ngay_vao_truong', '>=', $start_date);
         return $query->get();
     }
+
+    public function ThayDoiChinhSachHocSinh($id, $type){
+        return $this->model->where('hoc_sinh.id', $id)->update(['doi_tuong_chinh_sach' => $type]);
+    }
 }
