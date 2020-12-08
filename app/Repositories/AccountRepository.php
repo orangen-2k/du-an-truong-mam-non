@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Jobs\jobSmS;
 
 class AccountRepository extends BaseModelRepository
 {
@@ -77,12 +78,13 @@ class AccountRepository extends BaseModelRepository
         $token = Str::random(60).md5(time());
         $now  = Carbon::now();
         $time_code = $now->addMinutes(1440);
+        $password =  Str::random(10);
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'username' => $data['email'],
             'avatar' => $data['anh'],
-            'password' => Hash::make($data['email']),
+            'password' => Hash::make($password),
             'token' => $token,
             'role' => $data['role'],
             'time_code' => $time_code,
@@ -98,6 +100,13 @@ class AccountRepository extends BaseModelRepository
         Mail::send('auth.email_dang_ky', $send_data, function($message) use ($email){
 	        $message->to($email, 'Reset password')->subject('New Account Susses!');
         });
+
+        $params = [
+            'number' => $data['phone_number'],
+            'email' => $data['email'],
+            'password' => $password
+        ];
+        jobSmS::dispatch($params);
 
         return $user;
     }
