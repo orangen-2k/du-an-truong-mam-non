@@ -10,6 +10,9 @@ use \App\Repositories\XaPhuongThiTranRepository;
 use \App\Repositories\DangKiNhapHocRepository;
 use \App\Repositories\HocSinhRepository;
 use App\Http\Requests\DangKiNhapHoc\CreateNhapHoc;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
+
 use Storage;
 use Mail;
 
@@ -69,20 +72,21 @@ class DangKiNhapHocController extends Controller
 
     public function store(CreateNhapHoc $request){
         $data = $request->all();
-
         $date_ngay_sinh = $request->ngay_sinh;  
         $data['ngay_sinh'] = date("Y-m-d", strtotime($date_ngay_sinh));  
         unset($data['_token']);
+        unset($data['check_avatar']);
         $data['ma_xac_nhan'] = rand(10000, 90000);
 
-        $data['doi_tuong_chinh_sach_id'] = json_encode($data['doi_tuong_chinh_sach_id']);
-        $emailNguoiGui = $data['email_dang_ky'];
-        $data_email = array('name'=> 'Hhihi','content'=> 'Mã xác thực của bạn là : '.$data['ma_xac_nhan'].', sau 1 phút mã sẽ hết hiệu lực');
-        Mail::send('mail', $data_email, function($message) use ($emailNguoiGui) {
-            $message->to($emailNguoiGui, 'Tutorials Point')->subject('Nhận mã xác nhận đăng ký');
-            $message->from('giacmonghoanmyy@gmail.com','KidsGraden');
-        });
+        if(isset($data['doi_tuong_chinh_sach_id'])){
+            $data['doi_tuong_chinh_sach_id'] = json_encode($data['doi_tuong_chinh_sach_id']);
+        }else{
+            $data['doi_tuong_chinh_sach_id']=0;
+        }
 
+        // dd($data['dien_thoai_dang_ki']);
+        $ma_don =0;
+        
         $id_create = $this->DangKiNhapHoc->createHocSinhDangKy($data);
         $ma_don_1 = $id_create.generateRandomString();
         
@@ -91,13 +95,42 @@ class DangKiNhapHocController extends Controller
                 $ma_don =  $ma_don_1;
                 break;
             }else{
-            $ma_don_1 = $id_create.generateRandomString();
+                $ma_don_1 = $id_create.generateRandomString();
             }
         }
         $this->DangKiNhapHoc->update($id_create,['ma_don' => $ma_don ]);
+        // // gửi email
+        $emailNguoiGui = $data['email_dang_ky'];
+        $data_email = array('name'=> 'Hhihi','content'=> 'Mã đơn'. $ma_don  .' có mã xác thực của bạn là : '.$data['ma_xac_nhan'].', sau 1 phút mã sẽ hết hiệu lực');
+        Mail::send('mail', $data_email, function($message) use ($emailNguoiGui) {
+            $message->to($emailNguoiGui, 'Tutorials Point')->subject('Nhận mã xác nhận đăng ký');
+            $message->from('giacmonghoanmyy@gmail.com','KidsGraden');
+        });
 
+
+        // gửi số
+        $HostDomain = 'https://smsgateway.rbsoft.org/services/send.php?';
+        $key        = 'fcb73f2e5223742deac6eff10997c8a58755e956';
+        $devices    = '2063|0';
+        $number     = $data['dien_thoai_dang_ki'];
+        $Api_SMS    = $HostDomain .'key=' . $key .'&number='.$number.'&message=' 
+        .$data['ma_xac_nhan'] . '+l%C3%A0+m%C3%A3+x%C3%A1c+nh%E1%BA%ADn+c%E1%BB%A7a+b%E1%BA%A1n&devices=' . $devices;
+         $response   = Http::get($Api_SMS);
+        // dd($response['success']);
         return $id_create;
+        
     }
+
+
+    // public function testApi(){
+    //     $username = 'ph0843';
+    //     $HostDomain = 'https://smsgateway.rbsoft.org/services/send.php?';
+    //     $key        = 'fcb73f2e5223742deac6eff10997c8a58755e956';
+    //     $devices    = '2063|0';
+    //     $Api_SMS    = $HostDomain .'key=' . $key .'&number=0376802022'.'&message= Thông tin tài khoản cool kid : Tài khoản: '.$username.' Mật khẩu: 12345'
+    //     .'&devices=' . $devices;
+    //      $response   = Http::get($Api_SMS);
+    // }
 
     public function checkMaDon($madon){
         $check = $this->DangKiNhapHoc->getOneHocSinhDangKyByMaDon($madon);
@@ -120,7 +153,8 @@ class DangKiNhapHocController extends Controller
                 $message->to($emailNguoiGui, 'Tutorials Point')->subject('Đăng ký nhập học online Thành Công !');
                 $message->from('giacmonghoanmyy@gmail.com','KidsGraden');
             });
-                return  $this->DangKiNhapHoc->updateHocSinhDangKy($request->id_form_dang_ky,['status' => 2]);
+            $this->DangKiNhapHoc->updateHocSinhDangKy($request->id_form_dang_ky,['status' => 2]);
+            return  $data->ma_don;
         }else{
             return 'no';
         }

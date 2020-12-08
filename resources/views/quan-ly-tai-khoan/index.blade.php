@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Quản tài khoản")
+@section('title', "Quản lý tài khoản")
 @section('style')
 <style>
     @media (min-width: 768px) { 

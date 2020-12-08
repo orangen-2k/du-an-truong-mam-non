@@ -40,13 +40,15 @@ class HocSinh extends Seeder
         ->select('lop_hoc.*', 'khoi.nam_hoc_id')
         ->where('khoi.nam_hoc_id', $nam_hoc_moi->id)->get();
         
-        $tuoi = 18;
+        $tuoi = 19;
         $length = 5;
+        $ngay_vao_truong = 21;
         foreach ($lop_hoc_moi as $key) {
             
             if($key->type == 1){
                 $length = $length + 5;
                 $tuoi = $tuoi - 1;
+                $ngay_vao_truong = $ngay_vao_truong - 1;
             }
             // $ten_hs = $json_ten[$rand]->full_name;  
             // $username = CovertVn($ten_hs);
@@ -75,7 +77,7 @@ class HocSinh extends Seeder
                     'ten_thuong_goi' => $json_ten[$rand]->first_name,
                     'ngay_sinh' => '20'.$tuoi.'-0'.rand(1,9).'-'.rand(10,28),
                     'dan_toc' => 'Kinh',
-                    'ngay_vao_truong' => '20'.$tuoi.'-03-01',
+                    'ngay_vao_truong' => '20'.$ngay_vao_truong.'-0'.rand(9,12).'-09',
                     'noi_sinh' => 'Hà Nội',
                     'ten_cha' => $json_ten[rand(1,100)]->full_name,
                     'ngay_sinh_cha' => '1982-05-'.rand(10,30),

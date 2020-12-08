@@ -96,9 +96,19 @@ return [
     ],
 
     'pham_vi_thu' => [
-        'toan_truong'=> 1,
-        'khoi'=> 2,
-        'lop'=> 3
+        'toan_truong',
+        'khoi',
+        'lop'
+    ],
+    'don_vi_tinh' => [
+        'Tháng',
+        'Ngày',
+        'Buổi'
+    ],
+
+    'khoan_thu_co_dinh' =>[
+        'Tiền ăn',
+        'Tiền học'
     ]
 ]
 ?>

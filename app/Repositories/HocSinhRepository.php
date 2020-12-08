@@ -86,9 +86,8 @@ class HocSinhRepository extends BaseModelRepository
 
 
     public function getDataHocSinhChuaCoLop($type,$nam_hoc){
-   
-    // dd($nam_hoc->start_date);
-        return  $this->model->selectRaw('(YEAR(?) - YEAR(ngay_sinh)) as age',[$nam_hoc->start_date])->select('*')->where('lop_id',0)->where('type',$type)->get();
+
+        return  $this->model->select('*')->selectRaw('(YEAR(?) - YEAR(ngay_sinh)) as age',[$nam_hoc->start_date])->where('lop_id',0)->where('type',$type)->get();
     }
 
     public function xepLopTuDong($id_lop,$do_tuoi,$gioi_tinh,$sl_hs,$nam_hoc)
@@ -112,7 +111,7 @@ class HocSinhRepository extends BaseModelRepository
         // }
         // dd(Carbon::createFromFormat('Y-m-d H:i:s', $$nam_hoc->start_date)->year);
        
-        return $this->models
+        return $this->model
         ->whereRaw('(YEAR(?) - YEAR(ngay_sinh))= ? ',[$nam_hoc->start_date,$tuoi])
         ->where('gioi_tinh',$gioi_tinh)
         ->where("lop_id",0)
@@ -179,5 +178,9 @@ class HocSinhRepository extends BaseModelRepository
         ->where('hoc_sinh.ngay_vao_truong', '<=', $end_date)
         ->where('hoc_sinh.ngay_vao_truong', '>=', $start_date);
         return $query->get();
+    }
+
+    public function ThayDoiChinhSachHocSinh($id, $type){
+        return $this->model->where('hoc_sinh.id', $id)->update(['doi_tuong_chinh_sach' => $type]);
     }
 }

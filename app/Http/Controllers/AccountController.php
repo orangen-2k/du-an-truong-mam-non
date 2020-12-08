@@ -6,6 +6,7 @@ use App\Repositories\AccountRepository;
 use App\User;
 use Auth;
 use Hash;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\TaiKhoan\AccountAdminRequest;
@@ -129,7 +130,7 @@ class AccountController extends Controller
   {
     if (!(Hash::check($request->get('current_password'), Auth::user()->password))) {
         return redirect()->back()
-            ->with("error","Mật khẩu cũ bạn vừa nhập không chính xác!Vui lòng kiểm tra lại."); 
+            ->with("error","Mật khẩu cũ không chính xác!Vui lòng kiểm tra lại."); 
     }
 
     if(strcmp($request->get('current_password'), $request->get('new_password')) == 0){
@@ -169,28 +170,14 @@ class AccountController extends Controller
          $user->phone_number = $request->phone_number;
          $user->name   = $request->name;
          $user->email   = $request->email;        
-         $get_image = $request->file('avatar');
-         
-         $file = $request->file('avatar');
-
-         if ($file) {
-             $get_name_image = $file->getClientOriginalName();
-             $name_image = current(explode('.',$get_name_image));
-             $new_image = $name_image.rand(0,99).'.'.$file->getClientOriginalExtension();
-             $file->move('upload',$new_image);
-             $user->avatar = $new_image;
-         }else{
-             $user->avatar = '';
-         }
-         
+         $user->avatar  = $request->avatar;
          $user->update();
          return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
   }
 //sửa tk giáo viên
   public function getEditTeacher($id)
   { 
-      // $user= User::find($id);
-      $giao_vien=GiaoVien::find($id);
+      $giao_vien=User::find($id)->GiaoVien;
       $thanh_pho = $this->TinhThanhPhoRepository->getAllThanhPho();
       $maqh_gv_hktt = $this->QuanHuyenRepository->getAllQuanHuyen();
       $xaid_gv_hktt = $this->XaPhuongThiTranRepository->getAllXaPhuongThiTran();
@@ -226,33 +213,20 @@ class AccountController extends Controller
             $giao_vien->noi_o_hien_tai_maqh = $request->noi_o_hien_tai_maqh;
             $giao_vien->noi_o_hien_tai_xaid = $request->noi_o_hien_tai_xaid;
             $giao_vien->noi_o_hien_tai_so_nha = $request->noi_o_hien_tai_so_nha;
-    // $params = $request->all();
-    
-         $get_image = $request->file('anh');
-         if ($get_image) {
-             $get_name_image = $get_image->getClientOriginalName();
-             $name_image = current(explode('.',$get_name_image));
-             $new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-             $get_image->move('upload',$new_image);
-             $giao_vien->anh = $new_image;
-         }else{
-             $giao_vien->anh = '';
-         }
-  
+            $giao_vien->anh =$request->anh;
+   
+
          $giao_vien->update();
-         //dd($giao_vien);
           return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
   }
   public function getEditHocSinh($id)
   { 
-      // $user= User::find($id);
       $hoc_sinh=HocSinh::find($id);
       $thanh_pho = $this->TinhThanhPhoRepository->getAllThanhPho();
       $maqh_gv_hktt = $this->QuanHuyenRepository->getAllQuanHuyen();
       $xaid_gv_hktt = $this->XaPhuongThiTranRepository->getAllXaPhuongThiTran();
       $maqh_gv_noht = $this->QuanHuyenRepository->getQuanHuyenByMaTp($hoc_sinh->noi_o_hien_tai_matp);
       $xaid_gv_noht = $this->XaPhuongThiTranRepository->getXaPhuongThiTranByMaPh($hoc_sinh->noi_o_hien_tai_maqh);
-
 
     return view('quan-ly-tai-khoan.edit-hoc-sinh',compact('hoc_sinh' ,
                                                             'thanh_pho',
@@ -263,50 +237,37 @@ class AccountController extends Controller
   }
   public function editHocSinh(AccountStudentRequest $request,$id)
   {
-         $hoc_sinh=HocSinh::find($id);
-            $hoc_sinh->ma_hoc_sinh = $request->ma_hoc_sinh;
-            $hoc_sinh->ten = $request->ten;
-            $hoc_sinh->gioi_tinh = $request->gioi_tinh;
-            $hoc_sinh->ten_thuong_goi = $request->ten_thuong_goi;
-            $hoc_sinh->noi_sinh = $request->noi_sinh;
-            $hoc_sinh->email_dang_ky = $request->email_dang_ky;
-            $hoc_sinh->dien_thoai_dang_ki = $request->dien_thoai_dang_ki;
-            $hoc_sinh->ngay_sinh = $request->ngay_sinh;
-            $hoc_sinh->ngay_vao_truong = $request->ngay_vao_truong;
-            $hoc_sinh->doi_tuong_chinh_sach_id = $request->doi_tuong_chinh_sach_id;
-            $hoc_sinh->hoc_sinh_khuyet_tat = $request->hoc_sinh_khuyet_tat;
-            $hoc_sinh->ten_cha = $request->ten_cha;
-            $hoc_sinh->ngay_sinh_cha = $request->ngay_sinh_cha;
-            $hoc_sinh->cmtnd_cha = $request->cmtnd_cha;
-            $hoc_sinh->dien_thoai_cha = $request->dien_thoai_cha;
-            $hoc_sinh->ten_me = $request->ten_me;
-            $hoc_sinh->ngay_sinh_me = $request->ngay_sinh_me;
-            $hoc_sinh->cmtnd_me = $request->cmtnd_me;
-            $hoc_sinh->dien_thoai_me = $request->dien_thoai_me;
-            $hoc_sinh->ho_khau_thuong_tru_matp = $request->ho_khau_thuong_tru_matp;
-            $hoc_sinh->ho_khau_thuong_tru_maqh = $request->ho_khau_thuong_tru_maqh;
-            $hoc_sinh->ho_khau_thuong_tru_xaid = $request->ho_khau_thuong_tru_xaid;
-            $hoc_sinh->ho_khau_thuong_tru_so_nha = $request->ho_khau_thuong_tru_so_nha;
-            $hoc_sinh->noi_o_hien_tai_matp = $request->noi_o_hien_tai_matp;
-            $hoc_sinh->noi_o_hien_tai_maqh = $request->noi_o_hien_tai_maqh;
-            $hoc_sinh->noi_o_hien_tai_xaid = $request->noi_o_hien_tai_xaid;
-            $hoc_sinh->noi_o_hien_tai_so_nha = $request->noi_o_hien_tai_so_nha;
-    // $params = $request->all();
-    
-         $get_image = $request->file('avatar');
-         if ($get_image) {
-             $get_name_image = $get_image->getClientOriginalName();
-             $name_image = current(explode('.',$get_name_image));
-             $new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
-             $get_image->move('upload/',$new_image);
-             $hoc_sinh->avatar = $new_image;
-         }else{
-             $hoc_sinh->avatar = '';
-         }
-  
-         $hoc_sinh->update();
-        // dd($hoc_sinh);
-          return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
+        $hoc_sinh=HocSinh::find($id);
+        $hoc_sinh->ten = $request->ten;
+        $hoc_sinh->gioi_tinh = $request->gioi_tinh;
+        $hoc_sinh->ten_thuong_goi = $request->ten_thuong_goi;
+        $hoc_sinh->noi_sinh = $request->noi_sinh;
+        $hoc_sinh->email_dang_ky = $request->email_dang_ky;
+        $hoc_sinh->dien_thoai_dang_ki = $request->dien_thoai_dang_ki;
+        $hoc_sinh->ngay_sinh = $request->ngay_sinh;
+        $hoc_sinh->ngay_vao_truong = $request->ngay_vao_truong;
+        $hoc_sinh->doi_tuong_chinh_sach_id = $request->doi_tuong_chinh_sach_id;
+        $hoc_sinh->hoc_sinh_khuyet_tat = $request->hoc_sinh_khuyet_tat;
+        $hoc_sinh->ten_cha = $request->ten_cha;
+        $hoc_sinh->ngay_sinh_cha = $request->ngay_sinh_cha;
+        $hoc_sinh->cmtnd_cha = $request->cmtnd_cha;
+        $hoc_sinh->dien_thoai_cha = $request->dien_thoai_cha;
+        $hoc_sinh->ten_me = $request->ten_me;
+        $hoc_sinh->ngay_sinh_me = $request->ngay_sinh_me;
+        $hoc_sinh->cmtnd_me = $request->cmtnd_me;
+        $hoc_sinh->dien_thoai_me = $request->dien_thoai_me;
+        $hoc_sinh->ho_khau_thuong_tru_matp = $request->ho_khau_thuong_tru_matp;
+        $hoc_sinh->ho_khau_thuong_tru_maqh = $request->ho_khau_thuong_tru_maqh;
+        $hoc_sinh->ho_khau_thuong_tru_xaid = $request->ho_khau_thuong_tru_xaid;
+        $hoc_sinh->ho_khau_thuong_tru_so_nha = $request->ho_khau_thuong_tru_so_nha;
+        $hoc_sinh->noi_o_hien_tai_matp = $request->noi_o_hien_tai_matp;
+        $hoc_sinh->noi_o_hien_tai_maqh = $request->noi_o_hien_tai_maqh;
+        $hoc_sinh->noi_o_hien_tai_xaid = $request->noi_o_hien_tai_xaid;
+        $hoc_sinh->noi_o_hien_tai_so_nha = $request->noi_o_hien_tai_so_nha;
+        $hoc_sinh->avatar = $request->avatar;
+        $hoc_sinh->update();
+
+        return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
   }
     public function gopTaiKhoan(Request $request){
         $array_id_tk = $request->array_account;
@@ -325,5 +286,9 @@ class AccountController extends Controller
             }
         }
         return 'ok';
+    }
+    public function listHocSinh($id){
+        $data=User::find($id)->HocSinh;
+        return view('quan-ly-tai-khoan.ds-hoc-sinh-gop-tk',compact('data'));
     }
 }
