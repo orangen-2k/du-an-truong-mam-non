@@ -25,11 +25,6 @@ class QuanLyChiTietDotThuRepository extends BaseModelRepository {
         $this->model->destroy($array);
     }
 
-    // public function kiemTraTonTaiDotThu($year , $month)
-    // {
-    //    return $this->model->where('nam_thu',$year)->where('thang_thu',$month)->first();
-    // }
-
 
 
     
