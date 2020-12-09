@@ -178,3 +178,8 @@ Route::prefix('quan-ly-suc-khoe')->group(function(){
     Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
     Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
 });
+
+Route::prefix('quan-ly-hoc-phi')->group(function(){
+    Route::get('/','QuanLyHocPhiController@index')->name('quan-ly-hoc-phi-index');
+    
+});
