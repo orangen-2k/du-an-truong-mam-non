@@ -89,5 +89,19 @@ class SucKhoeRepository extends BaseRepository {
 
     public function InsertSucKhoeHocSinh($array){
         $this->table->insert($array);
-    }    
+    }
+    
+    public function GetALLDotKhamSK(){
+        $query = DB::table('dot_kham_suc_khoe')->get();
+        return $query;
+    }
+
+    public function getAllSucKhoeHocSinhTheoDot($dot_id){
+        $query = $this->table->where('dot_id', $dot_id)->get();
+        return $query;
+    }
+
+    public function XoaDotSucKhoe($dot_id){
+        return DB::table('dot_kham_suc_khoe')->where('id', $dot_id)->delete();
+    }
 }
