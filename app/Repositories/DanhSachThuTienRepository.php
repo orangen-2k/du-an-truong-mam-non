@@ -56,7 +56,7 @@ class DanhSachThuTienRepository extends BaseModelRepository
     public function danhSachHocSinhKhoiDot($id_dot_thu_tien, $khoi_id)
     {
 
-        return $this->model->where('id_dot_thu_tien', $id_dot_thu_tien)->where('khoi_id', $khoi_id)->get();
+        return $this->model->where('id_dot_thu_tien', $id_dot_thu_tien)->where('khoi_id', $khoi_id)->where('trang_thai', 0)->get();
     }
 
     public function updateThongBaoHocSinhKhoiDot($request)
@@ -73,9 +73,9 @@ class DanhSachThuTienRepository extends BaseModelRepository
     public function getDanhSachHocSinhtThongBaoTheoLop($danhsach, $lop_id, $dot_id)
     {
         if ($danhsach[0] == 0) {
-            return $this->model->where('id_dot_thu_tien', $dot_id)->where('lop_id', $lop_id)->get();
+            return $this->model->where('id_dot_thu_tien', $dot_id)->where('lop_id', $lop_id)->where('trang_thai', 0)->get();
         } else {
-            return $this->model->where('id_dot_thu_tien', $dot_id)->whereIn('id_hoc_sinh', $danhsach)->get();
+            return $this->model->where('id_dot_thu_tien', $dot_id)->whereIn('id_hoc_sinh', $danhsach)->where('trang_thai', 0)->get();
         }
     }
 
@@ -112,5 +112,25 @@ class DanhSachThuTienRepository extends BaseModelRepository
     public function deleteDanhSachThuTien($danh_sach)
     {
         return  $this->model->whereIn('id_danh_sach_thu_tien',$danh_sach)->delete();
+    }
+
+    public function getHocSinhThuTien($id_dot_chi_tiet_thu_tien, $hoc_sinh_id)
+    {
+        // dd($id_dot_chi_tiet_thu_tien, $hoc_sinh_id);
+        return $this->model->where('id_dot_thu_tien', $id_dot_chi_tiet_thu_tien)->where('id_hoc_sinh', $hoc_sinh_id)->first();
+    }
+
+    public function DongHocPhiTheoLop($id_hoc_sinh,$id_dot_thu)
+    {
+        $so_tien = $this->model->where('id_hoc_sinh',$id_hoc_sinh)->where('id_dot_thu_tien',$id_dot_thu)->select('so_tien_phai_dong')->first();
+        return  $this->model->where('id_hoc_sinh',$id_hoc_sinh)->where('id_dot_thu_tien',$id_dot_thu)
+        ->update(['trang_thai'=>1,'so_tien_da_dong'=>$so_tien['so_tien_phai_dong']]);
+
+    }
+
+    public function huyThuTien($id_hoc_sinh,$id_dot_thu)
+    {
+        return  $this->model->where('id_hoc_sinh',$id_hoc_sinh)->where('id_dot_thu_tien',$id_dot_thu)
+        ->update(['trang_thai'=>0,'so_tien_da_dong'=>0]);
     }
 }
