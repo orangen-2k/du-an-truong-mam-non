@@ -253,3 +253,8 @@ Route::prefix('quan-ly-dien-uu-tien')->group(function(){
 
 Route::get('mat-khau-reset', "Auth\QuenMatKhauController@showResetForm")->name('mat-khau.reset');
 Route::post('mat-khau-update', "Auth\QuenMatKhauController@reset")->name('mat-khau.update');
+
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::get('thong-tin-nha-truong', 'NhaTruongController@index')->name('nha-truong.index');
+    Route::post('them-thong-tin-nha-truong', 'NhaTruongController@store')->name('nha-truong.store');
+});
