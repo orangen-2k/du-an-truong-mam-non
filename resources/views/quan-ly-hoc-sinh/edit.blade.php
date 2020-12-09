@@ -917,6 +917,8 @@
         var labels_chart = []
         var data_chart = []
         var data_chart2 = []
+        var backgroundColor_ChieuCao = []
+        var backgroundColor_CanNang = []
         response.data.forEach(element => {
           var date = new Date(element.thoi_gian),
             yr = date.getFullYear(),
@@ -948,6 +950,8 @@
           labels_chart.unshift(element.ten_dot)
           data_chart.unshift(element.chieu_cao)
           data_chart2.unshift(element.can_nang)
+          backgroundColor_ChieuCao.unshift('rgba(255, 99, 132, 0.2)')
+          backgroundColor_CanNang.unshift('rgba(75, 192, 192, 0.2)')
         })
         html_modal += 
         `
@@ -964,12 +968,8 @@
                 datasets: [{
                     label: 'Chiều cao',
                     data: data_chart,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                    ],
+                    backgroundColor: backgroundColor_ChieuCao,
+                    borderColor: backgroundColor_ChieuCao,
                     borderWidth: 1
                 }
                 ]
@@ -993,13 +993,8 @@
                 datasets: [{
                     label: 'Cân nặng',
                     data: data_chart2,
-                    backgroundColor: [
-                       
-                        'rgba(75, 192, 192, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)'
-                    ],
+                    backgroundColor: backgroundColor_CanNang,
+                    borderColor: backgroundColor_CanNang,
                     borderWidth: 1
                 }
                 ]
