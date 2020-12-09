@@ -204,13 +204,13 @@
                             </thead>
                             <tbody>
                                 @php $i = 1; @endphp
-                                @foreach ($data->Khoi as $itemKhoi)
-                                @foreach ($itemKhoi->LopHoc as $itemLopHoc)
-                                @foreach ($itemLopHoc->HocSinh as $itemHocSinh)
+                                @forelse ($data->Khoi as $itemKhoi)
+                                @forelse ($itemKhoi->LopHoc as $itemLopHoc)
+                                @forelse ($itemLopHoc->HocSinh as $itemHocSinh)
                                 <tr>
                                     <td class="text-center"><input type="checkbox" class="checkbox checkbox2 checkbox_hs"
                                             data-id="{{ $itemHocSinh->id }}"
-                                            data-device="{{ $itemHocSinh->User->device }}"
+                                            data-device="{{ $itemHocSinh->User && $itemHocSinh->User->device ? $itemHocSinh->User->device : '' }}"
                                             data-lop_id="{{ $itemHocSinh->lop_id }}"></td>
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{ $itemKhoi->ten_khoi }}</td>
@@ -228,9 +228,12 @@
                                         @endforeach
                                     </td>
                                 </tr>
-                                @endforeach
-                                @endforeach
-                                @endforeach
+                                @empty
+                                @endforelse
+                                @empty
+                                @endforelse
+                                @empty
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
