@@ -90,8 +90,7 @@ class QuanlySucKhoeController extends Controller
 
             //Thêm sức khỏe các lớp giáo viên chưa thêm
             $dot_moi_nhat = $this->SucKhoeRepository->getDotSucKhoeMoiNhat();
-            
-        if($dot_moi_nhat){
+        if($dot_moi_nhat && $thoi_gian > $dot_moi_nhat->thoi_gian){
             $data1 = [];
             $data2 = [];
             $id = $this->NamHocRepository->maxID();
@@ -123,11 +122,19 @@ class QuanlySucKhoeController extends Controller
                     $this->SucKhoeRepository->InsertSucKhoeHocSinh($array_sk);
                 }
             }
-        
-        }
             $this->SucKhoeRepository->postThemDotKhamSucKhoe($array);
             // $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDot', 'Hoàn Thành');
             $data = "Hoàn Thành";
+        }
+        else if($dot_moi_nhat && $thoi_gian <= $dot_moi_nhat->thoi_gian){
+            
+            $data = "Lỗi Ngày";
+        }
+        else if(!$dot_moi_nhat){
+            $this->SucKhoeRepository->postThemDotKhamSucKhoe($array);
+            $data = "Hoàn Thành";
+        }
+            
         }
         else{
            // $data = redirect()->route('quan-ly-suc-khoe-index')->with('ThongBaoThemDotLoi', 'Lỗi thêm đợt');
@@ -167,5 +174,23 @@ class QuanlySucKhoeController extends Controller
         return compact('data', 'data2');
         
         
+    }
+
+    function showXoaDot(){
+        $dot_suc_khoe = $this->SucKhoeRepository->GetALLDotKhamSK();
+        $arr = [];
+        foreach($dot_suc_khoe as $item){
+            $dataSucKhoe = $this->SucKhoeRepository->getAllSucKhoeHocSinhTheoDot($item->id);
+            if(count($dataSucKhoe) == 0){
+                array_push($arr, $item);
+            }
+        }
+        return $arr;
+    }
+
+    function xoaDot(Request $request){
+        $request = $request->all();
+        $id = $request['id'];
+        return $this->SucKhoeRepository->XoaDotSucKhoe($id);
     }
 }
