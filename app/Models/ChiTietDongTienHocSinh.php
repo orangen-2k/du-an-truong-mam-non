@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\KhoanThu;
 class ChiTietDongTienHocSinh extends Model
 {
     protected $table = 'chi_tiet_dong_tien_hoc_sinh';
@@ -14,4 +14,9 @@ class ChiTietDongTienHocSinh extends Model
         "id_danh_sach_thu_tien",
         "so_tien",
     ];
+
+    public function KhoanThu()
+    {
+        return $this->belongsTo(KhoanThu::class,'id_khoan_thu','id');
+    }
 }

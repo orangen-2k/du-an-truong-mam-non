@@ -24,6 +24,7 @@ use App\Repositories\NotificationRepository;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use PDF;
 
 class QuanLyDotThuController extends Controller
 {
@@ -282,6 +283,7 @@ class QuanLyDotThuController extends Controller
                 $thong_tin_dong_tien['lop_id'] = $hoc_sinh->lop_id;
                 $thong_tin_dong_tien['khoi_id'] = $hoc_sinh->Lop->Khoi->id;
                 $thong_tin_dong_tien['so_tien_phai_dong'] = $hoc_sinh->tong_tien_phai_dong == null ? 0 : $hoc_sinh->tong_tien_phai_dong;
+                // dd( $thong_tin_dong_tien['so_tien_phai_dong']);
                 $id_danh_sach_thu_tien = $this->DanhSachThuTienRepository->create($thong_tin_dong_tien)->id;
                 foreach ($this->danh_sach_chi_tiet_khoan_thu as $key => $item_chi_tiet) {
                     $this->danh_sach_chi_tiet_khoan_thu[$key]['id_danh_sach_thu_tien'] = $id_danh_sach_thu_tien;
@@ -326,19 +328,22 @@ class QuanLyDotThuController extends Controller
                 $tinh_khoan_thu_theo_don_vi = $khoan_thu->muc_thu * $so_buoi_hoc;
             }
 
+            if ($khoan_thu->mien_giam > 0 && $max_mien_giam > 0) {
+                $this->tong_tien_phai_dong += $tinh_khoan_thu_theo_don_vi - $tinh_khoan_thu_theo_don_vi * $khoan_thu->mien_giam / 100;
+                $tinh_khoan_thu_theo_don_vi = $tinh_khoan_thu_theo_don_vi - $tinh_khoan_thu_theo_don_vi * $khoan_thu->mien_giam / 100;
+            } else {
+                $this->tong_tien_phai_dong += $tinh_khoan_thu_theo_don_vi;
+            }
+            
             $chi_tiet_khoan_thu = [
                 'id_khoan_thu' => $khoan_thu->id,
                 'so_tien' => $tinh_khoan_thu_theo_don_vi
             ];
-            if ($khoan_thu->mien_giam > 0 && $max_mien_giam > 0) {
-                $this->tong_tien_phai_dong += $tinh_khoan_thu_theo_don_vi - $tinh_khoan_thu_theo_don_vi * $khoan_thu->mien_giam / 100;
-            } else {
-                $this->tong_tien_phai_dong += $tinh_khoan_thu_theo_don_vi;
-            }
         }
-
+        // dd($this->tong_tien_phai_dong);
         array_push($this->danh_sach_chi_tiet_khoan_thu, $chi_tiet_khoan_thu);
         $hoc_sinh->tong_tien_phai_dong = $this->tong_tien_phai_dong;
+        // dd($hoc_sinh->tong_tien_phai_dong);
     }
 
     public function getKhoanThuTheoKhoi(Request $request)
@@ -590,5 +595,36 @@ class QuanLyDotThuController extends Controller
 
 
         
+    }
+
+    public function xuatHoaDonPdF($id_hoc_sinh,$id_chi_tiet_dot){
+        $hoc_sinh = $this->ChinhSachCuaHocSinhRepository->getChinhSachCuaHocSinh($id_hoc_sinh);
+        $max_mien_giam = $this->ChinhSachCuaHocSinhRepository->getChinhSachCuaHocSinh($id_hoc_sinh);
+        // dd($max_mien_giam);
+        $khoan_thu = $this->QuanLyKhoanThuRepository->getKhoanThuTheoChiTietDot($id_chi_tiet_dot);  
+        $thu_tien_hoc_sinh = $this->DanhSachThuTienRepository->getHocSinhThuTien($id_chi_tiet_dot,$id_hoc_sinh);
+        $chi_tiet_dong_tien = ChiTietDongTienHocSinh::where('id_danh_sach_thu_tien',$thu_tien_hoc_sinh['id'])->orderBy('id_khoan_thu','desc')->get();
+        $pdf = PDF::loadView('hoa_don', [
+            'khoan_thu' => $khoan_thu,
+            'chi_tiet_dong_tien' => $chi_tiet_dong_tien,
+            'max_mien_giam' => $max_mien_giam,
+            'thu_tien_hoc_sinh' => $thu_tien_hoc_sinh
+        ]);
+
+        return $pdf->stream();
+        return $pdf->download('tuts_notes.pdf');
+    }
+    
+    public function DongHocPhiTheoLop(Request $request)
+    {
+        foreach ($request->danh_sach_hoc_sinh as $key => $value) {
+            $update_trang_thai = $this->DanhSachThuTienRepository->DongHocPhiTheoLop($value,$request->id_dot_chon);
+        }
+
+    }
+
+    public function huyThuTien($id_hs,$id_dot)
+    {
+       return $this->DanhSachThuTienRepository->huyThuTien($id_hs,$id_dot);
     }
 }

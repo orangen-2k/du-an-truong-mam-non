@@ -67,7 +67,7 @@
 									</div>
 								@endif
                                 <div class="input-group m-input-group m-input-group--pill m-input-icon m-input-icon--left m-input-icon--right" >
-                                    <input class="form-control m-input m-input--pill m-input--air" type="text" placeholder="Tài khoản" name="email" required>
+                                    <input class="form-control m-input m-input--pill m-input--air" type="text" placeholder="Email" name="email" required>
                                     <span class="m-input-icon__icon m-input-icon__icon--left"><span><i class="la la-user"></i></span></span>        
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-danger btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air" onclick="validate()">Go!</button>
