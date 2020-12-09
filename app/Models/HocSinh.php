@@ -62,10 +62,10 @@ class HocSinh extends Model
         return $this->belongsTo(Lop::class,'lop_id','id');
     }
 
-    // public function User()
-    // {
-    //     return $this->belongsTo(User::class,'user_id','id');
-    // }
+    public function User()
+    {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 
     public function LichSuHoc()
     {
