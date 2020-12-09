@@ -174,7 +174,9 @@
                                             @endif
                                         </td>
                                         <td>
-                                             <a href="{{ route('edit-admin', ['id' =>$item->id]) }}" class="flaticon-edit"></a>
+                                             <a href="{{ route('edit-admin', ['id' =>$item->id]) }}">
+                                                <i class="la la-pencil"></i>
+                                             </a>
                                            
                                             </td>
                                     </tr>
