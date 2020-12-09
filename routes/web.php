@@ -221,6 +221,10 @@ Route::prefix('quan-ly-dot-thu')->group(function(){
     Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyDotThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');
     Route::post('gui_thong_bao_theo_khoi', 'QuanLyDotThuController@guiThongBaoTheoKhoi')->name('gui-thong-bao-theo-khoi');
     Route::post('gui_thong_bao_theo_lop', 'QuanLyDotThuController@guiThongBaoTheoLop')->name('gui-thong-bao-theo-lop');
+    Route::post('dong_hoc_phi_theo_lop', 'QuanLyDotThuController@dongHocPhiTheoLop')->name('dong-hoc-phi-theo-lop');
+
+    Route::get('xuat_hoa_don_pdf/{id}/{id_chi_tiet_dot}', 'QuanLyDotThuController@xuatHoaDonPdF')->name('xuat-hoa-don-pdf');
+    Route::get('huy_thu_tien/{id}/{id_chi_tiet_dot}', 'QuanLyDotThuController@huyThuTien')->name('huy-thu-tien');
 
 
 

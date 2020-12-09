@@ -40,6 +40,11 @@ class QuanLyKhoanThuRepository extends BaseModelRepository {
         return $this->model->whereIn('id',$data)->update(['id_dot_thu_tien'=>$id_dot_thu_tien]);
     }
 
+    public function getKhoanThuTheoChiTietDot($id_dot_thu_tien)
+    {
+        return $this->model->where('id_dot_thu_tien',$id_dot_thu_tien)->orderBy('id','desc')->get();
+    }
+
 
 
     
