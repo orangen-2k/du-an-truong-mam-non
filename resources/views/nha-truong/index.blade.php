@@ -40,6 +40,7 @@
                 </div>
                 <div class="m-portlet__body">
                     <div class="col-9">
+                        @if ($data)
                         <div class="m-widget13">
                             <div class="m-widget13__item">
                                 <span class="m-widget13__desc m--align-right">
@@ -76,6 +77,9 @@
                             </div>
                             @endforeach
                         </div>
+                        @else
+                            <i>Vui lòng thêm thông tin trường!</i>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -227,10 +231,9 @@
                 return true;
     }
 </script>
-@if ($errors->count() > 0 )
+@if ($errors->count() > 0 || !$data)
 <script>
     $('#m_modal_4').modal("show")
-
 </script>
 @endif
 @endsection
