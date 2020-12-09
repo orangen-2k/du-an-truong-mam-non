@@ -3,7 +3,8 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 <style>
     thead th,td {
-        text-align: center
+        text-align: center;
+        font-size: 12px
     }
      thead tr th{
         font-weight: bold !important
@@ -39,6 +40,10 @@
     .bat_buoc{
         color: red
     }
+    .table{
+        width: 120%;
+    }
+    
 </style>
 @endsection
 @section('content')
@@ -78,10 +83,13 @@
                                                     @foreach ($khoi_thu->LopHoc as $chi_tiet_lop)
                                                     <div onclick="getThongTinDongTienLop({{$item->id}},{{$chi_tiet_lop->id}})"
                                                         class="m-list-search__result-item">
-                                                        <span class="m-list-search__result-item-icon"><i
-                                                                class="flaticon-interface-3 m--font-warning"></i></span>
-                                                        <span
-                                                            class="m-list-search__result-item-text">{{$chi_tiet_lop->ten_lop}}</span>
+                                                        <span class="m-list-search__result-item-icon">
+                                                            <label class="m-radio m-radio--state-success">
+                                                                <input type="radio" name="example_2" value="1">{{$chi_tiet_lop->ten_lop}}
+                                                                <span></span>
+                                                            </label>
+                                                        </span>
+                                                     
                                                     </div>
                                                     @endforeach
 
@@ -100,6 +108,7 @@
                                             <div class="m-portlet__head-title">
                                                 <button type="button" id="button_chuyen_lop"
                                                     class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent mr-3"
+                                                    onclick="changeValue()"
                                                     data-toggle="modal"
                                                     data-target="#thong_bao_theo_lop"
                                                     >Thông báo cho
@@ -107,24 +116,14 @@
 
 
                                                 <button style="display: block;" type="button"
-                                                    id="button_xep_lop_tu_dong" onclick="showSlHocSinhChuaCoLop()"
-                                                    data-toggle="modal" data-target="#modal-xep-lop-tu-dong"
-                                                    class="btn btn-secondary">Xếp
-                                                    lớp tự động</button>
+                                                    id="button_xep_lop_tu_dong" onclick="changeValue()"
+                                                    data-toggle="modal" data-target="#dong_tien_theo_lop"
+                                                    class="btn btn-secondary ">Học sinh đóng tiền</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="table-responsive">
-
-                                   
-                                    <table style="width: 1200px;" class="table table-striped m-table m-table--head-bg-success table-hover m-table--border-success">
-                                        <thead class="thong_tin_tieu_de">
-                                           
-                                        </thead>
-                                        <tbody class="thong_tin_chi_tiet">
-                                         
-                                        </tbody>
-                                    </table>
+                                <div class="show_table">                     
+                                 
                                 </div>
                                 </div>
                             </div>
@@ -209,6 +208,48 @@
     </div>
     {{-- end thông báo theo khối--}}
 
+       {{-- modal hoàn thành học phí --}}
+       <div class="modal fade" id="dong_tien_theo_lop" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Hoàn thành học phí</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" id="form_dong_hoc_phi_theo_lop" method="post">
+                    <div class="modal-body">
+                        <div class="form-group m-form__group">
+                            <label for="exampleInputEmail1">Chọn học sinh <span
+                                    class="bat_buoc">*</span></label>
+                            <select name="danh_sach_hoc_sinh[]" multiple style="width: 100%;" id="danh_sach_hoc_sinh_dong_tien" class="form-control m-input m-input--square"
+                                id="exampleSelect1">
+                                {{-- @foreach ($nam_hoc_moi->Khoi as $item)
+                                <option value="{{$item->id}}">{{$item->ten_khoi}}
+                                </option>
+                                @endforeach --}}
+                            </select>
+                        </div>
+                        <input type="hidden" name="id_lop_chon" id="id_lop_chon_dong_tien">
+                        <input type="hidden" name="id_dot_chon" id="id_dot_chon_dong_tien">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">Đóng</button>
+                        <button type="button" onclick="DaDongTien()"
+                            class="btn btn-primary">Đã Đóng Tiền</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    {{-- end hoàn thành học phí--}}
+
 
 
 
@@ -219,28 +260,44 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script>
-     $(document).ready( function () {
-
-$("body").addClass('m-aside-left--minimize m-brand--minimize')
-$("#danh_sach_hoc_sinh").select2()
+    $(document).ready( function () {
+    $("body").addClass('m-aside-left--minimize m-brand--minimize')
+    $("#danh_sach_hoc_sinh").select2()
+    $("#danh_sach_hoc_sinh_dong_tien").select2()
 });
+
+    const checkAll = (e) => {
+        $(e).parents('table').find('.checkbox').not(e).prop('checked', e.checked);
+    };
     const url_tao_dot_thu = "{{route('get-chi-tiet-dot-thu-theo-lop')}}";
     const url_gui_thong_bao_theo_lop = "{{route('gui-thong-bao-theo-lop')}}";
-    
+    const url_dong_hoc_phi_theo_lop = "{{route('dong-hoc-phi-theo-lop')}}";
+    const route_huy_thu_tien = "{{route('huy-thu-tien',['id','chi_tiet_dot'])}}"
+
     const getThongTinDongTienLop =(dot,lop) =>{
         $('#id_lop_chon').val(lop)
         $('#id_dot_chon').val(dot)
+        $('#id_lop_chon_dong_tien').val(lop)
+        $('#id_dot_chon_dong_tien').val(dot)
      
     axios.post(url_tao_dot_thu,{
             'id_dot' : dot,
             'id_lop' : lop,
         }).then(function (response) {
             html_tieu_de= `
+            <div class="table-responsive">     
+            <table class="table ">
+            <thead>
             <tr>
+                <th scope="row">
+                    <label class="m-checkbox m-checkbox--success">
+                        <input onclick ="checkAll(this)" type="checkbox"> 
+                        <span></span>
+                    </label>
+                </th>
                 <th>Số thứ tự</th>
                 <th>Mã học sinh</th>
                 <th>Họ tên </th>
-                <th>Ngày sinh</th>
                 <th>Tổng tiền phải thu</th>
             `
 
@@ -253,11 +310,13 @@ $("#danh_sach_hoc_sinh").select2()
             html_tieu_de+=`
                 <th>Đóng tiền</th>
                 <th>Thông báo</th>
+                <th>Hủy thu tiền</th>
                 <th>Hóa đơn</th>
             </tr>
+        </thead>
             `
 
-            html_chi_tiet = ""
+            html_chi_tiet = '<tbody>'
             var thu_tu =1;
             response.data.khoan_thu_hoc_sinh.forEach(element => {
                 if(element.trang_thai == 1){
@@ -272,17 +331,29 @@ $("#danh_sach_hoc_sinh").select2()
                     html_thong_bao ='<i class="flaticon-circle"></i>'
                 }
 
+
                 html_chi_tiet +=`          
                     <tr>
+                        <td scope="row">
+                            <label  class="m-checkbox m-checkbox--success">
+                                <input id_hs="${element.chi_tiet_hoc_sinh.id}" class="checkbox" type="checkbox"> 
+                                <span></span>
+                            </label>
+                        </td>
                         <td scope="row">${thu_tu++}</td>
                         <td>${element.chi_tiet_hoc_sinh.ma_hoc_sinh}</td>
                         <td>${element.chi_tiet_hoc_sinh.ten}</td>
-                        <td>${element.chi_tiet_hoc_sinh.ngay_sinh}</td>
+  
                         <td class='quan_trong'>${element.so_tien_phai_dong.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</td>
                         `
-                        
+                        var route_xuat_pdf_id ='' 
+                        var route_xuat_pdf =''
                           response.data.khoan_thu_trong_dot.forEach(khoan_thu => { 
-                              var check = 0;
+                                var check = 0;
+                                route_xuat_pdf_id = "{{route('xuat-hoa-don-pdf',['id','chi_tiet_dot'])}}"
+                                route_xuat_pdf = route_xuat_pdf_id.replace('id',element.chi_tiet_hoc_sinh.id).replace('chi_tiet_dot',dot)
+  
+                                // route_xuat_pdf = route_xuat_pdf_id.replace('id',khoan_thu.id)
                             element.chi_tiet_khoan_thu_hoc_sinh.forEach(chi_tiet_khoan_thu => {      
                                 // console.log(khoan_thu.id, chi_tiet_khoan_thu.id_khoan_thu)
                                 if(khoan_thu.id != chi_tiet_khoan_thu.id_khoan_thu){
@@ -297,23 +368,25 @@ $("#danh_sach_hoc_sinh").select2()
                                     html_chi_tiet +=`
                                          <td>${chi_tiet_khoan_thu.so_tien.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</td>
                                     `
-
-                                }
-                              
+                                } 
                             });
-
-
                         })
                         html_chi_tiet+=`
                         <td>${html_trang_thai}</td>
                         <td>${html_thong_bao}</td>
-                        <td>Xuất hóa đơn</td>
-                         </tr> `
+                        <td><input class="btn m-btn--square" onclick="huyThuTien(${element.chi_tiet_hoc_sinh.id},${dot})"  btn-danger" type="reset" value="Chưa thu"></td>
+                        <td><a target="_blank" href="${route_xuat_pdf}">Xuất hóa đơn</a></td>
+                         </tr>
+                        `
+                    
             });
-
+            html_chi_tiet+=`
+                    </tbody>
+                      </table>
+                      </div>
+                        `
              
-            $('.thong_tin_tieu_de').html(html_tieu_de)
-            $('.thong_tin_chi_tiet').html(html_chi_tiet)
+            $('.show_table').html(html_tieu_de+html_chi_tiet)
             
             $('#ten_dot_thu').html(response.data.dot_thu.ten_dot_thu)
 
@@ -323,6 +396,19 @@ $("#danh_sach_hoc_sinh").select2()
                 console.log(error);
             })
     };
+
+    const changeValue = () =>{
+        var danh_sach_hoc_sinh =[]
+        var check = document.querySelectorAll(".checkbox");
+        for (let index = 0; index < check.length; index++) {
+            if (check[index].checked) {
+                id_hoc_sinh = check[index].getAttribute("id_hs");
+                danh_sach_hoc_sinh.push(id_hoc_sinh)
+            }
+        }
+        $('#danh_sach_hoc_sinh').val(danh_sach_hoc_sinh).trigger("change")
+        $('#danh_sach_hoc_sinh_dong_tien').val(danh_sach_hoc_sinh).trigger("change")      
+    }
 
     const GuiThongBaoTheoLop = () =>{
         let myForm = document.getElementById('form_gui_thong_bao_theo_lop');
@@ -357,8 +443,66 @@ $("#danh_sach_hoc_sinh").select2()
         console.log(data)
 
         $('#danh_sach_hoc_sinh').html(html_danh_sach_hoc_sinh)
+        $('#danh_sach_hoc_sinh_dong_tien').html(html_danh_sach_hoc_sinh)
+
         // $('#danh_sach_dot').html(html_danh_sach_dot)
 
+    };
+
+    const DaDongTien = () =>{
+        let myForm = document.getElementById('form_dong_hoc_phi_theo_lop');
+        let formData = new FormData(myForm);
+        axios.post(url_dong_hoc_phi_theo_lop,formData)
+            .then(function (response) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Gửi thông báo thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(
+                    ()=> location.reload()
+                )
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });  
+    };
+
+    const huyThuTien = (id_hs,dot)=>{
+        Swal.fire({
+            title: 'Bạn có hủy kết quả thu tiền học sinh này?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Đồng ý !'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    route_huy_thu_tien_id =  route_huy_thu_tien.replace('id',id_hs).replace('chi_tiet_dot',dot);
+                    axios.get(route_huy_thu_tien_id)
+                        .then(function (response) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Huy kết quả thu tiền thành công!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(
+                                ()=> location.reload()
+                            )
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                        .then(function () {
+                            // always executed
+                        });  
+            }})
+      
     };
 </script>
 @endsection

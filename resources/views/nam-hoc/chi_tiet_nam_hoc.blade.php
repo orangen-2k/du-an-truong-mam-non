@@ -685,7 +685,7 @@
 
                 <button type="button" style="display: none" id="button_xep_lop"
                   class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent mr-3" data-toggle="modal"
-                  data-target="#modal-chuyen-lop" onclick="xepLopThuCong()">Xếp lớp</button>
+                  data-target="#modal-chuyen-lop" trang_thai_hoc_sinh = "" onclick="xepLopThuCong()">Xếp lớp</button>
 
                 <button style="display: none" type="button" id="button_xep_lop_tu_dong"
                   onclick="showSlHocSinhChuaCoLop()" data-toggle="modal" data-target="#modal-xep-lop-tu-dong"
@@ -1135,6 +1135,12 @@ const getDataHsChuaCoLop = (type) =>{
         $('#button_xep_lop_tu_dong').css('display','none')
         $('#button_chuyen_lop').css('display','none')
         if(type==1){ 
+          $('#button_xep_lop').attr('trang_thai_hoc_sinh',1)
+          $('#button_xep_lop').css('display','block')
+      }
+      if(type==0){ 
+        $('#button_xep_lop').attr('trang_thai_hoc_sinh',0)
+
           $('#button_xep_lop').css('display','block')
       }
         $('#id_lop_xep').val(0)
@@ -1465,7 +1471,7 @@ const chuyenLop = () =>{
       showHocSinhCuaLop($('#id_lop_xep').val())
     }else{
       getDataHsChuaCoLop(1)
-      $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_cua_lop_hien_tai}`)
+      $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_cua_lop_hien_tai}`)   
     }
  
     swal({
@@ -1569,7 +1575,8 @@ const xacNhanDiHocLai = () =>{
 };
 
 const xepLopThuCong = () => {
-    var url_get_field_hoc_sinh_type_new = url_get_field_hoc_sinh_type.replace('id', 1)
+ var trang_thai_hoc_sinh = $('#button_xep_lop').attr('trang_thai_hoc_sinh')
+    var url_get_field_hoc_sinh_type_new = url_get_field_hoc_sinh_type.replace('id', trang_thai_hoc_sinh)
     axios.get(url_get_field_hoc_sinh_type_new)
         .then(function(response) {
           var html_danh_sach_hs="";
@@ -1584,6 +1591,8 @@ const xepLopThuCong = () => {
                 var check = document.querySelectorAll(".checkbox");
                 var age = 0
                 for (let index = 0; index < check.length; index++) {
+                console.log(check[index].getAttribute("age"))
+
                     if (check[index].checked) {
                       if(hoc_sinh_muon_xep.length == 0){
                         age = check[index].getAttribute("age")

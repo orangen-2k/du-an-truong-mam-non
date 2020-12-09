@@ -333,17 +333,17 @@
     
                                                     <div class="form-group m-form__group row">
                                                         <img onClick="showModal()"
-                                                            src= {{($data->avatar == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' :  asset('storage/'.$data->avatar) }}
+                                                            src= {{($data->avatar == "") ? 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png' :  $data->avatar }}
                                                             class="rounded mx-auto d-block mb-2" width="250px"
                                                             height="255px" id="show_img">
                                                         <div class="col-xl-9 col-lg-9 mt-4">
                                                             <div class="input-group ml-5 ">
     
                                                                 <div class="custom-file ml-5 col-12">
-                                                                    <input type="file" accept="images/*" name="avatar"
-                                                                    id="anh_gv" onClick="showModal()"onchange="showimages(this)"
+                                                                    <input type="file" accept="images/*"
+                                                                    id="anh_gv" onClick="showModal()"onchange="changeAvatar(this)"
                                                                         style="display:none" />
-                                                                    {{-- <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01"> --}}
+                                                                        <input type="hidden" name="avatar">
     
                                                                 </div>
                                                             </div>
@@ -793,10 +793,38 @@
                     $('#show_img').attr('src', reader.result);
                 }
                 reader.readAsDataURL(file);
-            }
-$(document).ready(function() {
-    $('.select2').select2();
-});
+    }
+    function changeAvatar(file){
+        let srcAvatar = URL.createObjectURL(file.files[0]);
+		$("#show_img").attr("src", srcAvatar);
+		var form = new FormData();
+            form.append("image", file.files[0]);
+            $.ajax({
+                "url": "https://api.imgbb.com/1/upload?key=87b235f7be4c2a2271db6c21bbf93bda",
+                "method": "POST",
+                "timeout": 0,
+                "processData": false,
+                "mimeType": "multipart/form-data",
+                "contentType": false,
+                "data": form
+            }).done(function (response) {
+                let rs = JSON.parse(response);
+                let url = '';
+                url = rs.data.display_url;
+				$('[name="avatar"]').val(url);
+            });
+    }
+
+    function isNumberKey(evt){
+                var charCode = (evt.which) ? evt.which : event.keyCode
+                if (charCode > 31 && (charCode < 48 || charCode > 57))
+                    return false;
+                return true;
+    }
+
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
     var url_get_lop_theo_khoi = "{{route('quan-ly-giao-vien-get-lop-theo-khoi')}}";
     var url_get_maqh_by_matp = "{{route('get_quan_huyen_theo_thanh_pho')}}";
     var url_get_xaid_by_maqh = "{{route('get_xa_phuong_theo_thi_tran')}}";
@@ -889,6 +917,8 @@ $(document).ready(function() {
         var labels_chart = []
         var data_chart = []
         var data_chart2 = []
+        var backgroundColor_ChieuCao = []
+        var backgroundColor_CanNang = []
         response.data.forEach(element => {
           var date = new Date(element.thoi_gian),
             yr = date.getFullYear(),
@@ -920,6 +950,8 @@ $(document).ready(function() {
           labels_chart.unshift(element.ten_dot)
           data_chart.unshift(element.chieu_cao)
           data_chart2.unshift(element.can_nang)
+          backgroundColor_ChieuCao.unshift('rgba(255, 99, 132, 0.2)')
+          backgroundColor_CanNang.unshift('rgba(75, 192, 192, 0.2)')
         })
         html_modal += 
         `
@@ -936,12 +968,8 @@ $(document).ready(function() {
                 datasets: [{
                     label: 'Chiều cao',
                     data: data_chart,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                    ],
+                    backgroundColor: backgroundColor_ChieuCao,
+                    borderColor: backgroundColor_ChieuCao,
                     borderWidth: 1
                 }
                 ]
@@ -965,13 +993,8 @@ $(document).ready(function() {
                 datasets: [{
                     label: 'Cân nặng',
                     data: data_chart2,
-                    backgroundColor: [
-                       
-                        'rgba(75, 192, 192, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)'
-                    ],
+                    backgroundColor: backgroundColor_CanNang,
+                    borderColor: backgroundColor_CanNang,
                     borderWidth: 1
                 }
                 ]

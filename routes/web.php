@@ -92,7 +92,12 @@ Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
     Route::get('/edit/{id}', 'QuanLyDangKyNhapHocController@show')->name('edit-hs-dang-ky-nhap-hoc');
     Route::post('/cap-nhap-id-user', 'QuanLyDangKyNhapHocController@capNhapId')->name('cap-nhap-id-user-for-hs');
     Route::post('/edit', 'QuanLyDangKyNhapHocController@PheDuyet')->name('submit-edit-hs-dang-ky-nhap-hoc');
+    Route::post('/validation-edit-dang-ki-nhap-hoc', 'QuanLyDangKyNhapHocController@validation')->name('validation-edit-dang-ki-nhap-hoc');
+    Route::post('/remove-don-dang-ki', 'QuanLyDangKyNhapHocController@delete')->name('remove-don-dang-ki');
+    Route::get('/test-gui-sms', 'QuanLyDangKyNhapHocController@testAPI');
+
 });
+
 // thanhnv 9/16/2020
 
 Route::prefix('quan-ly-khoi')->group(function () {
@@ -192,6 +197,8 @@ Route::prefix('quan-ly-suc-khoe')->group(function(){
     Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
     Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
     Route::post('/kiem-tra-dot-moi-nhat', 'QuanlySucKhoeController@kiemtraDotMoiNhat')->name('quan-ly-suc-khoe-kiem-tra-dot-moi-nhat');
+    Route::post('/show-xoa-dot', 'QuanlySucKhoeController@showXoaDot')->name('quan-ly-suc-khoe-show-xoa-dot');
+    Route::post('/xoa-dot', 'QuanlySucKhoeController@xoaDot')->name('quan-ly-suc-khoe-xoa-dot');
 });
 
 Route::prefix('quan-ly-khoan-thu')->group(function(){
@@ -208,11 +215,18 @@ Route::prefix('quan-ly-dot-thu')->group(function(){
     Route::get('/{id}', 'QuanLyDotThuController@index')->name('quan-ly-dot-thu-index');
     // Route::get('get-data-dot-thu', 'QuanLyDotThuController@getDataKhoanThu')->name('quan-ly-dot-thu-get-data');
     Route::post('tao_dot_thu', 'QuanLyDotThuController@store')->name('quan-ly-dot-thu-store');
+    Route::post('xoa_dot_thu', 'QuanLyDotThuController@delete')->name('quan-ly-dot-thu-delete');
+
+
     Route::post('get-tong-tien-thu-theo-khoi', 'QuanLyDotThuController@getKhoanThuTheoKhoi')->name('get-tong-tien-thu-theo-khoi');
     Route::get('chi_tiet_dot_thu/{id}/{khoi}', 'QuanLyDotThuController@chiTietDotThu')->name('get-chi-tiet-dot-thu');
     Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyDotThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');
     Route::post('gui_thong_bao_theo_khoi', 'QuanLyDotThuController@guiThongBaoTheoKhoi')->name('gui-thong-bao-theo-khoi');
     Route::post('gui_thong_bao_theo_lop', 'QuanLyDotThuController@guiThongBaoTheoLop')->name('gui-thong-bao-theo-lop');
+    Route::post('dong_hoc_phi_theo_lop', 'QuanLyDotThuController@dongHocPhiTheoLop')->name('dong-hoc-phi-theo-lop');
+
+    Route::get('xuat_hoa_don_pdf/{id}/{id_chi_tiet_dot}', 'QuanLyDotThuController@xuatHoaDonPdF')->name('xuat-hoa-don-pdf');
+    Route::get('huy_thu_tien/{id}/{id_chi_tiet_dot}', 'QuanLyDotThuController@huyThuTien')->name('huy-thu-tien');
 
 
 
@@ -241,3 +255,8 @@ Route::prefix('quan-ly-dien-uu-tien')->group(function(){
 
 Route::get('mat-khau-reset', "Auth\QuenMatKhauController@showResetForm")->name('mat-khau.reset');
 Route::post('mat-khau-update', "Auth\QuenMatKhauController@reset")->name('mat-khau.update');
+
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::get('thong-tin-nha-truong', 'NhaTruongController@index')->name('nha-truong.index');
+    Route::post('them-thong-tin-nha-truong', 'NhaTruongController@store')->name('nha-truong.store');
+});
