@@ -30,7 +30,7 @@
                                                     Thông tin
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
-                                                        data-original-title="Some help text goes here"></i>
+                                                        data-original-title="Thông tin giáo viên"></i>
                                                 </h3>
                                             </div>
                                         </div>
@@ -168,7 +168,7 @@
                                                     CMND/Căn cước/Hộ chiếu
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
-                                                        data-original-title="Some help text goes here"></i>
+                                                        data-original-title="CMND/Căn cước/Hộ chiếu giáo viên"></i>
                                                 </h3>
                                             </div>
                                         </div>
@@ -239,7 +239,7 @@
                                                     Hộ khẩu thường trú
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
-                                                        data-original-title="Some help text goes here"></i>
+                                                        data-original-title="Hộ khẩu thường trú giáo viên"></i>
                                                 </h3>
                                             </div>
                                         </div>
@@ -324,7 +324,7 @@
                                                     Nơi ở hiện tại
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
-                                                        data-original-title="Some help text goes here"></i>
+                                                        data-original-title="Nơi ở hiện tại giáo viên"></i>
                                                 </h3>
                                             </div>
                                         </div>
@@ -409,7 +409,7 @@
                                                     Trình độ
                                                     <i data-toggle="m-tooltip" data-width="auto"
                                                         class="m-form__heading-help-icon flaticon-info" title=""
-                                                        data-original-title="Some help text goes here"></i>
+                                                        data-original-title="Trình độ giáo viên"></i>
                                                 </h3>
                                             </div>
                                         </div>
@@ -483,7 +483,7 @@
 
                                 <div class="col-md-12 d-flex justify-content-end">
                                     <div class="m-form__actions">
-                                        <a href="{{route('quan-ly-giao-vien-index')}}"><button type="button" class="btn btn-info">Hủy</button></a>
+                                        <a href="{{route('quan-ly-giao-vien-index')}}"><button type="button" class="btn btn-danger">Hủy</button></a>
                                         <button type="submit" class="btn btn-success">Thêm mới</button>
                                     </div>
                                 </div>
