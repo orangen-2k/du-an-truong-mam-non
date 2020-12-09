@@ -24,6 +24,7 @@ use App\Repositories\TinhThanhPhoRepository;
 use App\Repositories\XaPhuongThiTranRepository;
 use App\Repositories\HocSinhRepository; 
 use App\Http\Requests\Account\RegisterSchoolRequest;
+use App\Http\Requests\Account\UpdateTkHocSinh;
 
 class AccountController extends Controller
 {
@@ -290,5 +291,28 @@ class AccountController extends Controller
     public function listHocSinh($id){
         $data=User::find($id)->HocSinh;
         return view('quan-ly-tai-khoan.ds-hoc-sinh-gop-tk',compact('data'));
+    }
+
+    public function editTkHocSinh($id)
+    {
+        $data = User::find($id);
+        if(!$data){
+            return redirect()->route('account.ds-hs');
+        }
+
+        return view('quan-ly-tai-khoan.update-hoc-sinh', compact('data'));
+    }
+
+    public function updateTkHocSinh(UpdateTkHocSinh $request, $id)
+    {
+        $data = User::find($id);
+        if(!$data){
+            return redirect()->route('account.ds-hs');
+        }
+        $data->email = $request->email;
+        $data->phone_number = $request->phone_number;
+        $data->avatar = $request->avatar;
+        $data->save();
+        return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
     }
 }

@@ -172,7 +172,9 @@
                                             </form>
                                             @endif
                                         </td>
-                                        <td><a href="{{route('edit-giao-vien', ['id' =>$item->id])}}" class="flaticon-edit"></a></td>
+                                        <td><a href="{{route('edit-giao-vien', ['id' =>$item->id])}}">
+                                            <i class="la la-pencil"></i>
+                                        </a></td>
                                     </tr>
                                     @empty
                                     <td>
