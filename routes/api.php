@@ -23,3 +23,4 @@ Route::get('album/{id}', 'Api\AlbumController@show');
 Route::post('storeAlbum', 'Api\AlbumController@store');
 Route::post('fileUpload', 'Api\AlbumController@fileUpload');
 Route::get('removeUpload', 'Api\AlbumController@removeUpload');
+ 

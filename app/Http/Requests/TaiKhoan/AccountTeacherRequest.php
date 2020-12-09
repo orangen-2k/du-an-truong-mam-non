@@ -33,7 +33,7 @@ class AccountTeacherRequest extends FormRequest
             'trinh_do'=>'required|regex:/^[\pL\s\-]+$/u',
             'noi_dao_tao'=>'required|regex:/^[\pL\s\-]+$/u',
             'nam_tot_nghiep'=>'required|numeric',
-            'ho_khau_thuong_tru_matp'=>'required',
+            'ho_khau_thuong_tru_matp'=>'required', 
             'ho_khau_thuong_tru_maqh'=>'required',
             'ho_khau_thuong_tru_xaid'=>'required',
             'noi_o_hien_tai_matp'=>'required',
