@@ -101,8 +101,8 @@
                                                         <td>{{$LichDayHienTaiGV->ten_nam}} (Hiện tại)</td>
                                                         <td>{{$LichDayHienTaiGV->ten_khoi}}</td>
                                                         <td>{{$LichDayHienTaiGV->ten_lop}}</td>
-                                                        <td><a href="{{ route('quan-ly-lop-show',['id'=>$LichDayHienTaiGV->lop_id]) }}" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
-                                                            <i class="fa fa-location-arrow"></i>
+                                                        <td><a href="{{ route('quan-ly-lop-show',['id'=>$LichDayHienTaiGV->lop_id]) }}" class="btn btn-outline-dark m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                                                            <i class="fa fa-pen-alt"></i>
                                                         </a></td>
                                                     </tr>
                                                     @endif
@@ -112,8 +112,8 @@
                                                         <td>{{$item->ten_nam}}</td>
                                                         <td>{{$item->ten_khoi}}</td>
                                                         <td>{{$item->ten_lop}}</td>
-                                                        <td><a href="{{ route('quan-ly-lop-show',['id'=>$item->lop_id]) }}" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
-                                                            <i class="fa fa-location-arrow"></i>
+                                                        <td><a href="{{ route('quan-ly-lop-show',['id'=>$item->lop_id]) }}" class="btn btn-outline-dark m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                                                            <i class="fa fa-pen-alt"></i>
                                                         </a></td>
                                                     </tr>
                                                     @endforeach
