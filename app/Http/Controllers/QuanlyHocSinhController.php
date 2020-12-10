@@ -28,6 +28,7 @@ use App\Models\LichSuHoc;
 use App\Models\ThoiHoc;
 use App\Repositories\LopHocRepository;
 use App\Repositories\ChinhSachCuaHocSinhRepository;
+use App\Http\Requests\HocSinh\UpdateHocSinh;
 
 class QuanlyHocSinhController extends Controller
 {
@@ -194,7 +195,7 @@ class QuanlyHocSinhController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateHocSinh $request, $id)
     {
         $dataRequest = $request->all();
         $this->ChinhSachCuaHocSinhRepository->getDeleteChinhSachHocSinh($id);
@@ -214,6 +215,7 @@ class QuanlyHocSinhController extends Controller
             $this->HocSinhRepository->ThayDoiChinhSachHocSinh($id, 0);
         }
         unset($dataRequest['_token']);
+
         $this->HocSinhRepository->updateHocSinh($id, $dataRequest);
         return redirect()->route('quan-ly-hoc-sinh-edit', ['id' => $id])->with('thongbaocapnhat', 'Thành công');
     }
