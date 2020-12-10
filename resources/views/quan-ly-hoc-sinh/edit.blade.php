@@ -919,9 +919,9 @@
         response.data.forEach(element => {
           var date = new Date(element.thoi_gian),
             yr = date.getFullYear(),
-            month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
+            month = Number(date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()),
             day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
-            newDate = day + '-' + month + '-' + yr;
+            newDate = day + '-' + (month+1) + '-' + yr;
 
           if(element.chieu_cao == 0){
             element.chieu_cao = `<span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">Không có dữ liệu</span>`
