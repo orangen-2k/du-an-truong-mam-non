@@ -1486,6 +1486,7 @@ const chuyenLop = () =>{
       showHocSinhCuaLop($('#id_lop_xep').val())
     }else{
       getDataHsChuaCoLop(1)
+      // getDataHsChuaCoLop(0)
       $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_cua_lop_hien_tai}`)   
     }
  
