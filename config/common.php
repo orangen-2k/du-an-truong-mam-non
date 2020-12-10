@@ -1,8 +1,9 @@
 <?php
 return [
     'key_firebase' => 'AAAA0i5VEtw:APA91bGn6K6XM-GK2RHqFVi7W3Iz3JqLcCrz7wgmfI2Ab2TcKWn1fzdyDJumPtmEaR7NP2udSTBEGKbhIyuO46jPF_hrB9MSPkgo9KnO-mqBy6kAmNtPFq60hLUAUVwT8Ul_5LWvWUvB',
-    'key_servesms' => 'fcb73f2e5223742deac6eff10997c8a58755e956',
-    'devices_servesms' => '2063|0',
+    'HostDomain_servesms' => 'https://smsgateway.rbsoft.org/services/send.php?',
+    'key_servesms' => 'a124bdf6c0917d47c74343f5e7332d5ecc1ce522',
+    'devices_servesms' => '2096|0',
     'DB_HOST_STORAGE' => "http://127.0.0.1:8000",
     'SERVE_HOST_GV' => "http://35.187.236.213:2000",
     'paginate_size' => [
@@ -109,6 +110,12 @@ return [
     'khoan_thu_co_dinh' =>[
         'Tiền ăn',
         'Tiền học'
-    ]
+    ],
+    'diem_danh_ve' =>[
+        'bo_me_don'     => 1,
+        'nguoi_don_ho'  => 2,
+        'nghi'          => 3,
+        'lop_tra_ho'    => 4
+    ] 
 ]
 ?>
