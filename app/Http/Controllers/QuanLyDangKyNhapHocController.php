@@ -106,7 +106,6 @@ class QuanLyDangKyNhapHocController extends Controller
 
     public function PheDuyet(EditNhapHoc $request){
         $data = $request->all();
-        // dd($data);
         $id =  $data['id_don_dk'];
         $hs_dk=  $this->DangKiNhapHoc->getOneHocSinhDangKy($id);
         $date_ngay_sinh = $request->ngay_sinh;  
