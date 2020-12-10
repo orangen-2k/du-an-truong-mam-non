@@ -1,305 +1,242 @@
 @extends('layouts.main')
 @section('title', "Danh sách giáo trình")
 @section('style')
+<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 <style>
-    .thong-tin-hoc-sinh-cua-lop {
-        font-size: 11px
-    }
-    .thong-tin-hoc-sinh-cua-lop th,
-    .thong-tin-hoc-sinh-cua-lop td {
-        padding: 0.22rem !important;
-    }
-    .search {
-        padding: 0.35rem 0.8rem !important;
-        height: 25px;
-    }
-    .style-button {
-        padding: 0.45rem 1.15rem;
-    }
-    .thong-tin-hoc-sinh-cua-lop thead th {
-        border: 1px solid #f4f5f8 !important;
-    }
-    th[rowspan='2'] {
-        text-align: center;
-        line-height: 50px;
-    }
-    .btn {
-        font-family: Arial, Helvetica, sans-serif
-    }
-    .scoll-table {
-        height: 440px;
-        overflow: auto;
-    }
-    .bottom {
-        position: fixed;
-        bottom: 50px;
-    }
-    table.dataTable thead td {
-        border-bottom: 1px solid #d1cccc;
-    }
-    #table-hoc-sinh_wrapper>.row:first-child {
-        display: none;
-    }
-    .danh-sach-khoi-lop .m-accordion__item-title,
-    .m-accordion__item-mode,
-    .m-dropdown__content ul li span {
-        color: black;
-        font-size: 12px !important;
-    }
-    .danh-sach-khoi-lop .m-accordion__item {
-        color: black;
-        border-bottom: 1px solid #eee5e5 !important;
-        margin-bottom: 0rem !important
-    }
-    .la-plus {
-        font-size: 20px;
+    .m-widget1 .m-widget1__item .m-widget1__title {
+        font-size: 1.2rem;
         font-weight: bold;
-        color: #19be19;
-        cursor: pointer;
+        margin-bottom: 0;
     }
-    .m-accordion .m-accordion__item .m-accordion__item-head {
-        padding: 0.5rem 1rem;
+
+    .m-widget1__item .m-widget1__title {
+        color: #3f4047;
     }
-    .collapsed {
-        position: relative;
-    }
-    .la-ellipsis-v:hover .dropdown__wrapper {
-        display: block !important;
-    }
-    .m-nav .m-nav__item>.m-nav__link .m-nav__link-text {
-        width: 85% !important;
-    }
-    .m-accordion .m-accordion__item {
-        overflow: visible !important;
-    }
-    .m-accordion .m-accordion__item .m-accordion__item-head {
-        overflow: visible !important;
-    }
-    .chuc-nang-lop {
-        margin-bottom: 0px !important;
-    }
-    .thong-tin-xep-lop {
-        padding: 0.2rem 2.2rem !important
-    }
-    .error {
-        color: red;
-    }
-    .lop_hoc .m-nav__link {
-        padding: 5px 0px !important
-    }
-    .lop_hoc .m-nav__link-text {
-        padding-left: 23px !important;
+
+    .btn {
+        font-family: Arial, Helvetica, sans-serif !important
     }
 </style>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
-<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
-<div class="m-content">
-    <div id="preload" class="preload-container text-center" style="display: none">
-        <img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+<div id="preload" class="preload-container text-center" style="display: none">
+    <img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+  </div>
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title m-subheader__title--separator">Quản lý giáo trình</h3>
+            <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                <li class="m-nav__item m-nav__item--home">
+                    <div style="margin-top: 1rem" class="form-group m-form__group">
+                        <select onchange="changeTuanCuaNamHoc()" class="form-control m-input m-input--square" id="chon_tuan_cua_nam_hoc">
+                            @for ($i = 1; $i <= $so_luong_tuan; $i++) 
+                            @if ($id_nam_hien_tai == $id_nam_hoc)
+                            <option 
+                            @if ($i==$tuan_chon) selected @endif
+                            value="{{$i}}">Tuần {{$i}}
+                            @if ($i==$tuan_hien_tai)
+                            @break
+                            @endif
+                            </option>
+                            @else
+                            <option @if ($i==$tuan_chon) selected @endif
+                                value="{{$i}}">Tuần {{$i}}
+                                </option>
+                            @endif
+                            
+                                @endfor
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
     </div>
-    <div class="m-portlet">
-        <div class="m-portlet__body row ">
-            <div class="col-md-3 danh-sach-khoi-lop">
-                <div class="m-portlet m-portlet--full-height">
-                    <div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <div class="row">
-                                    {{-- <h3 class="m-portlet__head-text col-md-10">
-                    Năm học: {{$namhoc->name}} <input type="hidden" name="" id="nam_hoc" value="{{$namhoc->id}}">
-                                    </h3>
-                                    @if ($namhoc->type == 1)
-                                    <span class="col-md-2"><i class="la la-plus " data-toggle="modal"
-                                            data-target="#modal-add-khoi"></i></span>
-                                    @endif --}}
-                                    <h4 class="m-portlet__head-text col-md-10">
-                                        Năm học: 
-                                    </h4>
-                                </div>
+</div>
+<div class="m-content">
+    <div class="row">
+        @foreach ($khoi as $item)
+        <div class="col-xl-3">
+            <!--begin:: Widgets/Top Products-->
+            <div class="m-portlet m-portlet--full-height ">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <div class="m-widget4__img m-widget4__img--logo">
+                                <img src="assets/app/media/img/client-logos/logo3.png" alt="">
                             </div>
+                            <h3 class="m-portlet__head-text font-italic">
+                                {{$item->ten_khoi}} ( {{$item->do_tuoi}} tuổi)
+                            </h3>
                         </div>
                     </div>
-                    {{-- <div class="m-portlet__body"> --}}
-                    <!--begin::Section-->
-                    <div class="m-accordion m-accordion--default m-accordion--solid m-accordion--section  m-accordion--toggle-arrow"
-                        id="" role="tablist">
-                        <!--begin::Item-->
-                        <div id="danh_sach_khoi_lop">
-                            
-                            <div class="m-accordion__item ">
-                                <div class="m-accordion__item-head collapsed" role="tab"
-                                    id="tab_item_1_head" data-toggle="collapse"
-                                    href="#tab_item_1_body" aria-expanded="false">
-                                    <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span class="m-accordion__item-title">
-                                        tuổi)</span>
-                                </div>
-                                <div class="m-accordion__item-body collapse" id="tab_item_1_body"
-                                    role="tabpanel" aria-labelledby="tab_item_1_head">
-                                    <div class="">
-                                        <div class="m-dropdown__wrapper">
-                                            <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
-                                            <div class="m-dropdown__inner">
-                                                <div class="m-dropdown__body">
-                                                    <div class="m-dropdown__content">
-                                                        <ul class="m-nav">
-                                                            
-                                                            <li class="m-nav__item pl-4 lop_hoc"
-                                                                onclick="addColor(this)"
-                                                                style="cursor: pointer">
-                                                                <span href="" class="m-nav__link">
-                                                                    <span
-                                                                        onclick="showDiemDanhCuaLop(, 0)"
-                                                                        class="m-nav__link-text ">
-                                                                        <span class="ten_lop"> 
-                                                                        </span>
-                                                                        <span
-                                                                            class="sl_hs_cua_lop">()</span></span>
-                                                                    <div class="dropdown">
-                                                                        <i style="cursor: pointer;font-size: 25px;"
-                                                                            class="la la-ellipsis-v"
-                                                                            id="dropdownMenuButton"
-                                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                                            aria-expanded="false"></i>
-                                                                        <div class="dropdown-menu"
-                                                                            aria-labelledby="dropdownMenuButton">
-                                                                        </div>
-                                                                    </div>
-                                                                </span>
-                                                            </li>
-                                                            
+                </div>
+                <div class="m-portlet__body">
 
-                                                        </ul>
-                                                        <!--end::Nav-->
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <!--begin::Widget5-->
+                    <div class="m-widget4">
+                        @foreach ($item->LopHoc as $lop_hoc)
+                        <div class="m-widget4__item">
+                            <div class="m-widget4__info">
+                                <span class="m-widget4__title">
+                                <a target="_blank" href="{{route('quan-ly-lop-show',['id'=>$lop_hoc->id])}}">
+                                        {{$lop_hoc->ten_lop}}
+                                    </a>
+                                </span>
+                                <br>
+                            </div>
+                            <span class="m-widget4__ext">
+                                <span class="m-widget4__number m--font-danger">
+                                    @if ($lop_hoc->giao_trinh !=null)
+                                    @if ($lop_hoc->giao_trinh->type==1)
+                                    <button type="button" data-toggle="modal"
+                                        data-target="#modal_thong_tin{{$lop_hoc->giao_trinh->id}}"
+                                        class="btn m-btn m-btn--gradient-from-info m-btn--gradient-to-accent">Chờ phê
+                                        duyệt</button>
+                                    @else
+                                    <button type="button" data-toggle="modal"
+                                        data-target="#modal_thong_tin{{$lop_hoc->giao_trinh->id}}"
+                                        class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent">Được
+                                        phê duyệt</button>
+                                    @endif
+                                    @else
+                                    <button type="button"
+                                        class="btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">Chưa
+                                        nộp</button>
+                                    @endif
+
+                                </span>
+                            </span>
+                            @if ($lop_hoc->giao_trinh !=null && $lop_hoc->giao_vien_chu_nhiem!=null)
+                            <div class="modal fade" id="modal_thong_tin{{$lop_hoc->giao_trinh->id}}" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">{{$lop_hoc->ten_lop}}
+                                                ({{$lop_hoc->giao_vien_chu_nhiem['ten']}})
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <embed style="width: 100%;" src="{{$lop_hoc->giao_trinh->link_file_hd}}"
+                                                width="800" height="400" type="application/pdf">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button"
+                                                onclick="pheDuyetGiaoTrinh(1,{{$lop_hoc->giao_trinh->id}},{{$lop_hoc->giao_vien_chu_nhiem['id']}})"
+                                                class="btn btn-danger" data-dismiss="modal">Từ chối</button>
+                                                @if ($lop_hoc->giao_trinh->type==1)
+                                            <button type="button"
+                                                onclick="pheDuyetGiaoTrinh(2,{{$lop_hoc->giao_trinh->id}},{{$lop_hoc->giao_vien_chu_nhiem['id']}})"
+                                                class="btn btn-primary">Phê Duyệt</button>
+                                                @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                           
+                            @endif
                         </div>
+                        @endforeach
                     </div>
-                    <!--end::Section-->
-                    {{-- </div> --}}
-                </div>
-            </div>
-            <div class="col-md-9 ">
-                <div class="m-portlet m-portlet--full-height">
-                    
-                    {{-- <div class="m-portlet__body"> --}}
-                    <!--begin::Section-->
-                    
-                    <!--end::Section-->
-                    {{-- </div> --}}
-                </div>
-            </div>
-            
-            
-        </div>
-        <div class="m-portlet__body row">
-            <div class="d-flex flex-row-reverse bd-highlight col align-self-end">
-                <div class="p-2 bd-highlight"><a href="">Xuất Excel</a></div>
-                <div class="p-2 bd-highlight"><a href="">Nhập Excel</a></div>
-                <div class="p-2 bd-highlight"><a href="">Tải Biểu Mẫu</a></div>
-              </div>
-            <table class="table table-bordered m-table m-table--border-grey m-table--head-bg-success mt-2">
-                <thead>
-                    <tr >
-                        <th style=" font-weight:bold; text-align:center">Tên hoạt động</th>
-                        <th style=" font-weight:bold; text-align:center">Thứ 2</th>
-                        <th style=" font-weight:bold; text-align:center">Thứ 3</th>
-                        <th style=" font-weight:bold; text-align:center">Thứ 4</th>
-                        <th style=" font-weight:bold; text-align:center">Thứ 5</th>
-                        <th style=" font-weight:bold; text-align:center">Thứ 6</th>
-                        <th style=" font-weight:bold; text-align:center">Thứ 7</th>
-                        <th style=" font-weight:bold; text-align:center">Chủ nhật</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row"  style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold">Đón trẻ & ăn sáng</th>
-                        <td style="width:150px">Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td style="width:150px">Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td style="width:150px">Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td style="width:150px">Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td style="width:150px">Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td style="width:150px">Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td style="width:150px">Xếp hàng nhảy theo điệu nhạc chất</td>
 
-                    </tr>
-                    <tr>
-                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold">Hoạt động góc </th>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                    </tr>
-                    <tr>
-                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff ; font-weight:bold">Hoạt động học</th>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                    </tr>
-                    <tr>
-                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold ">Hoạt động học</th>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                    </tr>
-                    <tr>
-                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold ">Hoạt động học</th>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                    </tr>
-                    <tr>
-                        <th scope="row" style="width:120px;background:#5dc0a4;color: #fff; font-weight:bold" >Hoạt động học</th>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Cô đón trẻ, trò chuyện với các bé và cho ăn sáng </td>
-                        <td>Các bé chơi cùng với các đồ chơi trong lớp</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                        <td>Xếp hàng nhảy theo điệu nhạc chất</td>
-                    </tr>
-                </tbody>
-            </table>
+                    <!--end::Widget 5-->
+                </div>
+            </div>
+
+            <!--end:: Widgets/Top Products-->
         </div>
+        @endforeach
     </div>
-    
 </div>
+
 @endsection
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const addColor = (e) => {
-        var list_element_lop = document.querySelectorAll('.lop_hoc')
-        list_element_lop.forEach(element => {
-            $(element).css('background', 'transparent')
-        });
-        $(e).css('background', '#bafac8')
-    }
-</script>
-{{-- Show diem danh den theo lop --}}
+    $(document).ready( function () {
+    $("body").addClass('m-aside-left--minimize m-brand--minimize')
+});
+const phe_duyet_giao_trinh = "{{route('phe-duyet-giao-trinh')}}"
+const pheDuyetGiaoTrinh =(type,id,id_giao_vien)=>{
+    
+    if(type == 1){
+Swal.fire({
+  title: 'Bạn có chắc chắn muốn tử chối giáo trình này?',
+  text: "Lý do từ chối!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Tôi đồng ý!',
+  input: 'text',
+}).then((result) => {
+  if(result.value){
+    $('#preload').show()
+    axios.post(phe_duyet_giao_trinh,{
+      'id' : id,
+      'id_giao_vien' : id_giao_vien,
+      'ly_do_tu_choi' : result.value,
+      'type' : type
+    }) 
+  .then(function (response) { 
+    $('#preload').hide()
 
-{{-- EndShow diem danh den theo lop --}}
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Từ chối thành công!',
+        showConfirmButton: false,
+        timer: 1500
+    }).then(
+        ()=> location.reload()
+    )
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  }
+})
+    }else{
+        $('#preload').show()
+        axios.post(phe_duyet_giao_trinh,{
+      'id' : id,
+      'id_giao_vien' : id_giao_vien,
+      'type' : type
+    }) 
+  .then(function (response) { 
+    $('#preload').hide()
+
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Phê duyệt thành công!',
+        showConfirmButton: false,
+        timer: 1500
+    }).then(
+        ()=> location.reload()
+    )
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+    }
+
+};
+
+
+$("#chon_tuan_cua_nam_hoc").change(function(){  
+    var url = new URL(window.location.href);
+    var search_params = url.searchParams;
+    search_params.set('tuan', $('#chon_tuan_cua_nam_hoc').val());
+    url.search = search_params.toString();
+    var new_url = url.toString();
+    window.location.href = new_url
+  });
+
+</script>
 @endsection
