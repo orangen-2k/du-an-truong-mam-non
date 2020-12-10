@@ -27,7 +27,7 @@ class jobSmS implements ShouldQueue
      */
     public function handle()
     {
-        $HostDomain = 'https://smsgateway.rbsoft.org/services/send.php?';
+        $HostDomain = config('common.HostDomain_servesms');
         $key        = config('common.key_servesms');
         $devices    = config('common.devices_servesms');
         $Api_SMS    = $HostDomain .'key=' . $key .'&number=' . $this->params['number'] .

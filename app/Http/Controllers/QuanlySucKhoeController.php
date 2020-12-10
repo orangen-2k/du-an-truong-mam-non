@@ -179,12 +179,13 @@ class QuanlySucKhoeController extends Controller
     function showXoaDot(){
         $dot_suc_khoe = $this->SucKhoeRepository->GetALLDotKhamSK();
         $arr = [];
-        foreach($dot_suc_khoe as $item){
-            $dataSucKhoe = $this->SucKhoeRepository->getAllSucKhoeHocSinhTheoDot($item->id);
+       
+            $dataSucKhoe = $this->SucKhoeRepository->getAllSucKhoeHocSinhTheoDot($dot_suc_khoe->id);
+            
             if(count($dataSucKhoe) == 0){
-                array_push($arr, $item);
+                array_push($arr, $dot_suc_khoe);
             }
-        }
+        
         return $arr;
     }
 

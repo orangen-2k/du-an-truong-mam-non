@@ -507,9 +507,9 @@ Toast.fire({
             }
             var date = new Date(element.ngay_sinh),
             yr = date.getFullYear(),
-            month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
+            month = Number(date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()),
             day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
-            newDate = day + '-' + month + '-' + yr;
+            newDate = day + '-' + (month+1) + '-' + yr;
             html_show+=`
             <tr>
               <th scope="row">${i++}</th>
@@ -619,9 +619,9 @@ Toast.fire({
 
           var date = new Date(element.thoi_gian),
             yr = date.getFullYear(),
-            month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
+            month = Number(date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()),
             day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
-            newDate = day + '-' + month + '-' + yr;
+            newDate = day + '-' + (month+1) + '-' + yr;
 
           
           html_modal += 
@@ -861,9 +861,9 @@ Toast.fire({
         response.data.forEach(element => {
           var date = new Date(element.thoi_gian),
             yr = date.getFullYear(),
-            month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
+            month = Number(date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth()),
             day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
-            newDate = day + '-' + month + '-' + yr;
+            newDate = day + '-' + (month+1) + '-' + yr;
           htmlXoa += `
           <tr>
             <td>${stt++}</td>
@@ -872,15 +872,17 @@ Toast.fire({
             <td><a href="#" onclick="XoaDot(${element.id})"><i class="fa fa-trash-alt"></i></a></td>
           </tr>
           `
-          htmlXoa += 
+          
+          
+        })
+        htmlXoa += 
           `
           </tbody>
           </table>
           </div>
           `
-          $('#content-modal-xoa-dot').html(htmlXoa)
+        $('#content-modal-xoa-dot').html(htmlXoa)
           $('#preload').css('display', 'none');
-        })
       }
       else{
         var htmlXoa = `Không tìm thấy đợt nào cả !`
