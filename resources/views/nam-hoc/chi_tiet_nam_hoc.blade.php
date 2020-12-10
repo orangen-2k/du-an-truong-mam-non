@@ -915,10 +915,15 @@ const addKhoi = () => {
         </div>
       `)
       $('#modal-add-khoi').modal('hide')
-      swal({
-          title: "Thêm khối thành công",
-          icon: "success",
-        });
+      Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Thêm khối thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(
+        
+                    )
     })
     .catch(function (error) {
       $('.error').html('')
@@ -952,10 +957,15 @@ const capNhatKhoi = (id) =>{
      var id_box_khoi_update = 'tab'+$('#id_khoi_sua').val()+'_item_1_head'
      var testgetid = $(`#${id_box_khoi_update}`).find('.m-accordion__item-title').html(`${response.data.ten_khoi} (${response.data.do_tuoi+" tuổi"})`)
      $('#modal-sua-khoi').modal('hide')
-     swal({
-          title: "Cập nhật thành công",
-          icon: "success",
-        });
+     Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Cập nhật thành công!',
+          showConfirmButton: false,
+          timer: 1500
+      }).then(
+          
+          )
     })
     .catch(function (error) {
       $('.error-update-ten-khoi').html(error.response.data.errors.ten_khoi)
@@ -979,11 +989,15 @@ const deleteKhoi = (id) =>{
           }).then(function(response){
         var id_box_khoi_update = 'tab'+id+'_item_1_head'
         $(`#${id_box_khoi_update}`).parents('.m-accordion__item').remove();
-        swal({
-          title: "Xóa thành công",
-          text: "You clicked the button!",
-          icon: "success",
-        });
+        Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Xóa thành công!',
+              showConfirmButton: false,
+              timer: 1500
+          }).then(
+          
+              )
       })
       }
   })
@@ -1362,11 +1376,15 @@ const deleteLop = (id) =>{
           }).then(function(response){
         var id_box_lop_update = 'lop_'+id
         $(`#${id_box_lop_update}`).remove();
-        swal({
-          title: "Xóa thành công",
-          text: "You clicked the button!",
-          icon: "success",
-        });
+        Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Xóa thành công!',
+        showConfirmButton: false,
+        timer: 1500
+    }).then(
+        ()=> location.href = "{{route('quan-ly-dot-thu-index',['id'=>0])}}"
+        )
       })
       }
   })
@@ -1412,10 +1430,15 @@ const xepLop = () =>{
     showHocSinhCuaLop($('#id_lop_xep').val())
     var component_lop = 'lop_'+$('#id_lop_xep').val()
     $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop})`)
-    swal({
-          title: "Xếp lớp thành công",
-          icon: "success",
-        });
+    Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Xếp lớp thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(
+                   
+                    )
         $('#modal-xep-lop-tu-dong').modal('hide')
   })
   .catch(function (error) {
@@ -1490,10 +1513,15 @@ const chuyenLop = () =>{
       $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_cua_lop_hien_tai}`)   
     }
  
-    swal({
-          title: "Chuyển lớp thành công",
-          icon: "success",
-    });
+    Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Chuyển lớp thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(
+                   
+                    )
   })
   .catch(function (error) {
     console.log(error);
@@ -1523,10 +1551,15 @@ const setThoiHoc = (id,id_lop) =>{
     var slHocSinhThoiHoc = Number($('#hoc_sinh_thoi_hoc').html())
     $('#hoc_sinh_thoi_hoc').html(slHocSinhThoiHoc+1)
     $('#modal-xep-lop-tu-dong').modal('hide')
-    swal({
-          title: "Xác nhận cho học sinh thôi học",
-          icon: "success",
-    });
+    Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Xác nhận cho học sinh thôi học!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(
+                   
+                    )
   })
   .catch(function (error) {
     // handle error
@@ -1572,16 +1605,26 @@ const xacNhanDiHocLai = () =>{
   .then(function (response) { 
     var element_id_hs = `[id_hs*=${id_hs_nghi_hoc}]`
     $('#modal-di-hoc-lai').modal('hide')
-    swal({
-          title: "Xác nhận học sinh đi học lại",
-          icon: "success",
-    });
+  
     $(`${element_id_hs}`).parents('tr').remove()
+    console.log(lop_chon_hoc_lai)
     var component_lop = 'lop_'+lop_chon_hoc_lai
-    $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${slHsCuaLop+1})`)
+    var sl_hs_hien_tai = $(`#${component_lop}`).find('.sl_hs_cua_lop').html()
+    console.log(sl_hs_hien_tai)
+    var sl_cat_chuoi = Number(sl_hs_hien_tai.slice(1,3));
+    console.log(sl_cat_chuoi)
+    $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${sl_cat_chuoi+1})`)
     var slHocSinhThoiHoc = Number($('#hoc_sinh_thoi_hoc').html())
     $('#hoc_sinh_thoi_hoc').html(slHocSinhThoiHoc-1)
-
+    Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Xác nhận cho học sinh đi học lại thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(
+                   
+                    )
     
   })
   .catch(function (error) {
