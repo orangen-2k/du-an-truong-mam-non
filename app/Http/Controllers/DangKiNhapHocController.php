@@ -109,9 +109,9 @@ class DangKiNhapHocController extends Controller
 
 
         // gửi số
-        $HostDomain = 'https://smsgateway.rbsoft.org/services/send.php?';
-        $key        = 'fcb73f2e5223742deac6eff10997c8a58755e956';
-        $devices    = '2063|0';
+        $HostDomain = config('common.HostDomain_servesms');
+        $key        = config('common.key_servesms');
+        $devices    = config('common.devices_servesms');
         $number     = $data['dien_thoai_dang_ki'];
         $Api_SMS    = $HostDomain .'key=' . $key .'&number='.$number.'&message=' 
         .$data['ma_xac_nhan'] . '+l%C3%A0+m%C3%A3+x%C3%A1c+nh%E1%BA%ADn+c%E1%BB%A7a+b%E1%BA%A1n&devices=' . $devices;
@@ -120,17 +120,6 @@ class DangKiNhapHocController extends Controller
         return $id_create;
         
     }
-
-
-    // public function testApi(){
-    //     $username = 'ph0843';
-    //     $HostDomain = 'https://smsgateway.rbsoft.org/services/send.php?';
-    //     $key        = 'fcb73f2e5223742deac6eff10997c8a58755e956';
-    //     $devices    = '2063|0';
-    //     $Api_SMS    = $HostDomain .'key=' . $key .'&number=0376802022'.'&message= Thông tin tài khoản cool kid : Tài khoản: '.$username.' Mật khẩu: 12345'
-    //     .'&devices=' . $devices;
-    //      $response   = Http::get($Api_SMS);
-    // }
 
     public function checkMaDon($madon){
         $check = $this->DangKiNhapHoc->getOneHocSinhDangKyByMaDon($madon);
