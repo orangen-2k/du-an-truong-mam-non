@@ -44,6 +44,8 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
 
 Route::prefix('/quan-ly-giao-trinh')->group(function(){
     Route::get('/', 'QuanLyGiaoTrinhController@index')->name('quan-ly-giao-trinh-index');
+    Route::post('phe-duyet-giao-trinh', 'QuanLyGiaoTrinhController@pheDuyetGiaoTrinh')->name('phe-duyet-giao-trinh');
+
 });
 
 Route::prefix('quan-ly-giao-vien')->group(function () {
