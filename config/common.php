@@ -109,6 +109,12 @@ return [
     'khoan_thu_co_dinh' =>[
         'Tiền ăn',
         'Tiền học'
+    ],
+
+    'back_up_nam_hoc' =>[
+        'chua_back_up',
+        'back_up_tu_dong',
+        'back_up_thu_cong'
     ]
 ]
 ?>

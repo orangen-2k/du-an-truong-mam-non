@@ -69,7 +69,7 @@ class QuanLyGiaoTrinhController extends Controller
             $tuan_chon = $date->weekOfYear -$date_start->weekOfYear ;
 
         }
-        $tuan_hien_tai = $date->weekOfYear -$date_start->weekOfYear ;
+        $tuan_hien_tai = $date->weekOfYear -$date_start->weekOfYear +1;
         foreach ($khoi as $key => $value) {
             foreach ($value->LopHoc as  $lop_hoc) {
                 $lop_hoc['giao_trinh'] = $this->HoatDongRepository->showGiaoTrinhTheoLop($tuan_chon,$lop_hoc->id,$id_nam_hoc);
