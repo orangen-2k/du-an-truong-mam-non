@@ -25,7 +25,7 @@ class SendOTPController extends Controller
             $checkUser->token       = Str::random(60).md5(time());
             $checkUser->save();
 
-            $HostDomain = 'https://smsgateway.rbsoft.org/services/send.php?';
+            $HostDomain = config('common.HostDomain_servesms');
             $key        = config('common.key_servesms');
             $devices    = config('common.devices_servesms');
             $number     = $checkUser->phone_number;

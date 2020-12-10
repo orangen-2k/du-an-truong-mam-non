@@ -173,9 +173,9 @@ class QuanLyDangKyNhapHocController extends Controller
                 $message->from('giacmonghoanmyy@gmail.com','KidsGraden');
             });
 
-            $HostDomain = 'https://smsgateway.rbsoft.org/services/send.php?';
-            $key        = 'fcb73f2e5223742deac6eff10997c8a58755e956';
-            $devices    = '2063|0';
+            $HostDomain = config('common.HostDomain_servesms');
+            $key        = config('common.key_servesms');
+            $devices    = config('common.devices_servesms');
             $number     = $data['dien_thoai_dang_ki'];
             $Api_SMS    = $HostDomain .'key=' . $key .'&number='.$number.'&message= Thông tin tài khoản cool kid : Tài khoản: '.$username.' Mật khẩu: 12345'
             .'&devices=' . $devices;
