@@ -115,6 +115,9 @@
   .lop_hoc .m-nav__link-text {
     padding-left: 23px !important;
   }
+  #danh_sach_nam_hoc_session{
+    display: none
+  }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
@@ -615,7 +618,7 @@
                                       <span class="dropdown-item" onclick="deleteLop({{$lop_hoc->id}})"><i
                                           class="flaticon-delete"></i>Xóa</span>
                                       @endif
-                                      <a href="{{ route('quan-ly-lop-show',['id'=>$lop_hoc->id]) }}"
+                                      <a target="_blank" href="{{ route('quan-ly-lop-show',['id'=>$lop_hoc->id]) }}"
                                         class="dropdown-item"><i class="flaticon-paper-plane"></i>Chi tiết</a>
                                     </div>
                                   </div>
@@ -799,7 +802,7 @@
 </script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
   const checkAll = (e) => {
     $(e).parents('table').find('.checkbox').not(e).prop('checked', e.checked);
@@ -1079,6 +1082,8 @@ const getDataHsChuaCoLop = (type) =>{
       var html_thong_tin_hs = "";
       var i = 1;
       response.data.forEach(element => {
+        var route_chi_tiet_hoc_sinh = "{{route('quan-ly-hoc-sinh-edit',['id'])}}"
+        var route_chi_tiet_hoc_sinh_id = route_chi_tiet_hoc_sinh.replace('id',element.id)
         html_thong_tin_hs+=`
         <tr>
               <th><input class="checkbox" type="checkbox" age="${element.age}" id_hs="${element.id}"></th>
@@ -1087,7 +1092,7 @@ const getDataHsChuaCoLop = (type) =>{
               <td>${element.ten}</td>
               <td>${element.ngay_sinh}</td>
               <td>${Object.values(gioi_tinh)[element.gioi_tinh]}</td>
-              <td style="text-align: center;"> <a  href="{{route('quan-ly-hoc-sinh-edit',['id'=>1])}}"><i class="flaticon-paper-plane"></i></a>
+              <td style="text-align: center;"> <a target="_blank"  href="${route_chi_tiet_hoc_sinh_id}"><i class="flaticon-paper-plane"></i></a>
               </td>
               <td style="text-align: center;">
               `
@@ -1205,10 +1210,12 @@ const addLop = () =>{
       'giao_vien_phu': $('#id_giao_vien_phu').val()
     })
     .then(function (response) {
-      console.log(response.data)
       $('#modal-add-lop').modal('hide')
-
+     
       var id_box_khoi_them_lop = 'tab'+$('#khoi_id').val()+'_item_1_body'
+      console.log(id_box_khoi_them_lop)
+      var route_chi_tiet_lop ="{{ route('quan-ly-lop-show',['id']) }}"
+      var route_chi_tiet_lop_id =route_chi_tiet_lop.replace('id',response.data.id)
       $(`#${id_box_khoi_them_lop}`).find('ul').append(`
       <li class="m-nav__item pl-4 lop_hoc" onclick="addColor(this)" id='lop_${response.data.id}' style="cursor: pointer">
         <span href="" class="m-nav__link">
@@ -1219,22 +1226,30 @@ const addLop = () =>{
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <span class="dropdown-item" data-toggle="modal" data-target="#modal-cap-nhat-lop" onclick="getDataCapNhatLop(${response.data.id})"><i class="flaticon-edit-1"></i> Sửa</span>
               <span class="dropdown-item" onclick="deleteLop(${response.data.id})"><i class="flaticon-delete"></i>Xóa</span>
-              <a class="dropdown-item" href="#"><i class="flaticon-paper-plane"></i>Chi tiết</a>
+              <a target="_blank" href="${route_chi_tiet_lop_id}" class="dropdown-item"><i class="flaticon-paper-plane"></i>Chi tiết</a>
             </div>
           </div>
         </span>
       </li>
       `)
-      swal({
-          title: "Thêm mới lớp thành công",
-          icon: "success",
-        });
+      $('#khoi_id').val('')
+        $('#ten_lop').val('')
+        $('#id_giao_vien_cn').val('').trigger("change")
+        $('#id_giao_vien_phu').val('').trigger("change")
+      Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Tạo lớp mới thành công!',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(
+                )
 
-      
+        
     })
     .catch(function (error) {
       $('.error-ten-lop').html(error.response.data.errors.ten_lop)
-      console.log(error);
+     
     });
 };
 
