@@ -199,6 +199,8 @@ Route::prefix('quan-ly-suc-khoe')->group(function(){
     Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
     Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
     Route::post('/kiem-tra-dot-moi-nhat', 'QuanlySucKhoeController@kiemtraDotMoiNhat')->name('quan-ly-suc-khoe-kiem-tra-dot-moi-nhat');
+    Route::post('/show-xoa-dot', 'QuanlySucKhoeController@showXoaDot')->name('quan-ly-suc-khoe-show-xoa-dot');
+    Route::post('/xoa-dot', 'QuanlySucKhoeController@xoaDot')->name('quan-ly-suc-khoe-xoa-dot');
 });
 
 Route::prefix('quan-ly-khoan-thu')->group(function(){
@@ -255,3 +257,8 @@ Route::prefix('quan-ly-dien-uu-tien')->group(function(){
 
 Route::get('mat-khau-reset', "Auth\QuenMatKhauController@showResetForm")->name('mat-khau.reset');
 Route::post('mat-khau-update', "Auth\QuenMatKhauController@reset")->name('mat-khau.update');
+
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::get('thong-tin-nha-truong', 'NhaTruongController@index')->name('nha-truong.index');
+    Route::post('them-thong-tin-nha-truong', 'NhaTruongController@store')->name('nha-truong.store');
+});

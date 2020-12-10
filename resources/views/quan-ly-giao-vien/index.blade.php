@@ -5,6 +5,9 @@
     .paginate_button{
         /* background-color: red !important */
     }
+    #myTable_filter{
+        display: none;
+    }
     
 </style>
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
@@ -38,7 +41,7 @@
                         <div id="thongbaokhoiphuc">
                        
                         </div>
-                        <table id="myTable"  class="table m-table dataTable m-table--head-bg-success">
+                        <table id="myTable"  class="table table-striped- table-bordered table-hover table-checkable dataTable dtr-inline">
                             <thead>
                                 <tr align="center">
                                     
@@ -63,7 +66,7 @@
                                     <td scope="row"><input class="search5 form-control m-input" style="width: 100px;" type="text"></td>
                                     <td scope="row"><input class="search6 form-control m-input" style="width: 100px;" type="text"></td>
                                     <td scope="row">
-                                        <select name="" id="" class="search7 form-control m-input m-input--square" style="width: 120px">
+                                        <select name="" id="" class="search7 form-control form-control-sm form-filter m-input" style="width: 100px">
                                             <option  value="">Chọn</option>
                                             <option  value="GV chính">GV chính</option>
                                             <option  value="GV phụ">GV phụ</option>
@@ -108,13 +111,13 @@
                                         
                                     </td>
                                     <td>
-                                        <a href="#" onclick="ThoiDay({{$item->id}})" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
-                                            <i class="fa fa-lock"></i>
+                                        <a href="#" onclick="ThoiDay({{$item->id}})" class="btn btn-outline-dark m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                                            <i class="fa fa-user-lock"></i>
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{route('quan-ly-giao-vien-edit', ['id' => $item->id])}}" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
-                                            <i class="fa fa-location-arrow"></i>
+                                        <a target="_blank" href="{{route('quan-ly-giao-vien-edit', ['id' => $item->id])}}" class="btn btn-outline-dark m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                                            <i class="fa fa-pen-alt"></i>
                                         </a>
                                     </td>
                                     
@@ -128,7 +131,7 @@
                 </div>
                 <div class="tab-pane" id="m_tabs_3_2" role="tabpanel">
                     <div class="m-portlet__body table-responsive alert_gv_chua_xep_lop">
-                        <table id="myTable2"  class="table m-table dataTable m-table--head-bg-success table_chua_xep_lop">
+                        <table id="myTable2"  class="table table-striped- table-bordered table-hover table-checkable dataTable dtr-inline table_chua_xep_lop">
                             <thead>
                                 <tr align="center">
                                     
@@ -162,7 +165,7 @@
                 <div class="tab-pane" id="m_tabs_3_3" role="tabpanel">
                     <div class="m-portlet__body table-responsive alert_thongbao">
                         
-                        <table id="myTable3"  class="table m-table dataTable m-table--head-bg-success table_nghi_day">
+                        <table id="myTable3"  class="table table-striped- table-bordered table-hover table-checkable dataTable dtr-inline table_nghi_day">
                             <thead>
                                 <tr align="center">
                                    
@@ -251,6 +254,7 @@ $(document).ready( function () {
                 // // "aTargets": [ 0, 7],
                 // "lengthChange": false
                 
+                
             }, 
          ]
          }
@@ -302,49 +306,6 @@ $(document).ready( function () {
     .draw();
     });
 
-    //DataTable 2
-    var dtable2 = $('#myTable2').DataTable(
-        {
-        // 'paging': false,
-        "aoColumnDefs": [
-            { 
-                "bSortable": false,
-                "aTargets": [ 0, 5 ],
-                "lengthChange": false
-                
-            }, 
-         ]
-         }
-    );
-    $('.search_1').on('keyup change', function() {
-    dtable2
-    .column(1).search(this.value)
-    .draw();
-    });
-
-    $('.search_2').on('keyup change', function() {
-    dtable2
-    .column(2).search(this.value)
-    .draw();
-    });
-
-    $('.search_3').on('keyup change', function() {
-    dtable2
-    .column(3).search(this.value)
-    .draw();
-    });
-
-    $('.search_4').on('keyup change', function() {
-    dtable2
-    .column(4).search(this.value)
-    .draw();
-    });
-
-    $('.search_5').on('keyup change', function() {
-    dtable2
-    .column(5).search(this.value)
-    .draw();
-    });
 });
 $(".dataTable").on("draw.dt", function (e) {                    
     setCustomPagingSigns.call($(this));
@@ -402,8 +363,8 @@ function GiaoVienChuaCoLop(){
                 <td><img src="${element.anh}" height="75px" width="60px" alt=""></td>
             
                 <td>
-                <a href="${url_chi_tiet_gv_new}" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
-                <i class="fa fa-location-arrow"></i>
+                <a href="${url_chi_tiet_gv_new}" class="btn btn-outline-dark m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                <i class="fa fa-pen-alt"></i>
                 </a>
                 </td>
                 </tr>
@@ -412,20 +373,6 @@ function GiaoVienChuaCoLop(){
             })
             $('#giao-vien-chua-co-lop').html(html);
         }
-        if(data.length == 0){
-            $('.table_chua_xep_lop').remove()
-            var alertTB = `
-            <div class="m-alert m-alert--icon alert alert-danger" role="alert">
-                <div class="m-alert__icon">
-                <i class="flaticon-danger"></i>
-                </div>
-                <div class="m-alert__text">
-                    <strong>Trống!</strong> Chưa có dữ liệu nào cả.
-                </div>
-            </div>`
-            $('.alert_gv_chua_xep_lop').html(alertTB)
-        }
-        
         $('#preload').css('display', 'none');
     })
 }
@@ -455,13 +402,13 @@ function GiaoVienNghiDay(){
             <td>${element.ten}</td>
             <td><img src="${element.anh}" height="75px" width="60px" alt=""></td>
             <td>	
-                <a href="#" onclick="ThayDoiTrangThaiGV(${element.id})" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                <a href="#" onclick="ThayDoiTrangThaiGV(${element.id})" class="btn btn-outline-dark m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
                     <i class="fa fa-lock-open"></i>
                 </a>
             </td>
             <td>
-                <a href="${url_chi_tiet_gv_new}" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
-                <i class="fa fa-location-arrow"></i>
+                <a href="${url_chi_tiet_gv_new}" class="btn btn-outline-dark m-btn m-btn--icon m-btn--icon-only m-btn--pill m-btn--air">
+                <i class="fa fa-pen-alt"></i>
                 </a>
             </td>
             </tr>
@@ -470,19 +417,7 @@ function GiaoVienNghiDay(){
         })
         $('#giao-vien-thoi-day').html(html);
     }
-    // if(data.length == 0){
-    //     $('.table_nghi_day').remove();
-    //     var alertTB = `
-    //     <div class="m-alert m-alert--icon alert alert-danger" role="alert">
-    //         <div class="m-alert__icon">
-    //         <i class="flaticon-danger"></i>
-    //         </div>
-    //         <div class="m-alert__text">
-    //             <strong>Trống!</strong> Chưa có dữ liệu nào cả.
-    //         </div>
-    //     </div>`
-    //     $('.alert_thongbao').html(alertTB)
-    // }
+    
         $('#preload').css('display', 'none')
     })
     

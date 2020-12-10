@@ -240,6 +240,29 @@
         </div>
       </div>
       {{-- EndModal Sức Khỏe --}}
+
+      {{-- Modal Xóa Sức Khỏe --}}
+      <div class="modal fade" id="modal-xoa-dot-kham-suc-khoe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title" id="exampleModalLabel">Lưu ý: Chỉ có thể xóa đợt mà chưa lớp nào đã nhập dữ liệu</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body" id="content-modal-xoa-dot">
+              Đang kiểm tra
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      {{-- EndModal Xóa Sức Khỏe --}}
+
       <div class="modal fade show" id="modal-them-dot-kham-suc-khoe" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
@@ -281,7 +304,11 @@
       </div>
       <div class="col-md-9 table-responsive scoll-table">
         <div class="row mb-3">
-          <div class="col-md-8 ">
+          @if($nam_hoc_moi_nhat == $nam_hoc_hien_tai)
+          <div class="col-md-6">
+          @else 
+          <div class="col-md-8">
+          @endif
             <input type="number" id="lop_id_hien_tai" hidden class="ml-3">
           <select class="form-control m-input select2" name="option" id="dot-kham-suc-khoe">
             @foreach($getAllDotKhamSucKhoe as $item)
@@ -298,6 +325,10 @@
         <div class="col-md-4">
           <button type="submit" class="btn btn-outline-brand" data-toggle="modal"
           data-target="#modal-them-dot-kham-suc-khoe">Thêm đợt khám sức khỏe mới</button>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" onclick="ShowModalXoaDot()" class="btn btn-outline-danger" data-toggle="modal"
+          data-target="#modal-xoa-dot-kham-suc-khoe">Xóa đợt</button>
         </div>
         @endif
         </div>  
@@ -582,6 +613,8 @@ Toast.fire({
         var labels_chart = []
         var data_chart = []
         var data_chart2 = []
+        var backgroundColor_ChieuCao = []
+        var backgroundColor_CanNang = []
         response.data.forEach(element => {
 
           var date = new Date(element.thoi_gian),
@@ -590,12 +623,7 @@ Toast.fire({
             day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
             newDate = day + '-' + month + '-' + yr;
 
-          if(element.chieu_cao == 0){
-            element.chieu_cao = `<span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">Không có dữ liệu</span>`
-          }
-          if(element.can_nang == 0){
-            element.can_nang = `<span class="m-badge m-badge--danger m-badge--wide m-badge--rounded">Không có dữ liệu</span>`
-          }
+          
           html_modal += 
           `
           <tr>
@@ -614,6 +642,8 @@ Toast.fire({
           labels_chart.unshift(element.ten_dot)
           data_chart.unshift(element.chieu_cao)
           data_chart2.unshift(element.can_nang)
+          backgroundColor_ChieuCao.unshift('rgba(255, 99, 132, 0.2)')
+          backgroundColor_CanNang.unshift('rgba(75, 192, 192, 0.2)')
         })
         html_modal += 
         `
@@ -632,12 +662,8 @@ Toast.fire({
                 datasets: [{
                     label: 'Chiều cao',
                     data: data_chart,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                    ],
+                    backgroundColor: backgroundColor_ChieuCao,
+                    borderColor: backgroundColor_ChieuCao,
                     borderWidth: 1
                 }
                 ]
@@ -661,13 +687,8 @@ Toast.fire({
                 datasets: [{
                     label: 'Cân nặng',
                     data: data_chart2,
-                    backgroundColor: [
-                       
-                        'rgba(75, 192, 192, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)'
-                    ],
+                    backgroundColor: backgroundColor_CanNang,
+                    borderColor: backgroundColor_CanNang,
                     borderWidth: 1
                 }
                 ]
@@ -746,7 +767,7 @@ Toast.fire({
               
                 Swal.fire({
                     title: 'Có chắc chắn thêm mới đợt sức khỏe ?',
-                    text: "Bạn sẽ không thể sửa hay xóa lại đợt sức khỏe bạn vừa thêm mới",
+                    text: "Thời gian phải lớn hơn thời gian của đợt gần nhất",
                     footer: '<i style="color:red">Các lớp chưa được thêm từ đợt trước sẽ tự động là 0</i>',
                     icon: 'warning',
                     showCancelButton: true,
@@ -780,6 +801,16 @@ Toast.fire({
                           })
                           
                         }
+                        //Lỗi Ngày
+                        if(response.data == "Lỗi Ngày"){
+                          
+                          Swal.fire({
+                          icon: 'error',
+                          title: 'Thất bại',
+                          text: 'Thời gian phải lớn hơn đợt mới nhất'
+                          })
+                          
+                        }
                         //Hoàn thành
                         if(response.data == "Hoàn Thành"){
                             const Toast = Swal.mixin({
@@ -807,6 +838,81 @@ Toast.fire({
                 return false;
             });
         });
+    var url_ShowModalXoaDot = "{{route('quan-ly-suc-khoe-show-xoa-dot')}}"
+    function ShowModalXoaDot(){
+      $('#preload').css('display', 'block');
+      axios.post(url_ShowModalXoaDot)
+      .then(function(response){
+        if(response.data.length > 0){
+        var htmlXoa = `
+        <div class="col-md-12 mb-3">
+          <table class="table m-table m-table--head-bg-success table-bordered">
+          <thead align="center">
+               <tr>
+                   <th>Số thứ tự</th>
+                   <th>Đợt</th>
+                   <th>Thời gian</th>
+                   <th>Chức năng</th>
+               </tr>
+          </thead>
+          <tbody align="center">
+        `
+        var stt = 1
+        response.data.forEach(element => {
+          var date = new Date(element.thoi_gian),
+            yr = date.getFullYear(),
+            month = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth(),
+            day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
+            newDate = day + '-' + month + '-' + yr;
+          htmlXoa += `
+          <tr>
+            <td>${stt++}</td>
+            <td>${element.ten_dot}</td>
+            <td>${newDate}</td>
+            <td><a href="#" onclick="XoaDot(${element.id})"><i class="fa fa-trash-alt"></i></a></td>
+          </tr>
+          `
+          htmlXoa += 
+          `
+          </tbody>
+          </table>
+          </div>
+          `
+          $('#content-modal-xoa-dot').html(htmlXoa)
+          $('#preload').css('display', 'none');
+        })
+      }
+      else{
+        var htmlXoa = `Không tìm thấy đợt nào cả !`
+        $('#content-modal-xoa-dot').html(htmlXoa)
+        $('#preload').css('display', 'none');
+      }
+      })
+    }
+    var url_XoaDot = "{{route('quan-ly-suc-khoe-xoa-dot')}}"
+    function XoaDot(id){
+     
+        Swal.fire({
+        title: 'Bạn có chắc chắn muốn xóa đợt này',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Đóng'
+        }).then((result) => {
+        if (result.isConfirmed) {
+          axios.post(url_XoaDot, {id:id})
+
+          Swal.fire(
+            'Hoàn thành',
+            'Đã xóa thành công',
+            'success'
+          )
+          location.reload()
+        }
+      })
+    }
 </script>
 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>

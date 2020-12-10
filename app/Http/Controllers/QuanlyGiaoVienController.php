@@ -249,7 +249,7 @@ class QuanlyGiaoVienController extends Controller
                 $data[$key]->anh = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
             }
             else{
-                $data[$key]->anh = asset('storage/'.$item->anh);
+                $data[$key]->anh = $item->anh;
             }
         }
         
@@ -265,7 +265,7 @@ class QuanlyGiaoVienController extends Controller
                 $data[$key]->anh = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
             }
             else{
-                $data[$key]->anh = asset('storage/'.$item->anh);
+                $data[$key]->anh = $item->anh;
             }
         }
         return $data;

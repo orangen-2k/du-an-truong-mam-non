@@ -87,7 +87,7 @@ class ThongBaoController extends Controller
         $list_device = [];
         foreach($listHocSinh as $hoc_sinh){
             array_push($list_id_hoc_sinh, $hoc_sinh->id);
-            array_push($list_device, $hoc_sinh->User->device);
+            array_push($list_device, !empty($hoc_sinh->User->device) ? $hoc_sinh->User->device : '');
         }
 
         $content = [

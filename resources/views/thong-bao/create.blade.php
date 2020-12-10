@@ -399,10 +399,10 @@
                 'lop_id': lop_id,
                 'isCheck': isCheck
             }, function (response) {
-                aLert2("center", "success", "Gửi thông báo thành công!", false, 1500, false);
                 location.reload()
 
             })
+            aLert2("center", "success", "Soạn nội dung thành công đang tiến hành gửi!", false, 3500, false);
         }
     }
 
@@ -460,10 +460,10 @@
                 type: 2
             },
             function (response) {
-                aLert2("center", "success", "Gửi thông báo thành công!", false, 1500, false);
                 location.reload()
             }
             );
+            aLert2("center", "success", "Soạn nội dung thành công đang tiến hành gửi!", false, 3500, false);
         }
     }
 
@@ -497,9 +497,9 @@
                 'content': editor.getData()
             }, 
             function (response) {
-                aLert2("center", "success", "Gửi thông báo thành công!", false, 1500, false);
                 location.reload()
             })
+            aLert2("center", "success", "Soạn nội dung thành công đang tiến hành gửi!", false, 3500, false);
         }
     }
 

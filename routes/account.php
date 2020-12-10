@@ -31,4 +31,6 @@ Route::group(['middleware' => ['auth', 'web']], function () {
     Route::get('edit-hoc-sinh/{id}','AccountController@getEditHocSinh')->name('edit-hoc-sinh');
     Route::post('update-hoc-sinh/{id}','AccountController@editHocSinh')->name('update-hoc-sinh');
     Route::get('danh-sach-hoc-sinh-gop-tai-khoan/{id}','AccountController@listHocSinh')->name('danh-sach-hoc-sinh-gop-tai-khoan');
+    Route::get('edit-tk-hoc-sinh/{id}','AccountController@editTkHocSinh')->name('edit-tk-hoc-sinh');
+    Route::post('edit-tk-hoc-sinh/{id}','AccountController@updateTkHocSinh')->name('update-tk-hoc-sinh');
 });

@@ -139,6 +139,12 @@
 							
 					
 						
+							<li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+								<a href="{{ route('nha-truong.index')}}" class="m-menu__link m-menu__toggle">
+									<i class="m-menu__link-icon flaticon-settings-1"></i>
+									<span class="m-menu__link-text">Cài đặt</span>
+								</a>
+							</li>
 							
 						</ul>
 					</div>

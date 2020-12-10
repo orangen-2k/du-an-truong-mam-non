@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\DoiTuongChinhSachRepository;
+use App\Http\Requests\DienUuTien\StoreDienUuTien;
 
 class DienUuTienController extends Controller
 {
@@ -20,7 +21,7 @@ class DienUuTienController extends Controller
         return view('quan-ly-dien-uu-tien.index', compact('data'));
     }
     
-    public function store(Request $request){
+    public function store(StoreDienUuTien $request){
         $request = $request->all();
         unset($request['_token']);
         $array = [
@@ -48,7 +49,7 @@ class DienUuTienController extends Controller
         $data = $this->DoiTuongChinhSachRepository->GetMotDienUuTien($request['id']);
         return $data;
     }
-    public function EditDienUuTien($id, Request $request){
+    public function EditDienUuTien($id, StoreDienUuTien $request){
         $request = $request->all();
         unset($request['_token']);
         $this->DoiTuongChinhSachRepository->ChinhSuaChinhSach($request, $id);
