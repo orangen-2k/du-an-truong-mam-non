@@ -448,7 +448,7 @@
         // $('#danh_sach_dot').html(html_danh_sach_dot)
 
     };
-
+    
     const DaDongTien = () =>{
         let myForm = document.getElementById('form_dong_hoc_phi_theo_lop');
         let formData = new FormData(myForm);
@@ -457,7 +457,7 @@
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Gửi thông báo thành công!',
+                    title: 'Học sinh đóng tiền thành công!',
                     showConfirmButton: false,
                     timer: 1500
                 }).then(

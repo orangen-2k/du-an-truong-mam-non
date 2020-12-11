@@ -7,9 +7,9 @@ use APP\Models\KhoanThu;
 use APP\Models\ChiTietDotThuTien;
 
 
-class DotThuTien extends Model
+class ThangThuTien extends Model
 {
-    protected $table = 'dot_thu_tien';
+    protected $table = 'thang_thu_tien';
     protected $fillable = 
     [
         "id",
@@ -20,6 +20,6 @@ class DotThuTien extends Model
 
     public function ChiTietDotThuTien()
     {
-        return $this->hasMany(ChiTietDotThuTien::class,'id_dot_thu_tien','id');
+        return $this->hasMany(ChiTietDotThuTien::class,'id_thang_thu_tien','id');
     }
 }
