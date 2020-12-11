@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\QuanLyKhoanThuRepository;
-use App\Repositories\QuanLyDotThuRepository;
+use App\Repositories\QuanLyThangThuRepository;
 use App\Repositories\NamHocRepository;
 use App\Repositories\DiemDanhDenRepository;
 use App\Repositories\DanhSachThuTienRepository;
@@ -26,10 +26,10 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use PDF;
 
-class QuanLyDotThuController extends Controller
+class QuanLyThangThuController extends Controller
 {
     protected $QuanLyKhoanThuRepository;
-    protected $QuanLyDotThuRepository;
+    protected $QuanLyThangThuRepository;
     protected $NamHocRepository;
     protected $DiemDanhDenRepository;
     protected $DanhSachThuTienRepository;
@@ -45,7 +45,7 @@ class QuanLyDotThuController extends Controller
     private $danh_sach_chi_tiet_khoan_thu = [];
     public function __construct(
         QuanLyKhoanThuRepository $QuanLyKhoanThuRepository,
-        QuanLyDotThuRepository $QuanLyDotThuRepository,
+        QuanLyThangThuRepository $QuanLyThangThuRepository,
         NamHocRepository $NamHocRepository,
         DiemDanhDenRepository $DiemDanhDenRepository,
         DanhSachThuTienRepository $DanhSachThuTienRepository,
@@ -58,7 +58,7 @@ class QuanLyDotThuController extends Controller
         NotificationRepository $NotificationRepository
     ) {
         $this->QuanLyKhoanThuRepository = $QuanLyKhoanThuRepository;
-        $this->QuanLyDotThuRepository = $QuanLyDotThuRepository;
+        $this->QuanLyThangThuRepository = $QuanLyThangThuRepository;
         $this->NamHocRepository = $NamHocRepository;
         $this->DiemDanhDenRepository = $DiemDanhDenRepository;
         $this->DanhSachThuTienRepository = $DanhSachThuTienRepository;
@@ -80,7 +80,7 @@ class QuanLyDotThuController extends Controller
             array_push($thang_trong_nam, $dt->format("m-Y"));
         }
         $khoan_thu = $this->QuanLyKhoanThuRepository->getKhoanThuTheoDoi();
-        $dot_thu = $nam_hoc_moi->DotThuTien()->orderBy('nam_thu', 'desc')->orderBy('thang_thu', 'desc')->get();
+        $dot_thu = $nam_hoc_moi->ThangThuTien()->orderBy('nam_thu', 'desc')->orderBy('thang_thu', 'desc')->get();
         if ($id == 0 && count($dot_thu) > 0) {
             $tong_tien_toan_bo = [];
             $tong_tien_toan_bo['tong_tien_phai_dong'] = 0;
@@ -91,19 +91,19 @@ class QuanLyDotThuController extends Controller
             $data_dot_thu = $dot_thu[0];
             $id = $dot_thu[0]->id;
             foreach ($data_dot_thu->ChiTietDotThuTien as $key => $value) {
-                $id_dot_thu_tien = $value->id;
+                $id_chi_tiet_dot_thu = $value->id;
                 foreach ($nam_hoc_moi->Khoi as $key_khoi => $chi_tiet_khoi) {
-                    $chi_tiet_khoi->tong_tien_phai_dong += $this->DanhSachThuTienRepository->tongTienPhaiDong($id_dot_thu_tien, $chi_tiet_khoi->id);
-                    $chi_tiet_khoi->so_da_thu = $this->DanhSachThuTienRepository->tongTienDaThu($id_dot_thu_tien, $chi_tiet_khoi->id);
+                    $chi_tiet_khoi->tong_tien_phai_dong += $this->DanhSachThuTienRepository->tongTienPhaiDong($id_chi_tiet_dot_thu, $chi_tiet_khoi->id);
+                    $chi_tiet_khoi->so_da_thu = $this->DanhSachThuTienRepository->tongTienDaThu($id_chi_tiet_dot_thu, $chi_tiet_khoi->id);
                     $chi_tiet_khoi->con_phai_thu = $chi_tiet_khoi->tong_tien_phai_dong - $chi_tiet_khoi->so_da_thu;
-                    $chi_tiet_khoi->so_luong_chua_thong_bao += $this->DanhSachThuTienRepository->tongSoLuongCanThongBao($id_dot_thu_tien, $chi_tiet_khoi->id);
-                    $chi_tiet_khoi->so_luong_da_thong_bao += $this->DanhSachThuTienRepository->soLuongDaThongBao($id_dot_thu_tien, $chi_tiet_khoi->id);
+                    $chi_tiet_khoi->so_luong_chua_thong_bao += $this->DanhSachThuTienRepository->tongSoLuongCanThongBao($id_chi_tiet_dot_thu, $chi_tiet_khoi->id);
+                    $chi_tiet_khoi->so_luong_da_thong_bao += $this->DanhSachThuTienRepository->soLuongDaThongBao($id_chi_tiet_dot_thu, $chi_tiet_khoi->id);
 
-                    $tong_tien_toan_bo['tong_tien_phai_dong'] += $this->DanhSachThuTienRepository->tongTienPhaiDong($id_dot_thu_tien, $chi_tiet_khoi->id);;
-                    $tong_tien_toan_bo['so_da_thu'] += $this->DanhSachThuTienRepository->tongTienDaThu($id_dot_thu_tien, $chi_tiet_khoi->id);
+                    $tong_tien_toan_bo['tong_tien_phai_dong'] += $this->DanhSachThuTienRepository->tongTienPhaiDong($id_chi_tiet_dot_thu, $chi_tiet_khoi->id);;
+                    $tong_tien_toan_bo['so_da_thu'] += $this->DanhSachThuTienRepository->tongTienDaThu($id_chi_tiet_dot_thu, $chi_tiet_khoi->id);
                     $tong_tien_toan_bo['con_phai_thu'] = $tong_tien_toan_bo['tong_tien_phai_dong'] - $tong_tien_toan_bo['so_da_thu'];
-                    $tong_tien_toan_bo['so_luong_chua_thong_bao'] += $this->DanhSachThuTienRepository->tongSoLuongCanThongBao($id_dot_thu_tien, $chi_tiet_khoi->id);
-                    $tong_tien_toan_bo['so_luong_da_thong_bao'] += $this->DanhSachThuTienRepository->soLuongDaThongBao($id_dot_thu_tien, $chi_tiet_khoi->id);
+                    $tong_tien_toan_bo['so_luong_chua_thong_bao'] += $this->DanhSachThuTienRepository->tongSoLuongCanThongBao($id_chi_tiet_dot_thu, $chi_tiet_khoi->id);
+                    $tong_tien_toan_bo['so_luong_da_thong_bao'] += $this->DanhSachThuTienRepository->soLuongDaThongBao($id_chi_tiet_dot_thu, $chi_tiet_khoi->id);
                 }
             }
             $danh_sach_thu_tien_theo_khoi = $nam_hoc_moi->Khoi;
@@ -112,7 +112,7 @@ class QuanLyDotThuController extends Controller
             if ($id == 0) {
                 $data_dot_thu = null;
             } else {
-                $data_dot_thu = $this->QuanLyDotThuRepository->find($id);
+                $data_dot_thu = $this->QuanLyThangThuRepository->find($id);
             }
             // dd($data_dot_thu);
 
@@ -176,20 +176,22 @@ class QuanLyDotThuController extends Controller
 
         DB::transaction(function () use ($data, $request, $khoan_tien_an, $khoan_tien_hoc, $danh_sach_khoan) {
             // start add đợt thu tồn tại
-            $kiem_tra_ton_tai_dot_thu = $this->QuanLyDotThuRepository->kiemTraTonTaiDotThu($data['nam_thu'], $data['thang_thu']);
+            $kiem_tra_ton_tai_dot_thu = $this->QuanLyThangThuRepository->kiemTraTonTaiDotThu($data['nam_thu'], $data['thang_thu']);
 
             if ($kiem_tra_ton_tai_dot_thu != null) {
                 $chi_tiet_dot_thu = [
                     'ten_dot_thu' => $data['ten_dot_thu'],
-                    'id_dot_thu_tien' => $kiem_tra_ton_tai_dot_thu->id
+                    'id_thang_thu_tien' => $kiem_tra_ton_tai_dot_thu->id
                 ];
+                $id_thang_thu_tien = $kiem_tra_ton_tai_dot_thu->id;
                 $id_chi_tiet_dot_thu =  $this->QuanLyChiTietDotThuRepository->create($chi_tiet_dot_thu)->id;
             } else {
-                $id_dot_thu =  $this->QuanLyDotThuRepository->create($data)->id;
+                $id_dot_thu =  $this->QuanLyThangThuRepository->create($data)->id;
                 $chi_tiet_dot_thu = [
                     'ten_dot_thu' => $data['ten_dot_thu'],
-                    'id_dot_thu_tien' => $id_dot_thu
+                    'id_thang_thu_tien' => $id_dot_thu
                 ];
+                $id_thang_thu_tien = $id_dot_thu;
                 $id_chi_tiet_dot_thu =  $this->QuanLyChiTietDotThuRepository->create($chi_tiet_dot_thu)->id;
             }
 
@@ -278,10 +280,11 @@ class QuanLyDotThuController extends Controller
                     // var_dump($this->tong_tien_phai_dong);
                 }
                 // dd($hoc_sinh->this->tong_tien_phai_dong);
-                $thong_tin_dong_tien['id_dot_thu_tien'] = $id_chi_tiet_dot_thu;
+                $thong_tin_dong_tien['id_chi_tiet_dot_thu'] = $id_chi_tiet_dot_thu;
                 $thong_tin_dong_tien['id_hoc_sinh'] = $hoc_sinh->id;
                 $thong_tin_dong_tien['lop_id'] = $hoc_sinh->lop_id;
                 $thong_tin_dong_tien['khoi_id'] = $hoc_sinh->Lop->Khoi->id;
+                $thong_tin_dong_tien['id_thang_thu_tien'] = $id_thang_thu_tien;
                 $thong_tin_dong_tien['so_tien_phai_dong'] = $hoc_sinh->tong_tien_phai_dong == null ? 0 : $hoc_sinh->tong_tien_phai_dong;
                 // dd( $thong_tin_dong_tien['so_tien_phai_dong']);
                 $id_danh_sach_thu_tien = $this->DanhSachThuTienRepository->create($thong_tin_dong_tien)->id;
@@ -355,7 +358,7 @@ class QuanLyDotThuController extends Controller
         } else {
             $danh_sach_khoi = $this->KhoiRepository->getArrayKhoi($request->id_khoi);
         }
-        $data_dot_thu = $this->QuanLyDotThuRepository->find($request->id_dot_thu);
+        $data_dot_thu = $this->QuanLyThangThuRepository->find($request->id_dot_thu);
 
 
         $danh_sach_show = [];
@@ -403,7 +406,7 @@ class QuanLyDotThuController extends Controller
     }
     public function chiTietDotThu($id, $khoi)
     {
-        $dot_thu = $this->QuanLyDotThuRepository->find($id);
+        $dot_thu = $this->QuanLyThangThuRepository->find($id);
         $khoi_thu = $this->KhoiRepository->find($khoi);
         return view('quan-ly-hoc-phi.chi_tiet_dot_thu', compact('dot_thu', 'khoi_thu'));
     }
@@ -436,9 +439,9 @@ class QuanLyDotThuController extends Controller
         $thong_tin_dot = $this->QuanLyChiTietDotThuRepository->find($request->dot_thu);
         // dd($thong_tin_dot);
         if($request->trang_thai_thong_bao==1){
-            $title_thong_bao = 'Thông báo đóng tiền học ' . $thong_tin_dot->DotThuTien->thang_thu . '/' . $thong_tin_dot->DotThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu;
+            $title_thong_bao = 'Thông báo đóng tiền học ' . $thong_tin_dot->ThangThuTien->thang_thu . '/' . $thong_tin_dot->ThangThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu;
         }else{
-            $title_thong_bao = 'Hủy thông báo đóng tiền học ' . $thong_tin_dot->DotThuTien->thang_thu . '/' . $thong_tin_dot->DotThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu;
+            $title_thong_bao = 'Hủy thông báo đóng tiền học ' . $thong_tin_dot->ThangThuTien->thang_thu . '/' . $thong_tin_dot->ThangThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu;
             
         }
      
@@ -512,7 +515,7 @@ class QuanLyDotThuController extends Controller
         $hoc_sinh_theo_id=$this->DanhSachThuTienRepository->getDanhSachHocSinhtThongBaoTheoLop($request->danh_sach_hoc_sinh,$request->id_lop_chon,$request->id_dot_chon);
         $thong_tin_dot = $this->QuanLyChiTietDotThuRepository->find($request->id_dot_chon);
         $content = [
-            "title"   => 'Thông báo đóng tiền học ' . $thong_tin_dot->DotThuTien->thang_thu . '/' . $thong_tin_dot->DotThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu,
+            "title"   => 'Thông báo đóng tiền học ' . $thong_tin_dot->ThangThuTien->thang_thu . '/' . $thong_tin_dot->ThangThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu,
             "content" => 'Đóng tiền học',
             "auth_id" => Auth::id(),
             "type"    => 1,
@@ -520,7 +523,7 @@ class QuanLyDotThuController extends Controller
         ];
 
         $dataCreate = [
-            'title'     => 'Thông báo đóng tiền học ' . $thong_tin_dot->DotThuTien->thang_thu . '/' . $thong_tin_dot->DotThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu,
+            'title'     => 'Thông báo đóng tiền học ' . $thong_tin_dot->ThangThuTien->thang_thu . '/' . $thong_tin_dot->ThangThuTien->nam_thu . ' ' . $thong_tin_dot->ten_dot_thu,
             'content'   => 'Đóng tiền',
             'auth_id'   => Auth::id(),
             'type'      => config('common.noi_dung_thong_bao_type.hoc_sinh')
@@ -580,11 +583,11 @@ class QuanLyDotThuController extends Controller
     {
         $id_chi_tiet_dot_thu = $request->id_chi_tiet_dot_thu;
         $id_dot_thu = $request->id_dot_thu;
-        $so_luong_dot = $this->QuanLyDotThuRepository->find($id_dot_thu)->ChiTietDotThuTien()->count();
+        $so_luong_dot = $this->QuanLyThangThuRepository->find($id_dot_thu)->ChiTietDotThuTien()->count();
        
         DB::transaction(function () use ($id_chi_tiet_dot_thu,$id_dot_thu,$so_luong_dot) {
             if($so_luong_dot == 1){
-                $this->QuanLyDotThuRepository->delete($id_dot_thu);
+                $this->QuanLyThangThuRepository->delete($id_dot_thu);
             };
             $this->QuanLyChiTietDotThuRepository->delete($id_chi_tiet_dot_thu);
             $id_danh_sach_thu_tien = $this->DanhSachThuTienRepository->getIdDanhSachThuTien($id_chi_tiet_dot_thu);

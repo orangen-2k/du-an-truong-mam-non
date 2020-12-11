@@ -17,7 +17,7 @@ class KhoanThu extends Model
         "xuat_hoa_don",
         "theo_doi",
         "don_vi_tinh",
-        "id_dot_thu_tien",
+        "id_chi_tiet_dot_thu",
         "mac_dinh"
     ];
 

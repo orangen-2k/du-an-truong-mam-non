@@ -4,20 +4,20 @@ namespace App\Repositories;
 
 use App\Repositories\BaseModelRepository;
 use Illuminate\Support\Facades\DB;
-use App\Models\DotThuTien;
+use App\Models\ThangThuTien;
 
-class QuanLyDotThuRepository extends BaseModelRepository {
+class QuanLyThangThuRepository extends BaseModelRepository {
 
     protected $model;
     public function __construct(
-        DotThuTien $model
+        ThangThuTien $model
     ) {
         parent::__construct();
         $this->model = $model;
     }
     public function getModel()
     {
-        return DotThuTien::class;
+        return ThangThuTien::class;
     }
 
     public function deleteList($array)
