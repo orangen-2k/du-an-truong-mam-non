@@ -405,7 +405,6 @@ class QuanLyDotThuController extends Controller
     {
         $dot_thu = $this->QuanLyDotThuRepository->find($id);
         $khoi_thu = $this->KhoiRepository->find($khoi);
-
         return view('quan-ly-hoc-phi.chi_tiet_dot_thu', compact('dot_thu', 'khoi_thu'));
     }
 

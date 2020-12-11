@@ -45,7 +45,7 @@ class DemDanhDen extends Seeder
                     'phieu_an' => $an
                 ]);
                 DB::table('diem_danh_den')->insert([
-                    'ngay_diem_danh_den' => '2019-10-0'.$i,
+                    'ngay_diem_danh_den' => '2020-10-0'.$i,
                     'hoc_sinh_id' => $item->id,
                     'giao_vien_id' => $giao_vien->id,
                     'type' => 2,

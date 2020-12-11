@@ -81,17 +81,22 @@
         <div class=" d-flex flex-row-reverse bd-highlight mb-4 ">
             <a href="#" onclick="ShowChiTietSucKhoe({{$id}})" class="btn btn-secondary m-btn m-btn--icon" data-toggle="modal" data-target="#modal_suc_khoe">
                 <span>
-                    <i class="flaticon-black"></i>
+                    <i class="fa fa-notes-medical"></i>
                     <span>Sức khỏe</span>
                 </span>
             </a>
             <a href="#" onclick="ShowLichSuHocSinh({{$id}})" class="btn btn-secondary m-btn m-btn--icon" data-toggle="modal" data-target="#modal_lich_su_hoc">
                 <span>
-                    <i class="flaticon-black"></i>
-                    <span>Lịch sử học sinh</span>
+                    <i class="fa fa-pencil-alt"></i>
+                    <span>Lịch sử học</span>
                 </span>
             </a>
-            
+            <a href="#" onclick="ShowHocPhi({{$id}})" class="btn btn-secondary m-btn m-btn--icon" data-toggle="modal" data-target="">
+                <span>
+                    <i class="fa fa-money-check-alt"></i>
+                    <span>Học phí</span>
+                </span>
+            </a>
             
         </div>
         
@@ -1096,6 +1101,10 @@
                     return false;
                 return true;
             }
+    function ShowHocPhi(id){
+        console.log(id)
+    }
+
     </script>
     <script src="{!! asset('js/get_quan_huyen_xa.js') !!}"></script>
 @endsection
