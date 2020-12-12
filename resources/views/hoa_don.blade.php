@@ -122,12 +122,11 @@
                         <td>
                             {{-- $item-> --}}
                             @if (count($danh_sach_mien_giam)>0)
-                            @if ($item->KhoanThu->mac_dinh==2)
-                                {{$max_mien_giam}}%
-                            @endif
-                            @if ($item->KhoanThu->mien_giam>0)
-                                {{$item->KhoanThu->mien_giam}}%
-                            @endif
+                                @if ($item->KhoanThu->mac_dinh==2)
+                                    {{$item['phan_tram_mien_giam']}}%
+                                @elseif ($item['phan_tram_mien_giam']>0)
+                                    {{$item['phan_tram_mien_giam']}}%
+                                @endif
                             @endif
                            
                         </td>

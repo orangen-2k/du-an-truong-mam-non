@@ -321,21 +321,30 @@ class QuanLyThangThuController extends Controller
             $so_buoi_an = $this->DiemDanhDenRepository->soNgayAnCuaHocSinhTheoThang($hoc_sinh->id, $data['nam_thu'], $data['thang_thu']);
             if ($khoan_thu->mien_giam > 0 && $max_mien_giam > 0) {
                 $tong_tien_an = $so_buoi_an * $khoan_tien_an->muc_thu - $so_buoi_an * $khoan_tien_an->muc_thu * $khoan_thu->mien_giam / 100;
+                $phan_tram_mien_giam = $khoan_thu->mien_giam;
             }else{
                 $tong_tien_an = $so_buoi_an * $khoan_tien_an->muc_thu;
+                $phan_tram_mien_giam = 0;
+
             }
+
+            $so_tien_thu_ban_dau = $so_buoi_an * $khoan_tien_an->muc_thu;
             
             // dd($so_buoi_an);
             $chi_tiet_khoan_thu = [
                 'id_khoan_thu' => $khoan_thu->id,
-                'so_tien' => $tong_tien_an 
+                'so_tien' => $tong_tien_an,
+                'so_tien_thu_ban_dau' => $so_tien_thu_ban_dau,
+                'phan_tram_mien_giam' => $phan_tram_mien_giam
             ];
             $this->tong_tien_phai_dong += $tong_tien_an;
             // var_dump($this->tong_tien_phai_dong);
         } elseif ($khoan_thu->mac_dinh == 2) {
             $chi_tiet_khoan_thu = [
                 'id_khoan_thu' => $khoan_thu->id,
-                'so_tien' => $khoan_tien_hoc->muc_thu - $khoan_tien_hoc->muc_thu * $max_mien_giam / 100
+                'so_tien' => $khoan_tien_hoc->muc_thu - $khoan_tien_hoc->muc_thu * $max_mien_giam / 100,
+                'so_tien_thu_ban_dau' => $khoan_tien_hoc->muc_thu,
+                'phan_tram_mien_giam' => $max_mien_giam
             ];
             $this->tong_tien_phai_dong += $khoan_tien_hoc->muc_thu - $khoan_tien_hoc->muc_thu * $max_mien_giam / 100;
             // var_dump($this->tong_tien_phai_dong);
@@ -344,13 +353,18 @@ class QuanLyThangThuController extends Controller
             $so_buoi = $this->DiemDanhVeRepository->soNgayVaoLopTraMuonTheoThang($hoc_sinh->id, $data['nam_thu'], $data['thang_thu']);
             if ($khoan_thu->mien_giam > 0 && $max_mien_giam > 0) {
                 $tong_tien_lop_tra_muon = $so_buoi * $khoan_tien_lop_tra_muon->muc_thu - $so_buoi * $khoan_tien_lop_tra_muon->muc_thu * $khoan_thu->mien_giam / 100;
+                $phan_tram_mien_giam = $khoan_thu->mien_giam;
             }else{
                 $tong_tien_lop_tra_muon = $so_buoi * $khoan_tien_lop_tra_muon->muc_thu;
+                $phan_tram_mien_giam = 0;
             }
+            $so_tien_thu_ban_dau = $so_buoi * $khoan_tien_lop_tra_muon->muc_thu;
             // dd($so_buoi_an);
             $chi_tiet_khoan_thu = [
                 'id_khoan_thu' => $khoan_thu->id,
-                'so_tien' => $tong_tien_lop_tra_muon 
+                'so_tien' => $tong_tien_lop_tra_muon,
+                'so_tien_thu_ban_dau' => $khoan_tien_lop_tra_muon->muc_thu,
+                'phan_tram_mien_giam' => $khoan_thu->mien_giam
             ];
             $this->tong_tien_phai_dong += $tong_tien_lop_tra_muon;
             // var_dump($this->tong_tien_phai_dong);
@@ -377,7 +391,9 @@ class QuanLyThangThuController extends Controller
             
             $chi_tiet_khoan_thu = [
                 'id_khoan_thu' => $khoan_thu->id,
-                'so_tien' => $tinh_khoan_thu_theo_don_vi
+                'so_tien' => $tinh_khoan_thu_theo_don_vi,
+                'so_tien_thu_ban_dau' => $tinh_khoan_thu_theo_don_vi,
+                'phan_tram_mien_giam' => $khoan_thu->mien_giam
             ];
         }
         // dd($this->tong_tien_phai_dong);
@@ -488,7 +504,11 @@ class QuanLyThangThuController extends Controller
             "content" => 'Đóng tiền học',
             "auth_id" => Auth::id(),
             "type"    => 1,
-            "route"   => "tin_tuc"
+            "route"   => json_encode([
+                'name_route' => 'DotCuaThang',
+                'id' => $thong_tin_dot->id_thang_thu_tien,
+                'so_thang' => $thong_tin_dot->ThangThuTien->thang_thu
+            ])
         ];
 
         $dataCreate = [
@@ -501,22 +521,26 @@ class QuanLyThangThuController extends Controller
         $list_id_hoc_sinh = [];
         $list_device = [];
         foreach ($hoc_sinh_theo_khoi_dot as $hoc_sinh) {
-            array_push($list_id_hoc_sinh, $hoc_sinh->id);
+            // dd($hoc_sinh->HocSinh->User->id);
+            array_push($list_id_hoc_sinh, [$hoc_sinh->HocSinh->id,$hoc_sinh->HocSinh->User->id]);
             if ($hoc_sinh->HocSinh->User != null) {
                 array_push($list_device, $hoc_sinh->HocSinh->User->device);
             }
         }
         $list_id_hoc_sinh_save_noti = [];
         foreach ($list_id_hoc_sinh as $key => $value) {
-            // dd($value);
-            $user_id = [
-                'user_id' => $value,
+            // var_dump($value);
+            $user_id = [ 
+                'id_hs' => $value[0], 
+                'user_id' => $value[1], 
                 'role'    => config('common.notification_role.hoc_sinh')
             ];
             $data_notifi = collect([$user_id, $content]);
             $data_save_notifi = $data_notifi->collapse();
             $list_id_hoc_sinh_save_noti[$key] = $data_save_notifi->toArray();
         }
+        // dd(1);
+        // var_dump($list_id_hoc_sinh_save_noti);
 
         foreach ($list_device as $key => $value) {
             $content['device'] = $value;
@@ -536,11 +560,12 @@ class QuanLyThangThuController extends Controller
 
             foreach ($list_id_hoc_sinh as $key => $value) {
                 $user_id = [
-                    'user_id'     =>  $value,
+                    'user_id'     =>  $value[0],
                     'thongbao_id' =>  $id_thong_bao
                 ];
                 array_push($list_id_hoc_sinh_save_thong_bao, $user_id);
             }
+
 
             $this->DanhSachThuTienRepository->updateThongBaoHocSinhKhoiDot($request->all());
             
@@ -557,7 +582,11 @@ class QuanLyThangThuController extends Controller
             "content" => 'Đóng tiền học',
             "auth_id" => Auth::id(),
             "type"    => 1,
-            "route"   => "tin_tuc"
+            "route"   => json_encode([
+                'name_route' => 'DotCuaThang',
+                'id' => $thong_tin_dot->id_thang_thu_tien,
+                'so_thang' => $thong_tin_dot->ThangThuTien->thang_thu
+            ])
         ];
 
         $dataCreate = [
@@ -570,7 +599,7 @@ class QuanLyThangThuController extends Controller
         $list_id_hoc_sinh = [];
         $list_device = [];
         foreach ($hoc_sinh_theo_id as $hoc_sinh) {
-            array_push($list_id_hoc_sinh, $hoc_sinh->id);
+            array_push($list_id_hoc_sinh, [$hoc_sinh->HocSinh->id,$hoc_sinh->HocSinh->User->id]);
             if ($hoc_sinh->HocSinh->User != null) {
                 array_push($list_device, $hoc_sinh->HocSinh->User->device);
             }
@@ -579,7 +608,8 @@ class QuanLyThangThuController extends Controller
         foreach ($list_id_hoc_sinh as $key => $value) {
             // dd($value);
             $user_id = [
-                'user_id' => $value,
+                'id_hs' => $value[0], 
+                'user_id' => $value[1], 
                 'role'    => config('common.notification_role.hoc_sinh')
             ];
             $data_notifi = collect([$user_id, $content]);
@@ -605,7 +635,7 @@ class QuanLyThangThuController extends Controller
 
             foreach ($list_id_hoc_sinh as $key => $value) {
                 $user_id = [
-                    'user_id'     =>  $value,
+                    'user_id'     =>  $value[0],
                     'thongbao_id' =>  $id_thong_bao
                 ];
                 array_push($list_id_hoc_sinh_save_thong_bao, $user_id);
@@ -640,16 +670,17 @@ class QuanLyThangThuController extends Controller
     public function xuatHoaDonPdF($id_hoc_sinh,$id_chi_tiet_dot){
         $hoc_sinh = $this->ChinhSachCuaHocSinhRepository->getChinhSachCuaHocSinh($id_hoc_sinh);
         $danh_sach_mien_giam = $this->ChinhSachCuaHocSinhRepository->getChinhSachCuaHocSinh($id_hoc_sinh);
-        $max_mien_giam = $this->ChinhSachCuaHocSinhRepository->maxMienGiam($id_hoc_sinh);
+        // $max_mien_giam = $this->ChinhSachCuaHocSinhRepository->maxMienGiam($id_hoc_sinh);
         $khoan_thu = $this->QuanLyKhoanThuRepository->getKhoanThuTheoChiTietDot($id_chi_tiet_dot);  
         $thu_tien_hoc_sinh = $this->DanhSachThuTienRepository->getHocSinhThuTien($id_chi_tiet_dot,$id_hoc_sinh);
         $chi_tiet_dong_tien = ChiTietDongTienHocSinh::where('id_danh_sach_thu_tien',$thu_tien_hoc_sinh['id'])->orderBy('id_khoan_thu','desc')->get();
         $thong_tin_truong = ThongTinTruong::get()->first();
         $thong_tin_hoc_sinh = $this->HocSinhRepository->find($id_hoc_sinh);
+        // dd($chi_tiet_dong_tien);
         $pdf = PDF::loadView('hoa_don', [
             'khoan_thu' => $khoan_thu,
             'chi_tiet_dong_tien' => $chi_tiet_dong_tien,
-            'max_mien_giam' => $max_mien_giam,
+            // 'max_mien_giam' => $max_mien_giam,
             'thu_tien_hoc_sinh' => $thu_tien_hoc_sinh,
             'danh_sach_mien_giam' => $danh_sach_mien_giam,
             'thong_tin_truong' => $thong_tin_truong,

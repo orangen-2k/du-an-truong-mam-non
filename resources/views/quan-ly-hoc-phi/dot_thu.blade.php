@@ -538,11 +538,13 @@
             });  
     };
     const chiTietHocPhiKhoi = (id)=>{
+        $('#preload').css('display', 'block');
             axios.post(url_tong_tien_thu_theo_khoi,{
                 'id_khoi': id,
                 'id_dot_thu':{{$id}}
             })
             .then(function (response) {
+                $('#preload').css('display', 'none');
                 var html_data_show=''
                 console.log(response.data)
                 response.data.danh_sach_show.forEach(element => {
@@ -579,10 +581,12 @@
     };
 
     const GuiThongBaoTheoKhoi = () =>{
+        $('#preload').css('display', 'block');
         let myForm = document.getElementById('form_gui_thong_bao_theo_khoi');
         let formData = new FormData(myForm);
         axios.post(url_gui_thong_bao_theo_khoi,formData)
             .then(function (response) {
+                $('#preload').css('display', 'none');
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -590,6 +594,7 @@
                     showConfirmButton: false,
                     timer: 1500
                 }).then(
+            
                     ()=> location.href = "{{route('quan-ly-dot-thu-index',['id'=>0])}}"
                     )
             })

@@ -13,6 +13,8 @@ class ChiTietDongTienHocSinh extends Model
         "id_khoan_thu",
         "id_danh_sach_thu_tien",
         "so_tien",
+        'phan_tram_mien_giam',
+        'so_tien_thu_ban_dau'
     ];
 
     public function KhoanThu()
