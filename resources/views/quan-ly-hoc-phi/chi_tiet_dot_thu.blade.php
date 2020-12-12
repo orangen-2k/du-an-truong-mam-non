@@ -40,11 +40,16 @@
     .bat_buoc{
         color: red
     }
-    .table{
-        width: 120%;
+    .btn{
+        font-family: Arial, Helvetica, sans-serif
     }
+    /* .table{
+        width: 120%;
+  overflow-x: scroll !important;
+    } */
     
 </style>
+<link href="{!! asset('vendors/perfect-scrollbar/css/perfect-scrollbar.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="m-content">
@@ -122,7 +127,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                <div class="show_table">                     
+                                <div class="show_table table-responsive-xl m-scrollable m-scroller" data-scrollable="true" style="height: 400px;" >                     
                                  
                                 </div>
                                 </div>
@@ -141,6 +146,7 @@
     </div>
     <!--End::Section-->
 </div>
+
 
      {{-- modal gửi thông báo theo khối --}}
      <div class="modal fade" id="thong_bao_theo_lop" role="dialog">
@@ -258,7 +264,7 @@
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+<script src="{!! asset('vendors/perfect-scrollbar/dist/perfect-scrollbar.js') !!}" type="text/javascript"></script>
 <script>
     $(document).ready( function () {
     $("body").addClass('m-aside-left--minimize m-brand--minimize')
@@ -285,7 +291,7 @@
             'id_lop' : lop,
         }).then(function (response) {
             html_tieu_de= `
-            <div class="table-responsive">     
+            <div class="">     
             <table class="table ">
             <thead>
             <tr>
@@ -295,10 +301,10 @@
                         <span></span>
                     </label>
                 </th>
-                <th>Số thứ tự</th>
+                <th>Thứ tự</th>
                 <th>Mã học sinh</th>
                 <th>Họ tên </th>
-                <th>Tổng tiền phải thu</th>
+                <th>Tổng tiền</th>
             `
 
                 response.data.khoan_thu_trong_dot.forEach(element => {
@@ -374,8 +380,8 @@
                         html_chi_tiet+=`
                         <td>${html_trang_thai}</td>
                         <td>${html_thong_bao}</td>
-                        <td><input class="btn m-btn--square" onclick="huyThuTien(${element.chi_tiet_hoc_sinh.id},${dot})"  btn-danger" type="reset" value="Chưa thu"></td>
-                        <td><a target="_blank" href="${route_xuat_pdf}">Xuất hóa đơn</a></td>
+                        <td><input class="btn m-btn--square" onclick="huyThuTien(${element.chi_tiet_hoc_sinh.id},${dot})"  btn-danger" type="reset" value="Hủy"></td>
+                        <td><a target="_blank" href="${route_xuat_pdf}"><i class="flaticon-technology"></i></a></td>
                          </tr>
                         `
                     
@@ -435,20 +441,23 @@
 
     const getDanhSachHocSinhGuiThongBao =(data)=>{
         let html_danh_sach_hoc_sinh = `<option value = "0">Tất cả</option>`
+        let html_danh_sach_hoc_sinh_dong_tien =''
         data.forEach(element => {
             html_danh_sach_hoc_sinh+=`
             <option value = "${element.chi_tiet_hoc_sinh.id}">${element.chi_tiet_hoc_sinh.ma_hoc_sinh+'-'+element.chi_tiet_hoc_sinh.ten}</option>
             `
+            html_danh_sach_hoc_sinh_dong_tien+=`
+            <option value = "${element.chi_tiet_hoc_sinh.id}">${element.chi_tiet_hoc_sinh.ma_hoc_sinh+'-'+element.chi_tiet_hoc_sinh.ten}</option>
+            `
         });
-        console.log(data)
 
         $('#danh_sach_hoc_sinh').html(html_danh_sach_hoc_sinh)
-        $('#danh_sach_hoc_sinh_dong_tien').html(html_danh_sach_hoc_sinh)
+        $('#danh_sach_hoc_sinh_dong_tien').html(html_danh_sach_hoc_sinh_dong_tien)
 
         // $('#danh_sach_dot').html(html_danh_sach_dot)
 
     };
-
+    
     const DaDongTien = () =>{
         let myForm = document.getElementById('form_dong_hoc_phi_theo_lop');
         let formData = new FormData(myForm);
@@ -457,7 +466,7 @@
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Gửi thông báo thành công!',
+                    title: 'Học sinh đóng tiền thành công!',
                     showConfirmButton: false,
                     timer: 1500
                 }).then(

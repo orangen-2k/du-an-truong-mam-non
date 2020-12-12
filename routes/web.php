@@ -86,6 +86,7 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::post('/xac-nhan-hoc-sinh-di-hoc-lai', 'QuanlyHocSinhController@xacNhanDiHocLai')->name('xac-nhan-hoc-sinh-di-hoc-lai');
     
     Route::post('/lich-su-cua-hoc-sinh', 'QuanlyHocSinhController@getLichSuHocSinh')->name('quan-li-lich-su-cua-hoc-sinh');
+    Route::post('/hoc-phi-cua-hoc-sinh', 'QuanlyHocSinhController@getHocPhiHocSinh')->name('quan-ly-hoc-sinh-hoc-phi');
 
 });
 
@@ -220,28 +221,28 @@ Route::prefix('quan-ly-khoan-thu')->group(function(){
 });
 
 Route::prefix('quan-ly-dot-thu')->group(function(){
-    Route::get('/{id}', 'QuanLyDotThuController@index')->name('quan-ly-dot-thu-index');
-    // Route::get('get-data-dot-thu', 'QuanLyDotThuController@getDataKhoanThu')->name('quan-ly-dot-thu-get-data');
-    Route::post('tao_dot_thu', 'QuanLyDotThuController@store')->name('quan-ly-dot-thu-store');
-    Route::post('xoa_dot_thu', 'QuanLyDotThuController@delete')->name('quan-ly-dot-thu-delete');
+    Route::get('/{id}', 'QuanLyThangThuController@index')->name('quan-ly-dot-thu-index');
+    // Route::get('get-data-dot-thu', 'QuanLyThangThuController@getDataKhoanThu')->name('quan-ly-dot-thu-get-data');
+    Route::post('tao_dot_thu', 'QuanLyThangThuController@store')->name('quan-ly-dot-thu-store');
+    Route::post('xoa_dot_thu', 'QuanLyThangThuController@delete')->name('quan-ly-dot-thu-delete');
 
 
-    Route::post('get-tong-tien-thu-theo-khoi', 'QuanLyDotThuController@getKhoanThuTheoKhoi')->name('get-tong-tien-thu-theo-khoi');
-    Route::get('chi_tiet_dot_thu/{id}/{khoi}', 'QuanLyDotThuController@chiTietDotThu')->name('get-chi-tiet-dot-thu');
-    Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyDotThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');
-    Route::post('gui_thong_bao_theo_khoi', 'QuanLyDotThuController@guiThongBaoTheoKhoi')->name('gui-thong-bao-theo-khoi');
-    Route::post('gui_thong_bao_theo_lop', 'QuanLyDotThuController@guiThongBaoTheoLop')->name('gui-thong-bao-theo-lop');
-    Route::post('dong_hoc_phi_theo_lop', 'QuanLyDotThuController@dongHocPhiTheoLop')->name('dong-hoc-phi-theo-lop');
+    Route::post('get-tong-tien-thu-theo-khoi', 'QuanLyThangThuController@getKhoanThuTheoKhoi')->name('get-tong-tien-thu-theo-khoi');
+    Route::get('chi_tiet_dot_thu/{id}/{khoi}', 'QuanLyThangThuController@chiTietDotThu')->name('get-chi-tiet-dot-thu');
+    Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyThangThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');
+    Route::post('gui_thong_bao_theo_khoi', 'QuanLyThangThuController@guiThongBaoTheoKhoi')->name('gui-thong-bao-theo-khoi');
+    Route::post('gui_thong_bao_theo_lop', 'QuanLyThangThuController@guiThongBaoTheoLop')->name('gui-thong-bao-theo-lop');
+    Route::post('dong_hoc_phi_theo_lop', 'QuanLyThangThuController@dongHocPhiTheoLop')->name('dong-hoc-phi-theo-lop');
 
-    Route::get('xuat_hoa_don_pdf/{id}/{id_chi_tiet_dot}', 'QuanLyDotThuController@xuatHoaDonPdF')->name('xuat-hoa-don-pdf');
-    Route::get('huy_thu_tien/{id}/{id_chi_tiet_dot}', 'QuanLyDotThuController@huyThuTien')->name('huy-thu-tien');
+    Route::get('xuat_hoa_don_pdf/{id}/{id_chi_tiet_dot}', 'QuanLyThangThuController@xuatHoaDonPdF')->name('xuat-hoa-don-pdf');
+    Route::get('huy_thu_tien/{id}/{id_chi_tiet_dot}', 'QuanLyThangThuController@huyThuTien')->name('huy-thu-tien');
 
 
 
-    // Route::post('update_dot_thu', 'QuanLyDotThuController@update')->name('quan-ly-dot-thu-update');
-    // Route::post('copy_dot_thu', 'QuanLyDotThuController@copy')->name('quan-ly-dot-thu-copy');
-    // Route::get('delete_dot_thu/{id}', 'QuanLyDotThuController@delete')->name('quan-ly-dot-thu-delete'); 
-    // Route::post('delete-list-dot-thu', 'QuanLyDotThuController@deleteList')->name('quan-ly-dot-thu-delete-list');
+    // Route::post('update_dot_thu', 'QuanLyThangThuController@update')->name('quan-ly-dot-thu-update');
+    // Route::post('copy_dot_thu', 'QuanLyThangThuController@copy')->name('quan-ly-dot-thu-copy');
+    // Route::get('delete_dot_thu/{id}', 'QuanLyThangThuController@delete')->name('quan-ly-dot-thu-delete'); 
+    // Route::post('delete-list-dot-thu', 'QuanLyThangThuController@deleteList')->name('quan-ly-dot-thu-delete-list');
 });
 
 Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');

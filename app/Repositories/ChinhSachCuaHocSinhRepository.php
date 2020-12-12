@@ -28,6 +28,9 @@ class ChinhSachCuaHocSinhRepository extends BaseModelRepository {
     public function maxMienGiam($id_hoc_sinh)
     {
         $thong_tin_hoc_sinh_chinh_sach =  $this->model->where('id_hoc_sinh',$id_hoc_sinh)->get()->each->DoiTuongChinhSach->toArray();
+        if (count($thong_tin_hoc_sinh_chinh_sach)<=0) {
+            return;
+        }
         $array_chinh_sach= [];
         foreach ($thong_tin_hoc_sinh_chinh_sach as $key => $value) {
             array_push($array_chinh_sach,$value['doi_tuong_chinh_sach']);

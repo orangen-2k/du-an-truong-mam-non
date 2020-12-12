@@ -74,10 +74,9 @@ class HocSinh extends Seeder
                     'lop_id' => $key->id,
                     'ten' => $json_ten[$rand]->full_name,
                     'gioi_tinh' => rand(0,1),
-                    'ten_thuong_goi' => $json_ten[$rand]->first_name,
                     'ngay_sinh' => '20'.$tuoi.'-0'.rand(1,9).'-'.rand(10,28),
                     'dan_toc' => 'Kinh',
-                    'ngay_vao_truong' => '20'.$ngay_vao_truong.'-0'.rand(9,12).'-09',
+                    'ngay_vao_truong' => '20'.$ngay_vao_truong.'-0'.rand(1,8).'-09',
                     'noi_sinh' => 'Hà Nội',
                     'ten_cha' => $json_ten[rand(1,100)]->full_name,
                     'ngay_sinh_cha' => '1982-05-'.rand(10,30),
@@ -88,7 +87,7 @@ class HocSinh extends Seeder
                     'cmtnd_me' => rand(10000, 99999),
                     'dien_thoai_me' => '0376671343',
                     'dien_thoai_dang_ki' => '03766'.$rand1,
-                    'email_dang_ky' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand1.'gmail.com',
+                    'email_dang_ky' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand1.'@gmail.com',
 
                 ]);
                 

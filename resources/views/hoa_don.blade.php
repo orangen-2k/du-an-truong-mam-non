@@ -85,16 +85,18 @@
         </div>
 
         <div class="thong_tin">
-            <p>Đơn vị thu tiền: <b>Trường mẫu giáo cơ sở ngoại ngữ</b></p>
-            <p>Địa chỉ: <b>Đồng vân-đồng tháp-đan phượng-hà nội</b></p>
-            <p>Số điện thoại:
-                ..........................................................................................................................................................
+        <p>Đơn vị thu tiền: <b>{{$thong_tin_truong->name}}</b></p>
+            <p>Địa chỉ: <b>{{json_decode($thong_tin_truong->address)[0]}}</b></p>
+            <p>Số điện thoại: <b>{{$thong_tin_truong->hotline}}</b>
+            </p>
+            <p>Thông tin người nộp :</p>
+            <p>Họ tên học sinh : <b>{{$thong_tin_hoc_sinh->ten}}</b> 
             </p>
             <p>Họ tên người nộp tiền :
                 .............................................................................................................................................
             </p>
             <p>Địa chỉ:
-                ................................................................................................................................................................
+                ....................................................................................................................................................................
             </p>
         </div>
 
@@ -119,13 +121,12 @@
                         <td>{{number_format($item->KhoanThu->muc_thu)}}</td>
                         <td>
                             {{-- $item-> --}}
-                            @if (count($max_mien_giam)>0)
-                            @if ($item->KhoanThu->mac_dinh==2)
-                                {{$max_mien_giam[0]->DoiTuongChinhSach->muc_mien_giam}}%
-                            @endif
-                            @if ($item->KhoanThu->mien_giam>0)
-                                {{$item->KhoanThu->mien_giam}}%
-                            @endif
+                            @if (count($danh_sach_mien_giam)>0)
+                                @if ($item->KhoanThu->mac_dinh==2)
+                                    {{$item['phan_tram_mien_giam']}}%
+                                @elseif ($item['phan_tram_mien_giam']>0)
+                                    {{$item['phan_tram_mien_giam']}}%
+                                @endif
                             @endif
                            
                         </td>

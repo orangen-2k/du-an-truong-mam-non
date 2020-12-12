@@ -48,7 +48,7 @@ class GiaoVien extends Seeder
                 'name' => $json_ten[$rand]->full_name,
                 'username' => CovertVn($json_ten[$rand]->full_name).'GV'.rand(1,10),
                 'avatar' => "",
-                'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'gmail.com',
+                'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'@gmail.com',
                 'password' => Hash::make('1234567890'),
                 'time_code' => Carbon::now(),
                 'role' => 2,
@@ -71,6 +71,14 @@ class GiaoVien extends Seeder
                 'so_cmtnd' => '026200006416',
                 'ngay_cap_cmtnd' => '2015-06-25',
                 'noi_cap_cmtnd_matp' => '01',
+                'ho_khau_thuong_tru_matp' => '01',
+                'ho_khau_thuong_tru_maqh' => '001',
+                'ho_khau_thuong_tru_xaid' => '00001',
+                'ho_khau_thuong_tru_so_nha' => 'so 20',
+                'noi_o_hien_tai_matp' => '02',
+                'noi_o_hien_tai_maqh' => '027',
+                'noi_o_hien_tai_xaid' => '00775',
+                'noi_o_hien_tai_so_nha' => 'Số 48',
                 'user_id' => $id_gv
 
             ]);

@@ -92,7 +92,7 @@ class SucKhoeRepository extends BaseRepository {
     }
     
     public function GetALLDotKhamSK(){
-        $query = DB::table('dot_kham_suc_khoe')->get();
+        $query = DB::table('dot_kham_suc_khoe')->orderBy('dot_kham_suc_khoe.id', 'desc')->limit(1)->first();
         return $query;
     }
 

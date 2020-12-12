@@ -12,7 +12,7 @@ class DanhSachThuTien extends Model
     protected $fillable = 
     [
         "id",
-        "id_dot_thu_tien",
+        "id_chi_tiet_dot_thu",
         "id_hoc_sinh",
         "so_tien_phai_dong",
         "thong_bao",
@@ -20,7 +20,8 @@ class DanhSachThuTien extends Model
         "ngay_ket_thuc_thu",
         "trang_thai",
         "khoi_id",
-        "lop_id"
+        "lop_id",
+        'id_thang_thu_tien'
     ];
 
     public function Lop()

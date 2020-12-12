@@ -109,8 +109,15 @@ return [
     ],
 
     'khoan_thu_co_dinh' =>[
-        'Tiền ăn',
-        'Tiền học'
+        'Tiền ăn' => 1,
+        'Tiền học' => 2,
+        'Tiền lớp trả muộn' => 3,
+    ],
+
+    'back_up_nam_hoc' =>[
+        'chua_back_up',
+        'back_up_tu_dong',
+        'back_up_thu_cong'
     ],
     'diem_danh_ve' =>[
         'bo_me_don'     => 1,

@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Repositories\BaseRepository;
+// use App\Repositories\BaseRepository;
+use App\Repositories\BaseModelRepository;
+
 use Illuminate\Support\Facades\DB;
 use App\Models\DiemDanhDen;
 
-class DiemDanhDenRepository extends BaseRepository {
+class DiemDanhDenRepository extends BaseModelRepository {
 
     protected $model;
     public function __construct(
@@ -19,6 +21,12 @@ class DiemDanhDenRepository extends BaseRepository {
     {
         return 'diem_danh_den';
     }
+
+    public function getModel()
+    {
+        return DiemDanhDen::class;
+    }
+
     public function getHocSinhTheoLop($id)
     {
         $data = DB::table('hoc_sinh')->where('lop_id', $id)->get();
@@ -54,7 +62,7 @@ class DiemDanhDenRepository extends BaseRepository {
 
     public function getDataDiemDanh($ngay_diem_danh_den, $hoc_sinh_id, $lop_id)
     {
-        $data = $this->table
+        $data = $this->model
         ->where('ngay_diem_danh_den', $ngay_diem_danh_den)
         ->where('hoc_sinh_id', $hoc_sinh_id)
         ->where('lop_id', $lop_id)
@@ -64,18 +72,22 @@ class DiemDanhDenRepository extends BaseRepository {
 
     public function soNgayAnCuaHocSinhTheoThang($hoc_sinh_id, $nam, $thang)
     {
-        $data = $this->table
+        $data = $this->model
         ->whereYear('ngay_diem_danh_den', $nam)
         ->whereMonth('ngay_diem_danh_den', $thang)
         ->where('hoc_sinh_id', $hoc_sinh_id)
-        ->where('phieu_an', 2)
+        ->where('type', 1)
+        ->where('trang_thai', 1)
+        ->where('phieu_an', 1)
         ->count();
+        // dd($data);
         return $data;
     }
 
+
     public function soBuoiHocCuaHocSinhTheoThang($hoc_sinh_id, $nam, $thang)
     {
-        $data = $this->table
+        $data = $this->model
         ->whereYear('ngay_diem_danh_den', $nam)
         ->whereMonth('ngay_diem_danh_den', $thang)
         ->where('hoc_sinh_id', $hoc_sinh_id)
