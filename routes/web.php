@@ -86,6 +86,7 @@ Route::prefix('quan-ly-hoc-sinh')->group(function () {
     Route::post('/xac-nhan-hoc-sinh-di-hoc-lai', 'QuanlyHocSinhController@xacNhanDiHocLai')->name('xac-nhan-hoc-sinh-di-hoc-lai');
     
     Route::post('/lich-su-cua-hoc-sinh', 'QuanlyHocSinhController@getLichSuHocSinh')->name('quan-li-lich-su-cua-hoc-sinh');
+    Route::post('/hoc-phi-cua-hoc-sinh', 'QuanlyHocSinhController@getHocPhiHocSinh')->name('quan-ly-hoc-sinh-hoc-phi');
 
 });
 

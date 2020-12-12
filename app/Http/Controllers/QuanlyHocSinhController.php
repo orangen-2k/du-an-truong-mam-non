@@ -29,6 +29,7 @@ use App\Models\ThoiHoc;
 use App\Repositories\LopHocRepository;
 use App\Repositories\ChinhSachCuaHocSinhRepository;
 use App\Http\Requests\HocSinh\UpdateHocSinh;
+use App\Repositories\ChiTietDotThuTienRepository;
 
 class QuanlyHocSinhController extends Controller
 {
@@ -45,6 +46,7 @@ class QuanlyHocSinhController extends Controller
     protected $KhoiRepository;
     protected $LopHocRepository;
     protected $ChinhSachCuaHocSinh;
+    protected $ChiTietDotThuTienRepository;
     public function __construct(
         LopRepository $LopRepository,
         KhoiRepository $Khoi,
@@ -58,7 +60,8 @@ class QuanlyHocSinhController extends Controller
         AccountRepository $AccountRepository,
         KhoiRepository $KhoiRepository,
         LopHocRepository $LopHocRepository,
-        ChinhSachCuaHocSinhRepository $ChinhSachCuaHocSinhRepository
+        ChinhSachCuaHocSinhRepository $ChinhSachCuaHocSinhRepository,
+        ChiTietDotThuTienRepository $ChiTietDotThuTienRepository
 
     ) {
         $this->LopRepository = $LopRepository;
@@ -74,6 +77,7 @@ class QuanlyHocSinhController extends Controller
         $this->KhoiRepository = $KhoiRepository;
         $this->LopHocRepository = $LopHocRepository;
         $this->ChinhSachCuaHocSinhRepository = $ChinhSachCuaHocSinhRepository;
+        $this->ChiTietDotThuTienRepository = $ChiTietDotThuTienRepository;
     }
 
     /**
@@ -198,6 +202,9 @@ class QuanlyHocSinhController extends Controller
     public function update(UpdateHocSinh $request, $id)
     {
         $dataRequest = $request->all();
+        if($dataRequest['avatar'] == null){
+            unset($dataRequest['avatar']);
+        }
         $this->ChinhSachCuaHocSinhRepository->getDeleteChinhSachHocSinh($id);
         // dd($dataRequest);
         if(isset($dataRequest['dien_uu_tien'])){
@@ -587,6 +594,35 @@ class QuanlyHocSinhController extends Controller
         return [
             'LopHocHienTai' => $LopHocHienTai,
             'LichSuHocSinh' => $LichSuHocSinh
+        ];
+    }
+
+    public function getHocPhiHocSinh(Request $request){
+        $request = $request->all();
+        $array_HocPhi = [];
+        $id_nam_hoc = $this->NamHocRepository->maxID();
+        $data = $this->ChiTietDotThuTienRepository->getAllChiTietDotThuHS($request['id']);
+        $nam_hoc_all = $this->NamHocRepository->getAllNamHoc();
+        if(count($data) > 0){
+            foreach($nam_hoc_all as $item){
+                $array_Nam = [];
+                foreach($data as $item2){
+                    if($item->id == $item2->id_nam_hoc){
+                        array_push($array_Nam, $item2);
+                    }
+                }
+                $arr = [
+                    'ten_nam' => $item->name,
+                    'nam_hoc' => $item->id,
+                    'hoc_phi' => $array_Nam
+                ];
+                array_push($array_HocPhi, $arr);
+            }
+            
+        }
+        return [
+            'id_nam_hoc' => $id_nam_hoc,
+            'array_HocPhi' => $array_HocPhi
         ];
     }
 }

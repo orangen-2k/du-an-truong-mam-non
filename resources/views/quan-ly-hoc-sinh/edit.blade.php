@@ -81,22 +81,91 @@
         <div class=" d-flex flex-row-reverse bd-highlight mb-4 ">
             <a href="#" onclick="ShowChiTietSucKhoe({{$id}})" class="btn btn-secondary m-btn m-btn--icon" data-toggle="modal" data-target="#modal_suc_khoe">
                 <span>
-                    <i class="flaticon-black"></i>
+                    <i class="fa fa-notes-medical"></i>
                     <span>Sức khỏe</span>
                 </span>
             </a>
             <a href="#" onclick="ShowLichSuHocSinh({{$id}})" class="btn btn-secondary m-btn m-btn--icon" data-toggle="modal" data-target="#modal_lich_su_hoc">
                 <span>
-                    <i class="flaticon-black"></i>
-                    <span>Lịch sử học sinh</span>
+                    <i class="fa fa-pencil-alt"></i>
+                    <span>Lịch sử học</span>
                 </span>
             </a>
-            
+            <a href="#" onclick="ShowHocPhi({{$id}})" class="btn btn-secondary m-btn m-btn--icon" data-toggle="modal" data-target="#modal_hoc_phi">
+                <span>
+                    <i class="fa fa-money-check-alt"></i>
+                    <span>Học phí</span>
+                </span>
+            </a>
             
         </div>
         
         {{-- END_MOAL --}}
-
+        {{-- Show Học Phí --}}
+        <div class="modal fade show" id="modal_hoc_phi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 17px;">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Học phí</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  
+                    <div class="m-portlet__body" id="showHocPhiHS">
+                        {{-- <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active show" data-toggle="tab" href="#m_tabs_5_1">Năm 2020 - 2021 (Hiện tại)</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#m_tabs_5_2">Link</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#m_tabs_5_3">Link</a>
+                            </li>
+                            
+                        </ul> --}}
+                        {{-- <div class="tab-content">
+                            <div class="tab-pane active show" id="m_tabs_5_1" role="tabpanel">
+                                <table class="table table-bordered m-table">
+                                    <thead align="center">
+                                        <tr>
+                                            <th>Số thứ tự</th>
+                                            <th>Đợt</th>
+                                            <th>Lớp</th>
+                                            <th>Chức năng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody align="center">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="m_tabs_5_2" role="tabpanel">
+                                It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
+                                recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                            </div>
+                            <div class="tab-pane" id="m_tabs_5_3" role="tabpanel">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+                                specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged
+                            </div>
+                            <div class="tab-pane" id="m_tabs_5_4" role="tabpanel">
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+                                specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                            </div>
+                        </div> --}}
+                    </div>
+                  
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        {{-- End Show Học Phí --}}
         {{-- Show Lịch Sử Học --}}
         <div class="modal fade show" id="modal_lich_su_hoc" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none; padding-right: 17px;">
             <div class="modal-dialog modal-lg" role="document">
@@ -1095,7 +1164,87 @@
                 if (charCode > 31 && (charCode < 48 || charCode > 57))
                     return false;
                 return true;
+    }
+    var url_HocPhiHocSinh = "{{route('quan-ly-hoc-sinh-hoc-phi')}}"
+    function ShowHocPhi(id){
+        axios.post(url_HocPhiHocSinh, {id:id})
+        .then(function(response){
+            var data = response.data
+            console.log(data.array_HocPhi)
+            //if
+            if(data.array_HocPhi.length > 0){
+                var id_nam_hoc = data.id_nam_hoc
+                var html = `<ul class="nav nav-pills nav-fill" role="tablist">`
+                data.array_HocPhi.forEach(element => {
+                    var active = ""
+                    if(element.nam_hoc == id_nam_hoc){
+                        active = `active show`
+                    }
+                    html+=
+                    `
+                    <li class="nav-item">
+                                <a class="nav-link ${active}" data-toggle="tab" href="#m_tabs_5_${element.nam_hoc}">${element.ten_nam}</a>
+                    </li>
+                    `
+                })
+                html+= `</ul> <div class="tab-content">`
+                data.array_HocPhi.forEach(element => {
+                    var active_2 = ""
+                    if(element.nam_hoc == id_nam_hoc){
+                        active_2 = `active show`
+                    }
+                    var i = 1
+                    html+=
+                    `
+                    <div class="tab-pane ${active_2}" id="m_tabs_5_${element.nam_hoc}" role="tabpanel">
+                        <table class="table table-bordered table-hover">
+                            <thead align="center">
+                                <tr>
+                                    <th>Stt</th>
+                                    <th width="100px">Tháng - năm</th>
+                                    <th>Đợt</th>
+                                    <th>Tổng tiền phải thu</th>
+                                    <th>Số tiền đã đóng</th>
+                                    <th>Đóng tiền</th>
+                                    <th>Thông báo</th>
+                                </tr>
+                            </thead>
+                        <tbody align="center">
+                    `
+                    element.hoc_phi.forEach(el => {
+                        var trang_thai = `<i style="color:red" class="flaticon-circle"></i>`
+                        var thong_bao = `<i style="color:red" class="flaticon-circle"></i>`
+                        if(el.trang_thai == 1){
+                            trang_thai = `<i style="color:green" class="fa fa-check"></i>`
+                        }
+                        if(el.thong_bao == 1){
+                            thong_bao = `<i style="color:green" class="fa fa-check"></i>`
+                        }
+                        if(el.so_tien_phai_dong > 0){
+                            html+= 
+                            `
+                            <tr>
+                            <td>${i++}</td>
+                            <td>${el.thang_thu} - ${el.nam_thu}</td>
+                            <td>${el.ten_dot_thu}</td>
+                            <td style="color:red"><b>${el.so_tien_phai_dong.toLocaleString('vi-VN')}</b></td>
+                            <td style="color:green"><b>${el.so_tien_da_dong.toLocaleString('vi-VN')}</b></td>
+                            <td>${trang_thai}</td>
+                            <td>${thong_bao}</td>
+                            </tr>
+                            `
+                        }
+                        
+                    })
+                    html+= `</tbody></table></div>`
+                })
+                html+= `</div>`
+                $('#showHocPhiHS').html(html)
             }
+            //endif
+        })
+    }
+
     </script>
     <script src="{!! asset('js/get_quan_huyen_xa.js') !!}"></script>
 @endsection

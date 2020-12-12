@@ -446,7 +446,6 @@ class QuanLyThangThuController extends Controller
         $dot_thu = $this->QuanLyThangThuRepository->find($id);
         // dd($dot_thu);
         $khoi_thu = $this->KhoiRepository->find($khoi);
-
         return view('quan-ly-hoc-phi.chi_tiet_dot_thu', compact('dot_thu', 'khoi_thu'));
     }
 
