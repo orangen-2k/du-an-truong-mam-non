@@ -94,12 +94,25 @@ class ThongBaoController extends Controller
             "title"   => $request->title,
             "content" => $request->content,
             "auth_id" => Auth::id(),
-            "type"    => 1,
-            "route"   => "tin_tuc"
+            "type"    => 1
         ];
+
+        $dataCreate = [
+            'title'     => $request->title,
+            'content'   => $request->content,
+            'auth_id'   => Auth::id(),
+            'type'      => config('common.noi_dung_thong_bao_type.toan_truong')
+        ];
+        $id_noi_dung_thong_bao = $this->NoiDungThongBaoRepository->create($dataCreate)->id;
+
         $list_id_hoc_sinh_save_noti=[];
         foreach ($list_id_hoc_sinh as $key => $value){
-            $user_id =['user_id' => $value, 
+            $user_id =['user_id' => $value,
+                    'id_hs' => $value, 
+                    "route"   => json_encode([
+                        'name_route' => 'ShowThongBao',
+                        'id' => $id_noi_dung_thong_bao
+                    ]),
                     'role'    => config('common.notification_role.hoc_sinh')
             ];
             $data_notifi = collect([$user_id,$content]);
@@ -112,14 +125,6 @@ class ThongBaoController extends Controller
             $data_send_device = $data_device->collapse();
             $list_device[$key] = $data_send_device;
         }
-
-        $dataCreate = [
-            'title'     => $request->title,
-            'content'   => $request->content,
-            'auth_id'   => Auth::id(),
-            'type'      => config('common.noi_dung_thong_bao_type.toan_truong')
-        ];
-        $id_noi_dung_thong_bao = $this->NoiDungThongBaoRepository->create($dataCreate)->id;
 
         $link = [
             'route_name' => 'thong-bao.show',
@@ -201,11 +206,24 @@ class ThongBaoController extends Controller
             "content" => $request->content,
             "auth_id" => Auth::id(),
             "type"    => 1,
-            "route"   => "tin_tuc"
         ];
+
+        $dataCreate = [
+            'title'     => $request->title,
+            'content'   => $request->content,
+            'auth_id'   => Auth::id(),
+            'type'      => config('common.noi_dung_thong_bao_type.hoc_sinh')
+        ];
+        $id_noi_dung_thong_bao = $this->NoiDungThongBaoRepository->create($dataCreate)->id;
+
         $list_id_hoc_sinh_save_noti = [];
         foreach ($list_id_hoc_sinh as $key => $value){
             $user_id =['user_id' => $value, 
+                    'id_hs' => $value, 
+                    "route"   => json_encode([
+                        'name_route' => 'ShowThongBao',
+                        'id' => $id_noi_dung_thong_bao
+                    ]),
                     'role'    => config('common.notification_role.hoc_sinh')
             ];
             $data_notifi = collect([$user_id,$content]);
@@ -218,14 +236,6 @@ class ThongBaoController extends Controller
             $data_send_device = $data_device->collapse();
             $list_device[$key] = $data_send_device;
         }
-
-        $dataCreate = [
-            'title'     => $request->title,
-            'content'   => $request->content,
-            'auth_id'   => Auth::id(),
-            'type'      => config('common.noi_dung_thong_bao_type.hoc_sinh')
-        ];
-        $id_noi_dung_thong_bao = $this->NoiDungThongBaoRepository->create($dataCreate)->id;
 
         $link = [
             'route_name' => 'thong-bao.show',

@@ -1,0 +1,426 @@
+@extends('layouts.main')
+@section('title', "Quản lý điểm danh về")
+@section('style')
+<style>
+    .thong-tin-hoc-sinh-cua-lop {
+        font-size: 11px
+    }
+
+    .thong-tin-hoc-sinh-cua-lop th,
+    .thong-tin-hoc-sinh-cua-lop td {
+        padding: 0.22rem !important;
+    }
+
+    .search {
+        padding: 0.35rem 0.8rem !important;
+        height: 25px;
+    }
+
+    .style-button {
+        padding: 0.45rem 1.15rem;
+    }
+
+    .thong-tin-hoc-sinh-cua-lop thead th {
+        border: 1px solid #f4f5f8 !important;
+    }
+
+    th[rowspan='2'] {
+        text-align: center;
+        line-height: 50px;
+    }
+
+    .btn {
+        font-family: Arial, Helvetica, sans-serif
+    }
+
+    .scoll-table {
+        height: 440px;
+        overflow: auto;
+    }
+
+    .bottom {
+        position: fixed;
+        bottom: 50px;
+    }
+
+    table.dataTable thead td {
+        border-bottom: 1px solid #d1cccc;
+    }
+
+    #table-hoc-sinh_wrapper>.row:first-child {
+        display: none;
+    }
+
+    .danh-sach-khoi-lop .m-accordion__item-title,
+    .m-accordion__item-mode,
+    .m-dropdown__content ul li span {
+        color: black;
+        font-size: 12px !important;
+    }
+
+    .danh-sach-khoi-lop .m-accordion__item {
+        color: black;
+
+        border-bottom: 1px solid #eee5e5 !important;
+        margin-bottom: 0rem !important
+    }
+
+    .la-plus {
+        font-size: 20px;
+        font-weight: bold;
+        color: #19be19;
+        cursor: pointer;
+    }
+
+    .m-accordion .m-accordion__item .m-accordion__item-head {
+        padding: 0.5rem 1rem;
+    }
+
+    .collapsed {
+        position: relative;
+    }
+
+    .la-ellipsis-v:hover .dropdown__wrapper {
+        display: block !important;
+    }
+
+    .m-nav .m-nav__item>.m-nav__link .m-nav__link-text {
+        width: 85% !important;
+    }
+
+    .m-accordion .m-accordion__item {
+        overflow: visible !important;
+    }
+
+    .m-accordion .m-accordion__item .m-accordion__item-head {
+        overflow: visible !important;
+    }
+
+    .chuc-nang-lop {
+        margin-bottom: 0px !important;
+    }
+
+    .thong-tin-xep-lop {
+        padding: 0.2rem 2.2rem !important
+    }
+
+    .error {
+        color: red;
+    }
+
+    .lop_hoc .m-nav__link {
+        padding: 5px 0px !important
+    }
+
+    .lop_hoc .m-nav__link-text {
+        padding-left: 23px !important;
+    }
+
+    i:hover {
+        cursor: pointer;
+    }
+
+</style>
+<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
+@endsection
+@section('content')
+<div class="m-content">
+    <div id="preload" class="preload-container text-center" style="display: none">
+        <img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+    </div>
+    <div class="m-portlet">
+        <div class="m-portlet__body row ">
+            <div class="col-md-3 danh-sach-khoi-lop">
+                <div class="m-portlet m-portlet--full-height">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <div class="row">
+                                    <h4 class="m-portlet__head-text col-md-10">
+                                        Năm học: {{$namhoc->name}}
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body">
+
+                        <!--begin::Section-->
+                        <div class="m-accordion m-accordion--default m-accordion--solid m-accordion--section  m-accordion--toggle-arrow"
+                            id="" role="tablist">
+
+                            <!--begin::Item-->
+                            <div id="danh_sach_khoi_lop">
+                                @foreach ($namhoc->Khoi as $item)
+                                <div class="m-accordion__item ">
+                                    <div class="m-accordion__item-head collapsed" role="tab"
+                                        id="tab{{$item->id}}_item_1_head" data-toggle="collapse"
+                                        href="#tab{{$item->id}}_item_1_body" aria-expanded="false">
+                                        <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{$item->do_tuoi}}
+                                            tuổi)</span>
+
+                                    </div>
+                                    <div class="m-accordion__item-body collapse" id="tab{{$item->id}}_item_1_body"
+                                        role="tabpanel" aria-labelledby="tab{{$item->id}}_item_1_head">
+                                        <div class="">
+                                            <div class="m-dropdown__wrapper">
+                                                <span class="m-dropdown__arrow m-dropdown__arrow--left"></span>
+                                                <div class="m-dropdown__inner">
+                                                    <div class="m-dropdown__body">
+                                                        <div class="m-dropdown__content">
+                                                            <ul class="m-nav">
+                                                                @foreach ($item->LopHoc as $lop_hoc)
+                                                                <li class="m-nav__item pl-4 lop_hoc"
+                                                                    onclick="addColor(this)" id='lop_{{$lop_hoc->id}}'
+                                                                    style="cursor: pointer">
+                                                                    <span href="" class="m-nav__link">
+                                                                        <span
+                                                                            onclick="showDiemDanhCuaLop({{$lop_hoc->id}})"
+                                                                            class="m-nav__link-text ">
+                                                                            <span class="ten_lop"> {{$lop_hoc->ten_lop}}
+                                                                            </span>
+
+                                                                            <div class="dropdown">
+                                                                                <div class="dropdown-menu"
+                                                                                    aria-labelledby="dropdownMenuButton">
+                                                                                </div>
+                                                                            </div>
+                                                                        </span>
+                                                                </li>
+                                                                @endforeach
+                                                            </ul>
+
+                                                            <!--end::Nav-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+
+                            </div>
+
+                        </div>
+                        <!--end::Section-->
+                    </div>
+                </div>
+            </div>
+            @php
+            $thang_hien_tai = \Carbon\Carbon::now()->format('m-Y');
+            @endphp
+            <div class="col-md-9">
+                <div class="m-portlet m-portlet--full-height">
+                    <input type="number" id="lop_id" hidden class="ml-3">
+                    <div class="form-group m-form__group row ml-3" id="select_display" style="display: none">
+                        <label class="col-lg-2 col-form-label select2">Tháng: </label>
+                        <div class="col-lg-11">
+                            <select name="time" id="thang" class="form-control select2">
+                                @foreach($thang_trong_nam as $item)
+                                <option {{ $thang_hien_tai == $item ? 'selected' : ''}} value="{{ $item }}">Tháng
+                                    {{intval(substr($item, 0, 2))}} (năm {{substr($item, 3, 5)}})</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <label class="col-lg-2 col-form-label select2">Chú thích: </label>
+                    <div class="row ml-3">
+                        <div class="col" style="color:#149018"><b><i>B: Bố mẹ đón</i></b></div>
+                        <div class="col" style="color:#f300ca"><b><i>H: Người đón hộ</i></b></div>
+                        <div class="col" style="color:#da0808"><b><i>N: Nghỉ</i></b></div>
+                        <div class="col" style="color:#2f1ad8"><b><i>T: Trả muộn</i></b></div>
+                        <div class="col"><b><i class="la la-user-plus"></i>: Thông tin người đón hộ</b></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered m-table m-table--border-success table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col 1" rowspan="2">STT</th>
+                            <th scope="col 1" rowspan="2">Mã học sinh</th>
+                            <th scope="col 1" rowspan="2">Họ và tên</th>
+                            <th scope="col 1" colspan="31" class="text-center">Ngày</th>
+                        </tr>
+                        <tr class="pt-3 row2">
+                            @for($i = 1; $i < 32; $i++) <th>{{$i}}</th>
+                                @endfor
+                        </tr>
+                    </thead>
+                    <tbody id="show-data">
+
+                    </tbody>
+                </table>
+                {{-- Modal --}}
+                <div class="modal fade show" id="thongke" tabindex="-1" role="dialog" aria-labelledby=""
+                    style="display: none; padding-right: 17px;">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="">Thống kê tháng</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group" id="content-modal">
+                                    Đang lấy dữ liệu
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary btn-sm"
+                                        data-dismiss="modal">Đóng</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade show" id="modal-nam-hoc" tabindex="-1" role="dialog" aria-labelledby="">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="">Năm Học</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-sm"
+                                    data-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--begin::Modal-->
+    <div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông tin người đón hộ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="form-control-label">Họ và Tên: <span
+                                id="ten_nguoi_don_ho"></span></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="form-control-label">Số điện thoại: <span
+                                id="phone_nguoi_don_ho"></span></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="form-control-label">Số CMND/TCC: <span
+                                id="cmtnd_nguoi_don_ho"></span></label>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control m-input m-input--solid" cols="117" rows="5"
+                            id="ghi_chu_nguoi_don_ho"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <img id="anh_nguoi_don_ho" src="" width="100%" height="600px" alt="ảnh">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end::Modal-->
+</div>
+@endsection
+@section('script')
+<script>
+    const url_diemdanh = "{{route('quan-ly-diem-danh-den-index',['id'])}}";
+    const addColor = (e) => {
+        var list_element_lop = document.querySelectorAll('.lop_hoc')
+        list_element_lop.forEach(element => {
+            $(element).css('background', 'transparent')
+        });
+        $(e).css('background', '#bafac8')
+    }
+
+    function showDiemDanhCuaLop(id) {
+        let time = $('#thang').children("option:selected").val();
+        $('#select_display').css('display', 'block');
+        $('#preload').css('display', 'block');
+        $('#lop_id').val(id);
+        axios.post("{{route('quan-ly-diem-danh-ve-theo-lop')}}", {
+                id: id,
+                time: time
+            })
+            .then(function (response) {
+                var html_hs = "";
+                var j = 1;
+                console.log(response.data);
+                response.data.forEach((element, key) => {
+                    html_hs += `
+                    <tr>
+                        <td>${++key}</td>
+                        <td>${element.ma_hoc_sinh}</td>
+                        <td>${element.ten}</td>`
+                    for (let j = 1; j <= 31; j++) {
+                        html_hs += `<td class="td_${j}_hoc_sinh_${element.ma_hoc_sinh}"></td>`
+                    }
+                });
+                html_hs += `</tr>`;
+
+                $('#preload').css('display', 'none')
+                $('#show-data').html(html_hs);
+
+                response.data.forEach((element, key) => {
+                    for (let index = 0; index < element.diem_danh_ve.length; index++) {
+                        let noiDungTrangThai = ``;
+                        let trang_thai = element.diem_danh_ve[index].trang_thai;
+                        let ngay_diem_danh_ve = moment(element.diem_danh_ve[index].ngay_diem_danh_ve)
+                            .format('DD');
+                        noiDungTrangThai =
+                            `${trang_thai == 1 ? "<b style='color:#149018'>B</b>" : 
+                                             (trang_thai == 2 ? `<b style='color:#f300ca'>H</b><br/>
+                                             <i onclick="showNguoiDonHo(${element.diem_danh_ve[index].nguoi_don_ho_id})" class="la la-user-plus"></i>` : 
+                                             (trang_thai == 3 ? "<b style='color:#da0808'>N</b>" : "<b style='color:#2f1ad8'>T</b>"))}`;
+                        $(`.td_${Number(ngay_diem_danh_ve)}_hoc_sinh_${element.ma_hoc_sinh}`).html(
+                            noiDungTrangThai)
+                    }
+                });
+            })
+    }
+    $("#thang").change(function () {
+        let id = Number($('#lop_id').val());
+        showDiemDanhCuaLop(id);
+    });
+    $("#select-nam").change(function () {
+        $('#select_display').css('display', 'block')
+        let id = $("#select-nam").val();
+        let url_moi = url_diemdanh.replace('id', id)
+        window.location.href = url_moi;
+    });
+
+    function showNguoiDonHo(id) {
+        axios.post("{{ route('infoNguoiDonHo')}}", {
+                'id': id
+            })
+            .then(response => {
+                console.log(response.data);
+                $('#ten_nguoi_don_ho').html(response.data.ten_nguoi_don_ho);
+                $('#phone_nguoi_don_ho').html(response.data.phone_number);
+                $('#cmtnd_nguoi_don_ho').html(response.data.cmtnd);
+                $('#ghi_chu_nguoi_don_ho').val(response.data.ghi_chu);
+                $('#anh_nguoi_don_ho').attr("src", response.data.anh_nguoi_don_ho)
+                $('#m_modal_4').modal("show");
+            })
+    }
+
+</script>
+@endsection
