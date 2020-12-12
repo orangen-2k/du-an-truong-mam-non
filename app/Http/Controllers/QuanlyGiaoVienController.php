@@ -166,6 +166,14 @@ class QuanlyGiaoVienController extends Controller
     {   
         $dataRequest = $request->all();
         unset($dataRequest['_token']);
+        $user_id = $this->GiaoVienRepository->find($id)->user_id;
+        $data_update_account = [
+            'name' => $dataRequest['ten'],
+            'avatar' => $dataRequest['anh'],
+            'email' => $dataRequest['email'],
+            'phone_number' => $dataRequest['dien_thoai']
+        ];
+        $this->AccountRepository->updateAccountGiaoVien($user_id, $data_update_account);
         $this->GiaoVienRepository->update_gv($id, $dataRequest);
         return redirect()->route('quan-ly-giao-vien-edit', ['id' => $id])->with('thong_bao', 'Hoàn thành');
     }

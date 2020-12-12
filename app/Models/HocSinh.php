@@ -8,6 +8,7 @@ use App\Models\ThoiHoc;
 use App\Models\Lop;
 use App\Models\LichSuHoc;
 use App\Models\DiemDanhDen;
+use App\Models\DiemDanhVe;
 use App\Models\DonNghiHoc;
 use App\Models\DonDanThuoc;
 
@@ -91,5 +92,9 @@ class HocSinh extends Model
     public function PhuHuynh()
     {
         return $this->hasOne(PhuHuynh::class,'hoc_sinh_id','id');
+    }
+    public function DiemDanhVe()
+    {
+        return $this->hasMany(DiemDanhVe::class,'hoc_sinh_id','id');
     }
 }

@@ -217,7 +217,15 @@ class AccountController extends Controller
             $giao_vien->anh =$request->anh;
    
 
-         $giao_vien->update();
+            $user_id = $giao_vien->user_id;
+            $data_update_account = [
+                'name' => $request->ten,
+                'avatar' => $request->anh,
+                'email' => $request->email,
+                'phone_number' => $request->dien_thoai
+            ];
+            $this->AccountRepository->updateAccountGiaoVien($user_id, $data_update_account);
+            $giao_vien->update();
           return redirect()->back()->with("message","Cập nhật tài khoản thành công !");
   }
   public function getEditHocSinh($id)

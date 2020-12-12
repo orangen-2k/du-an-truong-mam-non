@@ -4,7 +4,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
-class GiaoVien extends Seeder
+
+class MakeGiaoVien extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,16 +14,10 @@ class GiaoVien extends Seeder
      */
     public function run()
     {
+        $faker = Faker\Factory::create();
         $nam_hoc_moi = DB::table('nam_hoc')->where('type', 1)->first();
         $url = file_get_contents("https://raw.githubusercontent.com/duyet/vietnamese-namedb/master/uit_member.json");
         $json_ten = json_decode($url);
-        // dd($json_ten[1]);
-
-        // $lop_hoc_moi = DB::table('lop_hoc')
-        
-        // ->join('khoi', 'khoi.id', '=', 'lop_hoc.khoi_id')
-        // ->select('lop_hoc.*')
-        // ->where('khoi.nam_hoc_id', $nam_hoc_moi->id)->get();
         function CovertVn($str){
             $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|� �|ặ|ẳ|ẵ)/", 'a', $str);
             $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/", 'e', $str);
@@ -44,34 +39,42 @@ class GiaoVien extends Seeder
         for ($i=0; $i <40 ; $i++) { 
             $rand = rand(200,3000);
             $rand1= rand(10000,99999);
+            $email = CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'@gmail.com';
             $id_gv = DB::table('users')->insertGetId([
                 'name' => $json_ten[$rand]->full_name,
                 'username' => CovertVn($json_ten[$rand]->full_name).'GV'.rand(1,10),
                 'avatar' => "",
-                'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'gmail.com',
+                'email' => $email,
                 'password' => Hash::make('1234567890'),
                 'time_code' => Carbon::now(),
                 'role' => 2,
                 'active' => 1,
                 'phone_number' => '03766'.$rand1
-                
              ]);
             DB::table('giao_vien')->insert([
                 'ma_gv' => 'GV0'.$id_gv,
+                'user_id' => $id_gv,
                 'ten' => $json_ten[$rand]->full_name,
                 'gioi_tinh' => rand(0,1),
+                'email' => $email,
                 'dien_thoai' => '03766'.$rand1,
                 'ngay_sinh' => '199'.rand(1,9).'-08-'.rand(1,30),
-                'dan_toc' => 'Kinh',
+                'dan_toc' => rand(0,53),
                 'trinh_do' => 'Cao đằng mầm non',
-                'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'@gmail.com',
                 'chuyen_mon' => 'Cao đằng',
                 'noi_dao_tao' => 'Hà Nội',
                 'nam_tot_nghiep' => '2010',
-                'so_cmtnd' => '026200006416',
-                'ngay_cap_cmtnd' => '2015-06-25',
+                'ho_khau_thuong_tru_matp' => '01',
+                'ho_khau_thuong_tru_maqh' => '001',
+                'ho_khau_thuong_tru_xaid' => '00001',
+                'ho_khau_thuong_tru_so_nha' => 'Số nhà' . $id_gv,
+                'noi_o_hien_tai_matp' => '01',
+                'noi_o_hien_tai_maqh' => '001',
+                'noi_o_hien_tai_xaid' => '00001',
+                'noi_o_hien_tai_so_nha' => 'Số nhà' . $id_gv,
+                'so_cmtnd' => $faker->creditCardNumber,
+                'ngay_cap_cmtnd' => $faker->date($format = 'Y-m-d', $max = 'now'),
                 'noi_cap_cmtnd_matp' => '01',
-                'user_id' => $id_gv
 
             ]);
             

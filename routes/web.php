@@ -185,6 +185,12 @@ Route::prefix('quan-ly-diem-danh-den')->group(function () {
     Route::post('/thong-ke-diem-danh', 'QuanLyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
 });
 
+Route::prefix('quan-ly-diem-danh-ve')->group(function () {
+    Route::get('/', 'QuanLyDiemDanhVeController@index')->name('quan-ly-diem-danh-ve.index');
+    Route::post('/lay-theo-lop', 'QuanLyDiemDanhVeController@getDiemDanhVeTheoLop')->name('quan-ly-diem-danh-ve-theo-lop');
+    Route::post('/thong-tin-nguoi-don-ho', 'QuanLyDiemDanhVeController@infoNguoiDonHo')->name('infoNguoiDonHo');
+});
+
 Route::prefix('quan-ly-feed-back')->group(function () {
     Route::get('/', 'ThongKeFeedBackController@index')->name('quan-ly-feed-back-index');
     Route::post('/show-feedback-cua-lop', 'ThongKeFeedBackController@ShowFeedBackCuaLop')->name('quan-ly-feed-back-show-feedback-cua-lop');

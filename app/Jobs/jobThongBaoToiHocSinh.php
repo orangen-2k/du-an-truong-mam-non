@@ -48,12 +48,9 @@ class jobThongBaoToiHocSinh implements ShouldQueue
      */
     public function handle()
     {
-        // return [
-        //     $this->data_save_notifi,
-        //     $this->data_save_thong_bao,
-        //     $this->data_send_device
-        // ];
-        Notification::insert($this->data_save_notifi);
+        foreach($this->data_save_notifi as $item){
+            Notification::create($item);
+        }
         ThongBao::insert($this->data_save_thong_bao);
         $this->NotificationRepository->notificationApp($this->data_send_device);
     }
