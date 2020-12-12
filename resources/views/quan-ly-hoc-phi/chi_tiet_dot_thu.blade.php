@@ -435,15 +435,18 @@
 
     const getDanhSachHocSinhGuiThongBao =(data)=>{
         let html_danh_sach_hoc_sinh = `<option value = "0">Tất cả</option>`
+        let html_danh_sach_hoc_sinh_dong_tien =''
         data.forEach(element => {
             html_danh_sach_hoc_sinh+=`
             <option value = "${element.chi_tiet_hoc_sinh.id}">${element.chi_tiet_hoc_sinh.ma_hoc_sinh+'-'+element.chi_tiet_hoc_sinh.ten}</option>
             `
+            html_danh_sach_hoc_sinh_dong_tien+=`
+            <option value = "${element.chi_tiet_hoc_sinh.id}">${element.chi_tiet_hoc_sinh.ma_hoc_sinh+'-'+element.chi_tiet_hoc_sinh.ten}</option>
+            `
         });
-        console.log(data)
 
         $('#danh_sach_hoc_sinh').html(html_danh_sach_hoc_sinh)
-        $('#danh_sach_hoc_sinh_dong_tien').html(html_danh_sach_hoc_sinh)
+        $('#danh_sach_hoc_sinh_dong_tien').html(html_danh_sach_hoc_sinh_dong_tien)
 
         // $('#danh_sach_dot').html(html_danh_sach_dot)
 
