@@ -20,5 +20,7 @@ class Notification extends Model
                            'type', 
                            'bell',
                            'created_at',
-                           'updated_at'];
+                           'updated_at',
+                           'id_hs'
+                        ];
 }
