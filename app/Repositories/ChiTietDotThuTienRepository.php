@@ -18,5 +18,19 @@ class ChiTietDotThuTienRepository extends BaseModelRepository {
     {
         return ChiTietDotThuTien::class;
     }
-    
+    public function getAllChiTietDotThuHS($id){
+        $query = $this->model
+        ->join('danh_sach_thu_tien', 'danh_sach_thu_tien.id_chi_tiet_dot_thu', '=', 'chi_tiet_dot_thu.id')
+        ->join('thang_thu_tien', 'thang_thu_tien.id', '=', 'chi_tiet_dot_thu.id_thang_thu_tien')
+        ->select(
+            'chi_tiet_dot_thu.ten_dot_thu',
+            'thang_thu_tien.thang_thu',
+            'thang_thu_tien.nam_thu',
+            'thang_thu_tien.id_nam_hoc',
+            'danh_sach_thu_tien.*'
+        )
+        ->where('danh_sach_thu_tien.id_hoc_sinh', $id)
+        ->get();
+        return $query;
+    }
 }

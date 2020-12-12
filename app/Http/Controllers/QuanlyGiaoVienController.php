@@ -165,6 +165,9 @@ class QuanlyGiaoVienController extends Controller
     public function update(UpdateGiaoVien $request, $id)
     {   
         $dataRequest = $request->all();
+        if($dataRequest['anh'] == null){
+            unset($dataRequest['anh']);
+        }
         unset($dataRequest['_token']);
         $this->GiaoVienRepository->update_gv($id, $dataRequest);
         return redirect()->route('quan-ly-giao-vien-edit', ['id' => $id])->with('thong_bao', 'Hoàn thành');
