@@ -85,14 +85,21 @@
                                                         class="m-list-search__result-category m-list-search__result-category--first">
                                                         {{$item->ten_dot_thu}}
                                                     </span>
-                                                    @foreach ($khoi_thu->LopHoc as $chi_tiet_lop)
+                                                    @foreach ($khoi_thu->LopHoc as $key => $chi_tiet_lop)
                                                     <div onclick="getThongTinDongTienLop({{$item->id}},{{$chi_tiet_lop->id}})"
                                                         class="m-list-search__result-item">
                                                         <span class="m-list-search__result-item-icon">
                                                             <label class="m-radio m-radio--state-success">
                                                                 <input type="radio" name="example_2" value="1">{{$chi_tiet_lop->ten_lop}}
+                                
                                                                 <span></span>
+                                                                
                                                             </label>
+                                                            @if ($item->trang_thai_dong_tien[$key]['trang_thai'] == 1)
+                                                            <button type="button" class="ml-4 btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent">{{$item->trang_thai_dong_tien[$key]['so_luong']}}</button>   
+                                                            @else
+                                                            <button type="button" class="ml-4 btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">{{$item->trang_thai_dong_tien[$key]['so_luong']}}</button>
+                                                            @endif
                                                         </span>
                                                      
                                                     </div>
@@ -270,7 +277,9 @@
     $("body").addClass('m-aside-left--minimize m-brand--minimize')
     $("#danh_sach_hoc_sinh").select2()
     $("#danh_sach_hoc_sinh_dong_tien").select2()
+    
 });
+
 
     const checkAll = (e) => {
         $(e).parents('table').find('.checkbox').not(e).prop('checked', e.checked);

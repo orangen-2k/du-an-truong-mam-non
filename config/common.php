@@ -14,12 +14,22 @@ return [
         'Nam',
         'Nữ',
     ],
+    // 'do_tuoi' => [
+    //     'tuoi_2'=> 2,
+    //     'tuoi_3'=> 3,
+    //     'tuoi_4'=> 4,
+    //     'tuoi_5'=> 5,
+    // ],
+
     'do_tuoi' => [
-        'tuoi_2'=> 2,
-        'tuoi_3'=> 3,
-        'tuoi_4'=> 4,
-        'tuoi_5'=> 5,
+        '3 - 12 Tháng',
+        '13 - 24 Tháng',
+        '25 - 36 Tháng',
+        '3 - 4 Tuổi',
+        '4 - 5 Tuổi',
+        '5 - 6 Tuổi',
     ],
+
     'trang_thai_hoc_sinh' => [
         'chưa có lớp','đang học','thôi học','ra trường'
     ],
@@ -104,19 +114,21 @@ return [
     'don_vi_tinh' => [
         'Tháng',
         'Ngày',
-        'Buổi'
+        'Buổi',
+        'Năm'
     ],
 
     'khoan_thu_co_dinh' =>[
         'Tiền ăn' => 1,
-        'Tiền học' => 2,
+        'Học phí mầm non' => 2,
         'Tiền lớp trả muộn' => 3,
+        'Học phí nhà trẻ' => 4,
     ],
 
     'back_up_nam_hoc' =>[
         'chua_back_up',
-        'back_up_tu_dong',
-        'back_up_thu_cong'
+        'back_up_thu_cong',
+        'back_up_tu_dong'
     ],
     'diem_danh_ve' =>[
         'bo_me_don'     => 1,

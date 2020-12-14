@@ -415,7 +415,15 @@ var url_get_khoi_lop_nam_hoc_moi = "{{route('get-du-lieu-khoi-lop-nam-moi')}}";
 var url_len_lop_cho_hoc_sinh = "{{route('len-lop-cho-hoc-sinh')}}";
 var url_get_danh_sach_len_lop = "{{route('get-du-lieu-len_lop',['pardam'])}}"
 var url_get_thong_tin_len_lop_nam_hoc_moi = "{{route('du-lieu-nam-hoc-moi-len-lop')}}"
-
+window.addEventListener( "pageshow", function ( event ) {
+  var historyTraversal = event.persisted || 
+                         ( typeof window.performance != "undefined" && 
+                              window.performance.navigation.type === 2 );
+  if ( historyTraversal ) {
+    // Handle page restore.
+    window.location.reload();
+  }
+});
 console.log('fsfasdf', url_get_danh_sach_len_lop)
 const saoLuuKhoiLop = () => {
     $('#preload').show()

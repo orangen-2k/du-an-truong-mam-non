@@ -138,7 +138,7 @@ Route::group(['middleware' => ['web', 'auth', 'checkNamHoc']], function () {
         Route::post('/create', 'NamHocController@store')->name('nam-hoc.store');
         Route::get('/chi-tiet-nam-hoc/{id}', 'QuanLyTrongNamController@index')->name('nam-hoc-chi-tiet');
         Route::post('/dong-nam-hoc', 'NamHocController@lock')->name('nam-hoc.lock');
-        Route::get('/chuyen-du-lieu-nam-hoc/{id}', 'QuanLyTrongNamController@getchuyenDuLieuNamHoc')->name('get-chuyen-du-lieu-nam-hoc');
+        Route::get('/chuyen-du-lieu-nam-hoc/{id}', 'QuanLyTrongNamController@getchuyenDuLieuNamHoc')->name('get-chuyen-du-lieu-nam-hoc')->middleware('CheckTrangThaiBackUp');
         Route::post('/chuyen-du-lieu-nam-hoc', 'QuanLyTrongNamController@postchuyenDuLieuNamHoc')->name('post-chuyen-du-lieu-nam-hoc');
         Route::post('/get-du-lieu-khoi-lop-nam-moi', 'QuanLyTrongNamController@getDuLieuKhoiLopNamMoi')->name('get-du-lieu-khoi-lop-nam-moi');
         Route::get('/get-du-lieu-len-lop/{id}', 'QuanLyTrongNamController@duLieuLenLop')->name('get-du-lieu-len_lop');
