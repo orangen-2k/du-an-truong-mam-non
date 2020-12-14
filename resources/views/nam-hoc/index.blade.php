@@ -32,8 +32,13 @@
         box-shadow: 2px 3px 5px #000 !important;
     }
 </style>
+<link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
+
 @endsection @section('content')
 <div class="m-content">
+    <div id="preload" class="preload-container text-center" style="display: none">
+        <img id="gif-load" src="https://icon-library.com/images/loading-gif-icon/loading-gif-icon-17.jpg" alt="">
+      </div>
     <!--Begin::Section-->
     <div class="row">
         <div class="col-xl-3">
@@ -331,9 +336,9 @@
             $(el).removeClass("bg-primary item_link_nam_shadow");
         });
         $(element).addClass("bg-primary item_link_nam_shadow");
-        $('#loading').css('display','block');
+        $('#preload').css('display','block');
         setTimeout(function(){
-            $('#loading').css('display','none');
+            $('#preload').css('display','none');
         },700);
         let id = $(element).attr("data-id");
         var url_chi_tiet_nam_hoc_v1 = url_chi_tiet_nam_hoc.replaceAll('pardam', id)
@@ -484,11 +489,13 @@
             confirmButtonText: 'Tôi đồng ý!',
             }).then((result) => {
                if(result.value){
+                $('#preload').css('display','block');
                 axios.post(url_xoa_toan_bo_du_lieu_nam_hoc_hien_tai,{
                     'id_nam_hoc' : id_nam_hoc,
                     'type' : type
                 })
                 .then(function (response) {
+                    $('#preload').css('display','none');
                     window.location.href = url_redirect                              
                 })
                 .catch(function (error) {

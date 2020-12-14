@@ -13,7 +13,7 @@ class NamHoc extends Model
 
     public function Khoi()
     {
-        return $this->hasMany(Khoi::class,'nam_hoc_id','id');
+        return $this->hasMany(Khoi::class,'nam_hoc_id','id')->orderBy('do_tuoi','asc');
     }
 
     public function ThangThuTien()

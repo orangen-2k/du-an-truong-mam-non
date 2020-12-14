@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\NamHocRepository;
 use App\Models\LichSuDay;
 use App\Models\LichSuHoc;
-
 use Carbon\Carbon;
 
 class QuanLyTrongNamController extends Controller
@@ -65,7 +64,7 @@ class QuanLyTrongNamController extends Controller
     // }
     public function index($id)
     {
-        $khoi = $this->KhoiRepository->getAll();
+        $khoi = $this->KhoiRepository->getAllKhoi();
         $giao_vien = $this->GiaoVienRepository->getGIaoVienChuaCoLop();
         $namhoc = $this->NamHocRepository->find($id);
         $sl_hs_type = [];
@@ -316,127 +315,128 @@ class QuanLyTrongNamController extends Controller
     public function xoaToanBoDuLieuCuaNamHocHienTai(Request $request)
     {
         // dd(1);
-        $type = $request->type;
-        $nam_hoc_cu =  $this->NamHocRepository->getNamHocCu();
-        $id_nam_hoc_moi =  $request->id_nam_hoc;
-        $nam_hoc_moi = $this->NamHocRepository->find($id_nam_hoc_moi);
-        // dd($nam_hoc_cu);
+        DB::transaction(function () use ($request) {
+            $type = $request->type;
+            $nam_hoc_cu =  $this->NamHocRepository->getNamHocCu();
+            $id_nam_hoc_moi =  $request->id_nam_hoc;
+            $nam_hoc_moi = $this->NamHocRepository->find($id_nam_hoc_moi);
+            // dd($nam_hoc_cu);
 
-        if($nam_hoc_moi->backup == 1 || $nam_hoc_moi->backup == 2){
-         
-            $khoi_cu = $nam_hoc_cu[0]->Khoi;
-            $khoi_moi = $nam_hoc_moi->Khoi;
-            $danh_sach_hs = [];
-            $danh_sach_gv = [];
-            foreach ($khoi_cu as $key => $lop) {
-                foreach ($lop->LopHoc as $key => $value) {
-                    array_push($danh_sach_hs, $value->LichSuHoc);
-                    array_push($danh_sach_gv, $value->LichSuDay);
-                }
-            }
-            //start giáo viên
-            $collection = collect($danh_sach_gv);
-            $data_giao_vien_roll_back = $collection->collapse();
-            $data_giao_vien = $data_giao_vien_roll_back->all();
-            foreach ($data_giao_vien as $key => $value_gv_update) {
-                $data_gv_update = [
-                    'lop_id' => $value_gv_update->lop_id,
-                    'type' => $value_gv_update->type
-                ];
-                $this->GiaoVienRepository->update($value_gv_update->giao_vien_id, $data_gv_update);
-            }
-            $list_id_gv_delete = $data_giao_vien_roll_back->pluck('id');
-            // dd($data_giao_vien);
-            //end giáo viên
-
-            //start học sinh
-            $collection = collect($danh_sach_hs);
-            $data_hs_roll_back = $collection->collapse();
-            $data_hoc_sinh = $data_hs_roll_back->all();;
-            $list_id_delete = $data_hs_roll_back->pluck('id');
-            foreach ($data_hoc_sinh as $key => $value_hs_update) {
-                $data_hs_update = [
-                    'lop_id' => $value_hs_update->lop_id,
-                    'type' => 1
-                ];
-              
-                $this->HocSinhRepository->update($value_hs_update->hoc_sinh_id, $data_hs_update);
-               
-            }
-            //end học sinh
-
-            foreach ($khoi_moi as $key => $value_khoi) {
-                $this->KhoiRepository->delete($value_khoi->id);
-            }
-           
-            LichSuDay::destroy($list_id_gv_delete);
-            LichSuHoc::destroy($list_id_delete);
-
-            $this->NamHocRepository->update($id_nam_hoc_moi,['backup'=>0]);
-          
-        }
-        if($type == 2){
-            $LopCu= $nam_hoc_cu[0]->Khoi->map(function($data){
-                return $data->LopHoc;
-            });
-            $collection = collect($LopCu);
-            $LopCu = $collection->collapse();
-            $LopCu->all();
-            $lich_su_hoc = [];
-            $lich_su_day = [];
-            $tot_nghiep = false;
-            // dd($LopCu[0]->id);
-            foreach ($LopCu as $key => $value) {
-               
-                if($value->Khoi->do_tuoi == 5){
-                    $tot_nghiep = true;
-                }
-                // array_push($lop_hoc_cu,$value->LopHoc);
-                $hoc_sinh_cua_lop = $this->HocSinhRepository->getHocSinhCuaLop($value->id, []);
-                // dd($hoc_sinh_cua_lop);
-                foreach ($hoc_sinh_cua_lop as $key => $hoc_sinh) {
-                    array_push(
-                        $lich_su_hoc,
-                        [
-                            'hoc_sinh_id' => $hoc_sinh->id,
-                            'lop_id' => $hoc_sinh->lop_id,
-                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-                        ]
-                    );
-                }
-                // dd($value);
-                if($tot_nghiep){
-                    $this->HocSinhRepository->updateHocSinhTn($hoc_sinh->lop_id, ['type' => 3]);
-                }else{
-                    $this->HocSinhRepository->updateHocSinhTn($hoc_sinh->lop_id, ['lop_id' => 0, 'type' => 1]);
-                }
-
-                $giao_vien_cua_lop =  $this->GiaoVienRepository->getGiaoVienCuaLop($value->id);
-                // dd($giao_vien);
-                foreach ($giao_vien_cua_lop as $key => $giao_vien) {
-                    array_push(
-                        $lich_su_day,
-                        [
-                            'giao_vien_id' => $giao_vien->id,
-                            'lop_id' => $giao_vien->lop_id,
-                            'type' => $giao_vien->type,
-                            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-                        ]
-                    );
-                    $this->GiaoVienRepository->update($giao_vien->id, ['lop_id' => 0,'type'=>0]);
-                }
-
-               
-
-               
-            }
-            LichSuDay::insert($lich_su_day);
-            LichSuHoc::insert($lich_su_hoc);
-            $this->NamHocRepository->update($id_nam_hoc_moi,['backup'=>1]);
+            if($nam_hoc_moi->backup == 1 || $nam_hoc_moi->backup == 2){
             
-        }
+                $khoi_cu = $nam_hoc_cu[0]->Khoi;
+                $khoi_moi = $nam_hoc_moi->Khoi;
+                $danh_sach_hs = [];
+                $danh_sach_gv = [];
+                foreach ($khoi_cu as $key => $lop) {
+                    foreach ($lop->LopHoc as $key => $value) {
+                        array_push($danh_sach_hs, $value->LichSuHoc);
+                        array_push($danh_sach_gv, $value->LichSuDay);
+                    }
+                }
+                //start giáo viên
+                $collection = collect($danh_sach_gv);
+                $data_giao_vien_roll_back = $collection->collapse();
+                $data_giao_vien = $data_giao_vien_roll_back->all();
+                foreach ($data_giao_vien as $key => $value_gv_update) {
+                    $data_gv_update = [
+                        'lop_id' => $value_gv_update->lop_id,
+                        'type' => $value_gv_update->type
+                    ];
+                    $this->GiaoVienRepository->update($value_gv_update->giao_vien_id, $data_gv_update);
+                }
+                $list_id_gv_delete = $data_giao_vien_roll_back->pluck('id');
+                // dd($data_giao_vien);
+                //end giáo viên
+
+                //start học sinh
+                $collection = collect($danh_sach_hs);
+                $data_hs_roll_back = $collection->collapse();
+                $data_hoc_sinh = $data_hs_roll_back->all();;
+                $list_id_delete = $data_hs_roll_back->pluck('id');
+                foreach ($data_hoc_sinh as $key => $value_hs_update) {
+                    $data_hs_update = [
+                        'lop_id' => $value_hs_update->lop_id,
+                        'type' => 1
+                    ];
+                
+                    $this->HocSinhRepository->update($value_hs_update->hoc_sinh_id, $data_hs_update);
+                
+                }
+                //end học sinh
+
+                foreach ($khoi_moi as $key => $value_khoi) {
+                    $this->KhoiRepository->delete($value_khoi->id);
+                }
+            
+                LichSuDay::destroy($list_id_gv_delete);
+                LichSuHoc::destroy($list_id_delete);
+
+                $this->NamHocRepository->update($id_nam_hoc_moi,['backup'=>0]);
+            
+            }
+            if($type == 2){
+                $LopCu= $nam_hoc_cu[0]->Khoi->map(function($data){
+                    return $data->LopHoc;
+                });
+                $collection = collect($LopCu);
+                $LopCu = $collection->collapse();
+                $LopCu->all();
+                $lich_su_hoc = [];
+                $lich_su_day = [];
+                $tot_nghiep = false;
+                // dd($LopCu[0]->id);
+                foreach ($LopCu as $key => $value) {
+                
+                    if($value->Khoi->do_tuoi == 5){
+                        $tot_nghiep = true;
+                    }
+                    // array_push($lop_hoc_cu,$value->LopHoc);
+                    $hoc_sinh_cua_lop = $this->HocSinhRepository->getHocSinhCuaLop($value->id, []);
+                    // dd($hoc_sinh_cua_lop);
+                    foreach ($hoc_sinh_cua_lop as $key => $hoc_sinh) {
+                        array_push(
+                            $lich_su_hoc,
+                            [
+                                'hoc_sinh_id' => $hoc_sinh->id,
+                                'lop_id' => $hoc_sinh->lop_id,
+                                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                            ]
+                        );
+                    }
+                    // dd($value);
+                    if($tot_nghiep){
+                        $this->HocSinhRepository->updateHocSinhTn($hoc_sinh->lop_id, ['type' => 3]);
+                    }else{
+                        $this->HocSinhRepository->updateHocSinhTn($hoc_sinh->lop_id, ['lop_id' => 0, 'type' => 1]);
+                    }
+
+                    $giao_vien_cua_lop =  $this->GiaoVienRepository->getGiaoVienCuaLop($value->id);
+                    // dd($giao_vien);
+                    foreach ($giao_vien_cua_lop as $key => $giao_vien) {
+                        array_push(
+                            $lich_su_day,
+                            [
+                                'giao_vien_id' => $giao_vien->id,
+                                'lop_id' => $giao_vien->lop_id,
+                                'type' => $giao_vien->type,
+                                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                            ]
+                        );
+                        $this->GiaoVienRepository->update($giao_vien->id, ['lop_id' => 0,'type'=>0]);
+                    }
+
+                
+
+                
+                }
+                LichSuDay::insert($lich_su_day);
+                LichSuHoc::insert($lich_su_hoc);
+                $this->NamHocRepository->update($id_nam_hoc_moi,['backup'=>1]);
+            }
+    });
         // dd(1);
        
     }

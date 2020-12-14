@@ -133,4 +133,24 @@ class DanhSachThuTienRepository extends BaseModelRepository
         return  $this->model->where('id_hoc_sinh',$id_hoc_sinh)->where('id_chi_tiet_dot_thu',$id_dot_thu)
         ->update(['trang_thai'=>0,'so_tien_da_dong'=>0]);
     }
+
+    public function getTrangThaiDongTienCuaLop($id,$lop_id)
+    {
+        $tong_hoc_sinh_phai_dong =  $this->model->where('id_chi_tiet_dot_thu',$id)->where('lop_id',$lop_id)->count();
+        $tong_hoc_sinh_da_dong =  $this->model->where('id_chi_tiet_dot_thu',$id)->where('lop_id',$lop_id)->where('trang_thai',1)->count();
+
+        if($tong_hoc_sinh_phai_dong == $tong_hoc_sinh_da_dong){
+            return [
+                'trang_thai' =>1,
+                'so_luong' =>$tong_hoc_sinh_da_dong .'/'.$tong_hoc_sinh_phai_dong
+            ];
+        }else{
+            return [
+                'trang_thai' =>0,
+                'so_luong' =>$tong_hoc_sinh_da_dong .'/'.$tong_hoc_sinh_phai_dong
+            ];
+        }
+        // dd($tong_hoc_sinh_phai_dong);
+        
+    }
 }

@@ -23,7 +23,7 @@ class KhoiRepository extends BaseModelRepository
 
     public function getAllKhoi()
     {
-        return $this->model->get();
+        return $this->model->orderBy('do_tuoi','asc')->get();
     }
 
     // public function getAll()

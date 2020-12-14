@@ -1,4 +1,4 @@
-@extends('layouts.main') @section('title', "Quản lý khoản thu")
+@extends('layouts.main') @section('title', "Quản lý đợt thu")
 @section('style')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
@@ -493,17 +493,24 @@
     var url_chi_tiet_dot_thu_theo_khoi_fake = "{{route('get-chi-tiet-dot-thu',['id','khoi'])}}";
     var url_gui_thong_bao_theo_khoi = "{{route('gui-thong-bao-theo-khoi')}}";
     var url_delete_dot_thu = "{{route('quan-ly-dot-thu-delete')}}";
-
+ 
     
     
     $(document).ready( function () {
-
+   
         $("body").addClass('m-aside-left--minimize m-brand--minimize')
     });
     const checkAll = (e) => {
         $(e).parents('table').find('.checkbox').not(e).prop('checked', e.checked);
     };
-
+    // location.replace(document.referrer);
+    // window.location.reload(history.back());
+    window.addEventListener( "pageshow", function ( event ) {
+  var historyTraversal = event.persisted ||  ( typeof window.performance != "undefined" && window.performance.navigation.type === 2 );
+    if ( historyTraversal ) {
+        window.location.reload();
+    }
+    });
     const lapDotThu = () =>{
         $('#preload').css('display', 'block');
         let element_add = document.querySelectorAll('.checkbox')
@@ -594,7 +601,6 @@
                     showConfirmButton: false,
                     timer: 1500
                 }).then(
-            
                     ()=> location.href = "{{route('quan-ly-dot-thu-index',['id'=>0])}}"
                     )
             })

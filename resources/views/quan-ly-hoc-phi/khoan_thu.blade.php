@@ -198,7 +198,7 @@
                                                                             @endif
                                                                             name="pham_vi_thu" value="0"> Toàn trường
                                                                             <span></span>
-                                                                        @if ($item->mac_dinh < 1)
+                                                                            @if ($item->mac_dinh ==2 ||$item->mac_dinh ==4 || $item->mac_dinh ==0 )
                                                                         <label class="m-radio m-radio--state-success">
                                                                             <input type="radio" @if ($item->pham_vi_thu
                                                                             == 1)
@@ -207,6 +207,8 @@
                                                                             name="pham_vi_thu" value="1"> Khối
                                                                             <span></span>
                                                                         </label>
+                                                                        @endif
+                                                                        @if ($item->mac_dinh < 1)
                                                                         <label class="m-radio m-radio--state-success">
                                                                             <input type="radio" @if ($item->pham_vi_thu
                                                                             == 2)
