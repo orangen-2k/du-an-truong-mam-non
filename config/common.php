@@ -5,6 +5,7 @@ return [
     'key_servesms' => 'a124bdf6c0917d47c74343f5e7332d5ecc1ce522',
     'devices_servesms' => '2096|0',
     'DB_HOST_STORAGE' => "http://127.0.0.1:8000",
+    'HOST_Api_STORAGE' => "http://35.187.236.213:8080/",
     'SERVE_HOST_GV' => "http://35.187.236.213:2000",
     'paginate_size' => [
         'default' => 10,

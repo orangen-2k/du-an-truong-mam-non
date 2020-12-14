@@ -118,4 +118,10 @@ class AccountRepository extends BaseModelRepository
         ->get();
     }
 
+    public function updateAccountGiaoVien($id, $params)
+    {
+        return $this->model::where('id', $id)
+        ->update($params);
+    }
+
 }

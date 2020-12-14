@@ -43,7 +43,7 @@
     <div class="row">
         <div class="col-xl-3">
             <!--begin:: Widgets/Announcements 1-->
-            <div class="m-portlet m--bg-accent m-portlet--bordered-semi m-portlet--skin-dark m-portlet--full-height ">
+            <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height ">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
@@ -54,7 +54,7 @@
                     </div>
                     <div class="m-portlet__head-tools">
                         {{-- <button class="btn btn-outline-secondary m-btn" data-toggle="modal" data-target="#m_modal_1"> --}}
-                        <button class="btn btn-outline-secondary m-btn" type="button" onclick="checkNew()">
+                        <button class="btn btn-outline-success m-btn" type="button" onclick="checkNew()">
                             <i class="flaticon-add"></i>
                         </button>
 
@@ -66,9 +66,11 @@
                         <div class="m-widget6">
                             <div class="m-widget6__body">
                                 <div id="m_calendar_external_events" class="fc-unthemed">
-                                    @forelse ($data as $item)
+                                    @forelse ($data as $key => $item)
 
                                     <div onclick="getData(this)" data-name="{{ $item->name }}" data-id="{{ $item->id }}"
+                                        data-backup="{{ $item->backup ? 'true' : 'false'}}"
+                                        data-key="{{ $key }}"
                                         data-start_date="{{ date_format(date_create($item->start_date),"d/m/Y") }}" 
                                         data-end_date="{{ date_format(date_create($item->end_date),"d/m/Y") }}"
                                         data-type="{{ $item->type }}"
@@ -117,15 +119,15 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-warning">
+                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class="{{ $data->first()->backup == 0 ? 'd-none' : ''}} btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-warning">
                                     <span>
                                         <i class="la la-archive"></i>
                                         <span id="text-lich-su">Quản lý năm học</span>
                                     </span>
                                 </a>
-                                <button style="cursor: pointer" type="button" data-toggle="modal" id="btn_xep_lop_or_lich_su"
+                                <button  style="cursor: pointer" type="button" data-toggle="modal" id="btn_xep_lop_or_lich_su"
                                     data-target="#modal_chon_khoi_tao_nam_hoc"
-                                    class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-info">
+                                    class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-info {{ count($data) == 1 ? 'd-none' : ''}}">
                                     <span>
                                         <i class="la la-archive"></i>
                                         <span>Xếp lớp</span>
@@ -316,6 +318,18 @@
 
     
     function getData(element) { 
+        let key = $(element).data('key');
+        let backup = $(element).data('backup');
+        if(key == 0 ){
+            if(backup == false || backup == 'false'){
+                $('#quan_ly_nam_hoc').addClass('d-none');
+            }else{
+                $('#quan_ly_nam_hoc').removeClass('d-none'); 
+            }
+        }else{
+            $('#quan_ly_nam_hoc').removeClass('d-none');
+        }
+
         let list_link = $('.item_link_nam').toArray();
         console.log(list_link);
         list_link.forEach(el => {

@@ -19,8 +19,8 @@ class Notification extends Model
                            'auth_id', 
                            'type', 
                            'bell',
+                           'id_hs',
                            'created_at',
-                           'updated_at',
-                           'id_hs'
+                           'updated_at'
                         ];
 }

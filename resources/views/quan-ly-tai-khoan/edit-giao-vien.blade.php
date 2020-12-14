@@ -235,7 +235,7 @@
                                                                 <input type="file"  accept="image/*"
                                                                 id="anh_gv" onClick="showModal()" onchange="changeAvatar(this)"
                                                                     style="display:none" />
-                                                                <input type="hidden"   name="anh">
+                                                                <input type="hidden"  name="anh" value="{{ $giao_vien->anh }}">
                                                             </div>
                                                         </div>
 

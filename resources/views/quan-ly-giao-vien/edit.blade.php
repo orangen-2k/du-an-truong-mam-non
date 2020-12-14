@@ -291,7 +291,7 @@
                                                                 <input type="file" accept="images/*" 
                                                                 id="anh_gv" onClick="showModal()"onchange="changeAvatar(this)"
                                                                     style="display:none" />
-                                                                <input type="hidden" name="anh">
+                                                                <input type="hidden" name="anh" value="{{ $data->anh }}">
 
                                                             </div>
                                                         </div>

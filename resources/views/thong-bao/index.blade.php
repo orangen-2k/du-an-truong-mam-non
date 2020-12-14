@@ -52,7 +52,7 @@
                                     <div class="m-widget3__item">
                                         <div class="m-widget3__header">
                                             <div class="m-widget3__user-img">
-                                                <img class="m-widget3__img" src="{{ $item->Auth->avatar ? asset('upload/' . $item->Auth->avatar) : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
+                                                <img class="m-widget3__img" src="{{ $item->Auth->avatar ? $item->Auth->avatar : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
                                             </div>
                                             <div class="m-widget3__info">
                                                 <span class="m-widget3__username">
@@ -104,7 +104,7 @@
                                         <div class="m-widget3__item">
                                             <div class="m-widget3__header">
                                                 <div class="m-widget3__user-img">
-                                                    <img class="m-widget3__img" src="{{ $item->Auth->avatar ? asset('upload/' . $item->Auth->avatar) : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
+                                                    <img class="m-widget3__img" src="{{ $item->Auth->avatar ? $item->Auth->avatar : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
                                                 </div>
                                                 <div class="m-widget3__info">
                                                     <span class="m-widget3__username">
@@ -154,7 +154,7 @@
                                     <div class="m-widget3__item">
                                         <div class="m-widget3__header">
                                             <div class="m-widget3__user-img">
-                                                <img class="m-widget3__img" src="{{ $item->Auth->avatar ? asset('upload/' . $item->Auth->avatar) : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
+                                                <img class="m-widget3__img" src="{{ $item->Auth->avatar ?  $item->Auth->avatar : 'https://ui-avatars.com/api/?name=' . $item->Auth->name . '&background=random' }}" alt="">
                                             </div>
                                             <div class="m-widget3__info">
                                                 <span class="m-widget3__username">
