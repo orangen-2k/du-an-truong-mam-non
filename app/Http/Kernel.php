@@ -66,5 +66,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkNamHoc' => \App\Http\Middleware\CheckNamHoc::class,
+        'CheckTrangThaiBackUp' => \App\Http\Middleware\CheckTrangThaiBackUp::class,
+
     ];
 }

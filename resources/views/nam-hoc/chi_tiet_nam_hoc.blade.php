@@ -176,10 +176,14 @@
                               </div>
                               <select class="form-control m-input m-input--square" name="do_tuoi" id="do_tuoi">
                                 <option value="">Chọn</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                @foreach (config('common.do_tuoi') as $key => $item)
+                                @if ($key == 0)
+                                    @continue;
+                                @endif
+                                  <option value="{{$key}}">{{$item}}</option>
+                                @endforeach
+                               
+                                
                               </select>
                             </div>
                             <div class="input-group-prepend">
@@ -573,7 +577,7 @@
                 <div class="m-accordion__item-head collapsed" role="tab" id="tab{{$item->id}}_item_1_head"
                   data-toggle="collapse" href="#tab{{$item->id}}_item_1_body" aria-expanded="false">
                   <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{$item->do_tuoi}} tuổi)</span>
+                  <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{config('common.do_tuoi')[$item->do_tuoi]}})</span>
                   <div class="dropdown">
                     @if ($namhoc->type ==1)
                     <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v" id="dropdownMenuButton"
@@ -644,7 +648,8 @@
               <div class="m-accordion__item-head collapsed" role="tab" id="hoc-sinh-chua-co-tuoi"
                 data-toggle="collapse">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="m-accordion__item-title">Học sinh mới tuyển sinh ({{$sl_hs_type[0]}})</span>
+                <span class="m-accordion__item-title">Học sinh mới tuyển sinh (<span
+                  id="hoc_sinh_moi_tuyen_sinh">{{$sl_hs_type[0]}}</span>)</span>
               </div>
             </div>
             <div class="m-accordion__item" onclick="getDataHsChuaCoLop(1)">
@@ -1159,7 +1164,6 @@ const getDataHsChuaCoLop = (type) =>{
       }
       if(type==0){ 
         $('#button_xep_lop').attr('trang_thai_hoc_sinh',0)
-
           $('#button_xep_lop').css('display','block')
       }
         $('#id_lop_xep').val(0)
@@ -1496,7 +1500,8 @@ const chuyenLop = () =>{
   axios.post(url_chuyen_lop, {
       'lop_id_chuyen': $('#id_lop_chuyen').val(),
       'lop_id': $('#id_lop_xep').val(),
-      'id_hs_chuyen_lop':$('#hoc_sinh_can_chuyen').val()
+      'id_hs_chuyen_lop':$('#hoc_sinh_can_chuyen').val(),
+      'trang_thai_hoc_sinh':$('#button_xep_lop').attr('trang_thai_hoc_sinh')
     })
   .then(function (response) {
     $('#modal-chuyen-lop').modal('hide')
@@ -1508,9 +1513,16 @@ const chuyenLop = () =>{
       $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop_hien_tai})`)
       showHocSinhCuaLop($('#id_lop_xep').val())
     }else{
-      getDataHsChuaCoLop(1)
+      if ($('#button_xep_lop').attr('trang_thai_hoc_sinh')==1) {
+        getDataHsChuaCoLop(1)
+        $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_cua_lop_hien_tai}`)   
+      }else{
+        getDataHsChuaCoLop(0)
+        $('#hoc_sinh_moi_tuyen_sinh').html(`${response.data.sl_hs_cua_lop_hien_tai}`)   
+      }
+      
       // getDataHsChuaCoLop(0)
-      $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_cua_lop_hien_tai}`)   
+     
     }
  
     Swal.fire({

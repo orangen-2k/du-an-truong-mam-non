@@ -506,7 +506,12 @@ class QuanlyHocSinhController extends Controller
         $lop_hien_tai = $this->LopRepository->find($lop_id);
         $sl_hs_cua_lop_chuyen_den = $lop_chuyen->tong_so_hoc_sinh;  
         if($lop_id == []){
-            $sl_hs_cua_lop_hien_tai = $this->HocSinhRepository->getSlHocSinhType(1);
+            if ($request->trang_thai_hoc_sinh==1) {
+                $sl_hs_cua_lop_hien_tai = $this->HocSinhRepository->getSlHocSinhType(1);
+            }else{
+                $sl_hs_cua_lop_hien_tai = $this->HocSinhRepository->getSlHocSinhType(0);
+            }
+            
         }else{
             $sl_hs_cua_lop_hien_tai = $lop_hien_tai->tong_so_hoc_sinh;
         };
