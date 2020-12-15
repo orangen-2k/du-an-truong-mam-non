@@ -13,6 +13,9 @@ class NhanXetController extends Controller
     {
         $lop_id = request('id');
         $lop = Lop::find($lop_id);
+        if($lop == null){
+            return redirect()->route('nam-hoc.index');
+        }
         $students = $lop->HocSinh;
         return view('nhan-xet.show', compact('students','lop'));
     }

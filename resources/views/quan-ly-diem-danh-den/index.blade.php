@@ -153,8 +153,7 @@
                                     id="tab{{$item->id}}_item_1_head" data-toggle="collapse"
                                     href="#tab{{$item->id}}_item_1_body" aria-expanded="false">
                                     <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{$item->do_tuoi}}
-                                        tuổi)</span>
+                                    <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{config('common.do_tuoi')[$item->do_tuoi]}})</span>
 
                                 </div>
                                 <div class="m-accordion__item-body collapse" id="tab{{$item->id}}_item_1_body"

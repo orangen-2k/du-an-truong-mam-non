@@ -67,7 +67,7 @@
                                 <img src="assets/app/media/img/client-logos/logo3.png" alt="">
                             </div>
                             <h3 class="m-portlet__head-text font-italic">
-                                {{$item->ten_khoi}} ( {{$item->do_tuoi}} tuổi)
+                                {{$item->ten_khoi}} ({{config('common.do_tuoi')[$item->do_tuoi]}})
                             </h3>
                         </div>
                     </div>
