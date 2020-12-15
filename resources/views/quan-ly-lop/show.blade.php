@@ -196,6 +196,14 @@
                 </div>
             </div>
 
+            <div class=" d-flex flex-row-reverse bd-highlight mb-4 ">
+                <a href="{{ route('nhanxet.show',['id' => $lop->id])}}" class="btn btn-secondary m-btn m-btn--icon">
+                    <span>
+                        <i class="fa fa-notes-medical"></i>
+                        <span>Nhận Xét</span>
+                    </span>
+                </a>
+            </div>
             <!--end::Portlet-->
         </div>
     </div>

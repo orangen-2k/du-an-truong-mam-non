@@ -127,7 +127,7 @@
                                 </a>
                                 <button  style="cursor: pointer" type="button" data-toggle="modal" id="btn_xep_lop_or_lich_su"
                                     data-target="#modal_chon_khoi_tao_nam_hoc"
-                                    class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-info {{ count($data) == 1 ? 'd-none' : ''}}">
+                                    class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-info">
                                     <span>
                                         <i class="la la-archive"></i>
                                         <span>Xếp lớp</span>

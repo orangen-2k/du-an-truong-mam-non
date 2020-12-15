@@ -72,7 +72,6 @@
     
     <div class="m-portlet">
         <div class="m-portlet__body table-responsive">
-
              @if (session('status'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Thành Công!</strong> {{ session('status') }}
@@ -81,43 +80,30 @@
                 </button>
             </div>
             @endif
-
-            <table class="table m-table m-table--head-bg-success">
-            <div class="row mb-1">
-                   <div class="col-md-5 d-flex ">
-                    </div>
-                  <div class="col-md-6 d-flex  ">
-                      <div class="col-md-5"></div>
-                        {{-- <label class="col-lg-3 col-form-label">Trạng thái:</label> --}}
-                        {{-- <div class="col-lg-4">
-                            <select class="form-control" id="status-view">
-                                <option value="2"  @if(isset($params['status_view']) && $params['status_view']==2) selected @endif >Chưa xem</option>
-                                <option value="3" @if(isset($params['status_view']) && $params['status_view']==3) selected @endif>Đang xem</option>
-                            </select>
-                        </div> --}}
-
-                        <label class="col-lg-3 col-form-label">Kích thước:</label>
-                        <div class="col-lg-3">
-                            <select class="form-control" id="page-size">
-                                @foreach(config('common.paginate_size.list') as $size)
-                                <option @if(isset($params['page_size']) && $params['page_size']==$size) selected @endif
-                                    value="{{$size}}">
-                                    {{$size}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+            <div class="col-12 form-group m-form__group d-flex justify-content-end">
+                <label class="col-lg-2 col-form-label">Kích thước:</label>
+                <div class="col-lg-2">
+                    <select class="form-control" id="page-size">
+                        @foreach(config('common.paginate_size.list') as $size)
+                        <option @if(isset($params['page_size']) && $params['page_size']==$size) selected @endif
+                            value="{{$size}}">
+                            {{$size}}</option>
+                        @endforeach
+                    </select>
                 </div>
-
+            </div>
+            <table class="table m-table m-table--head-bg-success">
                 <thead>
                     <tr>
                         <th>Stt</th>
+                        <th>Mã đơn</th>
                         <th>Họ tên</th>
                         <th>Ảnh</th>
                         <th>Ngày sinh</th>
                         <th>SĐT đăng kí</th>
                         <th>Tên bố</th>
                         <th>Tên mẹ</th>
+                        <th>Tên người giám hộ</th>
                         <th>Chức năng</th>
                     </tr>
                 </thead>
@@ -131,12 +117,14 @@
                     @foreach($all_hs_dang_ki as $hs)
                     <tr>
                         <th scope="row">1</th>
+                        <td><b>{{$hs->ma_don}}</b></td>
                         <td>{{$hs->ten}}</td>
-                        <td><img width="100px" height="100px"  src="{{$hs->avatar}}"  alt=""></td>
+                        <td><img width="50px" class="img-thumbnail"  src="{{$hs->avatar}}"  alt=""></td>
                         <td>{{$hs->ngay_sinh}}</td>
                         <td>{{$hs->dien_thoai_dang_ki}}</td>
                         <td>{{$hs->ten_cha}}</td>
                         <td>{{$hs->ten_me}}</td>
+                        <td>{{$hs->ten_nguoi_giam_ho}}</td>
                         <td><a href="{{route('edit-hs-dang-ky-nhap-hoc',['id'=>$hs->id  ])}}">Cập nhật</a></td>
                     </tr>
                     @endforeach

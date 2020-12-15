@@ -70,6 +70,7 @@
                                                             <i data-toggle="m-tooltip" data-width="auto"
                                                                 class="m-form__heading-help-icon flaticon-info" title=""
                                                                 data-original-title="Some help text goes here"></i>
+                                                                Mã đơn đăng ký: <b>{{$hs_dk->ma_don}}</b>
                                                         </h3>
                                                     </div>
                                                 </div>
