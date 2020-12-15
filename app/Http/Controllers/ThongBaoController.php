@@ -87,7 +87,7 @@ class ThongBaoController extends Controller
         $list_device = [];
         foreach($listHocSinh as $hoc_sinh){
             array_push($list_id_hoc_sinh, $hoc_sinh->id);
-            array_push($list_device, !empty($hoc_sinh->User->device) ? $hoc_sinh->User->device : '');
+            array_push($list_device, !empty($hoc_sinh->User->device) ? $hoc_sinh->User->device : 'gg');
         }
 
         $content = [
@@ -111,6 +111,7 @@ class ThongBaoController extends Controller
                     'id_hs' => $value, 
                     "route"   => json_encode([
                         'name_route' => 'ShowThongBao',
+                        'id_hs' => $value,
                         'id' => $id_noi_dung_thong_bao
                     ]),
                     'role'    => config('common.notification_role.hoc_sinh')
@@ -121,10 +122,16 @@ class ThongBaoController extends Controller
         }
         foreach ($list_device as $key => $value){
             $content['device'] = $value;
+            $content['route'] = [
+                'name_route' => 'ShowThongBao',
+                'id' => $id_noi_dung_thong_bao,
+                'id_hs' => $list_id_hoc_sinh[$key],
+            ];
             $data_device = collect([$content]);
             $data_send_device = $data_device->collapse();
             $list_device[$key] = $data_send_device;
         }
+        return $list_device;
 
         $link = [
             'route_name' => 'thong-bao.show',
@@ -222,6 +229,7 @@ class ThongBaoController extends Controller
                     'id_hs' => $value, 
                     "route"   => json_encode([
                         'name_route' => 'ShowThongBao',
+                        'id_hs' => $value,
                         'id' => $id_noi_dung_thong_bao
                     ]),
                     'role'    => config('common.notification_role.hoc_sinh')
@@ -232,6 +240,12 @@ class ThongBaoController extends Controller
         }
         foreach ($list_device as $key => $value){
             $content['device'] = $value;
+            $content['route'] = [
+                'name_route' => 'ShowThongBao',
+                'id' => $id_noi_dung_thong_bao,
+                'id_hs' => $list_id_hoc_sinh[$key],
+            ];
+
             $data_device = collect([$content]);
             $data_send_device = $data_device->collapse();
             $list_device[$key] = $data_send_device;
