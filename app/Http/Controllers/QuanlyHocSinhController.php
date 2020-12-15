@@ -468,7 +468,7 @@ class QuanlyHocSinhController extends Controller
         $hoc_sinh_nam_chua_co_lop = $this->HocSinhRepository->getAllHocSinhChuaCoLop(0);
         $hoc_sinh_nu_chua_co_lop = $this->HocSinhRepository->getAllHocSinhChuaCoLop(1);
         $do_tuoi = config('common.do_tuoi');
-        // dd($do_tuoi);
+        unset($do_tuoi[0]);
         $id_nam_hoc = $this->NamHocRepository->maxID();
         $nam_hoc = $this->NamHocRepository->find($id_nam_hoc);
         // dd($id_nam_hoc);
