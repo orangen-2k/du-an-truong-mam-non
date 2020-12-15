@@ -1431,6 +1431,8 @@ const xepLop = () =>{
     'sl_hs_nu' : $('#nhap_hoc_sinh_nu_chua_co_lop').val()
   })
   .then(function (response) {
+    $('#hoc_sinh_moi_tuyen_sinh').html(`${response.data.sl_hs_moi_tuyen_sinh}`)
+    $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_dang_hoc_chua_co_lop}`)
     showHocSinhCuaLop($('#id_lop_xep').val())
     var component_lop = 'lop_'+$('#id_lop_xep').val()
     $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop})`)
@@ -1454,6 +1456,8 @@ const xepLop = () =>{
 
   })
   .then(function () {
+   
+
     // always executed
   });
 };
