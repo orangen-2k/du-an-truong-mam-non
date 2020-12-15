@@ -265,7 +265,9 @@ class LopController extends Controller
         $this->HocSinhRepository->xepLopTuDong($request->id_lop,$do_tuoi,1,$sl_hs_nu,$nam_hoc);
 return [                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
             'hs_cua_lop' => $lop->HocSinh,
-            'sl_hs_cua_lop' => count($lop->HocSinh)
+            'sl_hs_cua_lop' => count($lop->HocSinh),
+            'sl_hs_moi_tuyen_sinh' => $this->HocSinhRepository->getSlHocSinhType(0),
+            'sl_hs_dang_hoc_chua_co_lop' => $this->HocSinhRepository->getSlHocSinhType(1)
         ];
 
 

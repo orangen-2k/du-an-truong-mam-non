@@ -334,6 +334,8 @@
             html_chi_tiet = '<tbody>'
             var thu_tu =1;
             response.data.khoan_thu_hoc_sinh.forEach(element => {
+                var route_chi_tiet_hoc_sinh = "{{route('quan-ly-hoc-sinh-edit',['id'])}}"
+                var route_chi_tiet_hoc_sinh_new = route_chi_tiet_hoc_sinh.replace('id',element.chi_tiet_hoc_sinh.id)
                 if(element.trang_thai == 1){
                     html_trang_thai ='<i class="fa fa-check"></i>'
                 }else{
@@ -356,7 +358,7 @@
                             </label>
                         </td>
                         <td scope="row">${thu_tu++}</td>
-                        <td>${element.chi_tiet_hoc_sinh.ma_hoc_sinh}</td>
+                        <td><a target="_blank"  href="${route_chi_tiet_hoc_sinh_new}">${element.chi_tiet_hoc_sinh.ma_hoc_sinh}</a></td>
                         <td>${element.chi_tiet_hoc_sinh.ten}</td>
   
                         <td class='quan_trong'>${element.so_tien_phai_dong.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}</td>
