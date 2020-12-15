@@ -119,7 +119,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class="{{ $data->first()->backup == 0 ? 'd-none' : ''}} btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-warning">
+                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class=" btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-warning">
                                     <span>
                                         <i class="la la-archive"></i>
                                         <span id="text-lich-su">Quản lý năm học</span>
@@ -127,7 +127,7 @@
                                 </a>
                                 <button  style="cursor: pointer" type="button" data-toggle="modal" id="btn_xep_lop_or_lich_su"
                                     data-target="#modal_chon_khoi_tao_nam_hoc"
-                                    class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-info">
+                                    class="btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-info {{ count($data) == 1 ? 'd-none' : ''}}">
                                     <span>
                                         <i class="la la-archive"></i>
                                         <span>Xếp lớp</span>
@@ -284,6 +284,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" name="nam_hoc_1" id="nam_hoc_1" value="{{ count($data) == 1 ? 1 : 2 }}">
     <!--End::Section-->
 </div>
 <div id="loading" style="text-align: center;position: fixed;z-index: 500;width: 100vw;height: 100vh;background: #000;top: 0;left: 0;opacity:0.4;display:none;">
@@ -320,14 +321,19 @@
     function getData(element) { 
         let key = $(element).data('key');
         let backup = $(element).data('backup');
+        let nam = $('#nam_hoc_1').val();
+        if(nam == 1){
+            return;
+        }
+
         if(key == 0 ){
             if(backup == false || backup == 'false'){
-                $('#quan_ly_nam_hoc').addClass('d-none');
+                $('#btn_xep_lop_or_lich_su').addClass('d-none');
             }else{
-                $('#quan_ly_nam_hoc').removeClass('d-none'); 
+                $('#btn_xep_lop_or_lich_su').removeClass('d-none'); 
             }
         }else{
-            $('#quan_ly_nam_hoc').removeClass('d-none');
+            $('#btn_xep_lop_or_lich_su').removeClass('d-none');
         }
 
         let list_link = $('.item_link_nam').toArray();

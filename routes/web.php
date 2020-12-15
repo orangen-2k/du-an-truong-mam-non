@@ -42,54 +42,55 @@ Route::prefix('/dang-ki-nhap-hoc')->group(function () {
 
 // HIEUPT-13/10/2020-QUAN_LY_GIAO_TRINH
 
-Route::prefix('/quan-ly-giao-trinh')->group(function(){
-    Route::get('/', 'QuanLyGiaoTrinhController@index')->name('quan-ly-giao-trinh-index');
-    Route::post('phe-duyet-giao-trinh', 'QuanLyGiaoTrinhController@pheDuyetGiaoTrinh')->name('phe-duyet-giao-trinh');
+Route::group(['middleware' => ['web','auth']], function () {
+    Route::prefix('/quan-ly-giao-trinh')->group(function(){
+        Route::get('/', 'QuanLyGiaoTrinhController@index')->name('quan-ly-giao-trinh-index');
+        Route::post('phe-duyet-giao-trinh', 'QuanLyGiaoTrinhController@pheDuyetGiaoTrinh')->name('phe-duyet-giao-trinh');
 
+    });
+
+    Route::prefix('quan-ly-giao-vien')->group(function () {
+        Route::get('/', 'QuanlyGiaoVienController@index')->name('quan-ly-giao-vien-index');
+        Route::get('/create', 'QuanlyGiaoVienController@create')->name('quan-ly-giao-vien-create');
+        Route::post('/store', 'QuanlyGiaoVienController@store')->name('quan-ly-giao-vien-store');
+        Route::get('/edit/{id}', 'QuanlyGiaoVienController@edit')->name('quan-ly-giao-vien-edit');
+        Route::post('/update/{id}', 'QuanlyGiaoVienController@update')->name('quan-ly-giao-vien-update');
+        Route::post('/lop-theo-khoi', 'QuanlyGiaoVienController@getLopTheoKhoi')->name('quan-ly-giao-vien-get-lop-theo-khoi');
+        Route::post('/destroy', 'QuanlyGiaoVienController@destroy')->name('quan-ly-giao-vien-destroy');
+        Route::post('/giao-vien-chua-co-lop', 'QuanlyGiaoVienController@getAllGiaoVienChuaCoLop')->name('quan-ly-get-all-giao-vien-chua-lop');
+        Route::get('/get-giao-vien-chua-co-lop', 'QuanlyGiaoVienController@getGiaoVienChuaCoLop')->name('quan-ly-giao-vien-chua-co-lop');
+        Route::post('/get-giao-vien-nghi-day', 'QuanlyGiaoVienController@getGiaoVienNghiDay')->name('quan-ly-giao-vien-nghi-day');
+        Route::post('/thoi-day-giao-vien', 'QuanlyGiaoVienController@ThoiDayGiaoVien')->name('quan-ly-giao-vien-thoi-day-cho-giao-vien');
+        Route::post('/khoi-phuc-thoi-day', 'QuanlyGiaoVienController@KhoiPhucThoiDay')->name('quan-ly-giao-vien-khoi-phuc-thoi-day');
+        Route::get('/phan-lop', 'QuanlyGiaoVienController@phanLopChoGiaoVien')->name('quan-ly-phan-lop-cho-giao-vien');
+        Route::post('/store-phan-lop', 'QuanlyGiaoVienController@storePhanLopChoGiaoVien')->name('store-phan-lop-cho-giao-vien');
+
+    });
+    Route::prefix('quan-ly-hoc-sinh')->group(function () {
+        Route::get('/thong-tin/{id}', 'QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
+        Route::get('/create', 'QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
+        Route::get('/edit/{id}', 'QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
+        Route::post('/update/{id}', 'QuanlyHocSinhController@update')->name('quan-ly-hoc-sinh-update');
+        Route::post('/store', 'QuanlyHocSinhController@store')->name('quan-ly-hoc-sinh-store');
+
+        Route::post('export-bieu-mau', 'QuanlyHocSinhController@exportBieuMau')->name('export-bieu-mau-nhap-hoc-sinh');
+        Route::post('/get_lop_theo_khoi', 'QuanlyHocSinhController@getLopOfKhoi')->name('get-lop-theo-khoi');
+
+        Route::post('import-bieu-mau-hoc-sinh', 'QuanlyHocSinhController@importFile')->name('import-bieu-mau-nhap-hoc-sinh');
+        Route::post('error-import-bieu-mau-hoc-sinh', 'QuanlyHocSinhController@errorFileImport')->name('error-import-bieu-mau-nhap-hoc-sinh');
+
+        //v2
+        Route::post('/hoc-sinh-chua-co-lop', 'QuanlyHocSinhController@showHocSinhChuaCoLop')->name('quan-ly-hoc-sinh-chua-co-lop');
+        Route::post('/chuyen-lop', 'QuanlyHocSinhController@chuyenLop')->name('quan-ly-hoc-sinh-chuyen-lop');
+        Route::post('/thoi-hoc', 'QuanlyHocSinhController@thoiHoc')->name('quan-ly-hoc-sinh-thoi-hoc');
+        Route::post('/get-thong-tin-hoc-sinh-thoi-hoc', 'QuanlyHocSinhController@getThongTinThoiHoc')->name('get-thong-tin-hoc-sinh-thoi-hoc');  
+        Route::post('/xac-nhan-hoc-sinh-di-hoc-lai', 'QuanlyHocSinhController@xacNhanDiHocLai')->name('xac-nhan-hoc-sinh-di-hoc-lai');
+        
+        Route::post('/lich-su-cua-hoc-sinh', 'QuanlyHocSinhController@getLichSuHocSinh')->name('quan-li-lich-su-cua-hoc-sinh');
+        Route::post('/hoc-phi-cua-hoc-sinh', 'QuanlyHocSinhController@getHocPhiHocSinh')->name('quan-ly-hoc-sinh-hoc-phi');
+
+    });
 });
-
-Route::prefix('quan-ly-giao-vien')->group(function () {
-    Route::get('/', 'QuanlyGiaoVienController@index')->name('quan-ly-giao-vien-index');
-    Route::get('/create', 'QuanlyGiaoVienController@create')->name('quan-ly-giao-vien-create');
-    Route::post('/store', 'QuanlyGiaoVienController@store')->name('quan-ly-giao-vien-store');
-    Route::get('/edit/{id}', 'QuanlyGiaoVienController@edit')->name('quan-ly-giao-vien-edit');
-    Route::post('/update/{id}', 'QuanlyGiaoVienController@update')->name('quan-ly-giao-vien-update');
-    Route::post('/lop-theo-khoi', 'QuanlyGiaoVienController@getLopTheoKhoi')->name('quan-ly-giao-vien-get-lop-theo-khoi');
-    Route::post('/destroy', 'QuanlyGiaoVienController@destroy')->name('quan-ly-giao-vien-destroy');
-    Route::post('/giao-vien-chua-co-lop', 'QuanlyGiaoVienController@getAllGiaoVienChuaCoLop')->name('quan-ly-get-all-giao-vien-chua-lop');
-    Route::get('/get-giao-vien-chua-co-lop', 'QuanlyGiaoVienController@getGiaoVienChuaCoLop')->name('quan-ly-giao-vien-chua-co-lop');
-    Route::post('/get-giao-vien-nghi-day', 'QuanlyGiaoVienController@getGiaoVienNghiDay')->name('quan-ly-giao-vien-nghi-day');
-    Route::post('/thoi-day-giao-vien', 'QuanlyGiaoVienController@ThoiDayGiaoVien')->name('quan-ly-giao-vien-thoi-day-cho-giao-vien');
-    Route::post('/khoi-phuc-thoi-day', 'QuanlyGiaoVienController@KhoiPhucThoiDay')->name('quan-ly-giao-vien-khoi-phuc-thoi-day');
-    Route::get('/phan-lop', 'QuanlyGiaoVienController@phanLopChoGiaoVien')->name('quan-ly-phan-lop-cho-giao-vien');
-    Route::post('/store-phan-lop', 'QuanlyGiaoVienController@storePhanLopChoGiaoVien')->name('store-phan-lop-cho-giao-vien');
-
-});
-Route::prefix('quan-ly-hoc-sinh')->group(function () {
-    Route::get('/thong-tin/{id}', 'QuanlyHocSinhController@index')->name('quan-ly-hoc-sinh-index');
-    Route::get('/create', 'QuanlyHocSinhController@create')->name('quan-ly-hoc-sinh-create');
-    Route::get('/edit/{id}', 'QuanlyHocSinhController@edit')->name('quan-ly-hoc-sinh-edit');
-    Route::post('/update/{id}', 'QuanlyHocSinhController@update')->name('quan-ly-hoc-sinh-update');
-    Route::post('/store', 'QuanlyHocSinhController@store')->name('quan-ly-hoc-sinh-store');
-
-    Route::post('export-bieu-mau', 'QuanlyHocSinhController@exportBieuMau')->name('export-bieu-mau-nhap-hoc-sinh');
-    Route::post('/get_lop_theo_khoi', 'QuanlyHocSinhController@getLopOfKhoi')->name('get-lop-theo-khoi');
-
-    Route::post('import-bieu-mau-hoc-sinh', 'QuanlyHocSinhController@importFile')->name('import-bieu-mau-nhap-hoc-sinh');
-    Route::post('error-import-bieu-mau-hoc-sinh', 'QuanlyHocSinhController@errorFileImport')->name('error-import-bieu-mau-nhap-hoc-sinh');
-
-    //v2
-    Route::post('/hoc-sinh-chua-co-lop', 'QuanlyHocSinhController@showHocSinhChuaCoLop')->name('quan-ly-hoc-sinh-chua-co-lop');
-    Route::post('/chuyen-lop', 'QuanlyHocSinhController@chuyenLop')->name('quan-ly-hoc-sinh-chuyen-lop');
-    Route::post('/thoi-hoc', 'QuanlyHocSinhController@thoiHoc')->name('quan-ly-hoc-sinh-thoi-hoc');
-    Route::post('/get-thong-tin-hoc-sinh-thoi-hoc', 'QuanlyHocSinhController@getThongTinThoiHoc')->name('get-thong-tin-hoc-sinh-thoi-hoc');  
-    Route::post('/xac-nhan-hoc-sinh-di-hoc-lai', 'QuanlyHocSinhController@xacNhanDiHocLai')->name('xac-nhan-hoc-sinh-di-hoc-lai');
-    
-    Route::post('/lich-su-cua-hoc-sinh', 'QuanlyHocSinhController@getLichSuHocSinh')->name('quan-li-lich-su-cua-hoc-sinh');
-    Route::post('/hoc-phi-cua-hoc-sinh', 'QuanlyHocSinhController@getHocPhiHocSinh')->name('quan-ly-hoc-sinh-hoc-phi');
-
-});
-
 Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
     Route::get('/', 'QuanLyDangKyNhapHocController@index')->name('quan-ly-dang-ky-nhap-hoc.index');
     Route::get('/edit/{id}', 'QuanLyDangKyNhapHocController@show')->name('edit-hs-dang-ky-nhap-hoc');
@@ -103,34 +104,36 @@ Route::prefix('quan-ly-dang-ky-nhap-hoc-online')->group(function () {
 
 // thanhnv 9/16/2020
 
-Route::prefix('quan-ly-khoi')->group(function () {
-    Route::get('/', 'KhoiController@index')->name('quan-ly-khoi-index');
-    Route::post('/post_create', 'KhoiController@post_create')->name('quan-ly-khoi-post_create');
-    Route::post('/destroy', 'KhoiController@destroy')->name('quan-ly-khoi-destroy');
-    Route::post('/store/{id}', 'KhoiController@store')->name('quan-ly-khoi-store');
-    Route::post('/show', 'KhoiController@show')->name('quan-ly-khoi-show');
-    Route::post('/update', 'KhoiController@update')->name('quan-ly-khoi-update');
-});
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::prefix('quan-ly-khoi')->group(function () {
+        Route::get('/', 'KhoiController@index')->name('quan-ly-khoi-index');
+        Route::post('/post_create', 'KhoiController@post_create')->name('quan-ly-khoi-post_create');
+        Route::post('/destroy', 'KhoiController@destroy')->name('quan-ly-khoi-destroy');
+        Route::post('/store/{id}', 'KhoiController@store')->name('quan-ly-khoi-store');
+        Route::post('/show', 'KhoiController@show')->name('quan-ly-khoi-show');
+        Route::post('/update', 'KhoiController@update')->name('quan-ly-khoi-update');
+    });
 
-Route::prefix('quan-ly-lop')->group(function () {
-    Route::get('/', 'LopController@index')->name('quan-ly-lop-index');
-    Route::get('/create', 'LopController@create')->name('quan-ly-lop-create');
-    Route::get('/show/{id}', 'LopController@show')->name('quan-ly-lop-show');
-    Route::get('/phan-lop', 'LopController@phanLop')->name('quan-ly-lop-phan-lop');
-    Route::get('/xep-lop', 'LopController@xepLop')->name('quan-ly-lop-xep-lop');
+    Route::prefix('quan-ly-lop')->group(function () {
+        Route::get('/', 'LopController@index')->name('quan-ly-lop-index');
+        Route::get('/create', 'LopController@create')->name('quan-ly-lop-create');
+        Route::get('/show/{id}', 'LopController@show')->name('quan-ly-lop-show');
+        Route::get('/phan-lop', 'LopController@phanLop')->name('quan-ly-lop-phan-lop');
+        Route::get('/xep-lop', 'LopController@xepLop')->name('quan-ly-lop-xep-lop');
 
-    //Lớp v2
+        //Lớp v2
 
-    Route::post('/edit', 'LopController@edit')->name('quan-ly-lop-edit');
-    Route::post('/store', 'LopController@store')->name('quan-ly-lop-phan-store');
-    Route::post('/update', 'LopController@update')->name('quan-ly-lop-update');
-    Route::post('/destroy', 'LopController@destroy')->name('quan-ly-lop-destroy');
+        Route::post('/edit', 'LopController@edit')->name('quan-ly-lop-edit');
+        Route::post('/store', 'LopController@store')->name('quan-ly-lop-phan-store');
+        Route::post('/update', 'LopController@update')->name('quan-ly-lop-update');
+        Route::post('/destroy', 'LopController@destroy')->name('quan-ly-lop-destroy');
 
-    Route::post('/show-data-hoc-sinh-theo-lop', 'LopController@showHsTheoLop')->name('quan-ly-lop-show-data-hoc-sinh');
-    Route::get('/show-data-hoc-sinh-chua-co-lop/{type}', 'LopController@getDataHocSinhChuaCoLop')->name('quan-ly-lop-show-data-hoc-sinh-type');
+        Route::post('/show-data-hoc-sinh-theo-lop', 'LopController@showHsTheoLop')->name('quan-ly-lop-show-data-hoc-sinh');
+        Route::get('/show-data-hoc-sinh-chua-co-lop/{type}', 'LopController@getDataHocSinhChuaCoLop')->name('quan-ly-lop-show-data-hoc-sinh-type');
 
-    Route::post('/xep-lop-tu-dong', 'LopController@xepLopTuDong')->name('quan-ly-lop-xep-lop-tu-dong');
+        Route::post('/xep-lop-tu-dong', 'LopController@xepLopTuDong')->name('quan-ly-lop-xep-lop-tu-dong');
 
+    });
 });
 Route::group(['middleware' => ['web', 'auth', 'checkNamHoc']], function () {
     Route::prefix('nam-hoc')->group(function () {
@@ -180,69 +183,74 @@ Route::group(['middleware' => ['web', 'auth', 'checkNamHoc']], function () {
     Route::get('chi-tiet-don-dan-thuoc/{id}', 'QuanLyDonDanThuocController@show')->name('don-dan-thuoc.show');
 });
 
-Route::prefix('quan-ly-diem-danh-den')->group(function () {
-    Route::get('/', 'QuanLyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
-    Route::post('/lay-theo-lop', 'QuanLyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
-    Route::post('/thong-ke-diem-danh', 'QuanLyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
-});
+Route::group(['middleware' => ['web', 'auth']], function () {
+    Route::prefix('quan-ly-diem-danh-den')->group(function () {
+        Route::get('/', 'QuanLyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
+        Route::post('/lay-theo-lop', 'QuanLyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
+        Route::post('/thong-ke-diem-danh', 'QuanLyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
+    });
 
-Route::prefix('quan-ly-diem-danh-ve')->group(function () {
-    Route::get('/', 'QuanLyDiemDanhVeController@index')->name('quan-ly-diem-danh-ve.index');
-    Route::post('/lay-theo-lop', 'QuanLyDiemDanhVeController@getDiemDanhVeTheoLop')->name('quan-ly-diem-danh-ve-theo-lop');
-    Route::post('/thong-tin-nguoi-don-ho', 'QuanLyDiemDanhVeController@infoNguoiDonHo')->name('infoNguoiDonHo');
-});
+    Route::prefix('quan-ly-diem-danh-ve')->group(function () {
+        Route::get('/', 'QuanLyDiemDanhVeController@index')->name('quan-ly-diem-danh-ve.index');
+        Route::post('/lay-theo-lop', 'QuanLyDiemDanhVeController@getDiemDanhVeTheoLop')->name('quan-ly-diem-danh-ve-theo-lop');
+        Route::post('/thong-tin-nguoi-don-ho', 'QuanLyDiemDanhVeController@infoNguoiDonHo')->name('infoNguoiDonHo');
+    });
 
-Route::prefix('quan-ly-feed-back')->group(function () {
-    Route::get('/', 'ThongKeFeedBackController@index')->name('quan-ly-feed-back-index');
-    Route::post('/show-feedback-cua-lop', 'ThongKeFeedBackController@ShowFeedBackCuaLop')->name('quan-ly-feed-back-show-feedback-cua-lop');
-    Route::post('/thay-doi-trang-thai-feedback', 'ThongKeFeedBackController@ThayDoiTrangThaiFeedBack')->name('quan-ly-feed-back-thay-doi-trang-thai');
-    Route::post('/da-xem-tat-ca', 'ThongKeFeedBackController@FeedBackChuaXemCuaLop')->name('quan-ly-feed-back-da-xem-tat-ca');
-    Route::post('/get-giao-vien-feed-back', 'ThongKeFeedBackController@GetGiaoVienFeedBack')->name('quan-ly-feed-back-get-giao-vien');
-});
+    Route::prefix('quan-ly-feed-back')->group(function () {
+        Route::get('/', 'ThongKeFeedBackController@index')->name('quan-ly-feed-back-index');
+        Route::post('/show-feedback-cua-lop', 'ThongKeFeedBackController@ShowFeedBackCuaLop')->name('quan-ly-feed-back-show-feedback-cua-lop');
+        Route::post('/thay-doi-trang-thai-feedback', 'ThongKeFeedBackController@ThayDoiTrangThaiFeedBack')->name('quan-ly-feed-back-thay-doi-trang-thai');
+        Route::post('/da-xem-tat-ca', 'ThongKeFeedBackController@FeedBackChuaXemCuaLop')->name('quan-ly-feed-back-da-xem-tat-ca');
+        Route::post('/get-giao-vien-feed-back', 'ThongKeFeedBackController@GetGiaoVienFeedBack')->name('quan-ly-feed-back-get-giao-vien');
+    });
 
-Route::prefix('quan-ly-suc-khoe')->group(function(){
-    Route::get('/', 'QuanlySucKhoeController@index')->name('quan-ly-suc-khoe-index');
-    Route::post('/show-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showQuanLySucKhoe')->name('quan-ly-suc-khoe-show-sk-hs');
-    Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
-    Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
-    Route::post('/kiem-tra-dot-moi-nhat', 'QuanlySucKhoeController@kiemtraDotMoiNhat')->name('quan-ly-suc-khoe-kiem-tra-dot-moi-nhat');
-    Route::post('/show-xoa-dot', 'QuanlySucKhoeController@showXoaDot')->name('quan-ly-suc-khoe-show-xoa-dot');
-    Route::post('/xoa-dot', 'QuanlySucKhoeController@xoaDot')->name('quan-ly-suc-khoe-xoa-dot');
-});
+    Route::prefix('quan-ly-suc-khoe')->group(function(){
+        Route::get('/', 'QuanlySucKhoeController@index')->name('quan-ly-suc-khoe-index');
+        Route::post('/show-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showQuanLySucKhoe')->name('quan-ly-suc-khoe-show-sk-hs');
+        Route::post('/them-dot-kham-suc-khoe', 'QuanlySucKhoeController@themDotKhamSucKhoe')->name('quan-ly-suc-khoe-them-dot-kham');
+        Route::post('/show-chi-tiet-suc-khoe-hoc-sinh', 'QuanlySucKhoeController@showChiTietSucKhoe')->name('quan-ly-suc-khoe-show-chi-tiet');
+        Route::post('/kiem-tra-dot-moi-nhat', 'QuanlySucKhoeController@kiemtraDotMoiNhat')->name('quan-ly-suc-khoe-kiem-tra-dot-moi-nhat');
+        Route::post('/show-xoa-dot', 'QuanlySucKhoeController@showXoaDot')->name('quan-ly-suc-khoe-show-xoa-dot');
+        Route::post('/xoa-dot', 'QuanlySucKhoeController@xoaDot')->name('quan-ly-suc-khoe-xoa-dot');
+    });
 
-Route::prefix('quan-ly-khoan-thu')->group(function(){
-    Route::get('/', 'QuanLyKhoanThuController@index')->name('quan-ly-khoan-thu-index');
-    Route::get('get-data-khoan-thu', 'QuanLyKhoanThuController@getDataKhoanThu')->name('quan-ly-khoan-thu-get-data');
-    Route::post('tao_khoan_thu', 'QuanLyKhoanThuController@store')->name('quan-ly-khoan-thu-store');
-    Route::post('update_khoan_thu', 'QuanLyKhoanThuController@update')->name('quan-ly-khoan-thu-update');
-    Route::post('copy_khoan_thu', 'QuanLyKhoanThuController@copy')->name('quan-ly-khoan-thu-copy');
-    Route::get('delete_khoan_thu/{id}', 'QuanLyKhoanThuController@delete')->name('quan-ly-khoan-thu-delete'); 
-    Route::post('delete-list-khoan-thu', 'QuanLyKhoanThuController@deleteList')->name('quan-ly-khoan-thu-delete-list');
-});
+    Route::prefix('quan-ly-khoan-thu')->group(function(){
+        Route::get('/', 'QuanLyKhoanThuController@index')->name('quan-ly-khoan-thu-index');
+        Route::get('get-data-khoan-thu', 'QuanLyKhoanThuController@getDataKhoanThu')->name('quan-ly-khoan-thu-get-data');
+        Route::post('tao_khoan_thu', 'QuanLyKhoanThuController@store')->name('quan-ly-khoan-thu-store');
+        Route::post('update_khoan_thu', 'QuanLyKhoanThuController@update')->name('quan-ly-khoan-thu-update');
+        Route::post('copy_khoan_thu', 'QuanLyKhoanThuController@copy')->name('quan-ly-khoan-thu-copy');
+        Route::get('delete_khoan_thu/{id}', 'QuanLyKhoanThuController@delete')->name('quan-ly-khoan-thu-delete'); 
+        Route::post('delete-list-khoan-thu', 'QuanLyKhoanThuController@deleteList')->name('quan-ly-khoan-thu-delete-list');
+    });
 
-Route::prefix('quan-ly-dot-thu')->group(function(){
-    Route::get('/{id}', 'QuanLyThangThuController@index')->name('quan-ly-dot-thu-index');
-    // Route::get('get-data-dot-thu', 'QuanLyThangThuController@getDataKhoanThu')->name('quan-ly-dot-thu-get-data');
-    Route::post('tao_dot_thu', 'QuanLyThangThuController@store')->name('quan-ly-dot-thu-store');
-    Route::post('xoa_dot_thu', 'QuanLyThangThuController@delete')->name('quan-ly-dot-thu-delete');
-
-
-    Route::post('get-tong-tien-thu-theo-khoi', 'QuanLyThangThuController@getKhoanThuTheoKhoi')->name('get-tong-tien-thu-theo-khoi');
-    Route::get('chi_tiet_dot_thu/{id}/{khoi}', 'QuanLyThangThuController@chiTietDotThu')->name('get-chi-tiet-dot-thu');
-    Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyThangThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');
-    Route::post('gui_thong_bao_theo_khoi', 'QuanLyThangThuController@guiThongBaoTheoKhoi')->name('gui-thong-bao-theo-khoi');
-    Route::post('gui_thong_bao_theo_lop', 'QuanLyThangThuController@guiThongBaoTheoLop')->name('gui-thong-bao-theo-lop');
-    Route::post('dong_hoc_phi_theo_lop', 'QuanLyThangThuController@dongHocPhiTheoLop')->name('dong-hoc-phi-theo-lop');
-
-    Route::get('xuat_hoa_don_pdf/{id}/{id_chi_tiet_dot}', 'QuanLyThangThuController@xuatHoaDonPdF')->name('xuat-hoa-don-pdf');
-    Route::get('huy_thu_tien/{id}/{id_chi_tiet_dot}', 'QuanLyThangThuController@huyThuTien')->name('huy-thu-tien');
+    Route::prefix('quan-ly-dot-thu')->group(function(){
+        Route::get('/{id}', 'QuanLyThangThuController@index')->name('quan-ly-dot-thu-index');
+        // Route::get('get-data-dot-thu', 'QuanLyThangThuController@getDataKhoanThu')->name('quan-ly-dot-thu-get-data');
+        Route::post('tao_dot_thu', 'QuanLyThangThuController@store')->name('quan-ly-dot-thu-store');
+        Route::post('xoa_dot_thu', 'QuanLyThangThuController@delete')->name('quan-ly-dot-thu-delete');
 
 
+        Route::post('get-tong-tien-thu-theo-khoi', 'QuanLyThangThuController@getKhoanThuTheoKhoi')->name('get-tong-tien-thu-theo-khoi');
+        Route::get('chi_tiet_dot_thu/{id}/{khoi}', 'QuanLyThangThuController@chiTietDotThu')->name('get-chi-tiet-dot-thu');
+        Route::post('chi_tiet_dot_thu_theo_lop', 'QuanLyThangThuController@chiTietDotThuTheoLop')->name('get-chi-tiet-dot-thu-theo-lop');
+        Route::post('gui_thong_bao_theo_khoi', 'QuanLyThangThuController@guiThongBaoTheoKhoi')->name('gui-thong-bao-theo-khoi');
+        Route::post('gui_thong_bao_theo_lop', 'QuanLyThangThuController@guiThongBaoTheoLop')->name('gui-thong-bao-theo-lop');
+        Route::post('dong_hoc_phi_theo_lop', 'QuanLyThangThuController@dongHocPhiTheoLop')->name('dong-hoc-phi-theo-lop');
 
-    // Route::post('update_dot_thu', 'QuanLyThangThuController@update')->name('quan-ly-dot-thu-update');
-    // Route::post('copy_dot_thu', 'QuanLyThangThuController@copy')->name('quan-ly-dot-thu-copy');
-    // Route::get('delete_dot_thu/{id}', 'QuanLyThangThuController@delete')->name('quan-ly-dot-thu-delete'); 
-    // Route::post('delete-list-dot-thu', 'QuanLyThangThuController@deleteList')->name('quan-ly-dot-thu-delete-list');
+        Route::get('xuat_hoa_don_pdf/{id}/{id_chi_tiet_dot}', 'QuanLyThangThuController@xuatHoaDonPdF')->name('xuat-hoa-don-pdf');
+        Route::get('huy_thu_tien/{id}/{id_chi_tiet_dot}', 'QuanLyThangThuController@huyThuTien')->name('huy-thu-tien');
+
+
+
+        // Route::post('update_dot_thu', 'QuanLyThangThuController@update')->name('quan-ly-dot-thu-update');
+        // Route::post('copy_dot_thu', 'QuanLyThangThuController@copy')->name('quan-ly-dot-thu-copy');
+        // Route::get('delete_dot_thu/{id}', 'QuanLyThangThuController@delete')->name('quan-ly-dot-thu-delete'); 
+        // Route::post('delete-list-dot-thu', 'QuanLyThangThuController@deleteList')->name('quan-ly-dot-thu-delete-list');
+    });
+
+    Route::get('thong-tin-nha-truong', 'NhaTruongController@index')->name('nha-truong.index');
+    Route::post('them-thong-tin-nha-truong', 'NhaTruongController@store')->name('nha-truong.store');
 });
 
 Route::view('OTP', 'auth.passwords.forgot_OTP')->name('otp.forget_password');
@@ -265,7 +273,4 @@ Route::prefix('quan-ly-dien-uu-tien')->group(function(){
 Route::get('mat-khau-reset', "Auth\QuenMatKhauController@showResetForm")->name('mat-khau.reset');
 Route::post('mat-khau-update', "Auth\QuenMatKhauController@reset")->name('mat-khau.update');
 
-Route::group(['middleware' => ['web', 'auth']], function () {
-    Route::get('thong-tin-nha-truong', 'NhaTruongController@index')->name('nha-truong.index');
-    Route::post('them-thong-tin-nha-truong', 'NhaTruongController@store')->name('nha-truong.store');
-});
+
