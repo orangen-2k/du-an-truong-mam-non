@@ -56,7 +56,7 @@ class LoginController extends Controller
     	if(Auth::attempt([
             "username" => $username,
             "password" => $password,
-            // 'role' => 1,
+            'role' => 1,
             "active" => 1,]
             ,$remember)){
     		 return redirect('/');
