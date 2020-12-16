@@ -42,7 +42,7 @@ class ThongBaoController extends Controller
 
     public function index()
     {
-        $data = $this->NoiDungThongBaoRepository->getAll();
+        $data = $this->NoiDungThongBaoRepository->getNoiDungThongBao();
         return view('thong-bao.index', compact('data'));
     }
 
