@@ -324,7 +324,7 @@ class QuanLyTrongNamController extends Controller
             $nam_hoc_moi = $this->NamHocRepository->find($id_nam_hoc_moi);
             // dd($nam_hoc_cu);
 
-            if($nam_hoc_moi->backup == 1 || $nam_hoc_moi->backup == 2){
+            if($nam_hoc_moi->backup == 1 || $nam_hoc_moi->backup == 2 || $nam_hoc_moi->backup == 0){
             
                 $khoi_cu = $nam_hoc_cu[0]->Khoi;
                 $khoi_moi = $nam_hoc_moi->Khoi;
