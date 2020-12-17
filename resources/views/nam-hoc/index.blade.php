@@ -29,7 +29,8 @@
         box-shadow: 2px 3px 5px #000;
     }
     .item_link_nam_shadow{
-        box-shadow: 2px 3px 5px #000 !important;
+        color: #ffffff;
+        box-shadow: 2px 3px 5px rgb(209, 202, 202) !important;
     }
 </style>
 <link href="{!!  asset('css_loading/css_loading.css') !!}" rel="stylesheet" type="text/css" />
@@ -339,9 +340,9 @@
         let list_link = $('.item_link_nam').toArray();
         console.log(list_link);
         list_link.forEach(el => {
-            $(el).removeClass("bg-primary item_link_nam_shadow");
+            $(el).removeClass("bg-success item_link_nam_shadow");
         });
-        $(element).addClass("bg-primary item_link_nam_shadow");
+        $(element).addClass("bg-success item_link_nam_shadow");
         $('#preload').css('display','block');
         setTimeout(function(){
             $('#preload').css('display','none');
@@ -376,7 +377,7 @@
             (12 * (dateTo.getFullYear() - dateFrom.getFullYear()))
         }
         let lists = $('.item_link_nam');
-        $(lists[0]).addClass('bg-primary item_link_nam_shadow');
+        $(lists[0]).addClass('bg-success item_link_nam_shadow');
         jQuery.validator.addMethod("greaterThan", function (
             value,
             element,
