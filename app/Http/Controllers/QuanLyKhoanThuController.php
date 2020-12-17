@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Repositories\NamHocRepository;
 use App\Repositories\QuanLyKhoanThuRepository;
 use App\Repositories\QuanLyPhamViThuRepository;
+use App\Http\Requests\KhoanThu\Store;
+use App\Http\Requests\KhoanThu\Update;
 
 use Illuminate\Http\Request;
 
@@ -31,7 +33,7 @@ class QuanLyKhoanThuController extends Controller
         return  view('quan-ly-hoc-phi.khoan_thu',compact('khoi','khoan_thu'));
     }
     
-    public function store(Request $request)
+    public function Store(Store $request)
     {
         $data = $request->all();
         $pham_vi_thu = $request->pham_vi_thu;
@@ -57,7 +59,7 @@ class QuanLyKhoanThuController extends Controller
        return $this->QuanLyKhoanThuRepository->getAll();
     }
 
-    public function update(Request $request)
+    public function update(Update $request)
     {
         $data = $request->all();
         $pham_vi_thu = $request->pham_vi_thu;
@@ -94,7 +96,7 @@ class QuanLyKhoanThuController extends Controller
         return 'thành công';
     }
 
-    public function copy(Request $request)
+    public function copy(Store $request)
     {
         $data = $request->all();
         $pham_vi_thu = $request->pham_vi_thu;

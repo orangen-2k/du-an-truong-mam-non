@@ -89,17 +89,21 @@
                             <span class="m-widget4__ext">
                                 <span class="m-widget4__number m--font-danger">
                                     @if ($lop_hoc->giao_trinh !=null)
-                                    @if ($lop_hoc->giao_trinh->type==1)
-                                    <button type="button" data-toggle="modal"
+                                        @if ($lop_hoc->giao_trinh->type==1)
+                                        <button type="button" data-toggle="modal"
+                                            data-target="#modal_thong_tin{{$lop_hoc->giao_trinh->id}}"
+                                            class="btn m-btn m-btn--gradient-from-info m-btn--gradient-to-accent">Chờ phê
+                                            duyệt</button>
+                                        @elseif($lop_hoc->giao_trinh->type==2)
+                                        <button type="button" data-toggle="modal"
+                                            data-target="#modal_thong_tin{{$lop_hoc->giao_trinh->id}}"
+                                            class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent">Được
+                                            phê duyệt</button>
+                                        @elseif($lop_hoc->giao_trinh->type==3)
+                                        <button type="button" data-toggle="modal"
                                         data-target="#modal_thong_tin{{$lop_hoc->giao_trinh->id}}"
-                                        class="btn m-btn m-btn--gradient-from-info m-btn--gradient-to-accent">Chờ phê
-                                        duyệt</button>
-                                    @else
-                                    <button type="button" data-toggle="modal"
-                                        data-target="#modal_thong_tin{{$lop_hoc->giao_trinh->id}}"
-                                        class="btn m-btn m-btn--gradient-from-success m-btn--gradient-to-accent">Được
-                                        phê duyệt</button>
-                                    @endif
+                                        class="btn btn-danger">Bị từ chối</button>
+                                        @endif
                                     @else
                                     <button type="button"
                                         class="btn m-btn m-btn--gradient-from-danger m-btn--gradient-to-warning">Chưa

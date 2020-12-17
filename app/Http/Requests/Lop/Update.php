@@ -40,14 +40,15 @@ class Update extends FormRequest
         
         // dd($this->ten_lop);
         return [
-            'ten_lop' => 'required|custom_rule',
+            'ten_lop' => 'required|custom_rule|between:5,30',
         ];
     }
     public function messages()
     {
         return [
             'ten_lop.required' => 'Tên lớp không được để trống',
-            'ten_lop.custom_rule' => 'Tên lớp đã tồn tại'
+            'ten_lop.custom_rule' => 'Tên lớp đã tồn tại',
+            'ten_lop.between' => 'Tên lớp phải có độ dài từ 5 đến 30 ký tự',
         ];
     }
 }

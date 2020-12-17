@@ -166,7 +166,7 @@ class QuanLyTrongNamController extends Controller
                 LichSuDay::insert($lich_su_day);
             }
         }
-        $this->NamHocRepository->update($id,['backup'=>2]);
+        
     }
 
     public function getDuLieuKhoiLopNamMoi(Request $request)
@@ -200,6 +200,7 @@ class QuanLyTrongNamController extends Controller
     public function leLopChoHocSinh(Request $request)
     {
         $data_len_lop = $request->data_len_lop;
+        $id = $this->NamHocRepository->maxID();
         $lich_su_hoc = [];
         foreach ($data_len_lop as $key => $value) {
             $item = json_decode($value);
@@ -254,6 +255,7 @@ class QuanLyTrongNamController extends Controller
             }
         }
         LichSuHoc::insert($lich_su_hoc);
+        $this->NamHocRepository->update($id,['backup'=>2]);
     }
 
     public function getDuLieuNamHocMoiLenLop()

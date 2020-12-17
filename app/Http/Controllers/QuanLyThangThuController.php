@@ -31,6 +31,8 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use PDF;
 
+use App\Http\Requests\DotThu\Store;
+
 class QuanLyThangThuController extends Controller
 {
     protected $QuanLyKhoanThuRepository;
@@ -83,7 +85,11 @@ class QuanLyThangThuController extends Controller
     }
     public function index($id)
     {
-        $id_nam_hoc = $this->NamHocRepository->maxID();
+        if (request()->session()->has('id_nam_hoc')) {
+            $id_nam_hoc = request()->session()->get('id_nam_hoc');
+        } else {
+            $id_nam_hoc = $this->NamHocRepository->maxID();
+        }
         $nam_hoc_moi = $this->NamHocRepository->find($id_nam_hoc);
         $period = CarbonPeriod::create($nam_hoc_moi->start_date, '1 month', $nam_hoc_moi->end_date);
         $thang_trong_nam = [];
@@ -158,7 +164,7 @@ class QuanLyThangThuController extends Controller
         return view('quan-ly-hoc-phi.dot_thu', compact('khoan_thu', 'thang_trong_nam', 'dot_thu', 'nam_hoc_moi', 'data_dot_thu', 'danh_sach_thu_tien_theo_khoi', 'id', 'tong_tien_toan_bo'));
     }
 
-    public function store(Request $request)
+    public function store(Store $request)
     {
         $data = $request->all();
         $data['id_nam_hoc'] = $this->NamHocRepository->maxID();
@@ -731,4 +737,5 @@ class QuanLyThangThuController extends Controller
     {
        return $this->DanhSachThuTienRepository->huyThuTien($id_hs,$id_dot);
     }
+
 }

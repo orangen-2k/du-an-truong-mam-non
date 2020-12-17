@@ -240,8 +240,14 @@ class LopController extends Controller
         $do_tuoi = $lop->Khoi->do_tuoi;
         $sl_hs_nam = $request->sl_hs_nam;
         $sl_hs_nu = $request->sl_hs_nu;
+        if($sl_hs_nam <= 0 || $sl_hs_nu<=0){
+            return response()->json([
+                'message' => 'Số lượng học sinh bạn không hợp lệ',
+            ], 400);
+        }
         $id_nam_hoc = $this->NamHocRepository->maxID();
         $nam_hoc = $this->NamHocRepository->find($id_nam_hoc);
+        
         $sl_hs_nam_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,0,$nam_hoc);
         $sl_hs_nu_con_lai = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($do_tuoi,1,$nam_hoc);
         if($sl_hs_nam > $sl_hs_nam_con_lai){

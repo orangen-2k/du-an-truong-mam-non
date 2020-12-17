@@ -1448,11 +1448,18 @@ const xepLop = () =>{
         $('#modal-xep-lop-tu-dong').modal('hide')
   })
   .catch(function (error) {
-
-    Swal.fire({
-    icon: 'error',
-    text: `Số lượng học sinh ${error.response.data.gioi_tinh} chỉ còn lại ${error.response.data.sl_hs_con_lai} học sinh`,
-  })
+    if (error.response.status == 422) {
+      Swal.fire({
+        icon: 'error',
+        text: `Số lượng học sinh ${error.response.data.gioi_tinh} chỉ còn lại ${error.response.data.sl_hs_con_lai} học sinh`,
+      }) 
+    }else{
+      Swal.fire({
+        icon: 'error',
+        text: `Số lượng học sinh bạn nhập không hợp lệ`,
+      })
+    }
+   
 
   })
   .then(function () {

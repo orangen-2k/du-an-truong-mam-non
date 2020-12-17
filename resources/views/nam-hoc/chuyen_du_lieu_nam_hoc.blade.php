@@ -380,7 +380,7 @@
                                             </a>
                                         </div>
                                         <div class="col-lg-4 m--align-right">
-                                        <a href="{{route('nam-hoc-chi-tiet',['id'=>$nam_hoc_moi->id])}}"
+                                        <a id="quan_ly_nam_hoc" style="display: none !important" href="{{route('nam-hoc-chi-tiet',['id'=>$nam_hoc_moi->id])}}"
                                                 class="btn btn-primary m-btn m-btn--custom m-btn--icon"
                                                 data-wizard-action="prev">
                                                 <span>
@@ -388,7 +388,7 @@
                                                     <span>Quản lý năm học</span>
                                                 </span>
                                             </a>
-                                            <button id="tiep_tuc"  disabled onclick="getDuLieuLenLop()" class="btn btn-warning m-btn m-btn--custom m-btn--icon"
+                                            <button id="tiep_tuc"  style="display: none" onclick="getDuLieuLenLop()" class="btn btn-warning m-btn m-btn--custom m-btn--icon"
                                                 data-wizard-action="next">
                                                 <span>
                                                     <span> Tiếp Tục</span>&nbsp;&nbsp;
@@ -431,7 +431,7 @@ const saoLuuKhoiLop = () => {
             'nam_hoc_moi': $('#nam_hoc_moi').val()
         })
         .then(function(response) {
-            $('#tiep_tuc').removeAttr('disabled')
+            $('#tiep_tuc').show()
             $('#modal-sao-luu').modal('hide');
             getKhoiLopNamHocMoi()
         })
@@ -496,6 +496,7 @@ const lenLopChoHocSinh = () => {
         .then(function(response) {
             $('#preload').hide()
             $('#modal-len-lop').modal('hide');
+            $('#quan_ly_nam_hoc').show();
             getDuLieuLenLopNamHocMoi();
         })
         

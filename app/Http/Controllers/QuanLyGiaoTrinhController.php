@@ -148,7 +148,7 @@ class QuanLyGiaoTrinhController extends Controller
             if($type == 1){
                 $content = $request->ly_do_tu_choi;
                 $title = 'Giáo trình bị từ chối';
-                $this->HoatDongRepository->delete($id);
+                $this->HoatDongRepository->update($id,['type'=>3]);
             }else{
                 $content = 'Giáo trình của bạn đã được nhà trường phê duyệt';
                 $title = 'Giáo trình được phê duyệt';
