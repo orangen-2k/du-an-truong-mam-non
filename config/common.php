@@ -15,6 +15,11 @@ return [
         'Nam',
         'Nữ',
     ],
+
+    'giao_vien_type' => [
+        'Chính',
+        'Phụ',
+    ],
     // 'do_tuoi' => [
     //     'tuoi_2'=> 2,
     //     'tuoi_3'=> 3,
