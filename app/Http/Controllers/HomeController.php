@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NoiDungThongBao;
 use Illuminate\Http\Request;
 use App\Repositories\LopRepository;
 use App\Repositories\HocSinhRepository;
@@ -96,14 +97,23 @@ class HomeController extends Controller
             }
         }
         $so_tien_con_phai_dong = $so_tien_phai_dong - $so_tien_da_dong;
-        
+
+        //Tin tức
+        $user_auth = User::where('role', 1)->get();
+        foreach($user_auth as $key => $item3){
+            $user_auth[$key] = $item3->id;
+        }
+        $noi_dung_thong_bao = NoiDungThongBao::whereIn('auth_id', $user_auth->toArray())->orderBy('id', 'desc')->limit(15)->get();
+       
+
         return view('index', compact(
             'array_nam',
             'array_hoc_sinh', 
             'namhoc', 
             'so_tien_con_phai_dong',
             'so_tien_da_dong',
-            'so_tien_phai_dong'
+            'so_tien_phai_dong',
+            'noi_dung_thong_bao'
         ));
     }
 }
