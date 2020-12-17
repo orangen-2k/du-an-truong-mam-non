@@ -1,3 +1,7 @@
+@php
+$count_data = count($data);
+$kq = $data->first()->backup == '0' && $count_data != 1 ;
+@endphp
 @extends('layouts.main') @section('title', "Thiết lập năm học")
 @section('style')
 <style>
@@ -119,7 +123,8 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class=" btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-warning">
+
+                                <a href="{{route('nam-hoc-chi-tiet',['id'=>$data[0]->id])}}" id="quan_ly_nam_hoc" class="{{ $kq ? 'd-none' : ''}} btn btn-sm m-btn  m-btn m-btn--icon m-btn--pill btn-warning">
                                     <span>
                                         <i class="la la-archive"></i>
                                         <span id="text-lich-su">Quản lý năm học</span>
@@ -329,11 +334,14 @@
         if(key == 0 ){
             if(backup == false || backup == 'false'){
                 $('#btn_xep_lop_or_lich_su').addClass('d-none');
+                $('#quan_ly_nam_hoc').addClass('d-none');
             }else{
                 $('#btn_xep_lop_or_lich_su').removeClass('d-none'); 
+                $('#quan_ly_nam_hoc').removeClass('d-none');
             }
         }else{
             $('#btn_xep_lop_or_lich_su').removeClass('d-none');
+            $('#quan_ly_nam_hoc').removeClass('d-none');
         }
 
         let list_link = $('.item_link_nam').toArray();
