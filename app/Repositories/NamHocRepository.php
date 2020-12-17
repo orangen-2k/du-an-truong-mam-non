@@ -116,4 +116,9 @@ class NamHocRepository extends BaseModelRepository
         }
         return $array_months;
     }
+
+    public function getNamHoc()
+    {
+        return $this->model->get();
+    }
 }

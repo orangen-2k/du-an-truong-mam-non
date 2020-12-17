@@ -82,109 +82,13 @@
                                         <div class="m-portlet__head-caption">
                                             <div class="m-portlet__head-title">
                                                 <h3 class="m-portlet__head-text">
-                                                    Thống kê học phí
+                                                    Biểu đồ học phí đợt mới nhất
                                                 </h3>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="m-portlet__body">
-                                        <div id="thong_ke_hoc_phi"
-                                            style="height: 300px; padding: 0px; position: relative;">
-                                            <canvas class="flot-base" width="662" height="375"
-                                                style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 529.9px; height: 300px;"></canvas>
-                                            <canvas class="flot-overlay" width="662" height="375"
-                                                style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 529.9px; height: 300px;"></canvas>
-                                            <div class="legend">
-                                                <div
-                                                    style="position: absolute; width: 56.8px; height: 140.8px; top: 5px; right: 5px; background-color: rgb(255, 255, 255); opacity: 0.85;">
-                                                </div>
-                                                <table
-                                                    style="position: absolute; top: 5px; right: 5px; font-size: smaller; color: #545454;">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="legendColorBox">
-                                                                <div style="border: 1px solid #ccc; padding: 1px;">
-                                                                    <div
-                                                                        style="width: 4px; height: 0; border: 5px solid rgb(237, 194, 64); overflow: hidden;">
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="legendLabel">Series1</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="legendColorBox">
-                                                                <div style="border: 1px solid #ccc; padding: 1px;">
-                                                                    <div
-                                                                        style="width: 4px; height: 0; border: 5px solid rgb(175, 216, 248); overflow: hidden;">
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="legendLabel">Series2</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="legendColorBox">
-                                                                <div style="border: 1px solid #ccc; padding: 1px;">
-                                                                    <div
-                                                                        style="width: 4px; height: 0; border: 5px solid rgb(203, 75, 75); overflow: hidden;">
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="legendLabel">Series3</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="legendColorBox">
-                                                                <div style="border: 1px solid #ccc; padding: 1px;">
-                                                                    <div
-                                                                        style="width: 4px; height: 0; border: 5px solid rgb(77, 167, 77); overflow: hidden;">
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="legendLabel">Series4</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="legendColorBox">
-                                                                <div style="border: 1px solid #ccc; padding: 1px;">
-                                                                    <div
-                                                                        style="width: 4px; height: 0; border: 5px solid rgb(148, 64, 237); overflow: hidden;">
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="legendLabel">Series5</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="legendColorBox">
-                                                                <div style="border: 1px solid #ccc; padding: 1px;">
-                                                                    <div
-                                                                        style="width: 4px; height: 0; border: 5px solid rgb(189, 155, 51); overflow: hidden;">
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="legendLabel">Series6</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="legendColorBox">
-                                                                <div style="border: 1px solid #ccc; padding: 1px;">
-                                                                    <div
-                                                                        style="width: 4px; height: 0; border: 5px solid rgb(140, 172, 198); overflow: hidden;">
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="legendLabel">Series7</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="legendColorBox">
-                                                                <div style="border: 1px solid #ccc; padding: 1px;">
-                                                                    <div
-                                                                        style="width: 4px; height: 0; border: 5px solid rgb(162, 60, 60); overflow: hidden;">
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="legendLabel">Series8</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
+                                        <canvas id="BieuDoHocPhi" width="400" height="200"></canvas>
 
                                     </div>
                                 </div>
@@ -199,7 +103,7 @@
             <div class=" d-flex flex-row-reverse bd-highlight mb-4 ">
                 <a href="{{ route('nhanxet.show',['id' => $lop->id])}}" class="btn btn-secondary m-btn m-btn--icon">
                     <span>
-                        <i class="fa fa-notes-medical"></i>
+                        <i class="la la-comment"></i>
                         <span>Nhận Xét</span>
                     </span>
                 </a>
@@ -209,7 +113,7 @@
     </div>
     <div class="m-portlet">
         <div class="m-portlet__body table-responsive">
-            <table class="table m-table m-table--head-bg-success">
+            <table class="table table-bordered table-hover">
                 
                 <thead>
                     <tr>
@@ -253,54 +157,30 @@
 @section('script')
 <script src="{!! asset('assets/vendors/custom/flot/flot.bundle.js') !!}"></script>
 <script>
-    //== Class definition
-var BieuDoLop = function() {
+    var ctx = document.getElementById('BieuDoHocPhi');
+    var BieuDoHocPhi = new Chart(ctx, {
+        type: 'doughnut',
+        data : {
+            datasets: [{
+                data: [{{$so_tien_con_phai_dong}}, {{$so_tien_da_dong}}],
+                backgroundColor: ['rgba(255, 99, 132)','rgba(46, 234, 138)'],
+            }],
 
-//== Private functions
-
-
-var demo8 = function() {
-    var data = [];
-        var series = Math.floor(Math.random() * 10) + 1;
-        series = series < 5 ? 5 : series;
-
-        for (var i = 0; i < series; i++) {
-            data[i] = {
-                label: "Series" + (i + 1),
-                data: Math.floor(Math.random() * 100) + 1
-            };
-        }
-
-        $.plot($("#thong_ke_hoc_phi"), data, {
-                series: {
-                    pie: {
-                        show: true
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: [
+                'Tổng tiền còn phải đóng',
+                'Tổng tiền đã đóng '
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
                     }
-                }
-            });
-}
-
-
-
-return {
-    // public functions
-    init: function() {
-        demo8();
-
-    }
-};
-}();
-
-jQuery(document).ready(function() {
-    BieuDoLop.init();
-});
-$("#gioi_tinh").change(function(){  
-    var url = new URL(window.location.href);
-    var search_params = url.searchParams;
-    search_params.set('gioi_tinh', $('#gioi_tinh').val());
-    url.search = search_params.toString();
-    var new_url = url.toString();
-    window.location.href = new_url
-  });
+                }]
+            }
+        }
+    });
 </script>
 @endsection

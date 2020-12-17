@@ -10,7 +10,9 @@ use App\Repositories\HocSinhRepository;
 use App\Repositories\NamHocRepository;
 use App\Http\Requests\Lop\Store;
 use App\Http\Requests\Lop\Update;
-
+use App\Repositories\QuanLyThangThuRepository;
+use App\Repositories\QuanLyChiTietDotThuRepository;
+use App\Repositories\DanhSachThuTienRepository;
 class LopController extends Controller
 {
     protected $KhoiRepository;
@@ -18,19 +20,28 @@ class LopController extends Controller
     protected $LopRepository;
     protected $HocSinhRepository;
     protected $NamHocRepository;
+    protected $QuanLyThangThuRepository;
+    protected $QuanLyChiTietDotThuRepository;
+    protected $DanhSachThuTienRepository;
 
     public function __construct(
         LopRepository $LopRepository,
         GiaoVienRepository $GiaoVienRepository,
         KhoiRepository $KhoiRepository,
         HocSinhRepository $HocSinhRepository,
-        NamHocRepository $NamHocRepository
+        NamHocRepository $NamHocRepository,
+        QuanLyThangThuRepository $QuanLyThangThuRepository,
+        QuanLyChiTietDotThuRepository $QuanLyChiTietDotThuRepository,
+        DanhSachThuTienRepository $DanhSachThuTienRepository
     ) {
         $this->LopRepository = $LopRepository;
         $this->GiaoVienRepository = $GiaoVienRepository;
         $this->KhoiRepository = $KhoiRepository;
         $this->HocSinhRepository = $HocSinhRepository;
         $this->NamHocRepository = $NamHocRepository;
+        $this->QuanLyThangThuRepository = $QuanLyThangThuRepository;
+        $this->QuanLyChiTietDotThuRepository = $QuanLyChiTietDotThuRepository;
+        $this->DanhSachThuTienRepository = $DanhSachThuTienRepository;
     }
     /**
      * Display a listing of the resource.
@@ -101,6 +112,7 @@ class LopController extends Controller
     public function show($id)
     {
         $params = request()->all();
+        $id_nam = $this->NamHocRepository->maxID();
         $queryData['gioi_tinh'] = isset($params['gioi_tinh']) ? $params['gioi_tinh'] : null;
         $lop = $this->LopRepository->find($id);
         $nam_hoc =  $this->KhoiRepository->getNamHoc($lop->khoi_id);
@@ -113,6 +125,36 @@ class LopController extends Controller
         if(count($hoc_sinh) == 0){
             $hoc_sinh = $this->HocSinhRepository->getHocSinhLichSuHoc($id);
         }
+        $so_tien_phai_dong = 0;
+        $so_tien_da_dong = 0;
+        
+        $thang_thu_moi_nhat = $this->QuanLyThangThuRepository->getDotMoiNhatCuaNam($nam_hoc->id);
+        if($thang_thu_moi_nhat){
+            $dot_thu_tien = $this->QuanLyChiTietDotThuRepository->getDotThuTheoNamIDThangThu($thang_thu_moi_nhat->id);
+            foreach($dot_thu_tien as $item){
+                if($id_nam == $nam_hoc->id){
+                    $ds_thu = $this->DanhSachThuTienRepository->getDanhSachHocSinhHienTaiThuTienTheoDot($item->id,$lop->id);
+                    if(count($ds_thu) > 0){
+                        foreach($ds_thu as $item2){
+                            $so_tien_phai_dong += $item2->so_tien_phai_dong;
+                            $so_tien_da_dong += $item2->so_tien_da_dong;
+                        }
+                        
+                    }
+                }
+                else{
+                    $ds_thu = $this->DanhSachThuTienRepository->getDanhSachLichSuHocSinhThuTienTheoDot($item->id, $lop->id);
+                    if(count($ds_thu) > 0){
+                        foreach($ds_thu as $item2){
+                            $so_tien_phai_dong += $item2->so_tien_phai_dong;
+                            $so_tien_da_dong += $item2->so_tien_da_dong;
+                        }
+                    }
+                }
+            }
+            
+        }
+        $so_tien_con_phai_dong = $so_tien_phai_dong - $so_tien_da_dong;
         
         return view(
             'quan-ly-lop.show',
@@ -120,7 +162,10 @@ class LopController extends Controller
                 'giao_vien' => $giao_vien,
                 'hoc_sinh' => $hoc_sinh,
                 'lop' => $lop,
-                'nam_hoc' => $nam_hoc
+                'nam_hoc' => $nam_hoc,
+                'thang_thu_moi_nhat' => $thang_thu_moi_nhat,
+                'so_tien_con_phai_dong' => $so_tien_con_phai_dong,
+                'so_tien_da_dong' => $so_tien_da_dong
             ]
         );
     }
