@@ -165,9 +165,6 @@ class QuanlyGiaoVienController extends Controller
     public function update(UpdateGiaoVien $request, $id)
     {   
         $dataRequest = $request->all();
-        if($dataRequest['anh'] == null){
-            unset($dataRequest['anh']);
-        }
         unset($dataRequest['_token']);
         $user_id = $this->GiaoVienRepository->find($id)->user_id;
         $data_update_account = [

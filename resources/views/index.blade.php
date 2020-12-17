@@ -186,7 +186,6 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <div class="m-widget4__img m-widget4__img--logo">
-                                <img src="assets/app/media/img/client-logos/logo3.png" alt="">
                             </div>
                             <h3 class="m-portlet__head-text font-italic">
                                 {{$item->ten_khoi}} ({{config('common.do_tuoi')[$item->do_tuoi]}})

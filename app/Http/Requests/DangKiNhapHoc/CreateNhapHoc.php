@@ -3,6 +3,7 @@
 namespace App\Http\Requests\DangKiNhapHoc;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class CreateNhapHoc extends FormRequest
 {
@@ -25,10 +26,11 @@ class CreateNhapHoc extends FormRequest
     {
   
         $fields = $this->all();
+        $year_now = Carbon::now()->subYear();
         $rules = [
             'ten' => 'required|regex:/^[\pL\s\-]+$/u|min:6|max:40',
             'gioi_tinh' => 'required|boolean',
-            'ngay_sinh' => 'required|date',
+            'ngay_sinh' => 'required|date|after:2012-01-01|before_or_equal:' . $year_now,
             'dan_toc' => 'required|numeric',
 
             'dien_thoai_dang_ki' => 'required|numeric|digits_between:10,12|unique:users,phone_number',
@@ -103,6 +105,8 @@ class CreateNhapHoc extends FormRequest
             'digits_between' => ' :attribute 10 hoặc 12 số',
             'boolean' => ' :attribute chưa hợp lệ',
             'date' => ' :attribute chưa đúng định dạng',
+            'before_or_equal' => ' :attribute hãy nhập nhỏ hơn năm nay ít nhất 1 tuổi',
+            'after' => ' :attribute hãy nhập lớn hơn năm 2011',
             'email' => ' :attribute hãy nhập đúng định dạng email',
             'numeric' => ' :attribute phải là số',
             'unique' => ' :attribute đã tồn tại',

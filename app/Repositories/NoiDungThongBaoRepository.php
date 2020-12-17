@@ -25,4 +25,9 @@ class NoiDungThongBaoRepository extends BaseModelRepository
         return $this->model::find($id);
     }
 
+    public function getNoiDungThongBao()
+    {
+        return $this->model::where('auth_id', '!=', 0)->get();
+    }
+
 }
