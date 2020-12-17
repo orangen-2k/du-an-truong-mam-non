@@ -25,6 +25,12 @@ class QuanLyChiTietDotThuRepository extends BaseModelRepository {
         $this->model->destroy($array);
     }
 
+    public function getDotThuTheoNamIDThangThu($id_thang_thu_tien)
+    {
+        return $this->model->where('id_thang_thu_tien', $id_thang_thu_tien)->get();
+    }
+    
+
 
 
     

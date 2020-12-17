@@ -46,7 +46,7 @@ class GiaoVien extends Seeder
             $rand1= rand(10000,99999);
             $id_gv = DB::table('users')->insertGetId([
                 'name' => $json_ten[$rand]->full_name,
-                'username' => CovertVn($json_ten[$rand]->full_name).'GV'.rand(1,10),
+                'username' =>  CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'@gmail.com',
                 'avatar' => "",
                 'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'@gmail.com',
                 'password' => Hash::make('1234567890'),

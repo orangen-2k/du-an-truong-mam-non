@@ -30,6 +30,9 @@ class QuanLyThangThuRepository extends BaseModelRepository {
        return $this->model->where('nam_thu',$year)->where('thang_thu',$month)->first();
     }
 
+    public function getDotMoiNhatCuaNam($id_nam){
+        return $this->model->where('id_nam_hoc', $id_nam)->orderBy('id', 'desc')->limit(1)->first();
+    }
 
 
     

@@ -153,4 +153,30 @@ class DanhSachThuTienRepository extends BaseModelRepository
         // dd($tong_hoc_sinh_phai_dong);
         
     }
+
+    public function getDanhSachHocSinhHienTaiThuTienTheoDot($dot_id, $lop_id)
+    {
+        $query = $this->model->join('hoc_sinh', 'hoc_sinh.id','=','danh_sach_thu_tien.id_hoc_sinh')
+        ->select('danh_sach_thu_tien.so_tien_phai_dong', 'danh_sach_thu_tien.so_tien_da_dong')
+        ->where('hoc_sinh.lop_id', $lop_id)
+        ->where('danh_sach_thu_tien.id_chi_tiet_dot_thu', $dot_id)
+        ->get();
+        return $query;
+    }
+
+    public function getDanhSachLichSuHocSinhThuTienTheoDot($dot_id, $lop_id)
+    {
+        $query = $this->model->join('lich_su_hoc', 'lich_su_hoc.hoc_sinh_id','=','danh_sach_thu_tien.id_hoc_sinh')
+        ->select('danh_sach_thu_tien.so_tien_phai_dong', 'danh_sach_thu_tien.so_tien_da_dong')
+        ->where('lich_su_hoc.lop_id', $lop_id)
+        ->where('danh_sach_thu_tien.id_chi_tiet_dot_thu', $dot_id)
+        ->get();
+        return $query;
+    }
+
+    public function getDanhSachThuTienTheoDot($dot_id)
+    {
+        $query = $this->model->where('id_chi_tiet_dot_thu', $dot_id)->get();
+        return $query;
+    }
 }

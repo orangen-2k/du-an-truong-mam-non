@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Hệ thống PolyKids")
+@section('title', "Hệ thống CoolKids")
   @section('content')
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <div class="m-content">
@@ -185,17 +185,13 @@
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
-                            <div class="m-widget4__img m-widget4__img--logo">
-                                <img src="assets/app/media/img/client-logos/logo3.png" alt="">
-                            </div>
-                            <h3 class="m-portlet__head-text font-italic">
+                            
+                            <h4 class="m-portlet__head-text">
                                 {{$item->ten_khoi}} ({{config('common.do_tuoi')[$item->do_tuoi]}})
-                            </h3>
+                            </h4>
                         </div>
                     </div>
-                    <div class="m-portlet__head-tools">
-                        <i class="fa fa-arrow-alt-circle-right"></i>
-                    </div>
+                    
                 </div>
                 <div class="m-portlet__body">
 
@@ -213,7 +209,7 @@
                                 <br>
                             </div>
                             <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">{{$lop_hoc->tong_so_hoc_sinh}}</span>
+                                <span class="m-widget4__number m--font-danger">{{$lop_hoc->tong_so_hoc_sinh}} </span>
                             </span>
                         </div>
                         @endforeach
@@ -234,7 +230,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Học phí toàn trường
+                                Học phí cho đợt mới nhất
                             </h3>
                         </div>
                     </div>
@@ -243,7 +239,14 @@
                     </div>
                 </div>
                 <div class="m-portlet__body">
-
+                  <div class="m-demo-icon">
+                    <div class="m-demo-icon__preview">
+                      <i class="la la-money"></i>
+                    </div>
+                    <div class="m-demo-icon__class">
+                      Tổng tiền: <b>{{number_format($so_tien_phai_dong)}}</b>
+                    </div>
+                  </div>
                     <!--begin::Widget5-->
                 <canvas id="HocPhiToanTruong" width="400" height="400"></canvas>
                     
@@ -585,62 +588,35 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: [
-            @forEach($array_thang as $item)
+            @forEach($array_nam as $item)
             "{{$item}}",
             @endforeach
         ],
         datasets: [{
-            label: 'Nữ',
+            label: 'Học sinh nhập học',
             data: [
-                @forEach($array_nu as $key => $item)
-                    @if($key > 0)
+                @forEach($array_hoc_sinh as $key => $item)
+                   
                     {{$item}},
-                    @endif
+                   
                 @endforeach
             ],
             backgroundColor: [
-                @forEach($array_nu as  $key => $item)
-                @if($key > 0)
+                @forEach($array_hoc_sinh as  $key => $item)
+               
                 'rgba(255, 99, 132, 0.2)',
-                @endif
+              
                 @endforeach
                 
                 
             ],
             borderColor: [
-                @forEach($array_nu as  $key => $item)
-                @if($key > 0)
-                'rgba(255, 99, 132, 1)',
-                @endif
-                @endforeach
+              @forEach($array_hoc_sinh as  $key => $item)
+               
+               'rgba(255, 99, 132, 1)',
+             
+               @endforeach
                 
-                
-            ],
-            borderWidth: 1
-        },
-        {
-            label: 'Nam',
-            data: [
-                @forEach($array_nam as $key => $item)
-                @if($key > 0)
-                {{$item}},
-                @endif
-                @endforeach
-            ],
-            backgroundColor: [
-                @forEach($array_nam as $key => $item)
-                @if($key > 0)
-                'rgba(75, 192, 192, 0.2)',
-                @endif
-                @endforeach
-                
-            ],
-            borderColor: [
-                @forEach($array_nam as $key => $item)
-                @if($key > 0)
-                'rgba(75, 192, 192, 1)',
-                @endif
-                @endforeach
                 
             ],
             borderWidth: 1
@@ -662,20 +638,16 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
  <script>
 var ctx = document.getElementById('HocPhiToanTruong');
 var HocPhiToanTruong = new Chart(ctx, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
-        labels: ['Red', 'Blue'],
+        labels: ['Tổng tiền còn phải đóng', 'Tổng tiền đã đóng '],
         datasets: [{
             label: '# of Votes',
-            data: [12, 19],
-            backgroundColor: [
-                'rgba(255, 99, 132)',
-                'rgba(54, 162, 235)'
-                
-            ],
+            data: [{{$so_tien_con_phai_dong}}, {{$so_tien_da_dong}}],
+            backgroundColor: ['rgba(255, 99, 132)','rgba(46, 234, 138)'],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)'
+                'rgba(46, 234, 138, 1)'
             
             ],
             borderWidth: 1
