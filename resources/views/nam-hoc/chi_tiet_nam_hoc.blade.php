@@ -889,7 +889,7 @@ const addKhoi = () => {
       <div class="m-accordion__item">
         <div class="m-accordion__item-head collapsed" role="tab" id="tab${response.data}_item_1_head" data-toggle="collapse" href="#tab${response.data}_item_1_body" aria-expanded="false">
                 <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="m-accordion__item-title">${$('#ten_khoi').val()} (${$('#do_tuoi').val()} tuổi)</span>  
+                <span class="m-accordion__item-title">${$('#ten_khoi').val()} (${$('#do_tuoi option:selected').text()} tuổi)</span>  
                 <div class="dropdown">
                   <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true"></i>
@@ -1387,7 +1387,6 @@ const deleteLop = (id) =>{
         showConfirmButton: false,
         timer: 1500
     }).then(
-        ()=> location.href = "{{route('quan-ly-dot-thu-index',['id'=>0])}}"
         )
       })
       }
