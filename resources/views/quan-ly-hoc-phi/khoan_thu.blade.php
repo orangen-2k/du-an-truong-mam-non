@@ -543,10 +543,17 @@
             })
             .catch(function (error) {
         $('#preload').css('display', 'none');
-
+                var list_loi = error.response.data.errors
+                var html_loi = ''
+                for (const key in list_loi) {
+                    if (Object.hasOwnProperty.call(list_loi, key)) {
+                        const element = list_loi[key];
+                        html_loi+=element+', '
+                    }
+                }
                 Swal.fire({
                     icon: 'error',
-                    text: 'Vui lòng điền đầy đủ thông tin',
+                    text: html_loi,
                 }) 
             })
             .then(function () {
@@ -568,9 +575,17 @@
                 }).then(()=> location.reload())
             })
             .catch(function (error) {
+                var list_loi = error.response.data.errors
+                var html_loi = ''
+                for (const key in list_loi) {
+                    if (Object.hasOwnProperty.call(list_loi, key)) {
+                        const element = list_loi[key];
+                        html_loi+=element+', '
+                    }
+                }
                 Swal.fire({
                     icon: 'error',
-                    text: 'Vui lòng điền đầy đủ thông tin',
+                    text: html_loi,
                 }) 
             })
             .then(function () {
@@ -595,9 +610,17 @@
                     )
             })
             .catch(function (error) {
+                var list_loi = error.response.data.errors
+                var html_loi = ''
+                for (const key in list_loi) {
+                    if (Object.hasOwnProperty.call(list_loi, key)) {
+                        const element = list_loi[key];
+                        html_loi+=element+', '
+                    }
+                }
                 Swal.fire({
                     icon: 'error',
-                    text: 'Vui lòng điền đầy đủ thông tin',
+                    text: html_loi,
                 }) 
             })
             .then(function () {
