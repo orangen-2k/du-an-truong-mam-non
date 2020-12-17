@@ -22,10 +22,10 @@
         color: red
     }
 
-    .danh_sach_khoan_thu {
+    /* .danh_sach_khoan_thu {
         height: 400px !important;
         overflow: auto;
-    }
+    } */
 
     .ten_khoi {
         color: rgb(25, 0, 255);
@@ -35,7 +35,9 @@
     thead th {
         font-weight: bold !important
     }
+    
 </style>
+<link href="{!! asset('vendors/perfect-scrollbar/css/perfect-scrollbar.css') !!}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div class="m-content">
@@ -54,7 +56,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                Quản lý khoản thu
+                                Quản lý đợt thu
                             </h3>
                         </div>
                     </div>
@@ -229,58 +231,60 @@
 
                                                 <!--begin:: Widgets/Download Files-->
                                                 <div class="m-portlet m-portlet--full-height ">
-                                                    <div class="m-portlet__body danh_sach_khoan_thu">
+                                                    <div class="m-scrollable" data-scrollable="true" style="height: 400px">
+                                                        <div class="m-portlet__body danh_sach_khoan_thu">
 
-                                                        <!--begin::m-widget4-->
+                                                            <!--begin::m-widget4-->
 
-                                                        <div class="m-form__group form-group">
-                                                            <label>Phạm vi</label>
+                                                            <div class="m-form__group form-group">
+                                                                <label>Phạm vi</label>
 
-                                                            <div class="m-radio-list">
-                                                                <label class="m-radio m-radio--state-success">
-                                                                    <input type="radio" onclick="chiTietHocPhiKhoi(0)"
-                                                                        checked name="example_2" value="0">
-                                                                    Tất cả
-                                                                    <span></span>
-                                                                </label>
-                                                                @foreach ($nam_hoc_moi->Khoi as $chi_tiet_khoi)
-                                                                <label class="m-radio m-radio--state-success">
-                                                                    <input
-                                                                        onclick="chiTietHocPhiKhoi({{$chi_tiet_khoi->id}})"
-                                                                        type="radio" name="example_2"
-                                                                        value="{{$chi_tiet_khoi->id}}">
-                                                                    {{$chi_tiet_khoi->ten_khoi}}
-                                                                    <span></span>
-                                                                </label>
+                                                                <div class="m-radio-list">
+                                                                    <label class="m-radio m-radio--state-success">
+                                                                        <input type="radio" onclick="chiTietHocPhiKhoi(0)"
+                                                                            checked name="example_2" value="0">
+                                                                        Tất cả
+                                                                        <span></span>
+                                                                    </label>
+                                                                    @foreach ($nam_hoc_moi->Khoi as $chi_tiet_khoi)
+                                                                    <label class="m-radio m-radio--state-success">
+                                                                        <input
+                                                                            onclick="chiTietHocPhiKhoi({{$chi_tiet_khoi->id}})"
+                                                                            type="radio" name="example_2"
+                                                                            value="{{$chi_tiet_khoi->id}}">
+                                                                        {{$chi_tiet_khoi->ten_khoi}}
+                                                                        <span></span>
+                                                                    </label>
+                                                                    @endforeach
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="m-form__group form-group">
+                                                                @if ($data_dot_thu!=null)
+                                                                @foreach ($data_dot_thu->ChiTietDotThuTien as $chi_tiet_dot)
+                                                                <label class="pt-3 pb-2">Khoản thu
+                                                                    {{$chi_tiet_dot->ten_dot_thu}}</label>
+                                                                <div class="m-checkbox-list">
+                                                                    @foreach ($chi_tiet_dot->KhoanThu as
+                                                                    $khoan_thu_chi_tiet)
+                                                                    <div class="mb-3">
+                                                                        <i style="color: #3dd945 " class="fa fa-check mr-4"></i>
+                                                                        {{$khoan_thu_chi_tiet->ten_khoan_thu}}
+                                                                        <span></span>
+                                                                    </div>
+                                                                    @endforeach
+                                                                </div>
                                                                 @endforeach
+                                                                @endif
 
                                                             </div>
+
+
+
+                                                            <!--end::Widget 9-->
                                                         </div>
-
-                                                        <div class="m-form__group form-group">
-                                                            @if ($data_dot_thu!=null)
-                                                            @foreach ($data_dot_thu->ChiTietDotThuTien as $chi_tiet_dot)
-                                                            <label class="pt-3 pb-2">Khoản thu
-                                                                {{$chi_tiet_dot->ten_dot_thu}}</label>
-                                                            <div class="m-checkbox-list">
-                                                                @foreach ($chi_tiet_dot->KhoanThu as
-                                                                $khoan_thu_chi_tiet)
-                                                                <label class="m-checkbox m-checkbox--success">
-                                                                    <input checked type="checkbox">
-                                                                    {{$khoan_thu_chi_tiet->ten_khoan_thu}}
-                                                                    <span></span>
-                                                                </label>
-                                                                @endforeach
-                                                            </div>
-                                                            @endforeach
-                                                            @endif
-
-                                                        </div>
-
-
-
-                                                        <!--end::Widget 9-->
-                                                    </div>
+                                                </div>
                                                 </div>
 
                                                 <!--end:: Widgets/Download Files-->
@@ -483,6 +487,7 @@
 
 @endsection
 @section('script')
+<script src="{!! asset('vendors/perfect-scrollbar/dist/perfect-scrollbar.js') !!}" type="text/javascript"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -538,7 +543,12 @@
                     )
             })
             .catch(function (error) {
-                console.log(error);
+                $('#preload').css('display', 'none');
+                console.log(error.response.data.errors.ten_dot_thu[0])
+                Swal.fire({
+                    icon: 'error',
+                    text: `${error.response.data.errors.ten_dot_thu[0]}`,
+                }) 
             })
             .then(function () {
                 // always executed

@@ -210,7 +210,7 @@
                                 <tr>
                                     <td class="text-center"><input type="checkbox" class="checkbox checkbox2 checkbox_hs"
                                             data-id="{{ $itemHocSinh->id }}"
-                                            data-device="{{ $itemHocSinh->User && $itemHocSinh->User->device ? $itemHocSinh->User->device : '' }}"
+                                            data-device="{{ $itemHocSinh->User && $itemHocSinh->User->device ? $itemHocSinh->User->device : 'gg' }}"
                                             data-lop_id="{{ $itemHocSinh->lop_id }}"></td>
                                     <td class="text-center">{{ $i++ }}</td>
                                     <td>{{ $itemKhoi->ten_khoi }}</td>

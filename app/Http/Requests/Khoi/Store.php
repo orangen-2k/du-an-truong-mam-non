@@ -27,13 +27,18 @@ class Store extends FormRequest
         return [
             'ten_khoi' =>  [
                 'required', 
+                'string',
+                'between:5,30',
                 Rule::unique('khoi')
                        ->where('nam_hoc_id', $this->nam_hoc_id)
             ],
             'do_tuoi' => [
-                'required', 
+                'required',
+                'integer',
+                'between:1,5', 
                 Rule::unique('khoi')
-                       ->where('nam_hoc_id', $this->nam_hoc_id)
+                       ->where('nam_hoc_id', $this->nam_hoc_id),
+                
             ]
         ];
     }
@@ -42,8 +47,13 @@ class Store extends FormRequest
         return [
             'ten_khoi.required' => 'Tên khối không được để trống',
             'ten_khoi.unique' => 'Tên khối đã tồn tại',
+            'ten_khoi.between' => 'Tên khối phải có độ dài từ 5 đến 30 kí tự',
             'do_tuoi.required' => 'Độ tuổi không được để trống',
             'do_tuoi.unique' => 'Độ tuổi đã tồn tại',
+            'do_tuoi.between' => 'Độ tuổi không hợp lệ',
+
+
+
         ];
     }
 }

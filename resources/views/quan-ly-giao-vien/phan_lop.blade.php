@@ -121,7 +121,9 @@
 </div>
 @endsection
 @section('script')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
+    
     $(document).ready(function(){
         $('.giao_vien_chinh').select2();
         $('#giao_vien86').select2()
@@ -234,10 +236,14 @@ const phanLop = () =>{
 axios.post(url_phan_lop,data_giao_vien)
   .then(function (response) {
     $('#preload').hide()
-    swal({
-          title: "Phân lớp cho giáo viên hoàn tất",
-          icon: "success",
-        });
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Phân lớp thành công!',
+        showConfirmButton: false,
+        timer: 1500
+    }).then(
+        )
     console.log(response);
   })
   .catch(function (error) {

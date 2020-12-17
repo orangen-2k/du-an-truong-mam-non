@@ -75,7 +75,6 @@
                                     <th>Mức thu</th>
                                     <th>Đơn vị tính</th>
                                     <th>Áp dụng miễn giảm</th>
-                                    <th>Cho xuất hóa đơn</th>
                                     <th>Đang theo dõi</th>
                                     <th>Chức năng</th>
                                 </tr>
@@ -92,16 +91,12 @@
                                     <td>{{number_format($item->muc_thu)}}</td>
                                     <td>{{config('common.don_vi_tinh')[$item->don_vi_tinh]}}</td>
                                     <td>
-                                        @if ($item->mien_giam==1)
+                                        @if ($item->mien_giam>0)
                                         <i class="fa fa-check"></i>
                                         @endif
 
                                     </td>
-                                    <td>
-                                        @if ($item->xuat_hoa_don==1)
-                                        <i class="fa fa-check"></i>
-                                        @endif
-                                    </td>
+            
                                     <td>
                                         @if ($item->theo_doi==1)
                                         <i class="fa fa-check"></i>
@@ -284,14 +279,7 @@
                                                             <div class="m-form__group form-group">
                                                                 <div class="m-checkbox-list">
                                                                     
-                                                                    <label class="m-checkbox m-checkbox--state-success">
-                                                                        <input @if ($item->xuat_hoa_don == 1)
-                                                                        checked
-                                                                        @endif
-                                                                        type="checkbox" value="1"
-                                                                        name="xuat_hoa_don">Xuất hóa đơn
-                                                                        <span></span>
-                                                                    </label>
+                                                               
 
                                                                     <label class="m-checkbox m-checkbox--state-success">
                                                                         <input @if ($item->theo_doi == 1)
@@ -448,17 +436,13 @@
                             <div class="col-md-3">
                                 <div class="m-form__group form-group">
                                     <div class="m-checkbox-list">
-                                        <label class="m-checkbox m-checkbox--state-success">
-                                            <input type="checkbox" value="1" name="xuat_hoa_don">Xuất hóa đơn
-                                            <span></span>
-                                        </label>
 
                                         <label class="m-checkbox m-checkbox--state-success">
                                             <input type="checkbox" value="1" name="theo_doi"> Theo dõi
                                             <span></span>
                                         </label>
-                                        <label class="m-checkbox m-checkbox--state-success" onclick="showHideNhapPhanTram(this)">
-                                            <input type="checkbox"> Áp dụng miễn giảm
+                                        <label class="m-checkbox m-checkbox--state-success">
+                                            <input type="checkbox" onclick="showHideNhapPhanTram(this)"> Áp dụng miễn giảm
                                             <span></span>
                                         </label>
                                         <div class="input-group mien_giam"  style="display: none">
@@ -552,11 +536,18 @@
                     title: 'Thêm mới khoản thu thành công!',
                     showConfirmButton: false,
                     timer: 1500
-                }).then(()=> location.reload())
+                }).then(
+                    ()=> location.reload()
+                    )
                 
             })
             .catch(function (error) {
-                console.log(error);
+        $('#preload').css('display', 'none');
+
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Vui lòng điền đầy đủ thông tin',
+                }) 
             })
             .then(function () {
                 // always executed
@@ -577,7 +568,10 @@
                 }).then(()=> location.reload())
             })
             .catch(function (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Vui lòng điền đầy đủ thông tin',
+                }) 
             })
             .then(function () {
                 // always executed
@@ -596,13 +590,18 @@
                     title: 'Thêm mới khoản thu thành công!',
                     showConfirmButton: false,
                     timer: 1500
-                }).then(()=> location.reload())
+                }).then(
+                    ()=> location.reload()
+                    )
             })
             .catch(function (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    text: 'Vui lòng điền đầy đủ thông tin',
+                }) 
             })
             .then(function () {
-                // always executed
+                
             });  
             }
 
@@ -686,8 +685,8 @@
             })
         };
         const showHideNhapPhanTram = (element) =>{
-            // console.log($(element).prop('checked'))
             if($(element).prop('checked')){
+                console.log($(element).parents('.m-checkbox-list').find('.mien_giam'))
                 $(element).parents('.m-checkbox-list').find('.mien_giam input').val(0)
                 $(element).parents('.m-checkbox-list').find('.mien_giam').show()
             }else{

@@ -889,7 +889,7 @@ const addKhoi = () => {
       <div class="m-accordion__item">
         <div class="m-accordion__item-head collapsed" role="tab" id="tab${response.data}_item_1_head" data-toggle="collapse" href="#tab${response.data}_item_1_body" aria-expanded="false">
                 <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="m-accordion__item-title">${$('#ten_khoi').val()} (${$('#do_tuoi').val()} tuổi)</span>  
+                <span class="m-accordion__item-title">${$('#ten_khoi').val()} (${$('#do_tuoi option:selected').text()} tuổi)</span>  
                 <div class="dropdown">
                   <i style="cursor: pointer;font-size: 25px;" class="la la-ellipsis-v" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true"></i>
@@ -1387,7 +1387,6 @@ const deleteLop = (id) =>{
         showConfirmButton: false,
         timer: 1500
     }).then(
-        ()=> location.href = "{{route('quan-ly-dot-thu-index',['id'=>0])}}"
         )
       })
       }
@@ -1431,6 +1430,8 @@ const xepLop = () =>{
     'sl_hs_nu' : $('#nhap_hoc_sinh_nu_chua_co_lop').val()
   })
   .then(function (response) {
+    $('#hoc_sinh_moi_tuyen_sinh').html(`${response.data.sl_hs_moi_tuyen_sinh}`)
+    $('#hoc_sinh_dang_hoc_chua_co_lop').html(`${response.data.sl_hs_dang_hoc_chua_co_lop}`)
     showHocSinhCuaLop($('#id_lop_xep').val())
     var component_lop = 'lop_'+$('#id_lop_xep').val()
     $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${response.data.sl_hs_cua_lop})`)
@@ -1446,14 +1447,23 @@ const xepLop = () =>{
         $('#modal-xep-lop-tu-dong').modal('hide')
   })
   .catch(function (error) {
-
-    Swal.fire({
-    icon: 'error',
-    text: `Số lượng học sinh ${error.response.data.gioi_tinh} chỉ còn lại ${error.response.data.sl_hs_con_lai} học sinh`,
-  })
+    if (error.response.status == 422) {
+      Swal.fire({
+        icon: 'error',
+        text: `Số lượng học sinh ${error.response.data.gioi_tinh} chỉ còn lại ${error.response.data.sl_hs_con_lai} học sinh`,
+      }) 
+    }else{
+      Swal.fire({
+        icon: 'error',
+        text: `Số lượng học sinh bạn nhập không hợp lệ`,
+      })
+    }
+   
 
   })
   .then(function () {
+   
+
     // always executed
   });
 };
