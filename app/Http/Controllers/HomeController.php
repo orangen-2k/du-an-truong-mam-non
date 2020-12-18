@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use App\Repositories\QuanLyThangThuRepository;
 use App\Repositories\QuanLyChiTietDotThuRepository;
 use App\Repositories\DanhSachThuTienRepository;
+use App\Repositories\HoatDongRepository;
 class HomeController extends Controller
 {   
     protected $GiaoVienRepository;
@@ -25,6 +26,7 @@ class HomeController extends Controller
     protected $QuanLyThangThuRepository;
     protected $QuanLyChiTietDotThuRepository;
     protected $DanhSachThuTienRepository;
+    protected $HoatDongRepository;
 
     public function __construct(
         LopRepository $LopRepository,
@@ -34,7 +36,8 @@ class HomeController extends Controller
         NamHocRepository $NamHocRepository,
         QuanLyThangThuRepository $QuanLyThangThuRepository,
         QuanLyChiTietDotThuRepository $QuanLyChiTietDotThuRepository,
-        DanhSachThuTienRepository $DanhSachThuTienRepository
+        DanhSachThuTienRepository $DanhSachThuTienRepository,
+        HoatDongRepository $HoatDongRepository
     ) {
         $this->LopRepository = $LopRepository;
         $this->GiaoVienRepository = $GiaoVienRepository;
@@ -44,6 +47,7 @@ class HomeController extends Controller
         $this->QuanLyThangThuRepository = $QuanLyThangThuRepository;
         $this->QuanLyChiTietDotThuRepository = $QuanLyChiTietDotThuRepository;
         $this->DanhSachThuTienRepository = $DanhSachThuTienRepository;
+        $this->HoatDongRepository = $HoatDongRepository;
     }
     /**
      * Create a new controller instance.
@@ -105,6 +109,63 @@ class HomeController extends Controller
         }
         $noi_dung_thong_bao = NoiDungThongBao::whereIn('auth_id', $user_auth->toArray())->orderBy('id', 'desc')->limit(15)->get();
        
+        //Giáo trình giáo viên
+        $nam_hoc_moi = $this->NamHocRepository->find($id);
+        // $date = $nam_hoc_moi->start_date;
+        $date_start = Carbon::createFromFormat('Y-m-d', $nam_hoc_moi->start_date);
+        $end_start = Carbon::createFromFormat('Y-m-d', $nam_hoc_moi->end_date);
+        $date = Carbon::now(); // or $date = new Carbon()
+        if(isset($params['tuan'])){
+            $tuan_chon = $params['tuan'];
+        }else{
+            $tuan_chon = $date->weekOfYear -$date_start->weekOfYear ;
+
+        }
+        $tuan_moi_nhat = $date->weekOfYear -$date_start->weekOfYear +1;
+        
+        $danh_sach_hoat_dong = $this->HoatDongRepository->getDanhHoatDong($id, $tuan_moi_nhat);
+        // dd($danh_sach_hoat_dong);
+        $array_danh_sach = [];
+        
+            foreach($namhoc->Khoi as $khoi){
+                foreach($khoi->LopHoc as $lop){
+                    foreach($danh_sach_hoat_dong as $ds_giao_trinh){
+                    if($ds_giao_trinh->lop_id == $lop->id){
+                        // array_push($array_danh_sach, $ds_giao_trinh);
+                        $arr = [
+                            'ten_lop' => $lop->ten_lop,
+                            'lop_id' => $lop->id,
+                            'trang_thai' => 1,
+                            'type' => $ds_giao_trinh->type
+                        ];
+                        array_push($array_danh_sach, $arr);
+                    }
+                    else{
+                        $arr = 
+                        [
+                            'ten_lop' => $lop->ten_lop,
+                            'lop_id' => $lop->id,
+                            'trang_thai' => 0,
+                            'type' => 4
+                        ];
+                    array_push($array_danh_sach, $arr);
+                    }
+                }
+                if(count($danh_sach_hoat_dong) == 0){
+                    $arr = 
+                    [
+                        'ten_lop' => $lop->ten_lop,
+                        'lop_id' => $lop->id,
+                        'trang_thai' => 0,
+                        'type' => 4
+                    ];
+                    array_push($array_danh_sach, $arr);
+                }
+                
+                
+            }
+        }
+        
 
         return view('index', compact(
             'array_nam',
@@ -113,7 +174,10 @@ class HomeController extends Controller
             'so_tien_con_phai_dong',
             'so_tien_da_dong',
             'so_tien_phai_dong',
-            'noi_dung_thong_bao'
+            'noi_dung_thong_bao',
+            'array_danh_sach',
+            'tuan_moi_nhat',
+            'thang_thu_moi_nhat'
         ));
     }
 }

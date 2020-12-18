@@ -82,7 +82,10 @@
                                         <div class="m-portlet__head-caption">
                                             <div class="m-portlet__head-title">
                                                 <h3 class="m-portlet__head-text">
-                                                    Biểu đồ học phí đợt mới nhất
+                                                    Học phí tháng mới nhất: 
+                                                    @if(isset($thang_thu_moi_nhat))
+                                                    {{$thang_thu_moi_nhat->thang_thu}}/{{$thang_thu_moi_nhat->nam_thu}}
+                                                    @endif
                                                 </h3>
                                             </div>
                                         </div>
