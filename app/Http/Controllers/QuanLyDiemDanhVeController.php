@@ -74,4 +74,20 @@ class QuanLyDiemDanhVeController extends Controller
         $data = NguoiDonHo::find($request->id);
         return $data;
     }
+
+    public function thongKeSoLieu(Request $request)
+    {
+        if ($request->session()->has('id_nam_hoc')) {
+            $id = $request->session()->get('id_nam_hoc');
+        } else {
+            $id = $this->NamHocRepository->maxID();
+        }
+        $month = Carbon::createFromFormat('d-m-Y', "01-".$request->time)->month;
+        $year = Carbon::createFromFormat('d-m-Y', "01-".$request->time)->year;
+        $data = $this->DiemDanhVeRepository->thongKeSoLieu(['hoc_sinh_id' => $request->hoc_sinh_id,
+                                                            'month'       => $month,
+                                                            'year'        => $year
+                                                           ]);
+        return $data;                                           
+    }
 }
