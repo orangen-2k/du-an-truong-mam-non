@@ -279,6 +279,7 @@
     $("body").addClass('m-aside-left--minimize m-brand--minimize')
     $("#danh_sach_hoc_sinh").select2()
     $("#danh_sach_hoc_sinh_dong_tien").select2()
+    $('#danh_sach_nam_hoc_session').hide()
     
 });
 
@@ -445,7 +446,10 @@
                     )
             })
             .catch(function (error) {
-                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    text: `Thời gian không hợp lệ`,
+                }) 
             })
             .then(function () {
                 // always executed
