@@ -52,7 +52,7 @@
     </style>
 </head>
 
-<body style="background-image: url(../../../assets/app/media/img//bg/bg-3.jpg);">
+<body style="background-image: url({{ asset('assets/app/media/img//bg/bg-3.jpg')}});">
 
     <div class="m-content">
         <div class="modal fade" id="m_modal_1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

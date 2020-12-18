@@ -102,6 +102,7 @@ class NamHocController extends Controller
             'name' => Carbon::parse($request->start_date)->year . ' - ' . Carbon::parse($request->end_date)->year,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
+            'backup' => 1
         ];
         $data = $this->NamHocRepository->create($array_input);
         if(!$data){

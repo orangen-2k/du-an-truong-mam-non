@@ -157,7 +157,8 @@
                                         id="tab{{$item->id}}_item_1_head" data-toggle="collapse"
                                         href="#tab{{$item->id}}_item_1_body" aria-expanded="false">
                                         <span class="m-accordion__item-mode "></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <span class="m-accordion__item-title">{{$item->ten_khoi}} ({{config('common.do_tuoi')[$item->do_tuoi]}})</span>
+                                        <span class="m-accordion__item-title">{{$item->ten_khoi}}
+                                            ({{config('common.do_tuoi')[$item->do_tuoi]}})</span>
 
                                     </div>
                                     <div class="m-accordion__item-body collapse" id="tab{{$item->id}}_item_1_body"
@@ -236,7 +237,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-bordered m-table m-table--border-success table-hover">
+                <table class="table table-bordered m-table m-table--border-success table-hover" style="cursor: pointer">
                     <thead>
                         <tr>
                             <th scope="col 1" rowspan="2">STT</th>
@@ -337,6 +338,48 @@
     </div>
 
     <!--end::Modal-->
+
+    <!--begin::Modal-->
+    <div class="modal fade" id="m_modal_1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">Thống kê điểm danh về</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group" id="content-modal">
+                        <span id="dang_lay_du_lieu"><i>Đang lấy dữ liệu</i></span>
+                        <div class="form-row d-none" id="lay_du_lieu_ok">
+                            <div class="col-md-12 mb-3">
+                                <label for="validationTooltip01"><b>Mã: <span id="show_ma_hoc_sinh"></span></b></label>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="validationTooltip01"><b>Học sinh: <span id="show_ten_hoc_sinh"></span></b></label>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="validationTooltip01"><b style="color:#149018">Bố mẹ đón (B): <span id="trang_thai_1"></span></b></label>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="validationTooltip01"><b style="color:#1520B4">Người đón hộ (H): <span id="trang_thai_2"></span></b></label>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="validationTooltip01"><b style="color:#1520B4">Nghỉ (N): <span id="trang_thai_3"></span></b></label>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="validationTooltip01"><b style="color:#EB451F">Trả muộn (T): <span id="trang_thai_4"></span></b></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end::Modal-->
 </div>
 @endsection
 @section('script')
@@ -365,7 +408,9 @@
                 console.log(response.data);
                 response.data.forEach((element, key) => {
                     html_hs += `
-                    <tr>
+                    <tr onclick="thongKeSoLieu(this)" data-hoc_sinh_id="${element.id}" 
+                        data-ma_hoc_sinh="${element.ma_hoc_sinh}" 
+                        data-ten_hoc_sinh="${element.ten}">
                         <td>${++key}</td>
                         <td>${element.ma_hoc_sinh}</td>
                         <td>${element.ten}</td>`
@@ -419,6 +464,32 @@
                 $('#anh_nguoi_don_ho').attr("src", response.data.anh_nguoi_don_ho)
                 $('#m_modal_4').modal("show");
             })
+    }
+
+    function thongKeSoLieu(e){
+        $('#dang_lay_du_lieu').removeClass('d-none');
+        $('#lay_du_lieu_ok').addClass('d-none');
+        $('#m_modal_1').modal('show');
+
+        let hoc_sinh_id = e.getAttribute('data-hoc_sinh_id');
+        let ma_hoc_sinh = e.getAttribute('data-ma_hoc_sinh');
+        let ten_hoc_sinh = e.getAttribute('data-ten_hoc_sinh');
+        let time = $('#thang').children("option:selected").val();
+        
+        axios.post("{{ route('thongKeSoLieu')}}",{
+            hoc_sinh_id: hoc_sinh_id,
+            time: time
+        }).then(res => {
+            $('#dang_lay_du_lieu').addClass('d-none');
+            $('#lay_du_lieu_ok').removeClass('d-none');
+            let soLieu = res.data;
+            $('#show_ma_hoc_sinh').text(ma_hoc_sinh);
+            $('#show_ten_hoc_sinh').text(ten_hoc_sinh);
+            $('#trang_thai_1').text(soLieu.trang_thai_1);
+            $('#trang_thai_2').text(soLieu.trang_thai_2);
+            $('#trang_thai_3').text(soLieu.trang_thai_3);
+            $('#trang_thai_4').text(soLieu.trang_thai_4);
+        })
     }
 
 </script>

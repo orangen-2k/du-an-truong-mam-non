@@ -28,7 +28,8 @@ class AccountRepository extends BaseModelRepository
     public function getAllSchool($params = [])
     {
         $keyword = $params['keyword'];
-        $data = $this->model::where('role', $params['role']);
+        $data = $this->model::where('role', $params['role'])
+                            ->where('active', '!=', 0);
         if (isset($params['keyword']) && $params['keyword'] != null) {
             $data->where(function ($query) use ($keyword) {
                 $query->where('name', 'like', '%' . $keyword . '%')

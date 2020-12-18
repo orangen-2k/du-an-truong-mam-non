@@ -66,96 +66,23 @@
                             <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="400" style="height: 400px; overflow: hidden;">
                                 <div class="m-list-timeline m-list-timeline--skin-light">
                                     <div class="m-list-timeline__items">
+                                      @if(count($noi_dung_thong_bao) > 0)
+                                      @foreach($noi_dung_thong_bao as $value)
                                         <div class="m-list-timeline__item">
                                             <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                            <span class="m-list-timeline__text"><a href="" class="text-decoration-none">Cả trường tổng vệ sinh</a></span>
-                                            <span class="m-list-timeline__time">Just now</span>
+                                        <span class="m-list-timeline__text"><a href="{{route('thong-bao.show', ['id' => $value->id])}}" class="text-decoration-none">{{$value->title}}</a>
+                                          @if($value->type == 1) 
+                                          <span class="m-badge m-badge--info m-badge--wide">nhà trường</span>
+                                          @elseif($value->type == 2)
+                                          <span class="m-badge m-badge--success m-badge--wide">giáo viên</span>
+                                          @else
+                                          <span class="m-badge m-badge--danger m-badge--wide">phụ huynh</span>
+                                          @endif
+                                        </span>
+                                        <span class="m-list-timeline__time">{{$value->created_at}}</span>
                                         </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
-                                            <span class="m-list-timeline__text">System shutdown <span class="m-badge m-badge--success m-badge--wide">pending</span></span>
-                                            <span class="m-list-timeline__time">14 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--danger"></span>
-                                            <span class="m-list-timeline__text">New invoice received</span>
-                                            <span class="m-list-timeline__time">20 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--accent"></span>
-                                            <span class="m-list-timeline__text">DB overloaded 80% <span class="m-badge m-badge--info m-badge--wide">settled</span></span>
-                                            <span class="m-list-timeline__time">1 hr</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--warning"></span>
-                                            <span class="m-list-timeline__text">System error - <a href="#" class="m-link">Check</a></span>
-                                            <span class="m-list-timeline__time">2 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--brand"></span>
-                                            <span class="m-list-timeline__text">Production server down</span>
-                                            <span class="m-list-timeline__time">3 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
-                                            <span class="m-list-timeline__text">Production server up</span>
-                                            <span class="m-list-timeline__time">5 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                            <span href="" class="m-list-timeline__text">New order received <span class="m-badge m-badge--danger m-badge--wide">urgent</span></span>
-                                            <span class="m-list-timeline__time">7 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                            <span class="m-list-timeline__text">12 new users registered</span>
-                                            <span class="m-list-timeline__time">Just now</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
-                                            <span class="m-list-timeline__text">System shutdown <span class="m-badge m-badge--success m-badge--wide">pending</span></span>
-                                            <span class="m-list-timeline__time">14 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--danger"></span>
-                                            <span class="m-list-timeline__text">New invoice received</span>
-                                            <span class="m-list-timeline__time">20 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--accent"></span>
-                                            <span class="m-list-timeline__text">DB overloaded 80% <span class="m-badge m-badge--info m-badge--wide">settled</span></span>
-                                            <span class="m-list-timeline__time">1 hr</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--danger"></span>
-                                            <span class="m-list-timeline__text">New invoice received</span>
-                                            <span class="m-list-timeline__time">20 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--accent"></span>
-                                            <span class="m-list-timeline__text">DB overloaded 80% <span class="m-badge m-badge--info m-badge--wide">settled</span></span>
-                                            <span class="m-list-timeline__time">1 hr</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--warning"></span>
-                                            <span class="m-list-timeline__text">System error - <a href="#" class="m-link">Check</a></span>
-                                            <span class="m-list-timeline__time">2 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--brand"></span>
-                                            <span class="m-list-timeline__text">Production server down</span>
-                                            <span class="m-list-timeline__time">3 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
-                                            <span class="m-list-timeline__text">Production server up</span>
-                                            <span class="m-list-timeline__time">5 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                            <span href="" class="m-list-timeline__text">New order received <span class="m-badge m-badge--danger m-badge--wide">urgent</span></span>
-                                            <span class="m-list-timeline__time">7 hrs</span>
-                                        </div>
+                                      @endforeach
+                                      @endif
                                     </div>
                                 </div>
                             <div class="ps__rail-x" style="left: 0px; bottom: -243px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 243px; height: 400px; right: 4px;"><div class="ps__thumb-y" tabindex="0" style="top: 152px; height: 248px;"></div></div></div>
