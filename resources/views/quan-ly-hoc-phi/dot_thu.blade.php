@@ -268,11 +268,228 @@
                                                                 <div class="m-checkbox-list">
                                                                     @foreach ($chi_tiet_dot->KhoanThu as
                                                                     $khoan_thu_chi_tiet)
-                                                                    <div class="mb-3">
+                                                                    <div style="cursor: pointer" class="mb-3" data-toggle="modal" data-target="#sua_khoan_thu{{$khoan_thu_chi_tiet->id}}">
+                                                                        
                                                                         <i style="color: #3dd945 " class="fa fa-check mr-4"></i>
                                                                         {{$khoan_thu_chi_tiet->ten_khoan_thu}}
                                                                         <span></span>
                                                                     </div>
+
+                                                                    <div class="modal fade" id="sua_khoan_thu{{$khoan_thu_chi_tiet->id}}" role="dialog">
+                                                                        <div class="modal-dialog modal-lg">
+                                    
+                                                                            <!-- Modal content-->
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="exampleModalLabel">Khoản thu</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                        <span aria-hidden="true">×</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <form class="m-form m-form--fit m-form--label-align-right "
+                                                                                        id="form-sua-khoan-thu{{$khoan_thu_chi_tiet->id}}">
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-9">
+                                                                                                <input type="hidden" value="{{$khoan_thu_chi_tiet->id}}"
+                                                                                                    name="id_sua_khoan_thu">
+                                                                                                <div class="m-portlet__body">
+                                                                                                    <div class="form-group m-form__group">
+                                                                                                        <label for="exampleInputEmail1">Tên khoản thu
+                                                                                                            <span>*</span></label>
+                                                                                                        <input type="text" @if ($khoan_thu_chi_tiet->mac_dinh >= 1)
+                                                                                                        disabled
+                                                                                                        @else
+                                                                                                        name="ten_khoan_thu"
+                                                                                                        @endif
+                                    
+                                                                                                        value="{{$khoan_thu_chi_tiet->ten_khoan_thu}}"
+                                                                                                        class="form-control m-input m-input--square"
+                                                                                                        aria-describedby="emailHelp"
+                                                                                                        placeholder="Tên khoản thu">
+                                                                                                    </div>
+                                                                                                    <div class="form-group m-form__group">
+                                                                                                        <div class="row">
+                                                                                                            <div class="col-md-8">
+                                                                                                                <label for="exampleInputPassword1">Mức thu
+                                                                                                                    (VNĐ) <span>*</span></label>
+                                                                                                                <input type="number" name="muc_thu"
+                                                                                                                    class="form-control m-input m-input--square"
+                                                                                                                    value="{{$khoan_thu_chi_tiet->muc_thu}}"
+                                                                                                                    placeholder="Mức thu">
+                                                                                                            </div>
+                                                                                                            <div class="col-md-4">
+                                                                                                                <label for="exampleInputPassword1">Đơn vị
+                                                                                                                    tính <span>*</span></label>
+                                                                                                                <select style="width: 100%" 
+                                                                                                                @if($khoan_thu_chi_tiet->mac_dinh >= 1)
+                                                                                                                    disabled
+                                                                                                                    @else
+                                                                                                                    name="don_vi_tinh"
+                                                                                                                    @endif
+                                    
+                                                                                                                    class="form-control m-input" id="">
+                                                                                                                    @foreach (config('common.don_vi_tinh')
+                                                                                                                    as $key => $don_vi)
+                                                                                                                    <option
+                                                                                                                        {{$key == $khoan_thu_chi_tiet->don_vi_tinh ?'selected':''}}
+                                                                                                                        value="{{$key}}">{{$don_vi}}
+                                                                                                                    </option>
+                                                                                                                    @endforeach
+                                                                                                                </select>
+                                                                                                            </div>
+                                                                                                        </div>
+                                    
+                                    
+                                                                                                    </div>
+                                    
+                                                                                                    <div class="m-form__group form-group">
+                                                                                                        <label for="" class="mb-4">Phạm vi thu</label>
+                                                                                                        <div class="m-radio-inline">
+                                                                                                            <label class="m-radio m-radio--state-success">
+                                                                                                                <input type="radio" @if ($khoan_thu_chi_tiet->pham_vi_thu
+                                                                                                                == 0)
+                                                                                                                checked
+                                                                                                                @endif
+                                                                                                                name="pham_vi_thu" value="0"> Toàn trường
+                                                                                                                <span></span>
+                                                                                                                @if ($khoan_thu_chi_tiet->mac_dinh ==2 ||$khoan_thu_chi_tiet->mac_dinh ==4 || $khoan_thu_chi_tiet->mac_dinh ==0 )
+                                                                                                            <label class="m-radio m-radio--state-success">
+                                                                                                                <input type="radio" @if ($khoan_thu_chi_tiet->pham_vi_thu
+                                                                                                                == 1)
+                                                                                                                checked
+                                                                                                                @endif
+                                                                                                                name="pham_vi_thu" value="1"> Khối
+                                                                                                                <span></span>
+                                                                                                            </label>
+                                                                                                            @endif
+                                                                                                            @if ($khoan_thu_chi_tiet->mac_dinh < 1)
+                                                                                                            <label class="m-radio m-radio--state-success">
+                                                                                                                <input type="radio" @if ($khoan_thu_chi_tiet->pham_vi_thu
+                                                                                                                == 2)
+                                                                                                                checked
+                                                                                                                @endif
+                                                                                                                name="pham_vi_thu" value="2"> Lớp
+                                                                                                                <span></span>
+                                                                                                            </label>
+                                                                                                            @endif
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group m-form__group box_chon_khoi" 
+                                                                                                    @if($khoan_thu_chi_tiet->pham_vi_thu == 1)
+                                                                                                        style="display: block"
+                                                                                                        @else
+                                                                                                        style="display: none"
+                                                                                                        @endif
+                                                                                                        >
+                                                                                                        <label for="exampleSelect1">Chọn Khối
+                                                                                                            <span>*</span></label>
+                                                                                                        <select style="width: 100%" multiple="multiple"
+                                                                                                            name="id_khoi_thu[]"
+                                                                                                            class="form-control m-input m-select2 chon_khoi">
+                                                                                                            @foreach ($nam_hoc_moi->Khoi as $value_khoi)
+                                                                                                            <option @if ($khoan_thu_chi_tiet->pham_vi_thu == 1)
+                                                                                                                @foreach ($khoan_thu_chi_tiet->PhamViThu as $pham_vi_thu)
+                                                                                                                @if ($pham_vi_thu->id_khoi_lop_thu ==
+                                                                                                                $value_khoi->id)
+                                                                                                                selected
+                                                                                                                @endif
+                                                                                                                @endforeach
+                                                                                                                @endif
+                                                                                                                value="{{$value_khoi->id}}">{{$value_khoi->ten_khoi}}
+                                                                                                            </option>
+                                                                                                            @endforeach
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                    <div class="form-group m-form__group box_chon_lop"
+                                                                                                     @if($khoan_thu_chi_tiet->pham_vi_thu == 2)
+                                                                                                        style="display: block"
+                                                                                                        @else
+                                                                                                        style="display: none"
+                                                                                                        @endif
+                                                                                                        id="">
+                                                                                                        <label for="exampleSelect1">Chọn Lớp
+                                                                                                            <span>*</span></label>
+                                                                                                        <select style="width: 100%" multiple="multiple"
+                                                                                                            name="id_lop_thu[]"
+                                                                                                            class="form-control m-input m-select2 chon_lop"
+                                                                                                            id="">
+                                                                                                            @foreach ($nam_hoc_moi->Khoi as $value_khoi)
+                                                                                                            <optgroup label="{{$value_khoi->ten_khoi}}">
+                                                                                                                @foreach ($value_khoi->LopHoc as $lop_hoc)
+                                                                                                                <option @if ($khoan_thu_chi_tiet->pham_vi_thu == 2)
+                                                                                                                    @foreach ($khoan_thu_chi_tiet->PhamViThu as
+                                                                                                                    $pham_vi_thu)
+                                                                                                                    @if ($pham_vi_thu->id_khoi_lop_thu ==
+                                                                                                                    $lop_hoc->id)
+                                                                                                                    selected
+                                                                                                                    @endif
+                                                                                                                    @endforeach
+                                                                                                                    @endif
+                                                                                                                    value="{{$lop_hoc->id}}">{{$lop_hoc->ten_lop}}
+                                                                                                                </option>
+                                                                                                                @endforeach
+                                                                                                            </optgroup>
+                                                                                                            @endforeach
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-md-3">
+                                                                                                <div class="m-form__group form-group">
+                                                                                                    <div class="m-checkbox-list">
+                                                                                                        
+                                                                                                   
+                                    
+                                                                                                        <label class="m-checkbox m-checkbox--state-success">
+                                                                                                            <input @if ($khoan_thu_chi_tiet->theo_doi == 1)
+                                                                                                            checked
+                                                                                                            @endif
+                                                                                                            type="checkbox" value="1" name="theo_doi"> Theo
+                                                                                                            dõi
+                                                                                                            <span></span>
+                                                                                                        </label>
+                                                                                                        @if ($khoan_thu_chi_tiet->mac_dinh !=2)
+                                                                                                        
+                                                                                                        <label class="m-checkbox m-checkbox--state-success">
+                                                                                                            <input type="checkbox" @if ($khoan_thu_chi_tiet->mien_giam >
+                                                                                                            0)
+                                                                                                            checked
+                                                                                                            @endif
+                                                                                                            value="1"  > Áp dụng miễn giảm
+                                                                                                            <span></span>
+                                                                                                        </label>
+                                                                                                     
+                                                                                                     <div class="mien_giam input-group"
+                                                                                                     @if ($khoan_thu_chi_tiet->mien_giam <= 0)
+                                                                                                     style="display: none"
+                                                                                                     @endif
+                                                                                                     >
+                                                                                                    <input value="{{$khoan_thu_chi_tiet->mien_giam}}" type="number" name="mien_giam" class="form-control">
+                                                                                                        <div class="input-group-append">
+                                                                                                          <span class="input-group-text">%</span>
+                                                                                                        </div>
+                                                                                                      </div>
+                                                                                                      @endif
+                                                                                                        
+                                                                                                     
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary"
+                                                                                        data-dismiss="modal">Đóng</button>
+                                                                            
+                                                                                </div>
+                                                                            </div>
+                                    
+                                                                        </div>
+                                                                    </div>
+
                                                                     @endforeach
                                                                 </div>
                                                                 @endforeach
@@ -502,7 +719,8 @@
     
     
     $(document).ready( function () {
-   
+        $('.chon_khoi').select2()
+        $('.chon_lop').select2()      
         $("body").addClass('m-aside-left--minimize m-brand--minimize')
     });
     const checkAll = (e) => {

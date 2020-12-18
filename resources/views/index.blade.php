@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Hệ thống PolyKids")
+@section('title', "Hệ thống CoolKids")
   @section('content')
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <div class="m-content">
@@ -66,96 +66,23 @@
                             <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="400" style="height: 400px; overflow: hidden;">
                                 <div class="m-list-timeline m-list-timeline--skin-light">
                                     <div class="m-list-timeline__items">
+                                      @if(count($noi_dung_thong_bao) > 0)
+                                      @foreach($noi_dung_thong_bao as $value)
                                         <div class="m-list-timeline__item">
                                             <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                            <span class="m-list-timeline__text"><a href="" class="text-decoration-none">Cả trường tổng vệ sinh</a></span>
-                                            <span class="m-list-timeline__time">Just now</span>
+                                        <span class="m-list-timeline__text"><a href="{{route('thong-bao.show', ['id' => $value->id])}}" class="text-decoration-none">{{$value->title}}</a>
+                                          @if($value->type == 1) 
+                                          <span class="m-badge m-badge--info m-badge--wide">nhà trường</span>
+                                          @elseif($value->type == 2)
+                                          <span class="m-badge m-badge--success m-badge--wide">giáo viên</span>
+                                          @else
+                                          <span class="m-badge m-badge--danger m-badge--wide">phụ huynh</span>
+                                          @endif
+                                        </span>
+                                        <span class="m-list-timeline__time">{{$value->created_at}}</span>
                                         </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
-                                            <span class="m-list-timeline__text">System shutdown <span class="m-badge m-badge--success m-badge--wide">pending</span></span>
-                                            <span class="m-list-timeline__time">14 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--danger"></span>
-                                            <span class="m-list-timeline__text">New invoice received</span>
-                                            <span class="m-list-timeline__time">20 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--accent"></span>
-                                            <span class="m-list-timeline__text">DB overloaded 80% <span class="m-badge m-badge--info m-badge--wide">settled</span></span>
-                                            <span class="m-list-timeline__time">1 hr</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--warning"></span>
-                                            <span class="m-list-timeline__text">System error - <a href="#" class="m-link">Check</a></span>
-                                            <span class="m-list-timeline__time">2 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--brand"></span>
-                                            <span class="m-list-timeline__text">Production server down</span>
-                                            <span class="m-list-timeline__time">3 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
-                                            <span class="m-list-timeline__text">Production server up</span>
-                                            <span class="m-list-timeline__time">5 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                            <span href="" class="m-list-timeline__text">New order received <span class="m-badge m-badge--danger m-badge--wide">urgent</span></span>
-                                            <span class="m-list-timeline__time">7 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                            <span class="m-list-timeline__text">12 new users registered</span>
-                                            <span class="m-list-timeline__time">Just now</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
-                                            <span class="m-list-timeline__text">System shutdown <span class="m-badge m-badge--success m-badge--wide">pending</span></span>
-                                            <span class="m-list-timeline__time">14 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--danger"></span>
-                                            <span class="m-list-timeline__text">New invoice received</span>
-                                            <span class="m-list-timeline__time">20 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--accent"></span>
-                                            <span class="m-list-timeline__text">DB overloaded 80% <span class="m-badge m-badge--info m-badge--wide">settled</span></span>
-                                            <span class="m-list-timeline__time">1 hr</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--danger"></span>
-                                            <span class="m-list-timeline__text">New invoice received</span>
-                                            <span class="m-list-timeline__time">20 mins</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--accent"></span>
-                                            <span class="m-list-timeline__text">DB overloaded 80% <span class="m-badge m-badge--info m-badge--wide">settled</span></span>
-                                            <span class="m-list-timeline__time">1 hr</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--warning"></span>
-                                            <span class="m-list-timeline__text">System error - <a href="#" class="m-link">Check</a></span>
-                                            <span class="m-list-timeline__time">2 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--brand"></span>
-                                            <span class="m-list-timeline__text">Production server down</span>
-                                            <span class="m-list-timeline__time">3 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--info"></span>
-                                            <span class="m-list-timeline__text">Production server up</span>
-                                            <span class="m-list-timeline__time">5 hrs</span>
-                                        </div>
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                            <span href="" class="m-list-timeline__text">New order received <span class="m-badge m-badge--danger m-badge--wide">urgent</span></span>
-                                            <span class="m-list-timeline__time">7 hrs</span>
-                                        </div>
+                                      @endforeach
+                                      @endif
                                     </div>
                                 </div>
                             <div class="ps__rail-x" style="left: 0px; bottom: -243px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 243px; height: 400px; right: 4px;"><div class="ps__thumb-y" tabindex="0" style="top: 152px; height: 248px;"></div></div></div>
@@ -185,16 +112,16 @@
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
+                            
+                            <h4 class="m-portlet__head-text">
                             <div class="m-widget4__img m-widget4__img--logo">
                             </div>
                             <h3 class="m-portlet__head-text font-italic">
                                 {{$item->ten_khoi}} ({{config('common.do_tuoi')[$item->do_tuoi]}})
-                            </h3>
+                            </h4>
                         </div>
                     </div>
-                    <div class="m-portlet__head-tools">
-                        <i class="fa fa-arrow-alt-circle-right"></i>
-                    </div>
+                    
                 </div>
                 <div class="m-portlet__body">
 
@@ -212,7 +139,7 @@
                                 <br>
                             </div>
                             <span class="m-widget4__ext">
-                                <span class="m-widget4__number m--font-danger">{{$lop_hoc->tong_so_hoc_sinh}}</span>
+                                <span class="m-widget4__number m--font-danger">{{$lop_hoc->tong_so_hoc_sinh}} </span>
                             </span>
                         </div>
                         @endforeach
@@ -233,7 +160,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Học phí toàn trường
+                                Học phí cho đợt mới nhất
                             </h3>
                         </div>
                     </div>
@@ -242,7 +169,14 @@
                     </div>
                 </div>
                 <div class="m-portlet__body">
-
+                  <div class="m-demo-icon">
+                    <div class="m-demo-icon__preview">
+                      <i class="la la-money"></i>
+                    </div>
+                    <div class="m-demo-icon__class">
+                      Tổng tiền: <b>{{number_format($so_tien_phai_dong)}}</b>
+                    </div>
+                  </div>
                     <!--begin::Widget5-->
                 <canvas id="HocPhiToanTruong" width="400" height="400"></canvas>
                     
@@ -584,62 +518,35 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: [
-            @forEach($array_thang as $item)
+            @forEach($array_nam as $item)
             "{{$item}}",
             @endforeach
         ],
         datasets: [{
-            label: 'Nữ',
+            label: 'Học sinh nhập học',
             data: [
-                @forEach($array_nu as $key => $item)
-                    @if($key > 0)
+                @forEach($array_hoc_sinh as $key => $item)
+                   
                     {{$item}},
-                    @endif
+                   
                 @endforeach
             ],
             backgroundColor: [
-                @forEach($array_nu as  $key => $item)
-                @if($key > 0)
+                @forEach($array_hoc_sinh as  $key => $item)
+               
                 'rgba(255, 99, 132, 0.2)',
-                @endif
+              
                 @endforeach
                 
                 
             ],
             borderColor: [
-                @forEach($array_nu as  $key => $item)
-                @if($key > 0)
-                'rgba(255, 99, 132, 1)',
-                @endif
-                @endforeach
+              @forEach($array_hoc_sinh as  $key => $item)
+               
+               'rgba(255, 99, 132, 1)',
+             
+               @endforeach
                 
-                
-            ],
-            borderWidth: 1
-        },
-        {
-            label: 'Nam',
-            data: [
-                @forEach($array_nam as $key => $item)
-                @if($key > 0)
-                {{$item}},
-                @endif
-                @endforeach
-            ],
-            backgroundColor: [
-                @forEach($array_nam as $key => $item)
-                @if($key > 0)
-                'rgba(75, 192, 192, 0.2)',
-                @endif
-                @endforeach
-                
-            ],
-            borderColor: [
-                @forEach($array_nam as $key => $item)
-                @if($key > 0)
-                'rgba(75, 192, 192, 1)',
-                @endif
-                @endforeach
                 
             ],
             borderWidth: 1
@@ -661,20 +568,16 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
  <script>
 var ctx = document.getElementById('HocPhiToanTruong');
 var HocPhiToanTruong = new Chart(ctx, {
-    type: 'pie',
+    type: 'doughnut',
     data: {
-        labels: ['Red', 'Blue'],
+        labels: ['Tổng tiền còn phải đóng', 'Tổng tiền đã đóng '],
         datasets: [{
             label: '# of Votes',
-            data: [12, 19],
-            backgroundColor: [
-                'rgba(255, 99, 132)',
-                'rgba(54, 162, 235)'
-                
-            ],
+            data: [{{$so_tien_con_phai_dong}}, {{$so_tien_da_dong}}],
+            backgroundColor: ['rgba(255, 99, 132)','rgba(46, 234, 138)'],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)'
+                'rgba(46, 234, 138, 1)'
             
             ],
             borderWidth: 1
