@@ -303,7 +303,9 @@ class AccountController extends Controller
 
     public function editTkHocSinh($id)
     {
-        $data = User::find($id);
+        $data = User::where('id', $id)
+                    ->where('active', '!=', 0)
+                    ->first();
         if(!$data){
             return redirect()->route('account.ds-hs');
         }
