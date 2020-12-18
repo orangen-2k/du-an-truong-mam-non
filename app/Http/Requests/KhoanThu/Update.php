@@ -34,12 +34,19 @@ class Update extends FormRequest
                     $dataCheck['id_lop_thu']='required';
                 }
             }
-            $dataCheck[$key]='required';    
+            $dataCheck[$key]='required';  
+            if ($key == 'ten_khoan_thu') {
+                $dataCheck['ten_khoan_thu']='required|string|between:5,60';
+            }
+
+            if ($key == 'don_vi_tinh') {
+                $dataCheck['don_vi_tinh']='required|integer|between:0,3';
+            }     
         }
         $dataCheck['mien_giam']='required|integer|between:0,100';
         $dataCheck['muc_thu']='required|integer|min:0';
-        $dataCheck['ten_khoan_thu']='required|string|between:5,60';   
-        $dataCheck['don_vi_tinh']='required|integer|between:0,3';
+          
+        
         return $dataCheck;
     }
 
