@@ -77,6 +77,7 @@
                                         </div>
                                     </div>
                                     <div class="m-demo">
+                                        <div class="m-scrollable" data-scrollable="true" style="height: 400px">
                                         <div class="m-demo__preview">
                                             <div class="m-list-search">
                                                 <div class="m-list-search__results">
@@ -111,6 +112,7 @@
 
                                                 </div>
                                             </div>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>

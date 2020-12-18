@@ -9,7 +9,7 @@ use App\Repositories\NotificationRepository;
 use App\Repositories\GiaoVienRepository;
 use App\Repositories\NoiDungThongBaoRepository;
 use App\Repositories\ThongBaoRepository;
-
+use Carbon\CarbonImmutable;
 
 
 use Illuminate\Support\Facades\DB;
@@ -63,11 +63,14 @@ class QuanLyGiaoTrinhController extends Controller
         $end_start = Carbon::createFromFormat('Y-m-d', $nam_hoc_moi->end_date);
         $so_luong_tuan = $date_start->diffInWeeks($end_start);
         $date = Carbon::now(); // or $date = new Carbon()
-        if(isset($params['tuan'])){
+        $startOfCurrentWeek = Carbon::now()->startOfWeek(); 
+
+        $startOfLastWeek  = $startOfCurrentWeek->copy()->subDays(7);
+        // dd($startOfLastWeek);
+        if(isset($params['tuan'],$date->weekOfYear)){
             $tuan_chon = $params['tuan'];
         }else{
-            $tuan_chon = $date->weekOfYear -$date_start->weekOfYear ;
-
+            $tuan_chon = $date->weekOfYear -$date_start->weekOfYear +1;
         }
         $tuan_hien_tai = $date->weekOfYear -$date_start->weekOfYear +1;
         foreach ($khoi as $key => $value) {

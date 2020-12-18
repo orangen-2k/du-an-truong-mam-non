@@ -72,12 +72,15 @@
                                 <div class="m-portlet m-portlet--full-height ">
                                     <div class="m-portlet__head justify-content-center">
                                         <div class="m-portlet__head-caption">
+                                            @if ($kiem_tra_nam_hoc_moi)
                                             <div class="m-portlet__head-title title_lap_dot_thu" data-toggle="modal"
-                                                data-target="#modal_tao_dot_thu">
-                                                <h3 class="m-portlet__head-text">
-                                                    Lập đợt thu
-                                                </h3>
-                                            </div>
+                                            data-target="#modal_tao_dot_thu">
+                                            <h3 class="m-portlet__head-text">
+                                                Lập đợt thu
+                                            </h3>
+                                        </div>
+                                            @endif
+                                            
                                         </div>
                                     </div>
                                     <div class="m-portlet__body">
@@ -131,7 +134,7 @@
                                         <div class="m-portlet__head-caption">
                                             <div class="m-portlet__head-title ">
                                                 <div class="m-portlet__head-text">
-                                                    <a href="" type="button" id="xem-chi-tiet"
+                                                    <a href="" target="_blank" type="button" id="xem-chi-tiet"
                                                         class="btn btn-success ">Xem chi tiết</a>
 
                                                     {{-- <button type="button" class="btn btn-light"><i
@@ -263,16 +266,64 @@
                                                             <div class="m-form__group form-group">
                                                                 @if ($data_dot_thu!=null)
                                                                 @foreach ($data_dot_thu->ChiTietDotThuTien as $chi_tiet_dot)
-                                                                <label class="pt-3 pb-2">Khoản thu
-                                                                    {{$chi_tiet_dot->ten_dot_thu}}</label>
+                                                                <label data-toggle="modal" data-target="#chi_tiet_dot{{$chi_tiet_dot->id}}" class="pt-3 pb-2 ">Khoản thu
+                                                                    {{$chi_tiet_dot->ten_dot_thu}}<i style="cursor: pointer" class="flaticon-search ml-3"></i>  
+                                                                    <div class="modal fade" id="chi_tiet_dot{{$chi_tiet_dot->id}}" role="dialog">
+                                                                        <div class="modal-dialog modal-lg">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="exampleModalLabel">Khoản thu {{$chi_tiet_dot->ten_dot_thu}}</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                        <span aria-hidden="true">×</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <table class="table">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th>Khối lớp</th>
+                                                                                                <th>Số thu</th>
+                                                                                                <th>Số đã thu</th>
+                                                                                                <th>Số còn phải thu</th>
+                                                                                                <th>Thông báo</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            @foreach ($chi_tiet_dot->tien_theo_tung_dot as $tien_theo_dot)
+                    
+                                                                                                <tr>
+                                                                                                    <th scope="row">{{$tien_theo_dot['ten_khoi']}}</th>
+                                                                                                    <td>{{number_format($tien_theo_dot['tong_tien_phai_dong'])}}</td>
+                                                                                                    <td>{{number_format($tien_theo_dot['so_da_thu'])}}</td>
+                                                                                                    <td>{{number_format($tien_theo_dot['con_phai_thu'])}}</td>
+                                                                                                    <td>{{number_format($tien_theo_dot['so_luong_da_thong_bao'])}}/{{$tien_theo_dot['so_luong_chua_thong_bao']}}</td>
+                                                                                          
+                                                                                                </tr>
+                                                                                            
+                                                                                            @endforeach
+                                                                                           
+                                                                                
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-primary">Đóng</button>
+                                                                                </div>
+                                                                            </div>
+                                                                   
+                                                                          
+                                                                        </div>
+                                                                      </div>
+                                                                </label>
                                                                 <div class="m-checkbox-list">
                                                                     @foreach ($chi_tiet_dot->KhoanThu as
                                                                     $khoan_thu_chi_tiet)
                                                                     <div style="cursor: pointer" class="mb-3" data-toggle="modal" data-target="#sua_khoan_thu{{$khoan_thu_chi_tiet->id}}">
                                                                         
-                                                                        <i style="color: #3dd945 " class="fa fa-check mr-4"></i>
-                                                                        {{$khoan_thu_chi_tiet->ten_khoan_thu}}
+                                                                        <i style="cursor: pointer; color: rgb(11, 245, 69)" class="flaticon-questions-circular-button mr-3"></i>
+                                                                        {{$khoan_thu_chi_tiet->ten_khoan_thu}} 
                                                                         <span></span>
+                                                                        
                                                                     </div>
 
                                                                     <div class="modal fade" id="sua_khoan_thu{{$khoan_thu_chi_tiet->id}}" role="dialog">
@@ -833,7 +884,12 @@
                     )
             })
             .catch(function (error) {
-                console.log(error);
+                $('#preload').css('display', 'none');
+
+                Swal.fire({
+                    icon: 'error',
+                    text: `Thời gian không hợp lệ`,
+                }) 
             })
             .then(function () {
                 // always executed
@@ -866,7 +922,10 @@
                         )
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    Swal.fire({
+                    icon: 'error',
+                    text: `Đã có học sinh đóng tiền trong đợt không thể xóa !`,
+                }) 
                 })
                 .then(function () {
                     // always executed

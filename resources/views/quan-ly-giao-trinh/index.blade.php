@@ -33,7 +33,7 @@
                             @for ($i = 1; $i <= $so_luong_tuan; $i++) 
                             @if ($id_nam_hien_tai == $id_nam_hoc)
                             <option 
-                            @if ($i==$tuan_chon) selected @endif
+                            @if ($i==$tuan_hien_tai) selected @endif
                             value="{{$i}}">Tuần {{$i}}
                             @if ($i==$tuan_hien_tai)
                             @break

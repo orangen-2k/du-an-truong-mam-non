@@ -80,7 +80,9 @@
             <h2 style="text-align: center">Hóa Đơn Đóng Tiền
                 <br />
                 -------oOo-------
+               
             </h2>
+            <p style="text-align: center"> ({{$thong_tin_dot_thu->ten_dot_thu}}-{{$thong_tin_dot_thu->ThangThuTien->thang_thu}}/{{$thong_tin_dot_thu->ThangThuTien->nam_thu}})</p>
             <p style="text-align: right"> Ngày........Tháng........năm........</p>
         </div>
 

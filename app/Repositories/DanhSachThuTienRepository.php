@@ -179,4 +179,9 @@ class DanhSachThuTienRepository extends BaseModelRepository
         $query = $this->model->where('id_chi_tiet_dot_thu', $dot_id)->get();
         return $query;
     }
+
+    public function soLuongHocSinhDongTienTrongDot($dot_id)
+    {
+        return $this->model->where('id_chi_tiet_dot_thu', $dot_id)->where('trang_thai',1)->count();
+    }
 }
