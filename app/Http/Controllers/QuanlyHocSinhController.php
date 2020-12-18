@@ -157,7 +157,6 @@ class QuanlyHocSinhController extends Controller
     {
         $thanhpho = $this->TinhThanhPhoRepository->getAllThanhPho();
         $data = $this->HocSinhRepository->getOneHocSinh($id);
-        dd($data);
         $khoi = $this->KhoiRepository->getAllKhoi();
         $lop_hoc = $this->LopHocRepository->getAll();
         $data->khoi_hs_id = 0;
