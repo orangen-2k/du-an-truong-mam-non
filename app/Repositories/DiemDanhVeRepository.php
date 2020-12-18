@@ -35,4 +35,26 @@ class DiemDanhVeRepository extends BaseModelRepository {
         ->count();
         return $data;
     }
+
+    public function thongKeSoLieu($params)
+    {
+        $data = $this->model->where('hoc_sinh_id', $params['hoc_sinh_id'])
+                            ->whereYear('ngay_diem_danh_ve', '=', $params['year'])
+                            ->whereMonth('ngay_diem_danh_ve', '=', $params['month'])
+                            ->select('hoc_sinh_id', 'trang_thai')
+                            ->get();
+        $trang_thai_1 = $trang_thai_2 = $trang_thai_3 = $trang_thai_4 = 0; 
+        foreach($data as $value){
+            $trang_thai_1 += $value->trang_thai == 1 ? : 0; 
+            $trang_thai_2 += $value->trang_thai == 2 ? : 0; 
+            $trang_thai_3 += $value->trang_thai == 3 ? : 0; 
+            $trang_thai_4 += $value->trang_thai == 4 ? : 0; 
+        }
+        return [
+            'trang_thai_1' => $trang_thai_1,
+            'trang_thai_2' => $trang_thai_2,
+            'trang_thai_3' => $trang_thai_3,
+            'trang_thai_4' => $trang_thai_4,
+        ];
+    }
 }

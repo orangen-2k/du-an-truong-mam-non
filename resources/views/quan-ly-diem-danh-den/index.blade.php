@@ -244,14 +244,13 @@
 
 
             <div class="table-responsive">
-                <table class="table table-bordered m-table m-table--border-success ">
+                <table class="table table-bordered m-table m-table--border-success " style="cursor: pointer">
                     <thead>
                         <tr>
                             <th scope="col 1" rowspan="2">STT</th>
                             <th scope="col 1" rowspan="2">Mã học sinh</th>
                             <th scope="col 1" rowspan="2">Họ và tên</th>
                             <th scope="col 1" colspan="31" class="text-center">Ngày</th>
-                            <th scope="col 1" rowspan="2" style="text-align: center">Thao tác</th>
                         </tr>
                         <tr class="pt-3 row2">
                             @for($i = 1; $i < 32; $i++)
@@ -277,7 +276,7 @@
                             </div>
                             <div class="modal-body">
                                 <div class="form-group" id="content-modal">
-                                    Đang lấy dữ liệu
+                                    <i>Đang lấy dữ liệu</i>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary btn-sm"
@@ -402,9 +401,7 @@
                 `
                 + data_ngay_hs +
                     
-                    `<td> 
-                        <button type="button" onclick="ThongKeDiemDanh(${id}, ${time}, ${element.id})" class="btn m-btn--square  btn-outline-success btn-sm" >Thống kê</button>
-                    </td>
+                    `
                     </tr>
                     `
                 
