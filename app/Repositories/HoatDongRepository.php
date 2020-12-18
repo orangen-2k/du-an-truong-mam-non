@@ -37,4 +37,12 @@ class HoatDongRepository extends BaseModelRepository
         return $this->model->where('lop_id',$id_lop)->where('tuan',$tuan)->where('id_nam_hoc',$id_nam_hoc)->first();
     }
 
+    public function getTuanMoiNhatHT($nam_id)
+    {
+        return $this->model->where('id_nam_hoc', $nam_id)->max('tuan');
+    }
+
+    public function getDanhHoatDong($nam_id, $tuan){
+        return $this->model->where('id_nam_hoc', $nam_id)->where('tuan', $tuan)->get();
+    }
 }
