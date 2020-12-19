@@ -111,19 +111,21 @@ class HomeController extends Controller
        
         //Giáo trình giáo viên
         $nam_hoc_moi = $this->NamHocRepository->find($id);
-        // $date = $nam_hoc_moi->start_date;
         $date_start = Carbon::createFromFormat('Y-m-d', $nam_hoc_moi->start_date);
-        $end_start = Carbon::createFromFormat('Y-m-d', $nam_hoc_moi->end_date);
-        $date = Carbon::now(); // or $date = new Carbon()
-        if(isset($params['tuan'])){
-            $tuan_chon = $params['tuan'];
+        $tong_tuan_cua_nam_hoc =($date_start->weeksInYear());
+        $date = Carbon::now();
+        $year_start_nam_hoc = $date_start->year;
+        $numberNextWeek = $date->weekOfYear -$date_start->weekOfYear ;
+        if ($numberNextWeek+$date_start->weekOfYear >= $tong_tuan_cua_nam_hoc) {
+           $week =  $numberNextWeek+$date_start->weekOfYear - $tong_tuan_cua_nam_hoc -1;
         }else{
-            $tuan_chon = $date->weekOfYear -$date_start->weekOfYear ;
-
-        }
-        $tuan_moi_nhat = $date->weekOfYear -$date_start->weekOfYear +1;
-        
-        $danh_sach_hoat_dong = $this->HoatDongRepository->getDanhHoatDong($id, $tuan_moi_nhat);
+            $week = $numberNextWeek;
+        }   
+        $date->setISODate($date->year,$date->weekOfYear+1);
+        $start_day_week = $date->startOfWeek()->format('d-m-Y');
+        $end_day_week = $date->endOfWeek()->format('d-m-Y');
+        $tuan_moi_nhat = [$numberNextWeek+1,$start_day_week,$end_day_week];
+        $danh_sach_hoat_dong = $this->HoatDongRepository->getDanhHoatDong($id, $tuan_moi_nhat[0]);
         // dd($danh_sach_hoat_dong);
         $array_danh_sach = [];
         
@@ -165,7 +167,6 @@ class HomeController extends Controller
                 
             }
         }
-        
 
         return view('index', compact(
             'array_nam',
