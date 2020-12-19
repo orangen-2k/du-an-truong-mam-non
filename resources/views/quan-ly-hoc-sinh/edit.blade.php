@@ -763,54 +763,7 @@
                                                 
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="m-form__heading">
-                                                    <h3 class="m-form__heading-title" style="font-weight: bold">
-                                                        Thông tin liên lạc
-                                                        <i data-toggle="m-tooltip" data-width="auto"
-                                                            class="m-form__heading-help-icon flaticon-info" title=""
-                                                            data-original-title="Some help text goes here"></i>
-                                                    </h3>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="m-form__section m-form__section--first">
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label"><span
-                                                                class="text-danger"></span> Số điện thoại đăng ký </label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <input type="text"  name="dien_thoai_dang_ki" 
-                                                            class="form-control m-input"
-                                                            value="{{$data->dien_thoai_dang_ki}}" onkeypress="return isNumberKey(event)"
-                                                               placeholder="Điền số điện thoại đăng kí">
-
-                                                            @error('dien_thoai_dang_ki')
-                                                                <p class="text-danger text-small error">{{ $message }}</p>
-                                                            @enderror
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="m-form__section m-form__section--first">
-                                                    <div class="form-group m-form__group row">
-                                                        <label class="col-xl-3 col-lg-3 col-form-label">Email</label>
-                                                        <div class="col-xl-9 col-lg-9">
-                                                            <input type="text"  name="email_dang_ky" class="form-control m-input"
-                                                            value="{{$data->email_dang_ky}}"
-                                                                placeholder="Điền email" >
-                                                            @error('email_dang_ky')
-                                                                <p class="text-danger text-small error">{{ $message }}</p>
-                                                            @enderror
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
+                                        
                                     </div>
 
                                 <div class="m-portlet__foot m-portlet__foot--fit m--margin-top-40">
