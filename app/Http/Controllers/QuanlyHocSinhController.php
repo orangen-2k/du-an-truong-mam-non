@@ -474,8 +474,8 @@ class QuanlyHocSinhController extends Controller
         // dd($id_nam_hoc);
         $data_hs_chua_co_lop = [];
         foreach ($do_tuoi as $key => $value) {
-            $data_nu = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value, 1,$nam_hoc);
-            $data_nam = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($value, 0,$nam_hoc);
+            $data_nu = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($key, 1,$nam_hoc);
+            $data_nam = $this->HocSinhRepository->getHocSinhChuaCoLopTheoDoTuoi($key, 0,$nam_hoc);
             $data_do_tuoi = [
                 'do_tuoi' => $value,
                 'nam' => $data_nam,
