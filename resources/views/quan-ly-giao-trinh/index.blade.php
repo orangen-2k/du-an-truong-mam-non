@@ -30,10 +30,10 @@
                 <li class="m-nav__item m-nav__item--home">
                     <div style="margin-top: 1rem" class="form-group m-form__group">
                         <select onchange="changeTuanCuaNamHoc()" class="form-control m-input m-input--square" id="chon_tuan_cua_nam_hoc">
-                            @for ($i = 1; $i <= $so_luong_tuan; $i++) 
+                            {{-- @for ($i = 1; $i <= $so_luong_tuan; $i++) 
                             @if ($id_nam_hien_tai == $id_nam_hoc)
                             <option 
-                            @if ($i==$tuan_hien_tai) selected @endif
+                            @if ($i==$tuan_chon) selected @endif
                             value="{{$i}}">Tuần {{$i}}
                             @if ($i==$tuan_hien_tai)
                             @break
@@ -45,7 +45,24 @@
                                 </option>
                             @endif
                             
-                                @endfor
+                                @endfor --}}
+                                @foreach ($danh_sach_tuan as $item)
+                                {{-- <option  value="{{$item[0]}}">Tuần {{$item[0]}} ({{$item[1]}} đến {{$item[2]}})
+                                </option> --}}
+                                @if ($id_nam_hien_tai == $id_nam_hoc)
+                                <option 
+                                @if ($item[0]==$tuan_chon) selected @endif
+                                value="{{$item[0]}}">Tuần {{$item[0]}} ({{$item[1]}} đến {{$item[2]}})
+                                @if ($item[0]==$tuan_hien_tai)
+                                @break
+                                @endif
+                                </option>
+                                @else
+                                <option @if ($item[0]==$tuan_chon) selected @endif
+                                    value="{{$item[0]}}">Tuần {{$item[0]}} ({{$item[1]}} đến {{$item[2]}})
+                                    </option>
+                                @endif
+                                @endforeach
                         </select>
                     </div>
                 </li>
@@ -129,10 +146,13 @@
                                                 width="800" height="400" type="application/pdf">
                                         </div>
                                         <div class="modal-footer">
+                                            @if ($lop_hoc->giao_trinh->type!=3)
                                             <button type="button"
                                                 onclick="pheDuyetGiaoTrinh(1,{{$lop_hoc->giao_trinh->id}},{{$lop_hoc->giao_vien_chu_nhiem['id']}})"
                                                 class="btn btn-danger" data-dismiss="modal">Từ chối</button>
+                                             @endif
                                                 @if ($lop_hoc->giao_trinh->type==1)
+                                                
                                             <button type="button"
                                                 onclick="pheDuyetGiaoTrinh(2,{{$lop_hoc->giao_trinh->id}},{{$lop_hoc->giao_vien_chu_nhiem['id']}})"
                                                 class="btn btn-primary">Phê Duyệt</button>

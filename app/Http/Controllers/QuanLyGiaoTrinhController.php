@@ -48,6 +48,8 @@ class QuanLyGiaoTrinhController extends Controller
     public function index(Request $request)
     {
         $params = $request->all();
+        
+      
        
         $id_nam_hien_tai = $this->NamHocRepository->maxID();
         if ($request->session()->has('id_nam_hoc')) {
@@ -60,13 +62,17 @@ class QuanLyGiaoTrinhController extends Controller
         $khoi = $nam_hoc_moi->Khoi;
         // $date = $nam_hoc_moi->start_date;
         $date_start = Carbon::createFromFormat('Y-m-d', $nam_hoc_moi->start_date);
+        // dd($date_start);
         $end_start = Carbon::createFromFormat('Y-m-d', $nam_hoc_moi->end_date);
         $so_luong_tuan = $date_start->diffInWeeks($end_start);
-        $date = Carbon::now(); // or $date = new Carbon()
-        $startOfCurrentWeek = Carbon::now()->startOfWeek(); 
+        $date = Carbon::now();  
 
-        $startOfLastWeek  = $startOfCurrentWeek->copy()->subDays(7);
-        // dd($startOfLastWeek);
+        $tuan_dau_tien_nam_hoc = $date_start->weekOfYear;
+        $tong_tuan_cua_nam_hoc =($date_start->weeksInYear());
+        $year_start_date = $date_start->year;
+        $year_end_date = $end_start->year;
+
+
         if(isset($params['tuan'],$date->weekOfYear)){
             $tuan_chon = $params['tuan'];
         }else{
@@ -78,8 +84,35 @@ class QuanLyGiaoTrinhController extends Controller
                 $lop_hoc['giao_trinh'] = $this->HoatDongRepository->showGiaoTrinhTheoLop($tuan_chon,$lop_hoc->id,$id_nam_hoc);
             }
         }
+        
+        $danh_sach_tuan = [];
+        // dd($tong_tuan_cua_nam_hoc);
+        for ($i=1; $i <= $so_luong_tuan ; $i++) { 
+            $week=$i+$tuan_dau_tien_nam_hoc;
+            // dd($week);
+            // dd($week,$tong_tuan_cua_nam_hoc);
+            if($week>$tong_tuan_cua_nam_hoc){
+                $week = $week-$tong_tuan_cua_nam_hoc-1;
+                $year = $year_end_date;
+            }else{
+                $year = $year_start_date;
+            }      
+            $date->setISODate($year,$week);
+            $start_day_week = $date->startOfWeek()->format('d-m-Y');
+            $end_day_week = $date->endOfWeek()->format('d-m-Y');
+            $tuan = [
+                $i,$start_day_week,$end_day_week
+            ];
+            // dd($tuan);
+            array_push($danh_sach_tuan,$tuan);
+            
+        }
+        // dd($danh_sach_tuan);
+
+        
+
         // dd($khoi);
-        return view('quan-ly-giao-trinh.index',compact('so_luong_tuan','tuan_chon','tuan_hien_tai','khoi','id_nam_hien_tai','id_nam_hoc'));
+        return view('quan-ly-giao-trinh.index',compact('so_luong_tuan','tuan_chon','tuan_hien_tai','khoi','id_nam_hien_tai','id_nam_hoc','danh_sach_tuan'));
     }
 
     /**
