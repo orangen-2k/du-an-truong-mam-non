@@ -666,7 +666,7 @@ class QuanLyThangThuController extends Controller
         });
     }
 
-    public function guiThongBaoTheoLop(Request $request)
+    public function guiThongBaoTheoLop(StoreThongBao $request)
     {
         $hoc_sinh_theo_id=$this->DanhSachThuTienRepository->getDanhSachHocSinhtThongBaoTheoLop($request->danh_sach_hoc_sinh,$request->id_lop_chon,$request->id_dot_chon);
         $thong_tin_dot = $this->QuanLyChiTietDotThuRepository->find($request->id_dot_chon);

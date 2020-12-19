@@ -105,12 +105,14 @@
                                     <td class="chuc_nang">
                                         <i data-toggle="modal" data-target="#sua_khoan_thu{{$item->id}}"
                                             onclick="capNhatorCopy(1,{{$item->mac_dinh}})" class="flaticon-edit-1"></i>
+                                            @if ($item->mac_dinh < 1)
                                         <i data-toggle="modal" data-target="#sua_khoan_thu{{$item->id}}"
                                             onclick="capNhatorCopy(2,{{$item->mac_dinh}})" class="flaticon-add"></i>
-
-                                        @if ($item->mac_dinh < 1)
-                                        <i onclick="deleteKhoanThu({{$item->id}})" class="flaticon-delete"></i>
-                                        @endif
+                                            @endif
+                                            @if ($item->mac_dinh < 1)
+                                            <i onclick="deleteKhoanThu({{$item->id}})" class="flaticon-delete"></i>
+                                            @endif
+                                
 
                                     </td>
                                 </tr>
@@ -289,7 +291,7 @@
                                                                         dõi
                                                                         <span></span>
                                                                     </label>
-                                                                    @if ($item->mac_dinh !=2)
+                                                                    @if ($item->mac_dinh == 0)
                                                                     
                                                                     <label class="m-checkbox m-checkbox--state-success">
                                                                         <input type="checkbox" @if ($item->mien_giam >

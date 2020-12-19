@@ -141,6 +141,12 @@ return [
         'nguoi_don_ho'  => 2,
         'nghi'          => 3,
         'lop_tra_ho'    => 4
+    ],
+    'type_giao_trinh' => [
+        'chua_nop',
+        'cho_phe_duyet',
+        'da_phe_duyet',
+        'bi_tu_choi'
     ] 
 ]
 ?>
