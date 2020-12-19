@@ -146,10 +146,13 @@
                                                 width="800" height="400" type="application/pdf">
                                         </div>
                                         <div class="modal-footer">
+                                            @if ($lop_hoc->giao_trinh->type!=3)
                                             <button type="button"
                                                 onclick="pheDuyetGiaoTrinh(1,{{$lop_hoc->giao_trinh->id}},{{$lop_hoc->giao_vien_chu_nhiem['id']}})"
                                                 class="btn btn-danger" data-dismiss="modal">Từ chối</button>
+                                             @endif
                                                 @if ($lop_hoc->giao_trinh->type==1)
+                                                
                                             <button type="button"
                                                 onclick="pheDuyetGiaoTrinh(2,{{$lop_hoc->giao_trinh->id}},{{$lop_hoc->giao_vien_chu_nhiem['id']}})"
                                                 class="btn btn-primary">Phê Duyệt</button>
