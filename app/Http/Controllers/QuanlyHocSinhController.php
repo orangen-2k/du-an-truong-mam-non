@@ -30,6 +30,7 @@ use App\Repositories\LopHocRepository;
 use App\Repositories\ChinhSachCuaHocSinhRepository;
 use App\Http\Requests\HocSinh\UpdateHocSinh;
 use App\Repositories\ChiTietDotThuTienRepository;
+use App\User;
 
 class QuanlyHocSinhController extends Controller
 {
@@ -222,8 +223,9 @@ class QuanlyHocSinhController extends Controller
             $this->HocSinhRepository->ThayDoiChinhSachHocSinh($id, 0);
         }
         unset($dataRequest['_token']);
-
+        
         $this->HocSinhRepository->updateHocSinh($id, $dataRequest);
+        
         return redirect()->route('quan-ly-hoc-sinh-edit', ['id' => $id])->with('thongbaocapnhat', 'Thành công');
     }
 

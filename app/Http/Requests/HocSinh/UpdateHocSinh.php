@@ -3,7 +3,7 @@
 namespace App\Http\Requests\HocSinh;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Carbon\Carbon;
 class UpdateHocSinh extends FormRequest
 {
     /**
@@ -22,11 +22,12 @@ class UpdateHocSinh extends FormRequest
      * @return array
      */
     public function rules()
-    {
-        return [
+    {   
+        $fields = $this->all();
+        $year_now = Carbon::now()->subYear();
+        $rules = [
             'ten' => 'required|regex:/^[\pL\s\-]+$/u|min:6|max:40',
-            'ten_thuong_goi' => 'regex:/^[\pL\s\-]+$/u|min:6|max:40',
-            'ngay_sinh' => 'required|date',
+            'ngay_sinh' => 'required|date|after:2012-01-01|before_or_equal:' . $year_now,
             'gioi_tinh' => 'required|boolean',
             'dan_toc' => 'required|numeric',
 
@@ -40,28 +41,56 @@ class UpdateHocSinh extends FormRequest
             'noi_o_hien_tai_xaid' => 'required|numeric',
             'noi_o_hien_tai_so_nha' => 'required',
 
-            'ten_cha' => 'regex:/^[\pL\s\-]+$/u|min:6|max:40',
-            'ten_me' => 'regex:/^[\pL\s\-]+$/u|min:6|max:40',
-            'ten_nguoi_giam_ho' => 'regex:/^[\pL\s\-]+$/u|min:6|max:40',
-
-            'dien_thoai_cha' => 'required|regex:/^0[0-9]{9}$/|not_regex:/[a-z]/',
-            'dien_thoai_me' => 'required|regex:/^0[0-9]{9}$/|not_regex:/[a-z]/',
-            'dien_thoai_nguoi_giam_ho' => 'required|regex:/^0[0-9]{9}$/|not_regex:/[a-z]/',
-
-            'cmtnd_cha' => 'required|numeric',
-            'cmtnd_me' => 'required|numeric',
-            'cmtnd_nguoi_giam_ho' => 'required|numeric',
-
-            'dien_thoai_dang_ki' => 'required|regex:/^0[0-9]{9}$/|not_regex:/[a-z]/|unique:hoc_sinh,dien_thoai_dang_ki,' . $this->id,
-            'email_dang_ky' => 'required|email:rfc,dns|unique:hoc_sinh,email_dang_ky,' . $this->id,
+    
         ];
+        if(($fields['ten_thuong_goi'] != "" || $fields['ten_thuong_goi'] != null)){
+            $rules['ten_thuong_goi'] = 'required|regex:/^[\pL\s\-]+$/u|min:6|max:40';
+        }
+        if(($fields['ten_cha'] == "" || $fields['ten_cha'] == null) &&
+           ($fields['ten_me'] == "" || $fields['ten_me'] == null))
+        {
+            
+            $rules['ten_nguoi_giam_ho'] = 'required|regex:/^[\pL\s\-]+$/u|min:6|max:40';
+            $rules['dien_thoai_nguoi_giam_ho'] = 'required|numeric|digits_between:10,12';
+            $rules['cmtnd_nguoi_giam_ho'] = 'required|numeric';
+
+        }elseif(($fields['ten_cha'] == "" || $fields['ten_cha'] == null)){
+           
+            $rules['ten_me'] = 'required|regex:/^[\pL\s\-]+$/u|min:6|max:40';
+            $rules['dien_thoai_me'] = 'required|digits_between:10,12|numeric';
+            $rules['cmtnd_me'] = 'required|numeric';
+
+        }elseif(($fields['ten_me'] == "" || $fields['ten_me'] == null)){
+           
+            $rules['ten_cha'] = 'required|regex:/^[\pL\s\-]+$/u|min:6|max:40';
+            $rules['dien_thoai_cha'] = 'required|numeric|digits_between:10,12';
+            $rules['cmtnd_cha'] = 'required|numeric';
+
+        }else {
+            
+            $rules['ten_cha'] = 'regex:/^[\pL\s\-]+$/u|min:6|max:40';
+            $rules['ten_me'] = 'regex:/^[\pL\s\-]+$/u|min:6|max:40';
+            
+            $rules['dien_thoai_cha'] = 'numeric|digits_between:10,12';
+            $rules['dien_thoai_me'] = 'numeric|digits_between:10,12';
+            
+            $rules['cmtnd_cha'] = 'required|numeric';
+            $rules['cmtnd_me'] = 'required|numeric';
+            
+            if(($fields['ten_nguoi_giam_ho'] != "" || $fields['ten_nguoi_giam_ho'] != null)){
+                $rules['ten_nguoi_giam_ho'] = 'regex:/^[\pL\s\-]+$/u|min:6|max:40';
+                $rules['dien_thoai_nguoi_giam_ho'] = 'numeric|digits_between:10,12';
+                $rules['cmtnd_nguoi_giam_ho'] = 'numeric';
+            }
+        }
+
+       return $rules;
     }
 
     public function messages(){
         return [
             'required' => 'Vui lòng nhập trường này',
             'ten.regex' => 'Vui lòng nhập đúng tên',
-            'ten_thuong_goi.regex' => 'Vui lòng nhập đúng tên',
             'ten_cha.regex' => 'Vui lòng nhập đúng tên',
             'ten_me.regex' => 'Vui lòng nhập đúng tên',
             'ten_nguoi_giam_ho.regex' => 'Vui lòng nhập đúng tên',
@@ -80,7 +109,35 @@ class UpdateHocSinh extends FormRequest
 
             'email_dang_ky.required' => 'Vui lòng điền Email!',
             'email_dang_ky.email' => 'Email không hợp lệ!',
-            'email_dang_ky.unique' => 'Email đã tồn tại!'
+            'email_dang_ky.unique' => 'Email đã tồn tại!',
+
+            'ten_thuong_goi.regex' => 'Vui lòng nhập đúng tên',
+        ];
+    }
+    public function attributes()
+    {
+        return [
+            'ten' => 'Họ và tên bé',
+            'gioi_tinh' => 'Giới tính',
+            'ngay_sinh' => 'Ngày sinh',
+            'dan_toc' => 'Dân tộc',
+            'ten_cha' => 'Họ tên cha',
+            'cmtnd_cha' => 'Chứng minh thư',
+            'dien_thoai_cha' => 'Điện thoại',
+            'ten_me' => 'Họ tên mẹ',
+            'cmtnd_me' => 'Chứng minh thư',
+            'dien_thoai_me' => 'Điện thoại',
+            'ho_khau_thuong_tru_matp' => 'Thành phố',
+            'ho_khau_thuong_tru_maqh' => 'Quận huyện',
+            'ho_khau_thuong_tru_xaid' => 'Xã phường',
+            'ho_khau_thuong_tru_so_nha' => 'Thôn/Số nhà',
+            'noi_o_hien_tai_matp' => 'Thành phố',
+            'noi_o_hien_tai_maqh' => 'Quận huyện',
+            'noi_o_hien_tai_xaid' => 'Xã phường',
+            'noi_o_hien_tai_so_nha' => 'Thôn/Số nhà',
+            'ten_nguoi_giam_ho' => 'Họ tên người giám hộ',
+            'cmtnd_nguoi_giam_ho' => 'Chứng minh thư',
+            'dien_thoai_nguoi_giam_ho' => 'Điện thoại',
         ];
     }
 }
