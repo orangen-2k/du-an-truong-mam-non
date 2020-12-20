@@ -174,7 +174,7 @@
                                                                         <td scope="row">{{$i++}}</td>
                                                                         <td>{{$item->ten_lop}}</td>
 
-                                                                        <td>{{$item->Khoi->ten_khoi}}</td>
+                                                                        <td>{{$item->Khoi->ten_khoi}} ({{config('common.do_tuoi')[$item->Khoi->do_tuoi]}})</td>
                                                                     </tr>
                                                                     @endforeach
 
@@ -415,6 +415,7 @@ var url_get_khoi_lop_nam_hoc_moi = "{{route('get-du-lieu-khoi-lop-nam-moi')}}";
 var url_len_lop_cho_hoc_sinh = "{{route('len-lop-cho-hoc-sinh')}}";
 var url_get_danh_sach_len_lop = "{{route('get-du-lieu-len_lop',['pardam'])}}"
 var url_get_thong_tin_len_lop_nam_hoc_moi = "{{route('du-lieu-nam-hoc-moi-len-lop')}}"
+$('#danh_sach_nam_hoc_session').hide()
 window.addEventListener( "pageshow", function ( event ) {
   var historyTraversal = event.persisted || 
                          ( typeof window.performance != "undefined" && 
@@ -447,6 +448,8 @@ const saoLuuKhoiLop = () => {
         });
 };
 
+var do_tuoi_config = {!! json_encode(config("common.do_tuoi")) !!};
+
 const getKhoiLopNamHocMoi = () => {
     axios.post(url_get_khoi_lop_nam_hoc_moi, {
             'id': $('#nam_hoc_moi').val()
@@ -459,11 +462,13 @@ const getKhoiLopNamHocMoi = () => {
                 $('#tiep_tuc').removeAttr('disabled')
             }
             response.data.data_lop_moi.forEach(element => {
+                var do_tuoi = element.khoi.do_tuoi
+                
                 html_danh_sach_lop_moi += `
             <tr>
                 <td scope="row">${i++}</td>
                 <td>${element.ten_lop}</td>
-                <td>${element.khoi.ten_khoi}</td>
+                <td>${element.khoi.ten_khoi} (${do_tuoi_config[element.khoi.do_tuoi]})</td>
             </tr>
             `
             });
@@ -518,12 +523,12 @@ const getDuLieuLenLop = () => {
         .then(function(response) {
             var html_danh_sach_lop_moi = ""
             var i = 1;
-            
+            console.log(response.data)
             response.data.forEach(element => {
                 html_danh_sach_lop_moi += `
                 <tr class="len_lop">
             <td scope="row">${i++}</td>
-            <td>${element.ten_lop}</td>
+            <td>${element.ten_lop} </br> (${do_tuoi_config[element.do_tuoi]})</td>
             <td>${element.tong_hoc_sinh}</td>
             <td>
                 <select
@@ -570,7 +575,7 @@ const getDuLieuLenLopNamHocMoi = () =>{
                 html_danh_sach_da_le_lop_moi += `
                 <tr>
                 <td scope="row">${i++}</td>
-                <td>${element.ten_lop}</td>
+                <td>${element.ten_lop} </br> (${do_tuoi_config[element.do_tuoi]})</td>
                 <td>${element.tong_hoc_sinh}</td>
             </tr>
                 `
