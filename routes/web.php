@@ -188,6 +188,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/', 'QuanLyDiemDanhDenController@index')->name('quan-ly-diem-danh-den-index');
         Route::post('/lay-theo-lop', 'QuanLyDiemDanhDenController@getDiemDanhDen')->name('quan-ly-diem-danh-den-theo-lop');
         Route::post('/thong-ke-diem-danh', 'QuanLyDiemDanhDenController@ThongKeDiemDanh')->name('quan-ly-thong-ke-diem-danh');
+
+        Route::post('/bo-sung-diem-danh-den', 'QuanLyDiemDanhDenController@boSungDiemDanhDen')->name('boSungDiemDanhDen');
     });
 
     Route::prefix('quan-ly-diem-danh-ve')->group(function () {
@@ -195,6 +197,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
         Route::post('/lay-theo-lop', 'QuanLyDiemDanhVeController@getDiemDanhVeTheoLop')->name('quan-ly-diem-danh-ve-theo-lop');
         Route::post('/thong-tin-nguoi-don-ho', 'QuanLyDiemDanhVeController@infoNguoiDonHo')->name('infoNguoiDonHo');
         Route::post('/thong-ke-so-lieu', 'QuanLyDiemDanhVeController@thongKeSoLieu')->name('thongKeSoLieu');
+
+        Route::post('/danh-sach-hoc-sinh-theo-lop', 'QuanLyDiemDanhVeController@danhSachHocSinhTheoLop')->name('danhSachHocSinhTheoLop');
+        Route::post('/bo-sung-diem-danh-ve', 'QuanLyDiemDanhVeController@boSungDiemDanhVe')->name('boSungDiemDanhVe');
     });
 
     Route::prefix('quan-ly-feed-back')->group(function () {

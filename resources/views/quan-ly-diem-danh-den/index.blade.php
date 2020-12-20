@@ -218,6 +218,10 @@
                                 <option value="{{intval(substr($item, 0, 2))}}">Tháng {{intval(substr($item, 0, 2))}} (năm {{substr($item, 3, 5)}})</option>
                                 @endforeach
                             </select>
+                            <input type="hidden" id="type_diem_danh" name="type_diem_danh">
+                            <br>
+                            <button onclick="boSungDiemDanhBanSang()" type="button" class="btn btn-primary  btn-sm" id="nut_bo_sung_diem_danh" data-toggle="modal" data-target="#m_modal_8" >Bổ sung điểm danh ban sáng</button>
+                            <button onclick="boSungDiemDanhBanChieu()" type="button" class="btn btn-success  btn-sm" id="nut_bo_sung_diem_danh" data-toggle="modal" data-target="#m_modal_9" >Bổ sung điểm danh ban chiều</button>
                         </div>
                     </div>
                     <label class="col-lg-2 col-form-label select2">Chú thích: </label>
@@ -320,11 +324,93 @@
             </div>
         </div>
     </div>
+
+
+        <!--begin::Modal-->
+        <div class="modal fade" id="m_modal_8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Bổ sung điểm danh ban sáng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="table1"
+                            class="table table-striped- table-bordered table-hover table-checkable responsive no-wrap dataTable dtr-inline">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã Số</th>
+                                    <th>Họ Tên</th>
+                                    <th>Ngày Sinh</th>
+                                    <th>Đi học</th>
+                                    <th>Nghỉ học</th>
+                                    <th>Phiếu ăn</th>
+                                    <th>Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody class="cl_bo_sung_diem_danh_ban_sang">
+
+                            </tbody>
+                            <div class="modal-footer" style="border: none">
+                                <span class="text-danger loi_ngay_diem_danh_ban_sang"></span>
+                                <input class="form-control m-input" type="date" id="thoi_gian_bo_sung_diem_danh_ban_sang" 
+                                        name="thoi_gian_bo_sung_diem_danh_ban_sang" style="width: 250px">
+                                <button type="button" class="btn btn-primary" onclick="submitDataBanSang()">Cập nhật</button>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--end::Modal-->
+
+        <!--begin::Modal-->
+        <div class="modal fade" id="m_modal_9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Bổ sung điểm danh ban chiều</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="table1"
+                            class="table table-striped- table-bordered table-hover table-checkable responsive no-wrap dataTable dtr-inline">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã Số</th>
+                                    <th>Họ Tên</th>
+                                    <th>Ngày Sinh</th>
+                                    <th>Đi học</th>
+                                    <th>Nghỉ học</th>
+                                    <th>Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody class="cl_bo_sung_diem_danh_ban_chieu">
+
+                            </tbody>
+                            <div class="modal-footer" style="border: none">
+                                <span class="text-danger loi_ngay_diem_danh_ban_chieu"></span>
+                                <input class="form-control m-input" type="date" id="thoi_gian_bo_sung_diem_danh_ban_chieu" 
+                                        name="thoi_gian_bo_sung_diem_danh_ban_chieu" style="width: 250px">
+                                <button type="button" class="btn btn-primary" onclick="submitDataBanChieu()">Cập nhật</button>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--end::Modal-->
 </div>
 @endsection
 @section('script')
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <script>
     const url_diemdanh = "{{route('quan-ly-diem-danh-den-index',['id'])}}";
     const addColor = (e) => {
@@ -470,6 +556,160 @@
                $("#content-modal").html(content_count);
             })
         
+    }
+
+    function boSungDiemDanhBanSang(){
+        $('#type_diem_danh').val(1);
+        let lop_id = $('#lop_id').val();
+        axios.post("{{ route('danhSachHocSinhTheoLop')}}",{
+            lop_id: lop_id
+        }).then(res => {
+            let data = res.data;
+            var content = ``;
+            data.forEach((element , key) => {
+                content +=`
+                            <tr>
+                                <td>${ ++key }
+                                    <input type="hidden" name="id_${element.id}"  value="${element.id}">
+                                    <input type="hidden" name="lop_${element.id}" value="${element.lop_id}">
+                                    <input type="hidden" name="user_${element.id}"  value="${element.user_id}"></td>
+                                <td>${ element.ma_hoc_sinh }</td>
+                                <td>${ element.ten }</td>
+                                <td>${ element.ngay_sinh }</td>
+                                <td><input type="radio" value="1" name="${element.id}" checked="true" onclick="onTick(this)"></td>
+                                <td><input type="radio" value="2" name="${element.id}" onclick="unTick(this)"></td>
+                                <td><input type="checkbox" name="phieu_an_${element.id}" checked="true"></td>
+                                <td><textarea name="chu_thich_${element.id}"></textarea></td>
+                            </tr>
+                `;
+            })
+            $('.cl_bo_sung_diem_danh_ban_chieu').html('');
+            $('.cl_bo_sung_diem_danh_ban_sang').html(content);
+        })
+    }
+
+    function boSungDiemDanhBanChieu(){
+        $('#type_diem_danh').val(2);
+        let lop_id = $('#lop_id').val();
+        axios.post("{{ route('danhSachHocSinhTheoLop')}}",{
+            lop_id: lop_id
+        }).then(res => {
+            let data = res.data;
+            var content = ``;
+            data.forEach((element , key) => {
+                content +=`
+                            <tr>
+                                <td>${ ++key }
+                                    <input type="hidden" name="id_${element.id}"  value="${element.id}">
+                                    <input type="hidden" name="lop_${element.id}" value="${element.lop_id}">
+                                    <input type="hidden" name="user_${element.id}"  value="${element.user_id}"></td>
+                                <td>${ element.ma_hoc_sinh }</td>
+                                <td>${ element.ten }</td>
+                                <td>${ element.ngay_sinh }</td>
+                                <td><input type="radio" value="1" name="${element.id}" checked="true"></td>
+                                <td><input type="radio" value="2" name="${element.id}"></td>
+                                <td><textarea name="chu_thich_${element.id}"></textarea></td>
+                            </tr>
+                `;
+            })
+            $('.cl_bo_sung_diem_danh_ban_sang').html('');
+            $('.cl_bo_sung_diem_danh_ban_chieu').html(content);
+        })
+    }
+
+
+    function submitDataBanSang(){
+        var type_diem_danh = $('#type_diem_danh').val();
+        var statusList = $('input[type=radio]:checked');
+        var thoi_gian_bo_sung_diem_danh = $('#thoi_gian_bo_sung_diem_danh_ban_sang').val();
+        
+        var data = [];
+        for (i = 0; i < statusList.length; i++) {
+
+            std = {
+                'hoc_sinh_id': $('[name=id_' + $(statusList[i]).attr('name') + ']').val(),
+                'giao_vien_id': "{{ \Illuminate\Support\Facades\Auth::id() }}",
+                'trang_thai': $(statusList[i]).val(),
+                'lop_id': $('[name=lop_' + $(statusList[i]).attr('name') + ']').val(),
+                'chu_thich': $('[name=chu_thich_'+$(statusList[i]).attr('name')+']').val(),
+                'ngay_diem_danh_den': thoi_gian_bo_sung_diem_danh,
+                'phieu_an': $('[name=phieu_an_'+$(statusList[i]).attr('name')+']').is(':checked') ? 1 : 2,
+                'type': 1
+            }
+            data.push(std)
+        }
+        axios.post("{{ route('boSungDiemDanhDen') }}",{
+            ngay_diem_danh: thoi_gian_bo_sung_diem_danh,
+            lop_id: $('#lop_id').val(),
+            type: type_diem_danh,
+            data: data
+        }).then(res => {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Bổ sung thành công !",
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(function(){
+                    location.reload() 
+                },1000);
+        }).catch(error => {
+            for (const key in error.response.data.errors) {
+                $('.loi_ngay_diem_danh_ban_sang').html(error.response.data.errors[key]);
+            }
+        })
+    }
+
+    function submitDataBanChieu(){
+        var type_diem_danh = $('#type_diem_danh').val();
+        var statusList = $('input[type=radio]:checked');
+        var thoi_gian_bo_sung_diem_danh = $('#thoi_gian_bo_sung_diem_danh_ban_chieu').val();
+        
+        var data = [];
+        for (i = 0; i < statusList.length; i++) {
+
+            std = {
+                'hoc_sinh_id': $('[name=id_' + $(statusList[i]).attr('name') + ']').val(),
+                'giao_vien_id': "{{ \Illuminate\Support\Facades\Auth::id() }}",
+                'trang_thai': $(statusList[i]).val(),
+                'lop_id': $('[name=lop_' + $(statusList[i]).attr('name') + ']').val(),
+                'chu_thich': $('[name=chu_thich_'+$(statusList[i]).attr('name')+']').val(),
+                'ngay_diem_danh_den': thoi_gian_bo_sung_diem_danh,
+                'type': 2
+            }
+            data.push(std)
+        }
+        axios.post("{{ route('boSungDiemDanhDen') }}",{
+            ngay_diem_danh: thoi_gian_bo_sung_diem_danh,
+            lop_id: $('#lop_id').val(),
+            type: type_diem_danh,
+            data: data
+        }).then(res => {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Bổ sung thành công !",
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(function(){
+                    location.reload() 
+                },1000);
+        }).catch(error => {
+            for (const key in error.response.data.errors) {
+                $('.loi_ngay_diem_danh_ban_chieu').html(error.response.data.errors[key]);
+            }
+        })
+    }
+
+    function onTick(e){
+        e.parentElement.parentElement.querySelector("[type='checkbox']").removeAttribute('hidden','')
+    }
+
+    function unTick(e){
+        e.parentElement.parentElement.querySelector("[type='checkbox']").setAttribute('hidden','')
+        e.parentElement.parentElement.querySelector("[type='checkbox']").checked = false;
     }
 </script>
 {{-- EndShow diem danh den theo lop --}}
