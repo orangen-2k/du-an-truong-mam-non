@@ -285,7 +285,7 @@ class LopController extends Controller
         $do_tuoi = $lop->Khoi->do_tuoi;
         $sl_hs_nam = $request->sl_hs_nam;
         $sl_hs_nu = $request->sl_hs_nu;
-        if($sl_hs_nam <= 0 || $sl_hs_nu<=0){
+        if($sl_hs_nam < 0 || $sl_hs_nu< 0){
             return response()->json([
                 'message' => 'Số lượng học sinh bạn không hợp lệ',
             ], 400);

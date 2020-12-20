@@ -9,6 +9,8 @@ use \App\Repositories\KhoiRepository;
 use \App\Repositories\GiaoVienRepository;
 use App\Repositories\NamHocRepository;
 use Carbon\Carbon;
+use App\Models\DiemDanhDen;
+use App\Http\Requests\BoSungDiemDanh;
 
 class QuanLyDiemDanhDenController extends Controller
 {
@@ -201,6 +203,16 @@ class QuanLyDiemDanhDenController extends Controller
         ];
         
         
+    }
+
+    public function boSungDiemDanhDen(BoSungDiemDanh $request)
+    {
+        $countDelete = DiemDanhDen::where('ngay_diem_danh_den', $request->ngay_diem_danh)
+                ->where('lop_id', $request->lop_id)
+                ->where('type', $request->type)
+                ->delete();
+        $kq =  DiemDanhDen::insert($request->data);
+        return 'Đã xóa ' . $countDelete . ' Và BỔ SUNG THÀNH CÔNG';
     }
     
 }

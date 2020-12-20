@@ -223,6 +223,9 @@
                                     {{intval(substr($item, 0, 2))}} (năm {{substr($item, 3, 5)}})</option>
                                 @endforeach
                             </select>
+                            <br>
+                        <button type="button" class="btn btn-primary d-none btn-sm" id="nut_bo_sung_diem_danh" data-toggle="modal" data-target="#m_modal_8" >Bổ sung điểm danh về</button>
+
                         </div>
                     </div>
                     <label class="col-lg-2 col-form-label select2">Chú thích: </label>
@@ -380,6 +383,48 @@
     </div>
 
     <!--end::Modal-->
+
+    <!--begin::Modal-->
+        <div class="modal fade" id="m_modal_8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Bổ sung điểm danh về</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="table1"
+                            class="table table-striped- table-bordered table-hover table-checkable responsive no-wrap dataTable dtr-inline">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Mã Số</th>
+                                    <th>Họ Tên</th>
+                                    <th>Ngày Sinh</th>
+                                    <th>Bố Mẹ Đón</th>
+                                    <th>Nghỉ</th>
+                                    <th>Trả muộn</th>
+                                    <th>Ghi chú</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bo_sung_diem_danh">
+
+                            </tbody>
+                            <div class="modal-footer" style="border: none">
+                                <span class="text-danger" id="loi_ngay_diem_danh"></span>
+                                <input class="form-control m-input" type="date" id="thoi_gian_bo_sung_diem_danh" 
+                                        name="thoi_gian_bo_sung_diem_danh" style="width: 250px">
+                                <button type="button" class="btn btn-primary" onclick="submitData()">Cập nhật</button>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--end::Modal-->
 </div>
 @endsection
 @section('script')
@@ -394,6 +439,7 @@
     }
 
     function showDiemDanhCuaLop(id) {
+        $('#nut_bo_sung_diem_danh').removeClass('d-none');
         let time = $('#thang').children("option:selected").val();
         $('#select_display').css('display', 'block');
         $('#preload').css('display', 'block');
@@ -406,6 +452,7 @@
                 var html_hs = "";
                 var j = 1;
                 console.log(response.data);
+                var content = ``;
                 response.data.forEach((element, key) => {
                     html_hs += `
                     <tr onclick="thongKeSoLieu(this)" data-hoc_sinh_id="${element.id}" 
@@ -417,7 +464,24 @@
                     for (let j = 1; j <= 31; j++) {
                         html_hs += `<td class="td_${j}_hoc_sinh_${element.ma_hoc_sinh}"></td>`
                     }
+
+                    content +=`
+                            <tr>
+                                <td>${ key }
+                                    <input type="hidden" name="id_${element.id}"  value="${element.id}">
+                                    <input type="hidden" name="lop_${element.id}" value="${element.lop_id}">
+                                    <input type="hidden" name="user_${element.id}"  value="${element.user_id}"></td>
+                                <td>${ element.ma_hoc_sinh }</td>
+                                <td>${ element.ten }</td>
+                                <td>${ element.ngay_sinh }</td>
+                                <td><input type="radio" value="1" name="${element.id}" checked="true"></td>
+                                <td><input type="radio" value="3" name="${element.id}"></td>
+                                <td><input type="radio" value="4" name="${element.id}"></td>
+                                <td><textarea name="chu_thich_${element.id}"></textarea></td>
+                            </tr>
+                    `;
                 });
+                $('#bo_sung_diem_danh').html(content);
                 html_hs += `</tr>`;
 
                 $('#preload').css('display', 'none')
@@ -489,6 +553,47 @@
             $('#trang_thai_2').text(soLieu.trang_thai_2);
             $('#trang_thai_3').text(soLieu.trang_thai_3);
             $('#trang_thai_4').text(soLieu.trang_thai_4);
+        })
+    }
+
+    function submitData() {
+        var statusList = $('input[type=radio]:checked');
+        var thoi_gian_bo_sung_diem_danh = $('#thoi_gian_bo_sung_diem_danh').val();
+
+        var data = [];
+        for (i = 0; i < statusList.length; i++) {
+
+            std = {
+                'hoc_sinh_id': $('[name=id_' + $(statusList[i]).attr('name') + ']').val(),
+                'user_id': $('[name=user_' + $(statusList[i]).attr('name') + ']').val(),
+                'giao_vien_id': "{{ \Illuminate\Support\Facades\Auth::id() }}",
+                'trang_thai': $(statusList[i]).val(),
+                'lop_id': $('[name=lop_' + $(statusList[i]).attr('name') + ']').val(),
+                'chu_thich': $('[name=chu_thich_'+$(statusList[i]).attr('name')+']').val(),
+                'ngay_diem_danh_ve': thoi_gian_bo_sung_diem_danh
+            }
+            data.push(std)
+        }
+         
+        axios.post("{{ route('boSungDiemDanhVe') }}",{
+            ngay_diem_danh: thoi_gian_bo_sung_diem_danh,
+            lop_id: $('#lop_id').val(),
+            data: data
+        }).then(res => {
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Bổ sung thành công !",
+                showConfirmButton: false,
+                timer: 2000
+            });
+            setTimeout(function(){
+                    location.reload() 
+                },1000);
+        }).catch(error => {
+            for (const key in error.response.data.errors) {
+                $('#loi_ngay_diem_danh').html(error.response.data.errors[key]);
+            }
         })
     }
 

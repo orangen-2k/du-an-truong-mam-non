@@ -131,7 +131,6 @@ class ThongBaoController extends Controller
             $data_send_device = $data_device->collapse();
             $list_device[$key] = $data_send_device;
         }
-        return $list_device;
 
         $link = [
             'route_name' => 'thong-bao.show',
