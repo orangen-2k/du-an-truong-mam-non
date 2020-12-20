@@ -119,6 +119,7 @@ class QuanLyTrongNamController extends Controller
         $data_lop_cu->all();
 
         foreach ($data_lop_cu as $key => $value) {
+            $value->do_tuoi = $value->Khoi()->select('do_tuoi')->first()->toArray()['do_tuoi']; 
             $da_len_lop = LichSuHoc::where('lop_id', '=', $value->id)->count();
             if ($da_len_lop > 0) {
                 $value->tong_hoc_sinh = $value->TongSoHocSinhLopCu;
@@ -272,6 +273,7 @@ class QuanLyTrongNamController extends Controller
         $data_lop_moi = $collection->collapse();
         $data_lop_moi->all();
         foreach ($data_lop_moi as $key => $value) {
+            $value->do_tuoi =  $value->Khoi()->select('do_tuoi')->first()->toArray()['do_tuoi'];
             $value->tong_hoc_sinh = $value->TongSoHocSinh;
         }
 

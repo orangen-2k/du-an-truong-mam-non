@@ -194,7 +194,7 @@
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
                             <h3 class="m-portlet__head-text">
-                                Giáo trình tuần mới nhất: Tuần {{$tuan_moi_nhat}}
+                                Giáo trình tuần mới nhất: Tuần {{$tuan_moi_nhat[0]}} ({{$tuan_moi_nhat[1]}} đến {{$tuan_moi_nhat[2]}})
                             </h3>
                         </div>
                     </div>
