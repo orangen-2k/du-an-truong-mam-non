@@ -42,11 +42,11 @@ class HocSinh extends Seeder
         
         $tuoi = 19;
         $length = 5;
-        $ngay_vao_truong = 21;
+        $ngay_vao_truong = 20;
         foreach ($lop_hoc_moi as $key) {
             
             if($key->type == 1){
-                $length = $length + 5;
+                $length = $length+3;
                 $tuoi = $tuoi - 1;
                 $ngay_vao_truong = $ngay_vao_truong - 1;
             }
@@ -56,11 +56,12 @@ class HocSinh extends Seeder
             for ($i=0; $i <$length ; $i++) { 
                 $rand1 = rand(10000,99999);
                 $rand = rand(1,1000);
+                $rand_ma = rand(100,9999);
                      $id_hoc_sinh = DB::table('users')->insertGetId([
                         'name' => $json_ten[$rand]->full_name,
-                        'username' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand1,
+                        'username' => 'coolkids'.$tuoi.$rand_ma,
                         'avatar' => "",
-                        'email' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand1.'@gmail.com',
+                        'email' => 'coolkids'.$tuoi.$rand_ma.'@gmail.com',
                         'password' => Hash::make('1234567890'),
                         'time_code' => Carbon::now(),
                         'role' => 3,
@@ -70,13 +71,13 @@ class HocSinh extends Seeder
                 ]);
                     DB::table('hoc_sinh')->insert([
                     'user_id' => $id_hoc_sinh,
-                    'ma_hoc_sinh' => 'HS'.(100000+$id_hoc_sinh),
+                    'ma_hoc_sinh' => 'HS'.$tuoi.$rand_ma,
                     'lop_id' => $key->id,
                     'ten' => $json_ten[$rand]->full_name,
                     'gioi_tinh' => rand(0,1),
                     'ngay_sinh' => '20'.$tuoi.'-0'.rand(1,9).'-'.rand(10,28),
                     'dan_toc' => 'Kinh',
-                    'ngay_vao_truong' => '20'.$ngay_vao_truong.'-0'.rand(1,8).'-09',
+                    'ngay_vao_truong' => '20'.$ngay_vao_truong.'-09'.'-09',
                     'noi_sinh' => 'Hà Nội',
                     'ten_cha' => $json_ten[rand(1,100)]->full_name,
                     'ngay_sinh_cha' => '1982-05-'.rand(10,30),
@@ -87,8 +88,16 @@ class HocSinh extends Seeder
                     'cmtnd_me' => rand(10000, 99999),
                     'dien_thoai_me' => '0376671343',
                     'dien_thoai_dang_ki' => '03766'.$rand1,
-                    'email_dang_ky' => CovertVn($json_ten[$rand]->full_name).'hs'.$tuoi.$rand1.'@gmail.com',
-
+                    'email_dang_ky' => 'coolkids'.$tuoi.$rand_ma.'@gmail.com',
+                    'ho_khau_thuong_tru_matp' => '01',
+                    'ho_khau_thuong_tru_maqh' => '001',
+                    'ho_khau_thuong_tru_xaid' => '00001',
+                    'ho_khau_thuong_tru_so_nha' => 'so 20',
+                    'noi_o_hien_tai_matp' => '02',
+                    'noi_o_hien_tai_maqh' => '027',
+                    'noi_o_hien_tai_xaid' => '00775',
+                    'noi_o_hien_tai_so_nha' => 'Số 48',
+                    'type' => 1
                 ]);
                 
                 

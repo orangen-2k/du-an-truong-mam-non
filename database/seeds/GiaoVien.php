@@ -41,14 +41,15 @@ class GiaoVien extends Seeder
             $str = preg_replace("/( )/", '_', $str);
             return $str;
         }
-        for ($i=0; $i <40 ; $i++) { 
-            $rand = rand(200,3000);
-            $rand1= rand(10000,99999);
+        for ($i=0; $i <10 ; $i++) { 
+            $rand = rand(10,500);
+            $rand1= rand(1000,99999);
+            $rand_gv = rand(64,999);
             $id_gv = DB::table('users')->insertGetId([
                 'name' => $json_ten[$rand]->full_name,
-                'username' =>  CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'@gmail.com',
+                'username' =>  'GVcoolkids'.$rand_gv.'@gmail.com',
                 'avatar' => "",
-                'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'@gmail.com',
+                'email' => 'GVcoolkids'.$rand_gv.'@gmail.com',
                 'password' => Hash::make('1234567890'),
                 'time_code' => Carbon::now(),
                 'role' => 2,
@@ -64,7 +65,7 @@ class GiaoVien extends Seeder
                 'ngay_sinh' => '199'.rand(1,9).'-08-'.rand(1,30),
                 'dan_toc' => 'Kinh',
                 'trinh_do' => 'Cao đằng mầm non',
-                'email' => CovertVn($json_ten[$rand]->full_name).$rand1.'GV'.$rand.'@gmail.com',
+                'email' => 'GVcoolkids'.$rand_gv.'@gmail.com',
                 'chuyen_mon' => 'Cao đằng',
                 'noi_dao_tao' => 'Hà Nội',
                 'nam_tot_nghiep' => '2010',

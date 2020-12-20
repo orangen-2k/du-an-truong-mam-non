@@ -38,11 +38,12 @@ class HocSinhTuyenSinh extends Seeder
         for ($i=0; $i < 30 ; $i++) { 
             $rand1 = rand(10000,99999);
             $rand = rand(1,1000);
+            $rand_ma = rand(100,9999);
                  $id_hoc_sinh = DB::table('users')->insertGetId([
                     'name' => $json_ten[$rand]->full_name,
-                    'username' => CovertVn($json_ten[$rand]->full_name).'hs19'.$rand1,
+                    'username' => 'coolkids19'.$rand_ma,
                     'avatar' => "",
-                    'email' => CovertVn($json_ten[$rand]->full_name).'hs19'.$rand1.'@gmail.com',
+                    'email' => 'coolkids19'.$rand_ma.'@gmail.com',
                     'password' => Hash::make('1234567890'),
                     'time_code' => Carbon::now(),
                     'role' => 3,
@@ -52,25 +53,32 @@ class HocSinhTuyenSinh extends Seeder
             ]);
                 DB::table('hoc_sinh')->insert([
                 'user_id' => $id_hoc_sinh,
-                'ma_hoc_sinh' => 'HS'.(100000+$id_hoc_sinh),
+                'ma_hoc_sinh' => 'HS19'.$rand_ma,
                 'lop_id' => 0,
                 'ten' => $json_ten[$rand]->full_name,
                 'gioi_tinh' => rand(0,1),
                 'ngay_sinh' => '2019'.'-0'.rand(1,9).'-'.rand(10,28),
                 'dan_toc' => 'Kinh',
-                'ngay_vao_truong' => '2020'.'-0'.rand(1,8).'-10',
+                'ngay_vao_truong' => '2020'.'-'.rand(10,12).'-10',
                 'noi_sinh' => 'Hà Nội',
                 'ten_cha' => $json_ten[rand(1,100)]->full_name,
                 'ngay_sinh_cha' => '1982-05-'.rand(10,30),
-                'cmtnd_cha' => rand(10000, 99999),
+                'cmtnd_cha' => rand(1000000, 9999999),
                 'dien_thoai_cha' => '0915950738',
                 'ten_me' => $json_ten[rand(1,100)]->full_name,
                 'ngay_sinh_me' => '1992-05-'.rand(10,30),
-                'cmtnd_me' => rand(10000, 99999),
+                'cmtnd_me' => rand(1000000, 9999999),
                 'dien_thoai_me' => '0376671343',
                 'dien_thoai_dang_ki' => '03766'.$rand1,
-                'email_dang_ky' => CovertVn($json_ten[$rand]->full_name).'hs19'.$rand1.'@gmail.com',
-
+                'email_dang_ky' => 'coolkids19'.$rand_ma.'@gmail.com',
+                'ho_khau_thuong_tru_matp' => '01',
+                'ho_khau_thuong_tru_maqh' => '001',
+                'ho_khau_thuong_tru_xaid' => '00001',
+                'ho_khau_thuong_tru_so_nha' => 'so 20',
+                'noi_o_hien_tai_matp' => '02',
+                'noi_o_hien_tai_maqh' => '027',
+                'noi_o_hien_tai_xaid' => '00775',
+                'noi_o_hien_tai_so_nha' => 'Số 48',
             ]);
             
             

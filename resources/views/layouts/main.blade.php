@@ -94,7 +94,7 @@
 		  
 		  <!-- <script type="text/javascript" src="{{ asset('pjax/jquery.pjax.js') }}"></script> -->
 		  <!-- <script type="text/javascript" src="{{ asset('pjax/setup-pjax.js') }}"></script> -->
-		 <script type="text/javascript" src="{{ asset('js/hieu_ung.min.js') }}"></script> 
+		 {{-- <script type="text/javascript" src="{{ asset('js/hieu_ung.min.js') }}"></script>  --}}
 	</body>
 
 	<!-- end::Body -->
