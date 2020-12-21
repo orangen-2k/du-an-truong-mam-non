@@ -5,7 +5,7 @@
   <div class="m-content">
     
     <div class="row">
-        <div class="col-8">
+        <div class="col-12">
 
         
         <div class="m-portlet m-portlet--full-height ">
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="m-portlet__body">
-                <canvas id="BieuDoSoLuongHocSinh" width="400" height="200"></canvas>
+                <canvas id="BieuDoSoLuongHocSinh" width="300" height="100"></canvas>
                 <!--begin::Widget5-->
                 
 
@@ -30,71 +30,7 @@
             </div>
         </div>
         </div>
-        <div class="col-4">
-            <div class="m-portlet m-portlet--full-height ">
-                <div class="m-portlet__head">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
-                            <h3 class="m-portlet__head-text">
-                                Tin tức
-                            </h3>
-                        </div>
-                    </div>
-                    {{-- <div class="m-portlet__head-tools">
-                        <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
-                            <li class="nav-item m-tabs__item">
-                                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_widget4_tab1_content" role="tab">
-                                    Today
-                                </a>
-                            </li>
-                            <li class="nav-item m-tabs__item">
-                                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_widget4_tab2_content" role="tab">
-                                    Week
-                                </a>
-                            </li>
-                            <li class="nav-item m-tabs__item">
-                                <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_widget4_tab3_content" role="tab">
-                                    Month
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                </div>
-                <div class="m-portlet__body">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="m_widget4_tab1_content">
-                            <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="400" style="height: 400px; overflow: hidden;">
-                                <div class="m-list-timeline m-list-timeline--skin-light">
-                                    <div class="m-list-timeline__items">
-                                      @if(count($noi_dung_thong_bao) > 0)
-                                      @foreach($noi_dung_thong_bao as $value)
-                                        <div class="m-list-timeline__item">
-                                            <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-                                        <span class="m-list-timeline__text"><a href="{{route('thong-bao.show', ['id' => $value->id])}}" class="text-decoration-none">{{$value->title}}</a>
-                                          @if($value->type == 1) 
-                                          <span class="m-badge m-badge--info m-badge--wide">toàn trường</span>
-                                          @elseif($value->type == 2)
-                                          <span class="m-badge m-badge--success m-badge--wide">giáo viên</span>
-                                          @else
-                                          <span class="m-badge m-badge--danger m-badge--wide">phụ huynh</span>
-                                          @endif
-                                        </span>
-                                        <span class="m-list-timeline__time">{{$value->created_at}}</span>
-                                        </div>
-                                      @endforeach
-                                      @endif
-                                    </div>
-                                </div>
-                            <div class="ps__rail-x" style="left: 0px; bottom: -243px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 243px; height: 400px; right: 4px;"><div class="ps__thumb-y" tabindex="0" style="top: 152px; height: 248px;"></div></div></div>
-                        </div>
-                        <div class="tab-pane" id="m_widget4_tab2_content">
-                        </div>
-                        <div class="tab-pane" id="m_widget4_tab3_content">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
     
     {{-- <div class="mr-auto row">
@@ -306,12 +242,13 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
             "{{$item}}",
             @endforeach
         ],
-        datasets: [{
-            label: 'Học sinh nhập học',
+        datasets: [
+          {
+            label: 'Nam',
             data: [
                 @forEach($array_hoc_sinh as $key => $item)
                    
-                    {{$item}},
+                    {{$item[0]}},
                    
                 @endforeach
             ],
@@ -334,6 +271,35 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
                 
             ],
             borderWidth: 1
+        },
+        {
+            label: 'Nữ',
+            data: [
+                @forEach($array_hoc_sinh as $key => $item)
+                   
+                    {{$item[1]}},
+                   
+                @endforeach
+            ],
+            backgroundColor: [
+                @forEach($array_hoc_sinh as  $key => $item)
+               
+                'rgba(75, 192, 192, 0.2)',
+              
+                @endforeach
+                
+                
+            ],
+            borderColor: [
+              @forEach($array_hoc_sinh as  $key => $item)
+               
+              'rgba(75, 192, 192, 1)',
+             
+               @endforeach
+                
+                
+            ],
+            borderWidth: 1
         }
         ]
     },
@@ -348,6 +314,9 @@ var BieuDoSoLuongHocSinh = new Chart(ctx, {
     }
 });
  </script>
+
+
+
 
  <script>
 var ctx = document.getElementById('HocPhiToanTruong');

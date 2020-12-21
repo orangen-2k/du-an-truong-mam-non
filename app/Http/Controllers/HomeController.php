@@ -75,15 +75,32 @@ class HomeController extends Controller
                 array_push($array_nam, $namhoc->name);
                 $hoc_sinh_theo_ngay_vao_truong = $this->HocSinhRepository->getHocSinhTheoNgayVaoTruong($namhoc->start_date, $namhoc->end_date);
                 // /dd($hoc_sinh_theo_ngay_vao_truong);
+                $arr_hs = [];
+                $nam = 0;
+                $nu = 0;
                 if(count($hoc_sinh_theo_ngay_vao_truong) > 0){
-                    array_push($array_hoc_sinh, count($hoc_sinh_theo_ngay_vao_truong));
+                    foreach($hoc_sinh_theo_ngay_vao_truong as $item_HS){
+                        if($item_HS->gioi_tinh == 0){
+                            $nam = $nam+1;
+                        }
+                        if($item_HS->gioi_tinh == 1){
+                            $nu = $nu+1;
+                        }
+                    }
+                    $arr_hs[0] = $nam;
+                    $arr_hs[1] = $nu;
+                    
+                    array_push($array_hoc_sinh, $arr_hs);
                     
                 }
                 else{
-                    array_push($array_hoc_sinh, 0);
+                    $arr_hs[0] = $nam;
+                    $arr_hs[1] = $nu;
+                    array_push($array_hoc_sinh, $arr_hs);
                 }
             }
         }
+        
         $so_tien_phai_dong = 0;
         $so_tien_da_dong = 0;
         

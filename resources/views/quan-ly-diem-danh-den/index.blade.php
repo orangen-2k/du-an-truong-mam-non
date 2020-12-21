@@ -576,8 +576,8 @@
                                 <td>${ element.ma_hoc_sinh }</td>
                                 <td>${ element.ten }</td>
                                 <td>${ element.ngay_sinh }</td>
-                                <td><input type="radio" value="1" name="${element.id}" checked="true" onclick="onTick(this)"></td>
-                                <td><input type="radio" value="2" name="${element.id}" onclick="unTick(this)"></td>
+                                <td><input type="radio" value="1" name="${element.id}" checked="true"></td>
+                                <td><input type="radio" value="2" name="${element.id}"></td>
                                 <td><input type="checkbox" name="phieu_an_${element.id}" checked="true"></td>
                                 <td><textarea name="chu_thich_${element.id}"></textarea></td>
                             </tr>
@@ -703,14 +703,6 @@
         })
     }
 
-    function onTick(e){
-        e.parentElement.parentElement.querySelector("[type='checkbox']").removeAttribute('hidden','')
-    }
-
-    function unTick(e){
-        e.parentElement.parentElement.querySelector("[type='checkbox']").setAttribute('hidden','')
-        e.parentElement.parentElement.querySelector("[type='checkbox']").checked = false;
-    }
 </script>
 {{-- EndShow diem danh den theo lop --}}
 

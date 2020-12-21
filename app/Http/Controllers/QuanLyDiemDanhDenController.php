@@ -101,7 +101,7 @@ class QuanLyDiemDanhDenController extends Controller
                                     $trang_thai = "S";
                                     $S++;
                                 }
-                                if($diemdanh[0]->trang_thai == 1 && $diemdanh[0]->phieu_an == 1){
+                                if($diemdanh[0]->phieu_an == 1){
                                     $an_com = "A";
                                     $A++;
                                 }
@@ -139,7 +139,7 @@ class QuanLyDiemDanhDenController extends Controller
                                     $trang_thai = "S";
                                     $S++;
                                 }
-                                if($diemdanh[0]->phieu_an == 1 && $diemdanh[0]->trang_thai == 1){
+                                if($diemdanh[0]->phieu_an == 1){
                                     $an_com = "A";
                                     $A++;
                                 }
@@ -162,7 +162,7 @@ class QuanLyDiemDanhDenController extends Controller
                                     $trang_thai = "S";
                                     $S++;
                                 }
-                                if($diemdanh[1]->phieu_an == 1 && $diemdanh[1]->trang_thai == 1){
+                                if($diemdanh[1]->phieu_an == 1){
                                     $an_com = "A";
                                     $A++;
                                 }
