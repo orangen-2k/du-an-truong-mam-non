@@ -5,7 +5,7 @@ use App\Models\Lop;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ChiTietDongTienHocSinh;
 use App\Models\HocSinh;
-
+use App\User;
 class DanhSachThuTien extends Model
 {
     protected $table = 'danh_sach_thu_tien';
@@ -21,7 +21,10 @@ class DanhSachThuTien extends Model
         "trang_thai",
         "khoi_id",
         "lop_id",
-        'id_thang_thu_tien'
+        'id_thang_thu_tien',
+        'thoi_gian_thu_tien',
+        'id_nguoi_thu_tien'
+
     ];
 
     public function Lop()
@@ -37,5 +40,10 @@ class DanhSachThuTien extends Model
     public function ChiTietDongTienHocSinh()
     {
         return $this->hasMany(ChiTietDongTienHocSinh::class,'id_danh_sach_thu_tien','id');
+    }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class,'id_nguoi_thu_tien','id');
     }
 }

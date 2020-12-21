@@ -1021,9 +1021,15 @@ const showHocSinhCuaLop = (id) => {
       // console.log(gioi_tinh.1)
       var html_thong_tin_hs = "";
       var i = 1;
+      var trang_thai_nam_hoc = response.data.type_namhoc
       response.data.hoc_sinh_cua_lop.forEach(element => {
         var route_chi_tiet_hoc_sinh = "{{route('quan-ly-hoc-sinh-edit',['id'])}}"
         var route_chi_tiet_hoc_sinh_new = route_chi_tiet_hoc_sinh.replace('id',element.id)
+        var html_thoi_hoc = ''
+        if (trang_thai_nam_hoc == 1) {
+           html_thoi_hoc = `<i style='color:blue' onclick="setThoiHoc(${element.id},${id})" class="fab fa-expeditedssl"></i>`
+        }
+        
         html_thong_tin_hs+=`
         <tr>
               <th><input class="checkbox" type="checkbox" id_hs="${element.id}"></th>
@@ -1034,7 +1040,7 @@ const showHocSinhCuaLop = (id) => {
               <td>${Object.values(gioi_tinh)[element.gioi_tinh]}</td>
               <td style="text-align: center;"> <a  href="${route_chi_tiet_hoc_sinh_new}"><i class="flaticon-paper-plane"></i></a>
               </td>
-              <td style="text-align: center;cursor: pointer;"> <i style='color:blue' onclick="setThoiHoc(${element.id},${id})" class="fab fa-expeditedssl"></i>
+              <td style="text-align: center;cursor: pointer;"> ${html_thoi_hoc}
               </td>  
             </tr>
         `
@@ -1076,7 +1082,7 @@ const showHocSinhCuaLop = (id) => {
         $('#button_chuyen_lop').css('display','block')
         $('#button_xep_lop').css('display','none')
         $('#hoc_sinh_can_chuyen').attr('disabled',false)
-
+        // console.log($('#button_xep_lop_tu_dong').css())
         $('#id_lop_xep').val(id)
         slHsCuaLop = response.data.hoc_sinh_cua_lop.length
     })
@@ -1634,7 +1640,6 @@ const xacNhanDiHocLai = () =>{
     var sl_hs_hien_tai = $(`#${component_lop}`).find('.sl_hs_cua_lop').html()
     console.log(sl_hs_hien_tai)
     var sl_cat_chuoi = Number(sl_hs_hien_tai.slice(1,3));
-    console.log(sl_cat_chuoi)
     $(`#${component_lop}`).find('.sl_hs_cua_lop').html(`(${sl_cat_chuoi+1})`)
     var slHocSinhThoiHoc = Number($('#hoc_sinh_thoi_hoc').html())
     $('#hoc_sinh_thoi_hoc').html(slHocSinhThoiHoc-1)
