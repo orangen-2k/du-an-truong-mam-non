@@ -157,7 +157,7 @@ $kq = $data->first()->backup == '0' && $count_data != 1 ;
                                                 <!--begin::Section-->
                                                 <div class="m-section">
                                                     <span class="m-section__sub">
-                                                        Hệ thống sẽ khởi tạo năm học mới 2019 - 2020 bằng 1 trong 2 cách:
+                                                        Hệ thống sẽ khởi tạo năm học mới <span id="nam_hoc_back_up">{{$data[0]['name']}}</span> bằng 1 trong 2 cách:
                                                     </span>
                                                     <div class="m-portlet m-portlet--creative m-portlet--bordered-semi">
                                                         <div class="m-portlet__head">
@@ -326,6 +326,7 @@ $kq = $data->first()->backup == '0' && $count_data != 1 ;
     
     function getData(element) { 
         let key = $(element).data('key');
+        $('#nam_hoc_back_up').html($(element).attr('data-name'))
         let backup = $(element).data('backup');
         let nam = $('#nam_hoc_1').val();
         if(nam == 1){
