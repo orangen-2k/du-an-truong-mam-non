@@ -264,6 +264,7 @@ class LopController extends Controller
         // $hoc_sinh_cua_lop = $namhoc->type == 1 ? $lop->HocSinh : $lop->LichSuHoc;
         if ($namhoc->type == 1) {
             $hoc_sinh_cua_lop = $lop->HocSinh;
+
         }else{
             $hoc_sinh_cua_lop =$lop->LichSuHoc->map(function($student){
                 return $student->HocSinh;
@@ -276,6 +277,7 @@ class LopController extends Controller
             'ten_lop' => $ten_lop,
             'hoc_sinh_cua_lop' => $hoc_sinh_cua_lop,
             'tong_so_hs' => $tong_so_hs,
+            'type_namhoc' => $namhoc->type
         ];
     }
 

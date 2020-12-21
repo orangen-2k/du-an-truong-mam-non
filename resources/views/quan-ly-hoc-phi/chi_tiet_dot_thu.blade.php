@@ -340,7 +340,7 @@
                 var route_chi_tiet_hoc_sinh = "{{route('quan-ly-hoc-sinh-edit',['id'])}}"
                 var route_chi_tiet_hoc_sinh_new = route_chi_tiet_hoc_sinh.replace('id',element.chi_tiet_hoc_sinh.id)
                 if(element.trang_thai == 1){
-                    html_trang_thai ='<i class="fa fa-check"></i>'
+                    html_trang_thai =`<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_chi_tiet${element.id}">Đã đóng</button>`
                 }else{
                     html_trang_thai ='<i class="flaticon-circle"></i>'
                 }
@@ -391,12 +391,37 @@
                                 } 
                             });
                         })
+                        // console.log(element.nguoi_thu)
                         html_chi_tiet+=`
                         <td>${html_trang_thai}</td>
                         <td>${html_thong_bao}</td>
-                        <td><input class="btn m-btn--square" onclick="huyThuTien(${element.chi_tiet_hoc_sinh.id},${dot})"  btn-danger" type="reset" value="Hủy"></td>
+                        <td><input  class="btn m-btn--square" onclick="huyThuTien(${element.chi_tiet_hoc_sinh.id},${dot})"  btn-danger" type="reset" value="Hủy"></td>
                         <td><a target="_blank" href="${route_xuat_pdf}"><i class="flaticon-technology"></i></a></td>
                          </tr>
+
+                         <div id="modal_chi_tiet${element.id}" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Thông tin thu</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">×</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<p>Người thu :${element.nguoi_thu} </p>
+                                        <p>Thời gian thu tiền : ${element.thoi_gian_thu_tien}</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+				
+									</div>
+								</div>
+
+                            </div>
+                            </div>
+
                         `
                     
             });

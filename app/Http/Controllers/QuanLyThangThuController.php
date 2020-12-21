@@ -565,17 +565,22 @@ class QuanLyThangThuController extends Controller
         foreach ($khoan_thu_hoc_sinh as $key => $value) {
             $value->chi_tiet_hoc_sinh = $value->HocSinh;
             $value->chi_tiet_khoan_thu_hoc_sinh = $value->ChiTietDongTienHocSinh;
+            if ($value->User != null) {
+                $value->nguoi_thu = $value->User->toArray()['username'];
+            }
+           
             if (count($value->ChiTietDongTienHocSinh) == 0) {
                 $khoan_thu_hoc_sinh = [];
             }
+            // dd($value->nguoi_thu->toArray());
         }
-
         return [
             'dot_thu' => $khoan_thu_trong_dot,
             'khoan_thu_trong_dot' => $khoan_thu_trong_dot->KhoanThu,
             'khoan_thu_hoc_sinh' => $khoan_thu_hoc_sinh
 
         ];
+        
     }
 
     public function guiThongBaoTheoKhoi(StoreThongBao $request)

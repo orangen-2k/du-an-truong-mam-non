@@ -5,7 +5,8 @@ namespace App\Repositories;
 use App\Repositories\BaseModelRepository;
 use Illuminate\Support\Facades\DB;
 use App\Models\DanhSachThuTien;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 class DanhSachThuTienRepository extends BaseModelRepository
 {
 
@@ -124,7 +125,13 @@ class DanhSachThuTienRepository extends BaseModelRepository
     {
         $so_tien = $this->model->where('id_hoc_sinh',$id_hoc_sinh)->where('id_chi_tiet_dot_thu',$id_dot_thu)->select('so_tien_phai_dong')->first();
         return  $this->model->where('id_hoc_sinh',$id_hoc_sinh)->where('id_chi_tiet_dot_thu',$id_dot_thu)
-        ->update(['trang_thai'=>1,'so_tien_da_dong'=>$so_tien['so_tien_phai_dong']]);
+        ->update(
+            [
+            'trang_thai'=>1,
+            'so_tien_da_dong'=>$so_tien['so_tien_phai_dong'],
+            'id_nguoi_thu_tien'=>Auth::id(),
+            'thoi_gian_thu_tien'=>Carbon::now(),
+        ]);
 
     }
 
